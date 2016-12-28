@@ -2453,6 +2453,7 @@ public class FileUtil extends Util implements Constants {
             StringBuilder sb = new StringBuilder();
             boolean quote = false;
             boolean regular = false;
+            boolean sub = false;
             for (int i = 0; i < s.length(); i++) {
                 char c = s.charAt(i);
                 if (c == '\'') {
@@ -2466,6 +2467,12 @@ public class FileUtil extends Util implements Constants {
                         regular = true;
                     } else {
                         regular = false;
+                    }
+                } else if (c == '$') {
+                    if (sub == false) {
+                        sub = true;
+                    } else {
+                        sub = false;
                     }
                 } else {
                     if (quote) {
@@ -2494,6 +2501,12 @@ public class FileUtil extends Util implements Constants {
                     if (regular) {
                         sb0.append(c);
                         sb.append(c);
+                        continue;
+                    }
+                    if (sub) {
+                        sb0.append(c);
+                        sb.append(c);
+                        // TODO
                         continue;
                     }
                     if (c == '/') {
