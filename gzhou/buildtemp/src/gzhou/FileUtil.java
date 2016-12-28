@@ -2732,7 +2732,6 @@ public class FileUtil extends Util implements Constants {
             if (isParam(last)) {
                 if (isParamOpenDir(last)) {
                     r.openDir = true;
-                    r.openFile = true;
                     if (!last.equals("d")) {
                         r.openDirsCount = toInt(cutFirst(last, 1));
                     }
@@ -3150,7 +3149,7 @@ public class FileUtil extends Util implements Constants {
                 String file = dir + n + ".log";
                 System.out.println("output to: " + file);
                 outputToFile(file);
-                String line = "call ao alogs " + n;
+                String line = "call e " + file;
                 setLines(batDir + "aoutputtmp.bat", toList(line));
             }
             return args;
