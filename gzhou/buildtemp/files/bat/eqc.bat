@@ -1,0 +1,2 @@
+call eqcdir
+call ant

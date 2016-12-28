@@ -1,0 +1,29 @@
+   <!-- Timer -->
+   <category name="STDOUT">
+      <priority value="INFO"/>
+   </category>
+
+   <category name="com.vitria.bpmn.timer.simple.SimpleTimerService">
+      <priority value="DEBUG"/>
+   </category>
+   
+   <category name="com.vitria.bpmn.util.BPMNPerformanceUtil.Timer">
+      <priority value="DEBUG"/>
+   </category>
+   
+   <category name="com.vitria.bpmn.util.BPMNPerformanceUtil">
+      <priority value="WARN"/>
+   </category>
+   
+   <category name="com.vitria.virtualserver.util.VirtualServerLogger">
+      <priority value="WARN"/>
+   </category>
+
+   <category name="com.vitria.fc.diag.DefaultLogger">
+      <priority value="WARN"/>
+   </category>
+   
+   <category name="com.vitria.connectors.framework.source.CFSourceLogger">
+      <priority value="WARN"/>
+   </category>
+   <!-- Timer End -->

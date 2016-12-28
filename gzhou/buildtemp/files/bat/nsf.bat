@@ -1,0 +1,1 @@
+call ns > "C:\Users\gzhou\Desktop\ns.txt"

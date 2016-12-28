@@ -1,0 +1,318 @@
+<?xml version="1.0"?>
+
+<project name="clustering" basedir="../..">
+    <import file="../../properties.xml" />
+
+    <property name="node.number" value="1" />
+    <property name="node.id" value="10${node.number}" />
+    <property name="server.name" value="c${node.number}" />
+    <property name="node.name" value="node${node.id}" />
+    <property name="jackrabbit.node.name" value="noderep${node.id}" />
+    <property name="server.peer.id" value="${node.id}" />
+
+    <property name="clustering.dir" value="${vtba.home}\jboss\server\${server.name}" />
+    <property name="clustering.deploy.dir" value="${clustering.dir}\deploy" />
+    <property name="clustering.lib.dir" value="${clustering.dir}\lib" />
+    <property name="clustering.farm.dir" value="${clustering.dir}\farm" />
+    <property name="clustering.deploy-hasingleton.dir" value="${clustering.dir}\deploy-hasingleton" />
+    <property name="clustering.data.dir" value="${clustering.dir}\data" />
+    <property name="clustering.conf.dir" value="${clustering.dir}\conf" />
+
+    <target name="c" depends="remove-clustering-node, copy-clustering-node, copy-files, configure-jms, configure-server-xml, configure-server-node, configure-timer, configure-jackrabbit-node, configure-ha-jms" />
+    <target name="csql" depends="c, run-clustering-sql" />
+
+    <target name="copy-clustering-node">
+        <mkdir dir="${clustering.dir}" />
+        <copy todir="${vtba.home}\jboss\server\${server.name}">
+            <fileset dir="D:\Workflow-G\software\jboss eap 4.3\jboss-eap-4.3\jboss-as\server\clean_c1_c2\c1" />
+        </copy>
+    </target>
+
+    <target name="remove-clustering-node">
+        <delete dir="${clustering.dir}" />
+    </target>
+
+    <target name="copy-files">
+
+        <copy todir="${clustering.deploy.dir}">
+            <fileset dir="${vtba.home}/runtime/common/deploy" />
+        </copy>
+
+        <copy todir="${clustering.lib.dir}">
+            <fileset dir="${vtba.home}/runtime/common/lib" />
+        </copy>
+
+        <copy todir="${clustering.lib.dir}">
+            <fileset dir="${vtba.home}/runtime/jboss/lib" />
+        </copy>
+
+        <copy todir="${clustering.conf.dir}">
+            <fileset dir="${vtba.home}/runtime/jboss/conf">
+                <include name="vt*.properties" />
+            </fileset>
+        </copy>
+
+        <echo message="" />
+        <append src="${vtba.home}/runtime/jboss/conf/login-config-vtba-application-policy.xml" dest="${clustering.conf.dir}/login-config.xml" xpath="/policy" />
+
+        <echo message="" />
+        <copy todir="${clustering.deploy.dir}">
+            <fileset dir="${vtba.home}/runtime/jboss/deploy">
+                <exclude name="vt-mysql-um-ds.xml" />
+                <exclude name="jcr-ds.xml" />
+            </fileset>
+        </copy>
+
+        <echo message="" />
+        <copy todir="${clustering.lib.dir}" file="${ojdbc.jar}" overwrite="true" />
+        <copy todir="${clustering.lib.dir}" file="${xdb.jar}" overwrite="true" />
+        <copy todir="${clustering.lib.dir}" file="${xmlparserv2.jar}" overwrite="true" />
+
+        <echo message="" />
+        <echo message="modify and deploy vt-oracle-emf-ds.xml and vt-oracle-um-ds.xml" />
+        <echo message="url: ${url}" />
+        <echo message="user: ${user}" />
+        <echo message="password: ${password}" />
+        <filter token="VT_DS_CONNECTION_URL" value="${vt_ds_connection_url}" />
+        <filter token="VT_DS_USERNAME" value="${vt_ds_username}" />
+        <filter token="VT_DS_PASSWORD" value="${vt_ds_password}" />
+        <copy todir="${clustering.deploy.dir}" filtering="true" overwrite="true">
+            <fileset dir="${yoda.home}\bw\src\um">
+                <include name="vt-oracle-um-ds.xml" />
+            </fileset>
+            <fileset dir="${yoda.home}\m3o\j2ee\src\config\jboss">
+                <include name="vt-oracle-emf-ds.xml" />
+            </fileset>
+        </copy>
+
+        <echo message="" />
+        <echo message="modify and deploy jcr-ds.xml" />
+        <echo message="VTBA_HOME: ${vtba.home}" />
+        <filter token="VTBA_HOME" value="${vtba.home}" />
+        <copy todir="${clustering.deploy.dir}" filtering="true" overwrite="true">
+            <fileset dir="${vtba.home}/runtime/jboss/deploy">
+                <include name="jcr-ds.xml" />
+            </fileset>
+        </copy>
+
+        <!--
+        <echo message="" />
+        
+        <move todir="${clustering.farm.dir}">
+            <fileset dir="${clustering.deploy.dir}">
+                <include name="vtm3oserver.ear" />
+                <include name="vtm3oui.ear" />
+                <include name="vtrepositorybeans.jar" />
+            </fileset>
+        </move>
+        -->
+
+        <!-- 
+        <move todir="${clustering.deploy-hasingleton.dir}">
+            <fileset dir="${clustering.deploy.dir}">
+                <include name="vt-dyn*.xml" />
+                <include name="vt-jms*.xml" />
+                <include name="vt-vt*.xml" />
+            </fileset>
+        </move>
+        -->
+
+        <antcall target="clustered-queues" />
+    </target>
+
+    <target name="clustered-queues">
+        <append src="./lib/clustered-queues.xml" dest="${clustering.deploy.dir}/vt-dyncbq-ds.xml" xpath="/server/mbean" />
+        <append src="./lib/clustered-queues.xml" dest="${clustering.deploy.dir}/vt-dynrecq-ds.xml" xpath="/server/mbean" />
+        <append src="./lib/clustered-queues.xml" dest="${clustering.deploy.dir}/vt-vtActivityInternal-service.xml" xpath="/server/mbean" />
+        <append src="./lib/clustered-queues.xml" dest="${clustering.deploy.dir}/vt-vtAuditLogging-service.xml" xpath="/server/mbean" />
+        <append src="./lib/clustered-queues.xml" dest="${clustering.deploy.dir}/vt-vtCacheManager-service.xml" xpath="/server/mbean" />
+        <append src="./lib/clustered-queues.xml" dest="${clustering.deploy.dir}/vt-vtCallbackService-service.xml" xpath="/server/mbean" />
+        <append src="./lib/clustered-queues.xml" dest="${clustering.deploy.dir}/vt-vtEmfFeedService-service.xml" xpath="/server/mbean" />
+        <append src="./lib/clustered-queues.xml" dest="${clustering.deploy.dir}/vt-vtEmfService-service.xml" xpath="/server/mbean" />
+        <append src="./lib/clustered-queues.xml" dest="${clustering.deploy.dir}/vt-vtNotificationUpdates-service.xml" xpath="/server/mbean" />
+        <append src="./lib/clustered-queues.xml" dest="${clustering.deploy.dir}/vt-vtProcessService-service.xml" xpath="/server/mbean" />
+        <append src="./lib/clustered-queues.xml" dest="${clustering.deploy.dir}/vt-vtQueueInternal-service.xml" xpath="/server/mbean" />
+        <append src="./lib/clustered-queues.xml" dest="${clustering.deploy.dir}/vt-vtTaskInternal-service.xml" xpath="/server/mbean" />
+
+        <append value="ClusteredXAConnectionFactory" dest="${clustering.deploy.dir}/vt-jms-queue-factory-ds.xml" xpath="/server/mbean/attribute[@name='ToName']" type="text" replace="true" />
+        <append value="ClusteredXAConnectionFactory" dest="${clustering.deploy.dir}/vt-jms-topic-factory-ds.xml" xpath="/server/mbean/attribute[@name='ToName']" type="text" replace="true" />
+
+    </target>
+
+    <target name="configure-jms">
+        <delete>
+            <fileset dir="${clustering.deploy.dir}">
+                <include name="hsqldb-ds.xml" />
+            </fileset>
+        </delete>
+
+        <copy todir="${clustering.deploy.dir}">
+            <fileset dir="./lib">
+                <include name="vt-oracle-jms-ds.xml" />
+            </fileset>
+        </copy>
+
+        <delete>
+            <fileset dir="${clustering.deploy.dir}\jboss-messaging.sar">
+                <include name="clustered-hsqldb-persistence-service.xml" />
+            </fileset>
+        </delete>
+
+        <copy todir="${clustering.deploy.dir}\jboss-messaging.sar">
+            <fileset dir="D:\Workflow-G\software\jboss eap 4.3\jboss-eap-4.3\jboss-as\docs\examples\jms">
+                <include name="oracle-persistence-service.xml" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="configure-server-node">
+        <replace file="${clustering.deploy.dir}\jboss-web.deployer\server.xml" token="node1" value="${node.name}" />
+    </target>
+
+    <target name="configure-jackrabbit-node" depends="deploy-repository">
+        <property name="clustered-jackrabbit.file" value="${java.io.tmpdir}\clustered-jackrabbit.xml" />
+        <echo message="modify and deploy clustered-jackrabbit.xml" />
+        <echo message="url: ${url}" />
+        <echo message="user: ${user}" />
+        <echo message="password: ${password}" />
+        <filter token="VT_DS_CONNECTION_URL" value="${vt_ds_connection_url}" />
+        <filter token="VT_DS_USERNAME" value="${vt_ds_username}" />
+        <filter token="VT_DS_PASSWORD" value="${vt_ds_password}" />
+        <copy todir="${java.io.tmpdir}" file="./lib/clustered-jackrabbit.xml" filtering="true" overwrite="true" />
+        <replace file="${clustered-jackrabbit.file}" token="node1" value="${jackrabbit.node.name}" />
+
+        <append src="${clustered-jackrabbit.file}" dest="${vtba.home}\data\repository\repository-ora.xml" xpath="/Repository" />
+
+    </target>
+
+    <target name="configure-server-xml">
+        <append value="jnp://localhost:1100" dest="${vtba.home}\data\m3o\server.xml" xpath="//naming-provider-url" noheader="true" replace="true" type="text" />
+    </target>
+
+    <target name="configure-server-xml-back">
+        <append value="jnp://localhost:1099" dest="${vtba.home}\data\m3o\server.xml" xpath="//naming-provider-url" noheader="true" replace="true" type="text" />
+    </target>
+
+    <target name="configure-vtutil-properties">
+        <replace file="${vtba.home}\data\vtutil.properties" token="1099" value="1100" />
+    </target>
+
+    <target name="configure-vtutil-properties-back">
+        <replace file="${vtba.home}\data\vtutil.properties" token="1100" value="1099" />
+    </target>
+
+    <target name="deploy-repository">
+        <echo message="modify and deploy repository-ora.xml" />
+        <echo message="url: ${url}" />
+        <echo message="user: ${user}" />
+        <echo message="password: ${password}" />
+        <filter token="URL" value="${url}" />
+        <filter token="USER" value="${user}" />
+        <filter token="PASSWORD" value="${password}" />
+        <copy todir="${vtba.home}\data\repository" filtering="true" overwrite="true">
+            <fileset dir="${vtba.home}\data\repository\template">
+                <include name="repository-ora.xml" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="configure-timer">
+        <!-- BPMN timer -->
+        <property name="m3o.ear.file" value="${clustering.deploy.dir}\${m3o.ear.name}" />
+        <property name="vtengine.name" value="vtengine.jar" />
+        <property name="vtengine.dir" value="${java.io.tmpdir}/${vtengine.name}" />
+
+        <echo message="update m3oserver.ear with new engine jars" />
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${m3o.ear.file}" dest="${m3o.ear.dir}" />
+
+        <mkdir dir="${vtengine.dir}" />
+        <property name="vtengine.file" value="${m3o.ear.dir}/lib/${vtengine.name}" />
+        <unzip src="${vtengine.file}" dest="${vtengine.dir}" />
+
+        <property name="old.timer.config.file" value="${vtengine.dir}/com/vitria/bpmn/timer/timer-config.properties" />
+        <propmerge src="./files/prop/new-config.properties" dest="${old.timer.config.file}" />
+
+        <zip destfile="${vtengine.file}" basedir="${vtengine.dir}" />
+        <zip destfile="${m3o.ear.file}" basedir="${m3o.ear.dir}" />
+
+        <delete dir="${m3o.ear.dir}" />
+        <delete dir="${vtengine.dir}" />
+
+        <!-- Workflow timer -->
+        <property name="wftimer.name" value="com.vitria.wf.timer.timerService.quartzTimer_2.0.0.jar" />
+        <property name="wftimer.dir" value="${java.io.tmpdir}/${wftimer.name}" />
+        <property name="wftimer.file" value="${vtba.home}\bundles\m3o\server\bundle\${wftimer.name}" />
+        <property name="wftimer.old.timer.config.file" value="${wftimer.dir}/com/vitria/workflow/bundleservice/timerservice/quartztimer/config/timer-config.properties" />
+
+        <mkdir dir="${wftimer.dir}" />
+        <unzip src="${wftimer.file}" dest="${wftimer.dir}" />
+        <propmerge src="./files/prop/new-config.properties" dest="${wftimer.old.timer.config.file}" />
+        <zip destfile="${wftimer.file}" basedir="${wftimer.dir}" />
+        <delete dir="${wftimer.dir}" />
+
+    </target>
+
+    <target name="run-clustering-sql">
+        <sql driver="${driver}" url="${url}" userid="${user}" password="${password}" onerror="continue">
+            <fileset dir="${sql.dir}">
+                <include name="clustering.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${ojdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="cleanjbossclustering">
+        <delete dir="${clustering.dir}\data" />
+        <delete dir="${clustering.dir}\log" />
+        <delete dir="${clustering.dir}\tmp" />
+        <delete dir="${clustering.dir}\work" />
+    </target>
+
+    <target name="set-clustering-log">
+        <copy todir="${clustering.conf.dir}" file="${log.log4j.xml}" overwrite="true" />
+    </target>
+
+    <target name="test">
+        <echo message="test">
+        </echo>
+
+        <append value="jnp://localhost:1100" dest="${files.dir}/xml/tmp.xml" xpath="/connection-factories/tx-connection-factory/config-property[@name='jndiProviderURL']" text="true" />
+    </target>
+
+    <target name="configure-ha-jms">
+
+        <append value="${server.peer.id}" dest="${clustering.deploy.dir}/jboss-messaging.sar/messaging-service.xml" xpath="//*[@name='ServerPeerID']" type="text" replace="true" />
+
+        <property name="m3o.ear.file" value="${clustering.deploy.dir}\${m3o.ear.name}" />
+        <property name="vtTaskManager.ejb.name" value="vtTaskManager-ejb.jar" />
+        <property name="vtTaskManager.ejb.dir" value="${java.io.tmpdir}/${vtTaskManager.ejb.name}" />
+
+        <echo message="update m3oserver.ear with new jars" />
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${m3o.ear.file}" dest="${m3o.ear.dir}" />
+
+        <append value="jnp://localhost:1100" dest="${m3o.ear.dir}/res/MCF_vtM3OInternalJmsTarget-ds.xml" xpath="/connection-factories/tx-connection-factory/config-property[@name='jndiProviderURL']" type="text" />
+        <append value="jnp://localhost:1100" dest="${m3o.ear.dir}/res/MCF_vtTaskManager_TaskManagerMain_com_vitria_workflow_taskmanager_internal_TaskManagerMain_vtActivityTarget-ds.xml" xpath="/connection-factories/tx-connection-factory/config-property[@name='jndiProviderURL']" type="text" />
+        <append value="jnp://localhost:1100" dest="${m3o.ear.dir}/res/MCF_vtTaskManager_TaskManagerMain_com_vitria_workflow_taskmanager_internal_TaskManagerMain_vtCacheManagerTarget-ds.xml" xpath="/connection-factories/tx-connection-factory/config-property[@name='jndiProviderURL']" type="text" />
+        <append value="jnp://localhost:1100" dest="${m3o.ear.dir}/res/MCF_vtTaskManager_TaskManagerMain_com_vitria_workflow_taskmanager_internal_TaskManagerMain_vtTaskTarget-ds.xml" xpath="/connection-factories/tx-connection-factory/config-property[@name='jndiProviderURL']" type="text" />
+
+        <mkdir dir="${vtTaskManager.ejb.dir}" />
+        <property name="vtTaskManager.ejb.file" value="${m3o.ear.dir}/projects/vtTaskManager/EJB/${vtTaskManager.ejb.name}" />
+        <unzip src="${vtTaskManager.ejb.file}" dest="${vtTaskManager.ejb.dir}" />
+
+        <append value="jnp://localhost:1100" dest="${vtTaskManager.ejb.dir}/META-INF/ejb-jar.xml" xpath="//*[text()='jndiProviderURL']/../activation-config-property-value" type="cdata" replace="true" allnodes="true" />
+        <append value="vitria_${server.peer.id}" dest="${vtTaskManager.ejb.dir}/META-INF/ejb-jar.xml" xpath="//*[text()='clientId']/../activation-config-property-value" type="cdata" replace="true" allnodes="true" />
+
+        <zip destfile="${vtTaskManager.ejb.file}" basedir="${vtTaskManager.ejb.dir}" />
+        <zip destfile="${m3o.ear.file}" basedir="${m3o.ear.dir}" />
+
+        <delete dir="${m3o.ear.dir}" />
+        <delete dir="${vtTaskManager.ejb.dir}" />
+
+    </target>
+</project>

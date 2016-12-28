@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ReceiveModel" targetNamespace="http://www.txu.poc/mvi/switchtype" xmlns:poctype="http://www.txu.poc/mvi" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:switchtype="http://www.txu.poc/mvi/switchtype">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.txu.poc/mvi" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:soap11-enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:poctype="http://www.txu.poc/mvi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <xsd:element name="eventSwitchType" type="poctype:eventSwitchType" />
+      <xsd:complexType name="eventSwitchType">
+        <xsd:sequence>
+          <xsd:element ref="poctype:SwitchNum"/>
+          <xsd:element ref="poctype:SwitchType"/>
+          <xsd:element ref="poctype:MoveInDate"/>
+          <xsd:element ref="poctype:Partner"/>
+          <xsd:element ref="poctype:Employee_Resp"/>
+          <xsd:element ref="poctype:ServiceProvOld"/>
+          <xsd:element ref="poctype:ServiceProvNew"/>
+          <xsd:element ref="poctype:Distributor"/>
+          <xsd:element ref="poctype:EnrollDoc"/>
+          <xsd:element ref="poctype:Status"/>
+          <xsd:element ref="poctype:StatusTime"/>
+          <xsd:element ref="poctype:Last_update"/>
+          <xsd:element ref="poctype:Source"/>
+          <xsd:element ref="poctype:ContractId"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="SwitchNum" type="xsd:string"/>
+      <xsd:element name="SwitchType" type="xsd:string"/>
+      <xsd:element name="MoveInDate" type="xsd:date"/>
+      <xsd:element name="Partner" type="xsd:string"/>
+      <xsd:element name="Employee_Resp" type="xsd:string"/>
+      <xsd:element name="ServiceProvOld" type="xsd:string"/>
+      <xsd:element name="ServiceProvNew" type="xsd:string"/>
+      <xsd:element name="Distributor" type="xsd:string"/>
+      <xsd:element name="EnrollDoc" type="xsd:string"/>
+      <xsd:element name="Status" type="xsd:string"/>
+      <xsd:element name="StatusTime" type="xsd:dateTime"/>
+      <xsd:element name="Last_update" type="xsd:dateTime"/>
+      <xsd:element name="Source" type="xsd:string"/>
+      <xsd:element name="ContractId" type="xsd:string"/>
+      
+      <xsd:element name="outmsg">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="message" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="switchtype_transition">
+    <wsdl:part name="parameters" element="poctype:eventSwitchType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="outMessage">
+    <wsdl:part name="output" element="poctype:outmsg">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="switchTransition">
+    <wsdl:operation name="createSwitchType">
+      <wsdl:input message="switchtype:switchtype_transition">
+      </wsdl:input>
+      <wsdl:output message="switchtype:outMessage">
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+   <wsdl:binding name="switchTypebinding" type="switchtype:switchTransition">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsaw:UsingAddressing wsdl:required="true"/>
+    <wsdl:operation name="createSwitchType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="switchTypeEvent">
+    <wsdl:port name="createSwitchTypeport" binding="switchtype:switchTypebinding">
+      <soap:address location="http://localhost:8080/vtservices/services/createSwitchType"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

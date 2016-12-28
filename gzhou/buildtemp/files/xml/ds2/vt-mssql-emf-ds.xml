@@ -1,0 +1,54 @@
+<datasources>
+<!-- MS SQLSERVER2005 datasource for testds1 -->
+	<local-tx-datasource>
+		<jndi-name>/vitria/m3o/app001/ds/testds1</jndi-name>
+		<connection-url>jdbc:sqlserver://@VT_DS_CONNECTION_URL@</connection-url>
+		<driver-class>com.microsoft.sqlserver.jdbc.SQLServerDriver</driver-class>
+		<user-name>@VT_DS_USERNAME@</user-name>
+		<password>@VT_DS_PASSWORD@</password>
+		<valid-connection-checker-class-name>
+		    com.vitria.engine.driver.VTJBossMSSQLValidConnectionChecker
+		</valid-connection-checker-class-name>
+		<metadata>
+			<type-mapping>MS SQLSERVER2005</type-mapping>
+		</metadata>
+        <max-pool-size>200</max-pool-size>
+	</local-tx-datasource>
+	
+	<local-tx-datasource>
+		<jndi-name>/vitria/m3o/app001/ds/analytic</jndi-name>
+		<use-java-context>false</use-java-context>
+		<connection-url>jdbc:sqlserver://@VT_DS_CONNECTION_URL@</connection-url>
+		<driver-class>com.microsoft.sqlserver.jdbc.SQLServerDriver</driver-class>
+		<user-name>@VT_DS_USERNAME@</user-name>
+		<password>@VT_DS_PASSWORD@</password>
+		<valid-connection-checker-class-name>
+		    com.vitria.engine.driver.VTJBossMSSQLValidConnectionChecker
+		</valid-connection-checker-class-name>
+		<metadata>
+			<type-mapping>MS SQLSERVER2005</type-mapping>
+		</metadata>
+        <max-pool-size>200</max-pool-size>
+	</local-tx-datasource>
+
+<!-- MS SQLSERVER2005 xa datasource for testds1 -->
+	<xa-datasource>
+		<jndi-name>/vitria/m3o/app001/ds/testds1(XA)</jndi-name>
+		<track-connection-by-tx/>
+		<isSameRM-override-value>false</isSameRM-override-value>
+		<xa-datasource-class>com.microsoft.sqlserver.jdbc.SQLServerXADataSource</xa-datasource-class>
+		<xa-datasource-property name="URL">
+			jdbc:sqlserver://@VT_DS_CONNECTION_URL@
+		</xa-datasource-property>
+		<xa-datasource-property name="User">@VT_DS_USERNAME@</xa-datasource-property>
+		<xa-datasource-property name="Password">@VT_DS_PASSWORD@</xa-datasource-property>
+		<valid-connection-checker-class-name>
+		    com.vitria.engine.driver.VTJBossMSSQLValidConnectionChecker
+		</valid-connection-checker-class-name>		
+		<metadata>
+			<type-mapping>MS SQLSERVER2005</type-mapping>
+		</metadata>
+        <max-pool-size>200</max-pool-size>
+	</xa-datasource>
+</datasources>
+

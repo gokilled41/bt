@@ -1,0 +1,24 @@
+<resources>
+    <resource CMLClassName="com.vitria.connectors.line.LineCMLib" resourcetype="File" value=""
+        name="File2">
+        <properties>
+            <property javatype="STRING" name="fileName" value="C:\Source2.txt" />
+            <property javatype="STRING" name="encodingValue" value="UTF8" />
+            <property javatype="STRING" name="delimiters" value="\r\n" />
+            <property javatype="INT" name="batchSize" value="5" />
+            <property javatype="INT" name="concurrencyLevel" value="3" />
+            <property javatype="LONG" name="pollRate" value="3" />
+            <property javatype="STRING" name="exceptionHandlerClass"
+                value="com.vitria.component.server.M3OExceptionHandlerImpl" />
+        </properties>
+        <models>
+            <model name="EventSource/File/file" value="File/file" direction="INBOUND">
+                <events>
+                    <event name="Error">
+                        <feed name="VirtualServerTest/Feed/Feed/feed2" value="Feed/feed2" />
+                    </event>
+                </events>
+            </model>
+        </models>
+    </resource>
+</resources>

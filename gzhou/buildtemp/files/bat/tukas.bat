@@ -1,0 +1,2 @@
+call tukasdir
+call run

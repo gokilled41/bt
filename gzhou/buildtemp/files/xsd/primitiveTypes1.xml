@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dms:primitiveTypes xmlns:dms="http://schema.vitria.com/dmstest">
+	<dateTimeType>1999-08-08T09:30:47.0Z</dateTimeType>
+	<dateType>1999-12-17</dateType>
+	<booleanType>false</booleanType>
+	<floatType>1999.1415</floatType>
+	<decimalType>19990000000000</decimalType>
+	<doubleType>1999.141</doubleType>
+	<anyURIType>anyURI1999</anyURIType>
+</dms:primitiveTypes>
+

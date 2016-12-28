@@ -1,0 +1,1 @@
+call gr C:\workspace %*

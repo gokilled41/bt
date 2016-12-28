@@ -1,0 +1,1 @@
+java -cp %JMSTESTCLIENT_PATH% gzhou.JMSTestClient -t Error -n 50000 -s 100 -d stringTypes1=stringTypes1.xml -d stringTypes2=stringTypes2.xml -d stringTypes3=stringTypes3.xml -d stringTypes4=stringTypes4.xml -d stringTypes5=stringTypes5.xml

@@ -1,0 +1,2 @@
+call msddsdir
+call sd

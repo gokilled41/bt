@@ -1,0 +1,9 @@
+<Cluster id="node1">
+  <Journal class="org.apache.jackrabbit.core.journal.DatabaseJournal">
+    <param name="revision" value="${rep.home}/revision.log" />
+    <param name="driver" value="oracle.jdbc.driver.OracleDriver" />
+    <param name="url" value="jdbc:oracle:thin:@@VT_DS_CONNECTION_URL@" />
+    <param name="user" value="@VT_DS_USERNAME@"/>
+    <param name="password" value="@VT_DS_PASSWORD@"/>
+  </Journal>
+</Cluster>

@@ -1,0 +1,1 @@
+call jstack %1 > D:\jedi\yoda\export\home\jboss\server\vtba\log\jboss2.txt

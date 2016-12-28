@@ -1,0 +1,19 @@
+dir: D:\jedi\yoda\unbundled\af\java\common
+
+from: DFI18NError
+to:   a
+from: DFI18NWarn
+to:   a
+from: DFI18NInfo
+to:   a
+from: DFI18NEx
+to:   a
+from: LocaleSortMC
+to:   a
+from: LocaleSortMSG
+to:   a
+
+-sortByErrorCode: true
+
+mcFile:  D:\jedi\yoda\unbundled\af\java\common\loader\com\vitria\loader\MessageCode.java
+msgFile: D:\jedi\yoda\unbundled\af\java\common\loader\locale\en_US\loader.properties

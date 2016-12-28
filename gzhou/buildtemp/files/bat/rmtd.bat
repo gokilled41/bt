@@ -1,0 +1,1 @@
+call rmd mysample mysampletarget

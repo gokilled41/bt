@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<or:elementC xmlns:or="http://qualified.schema.vitria.com"
+	xmlns:or1="http://qualified1.schema.vitria.com">
+	<or:elementA>
+		<or:productName>or:productName</or:productName>
+		<quantity>0</quantity>
+	</or:elementA>
+	<or1:elementA>
+		<or1:address>or1:address</or1:address>
+		<or1:notes>or1:notes</or1:notes>
+	</or1:elementA>
+</or:elementC>

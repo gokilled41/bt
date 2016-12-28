@@ -1,0 +1,29 @@
+<resources>
+    <resource CMLClassName="com.vitria.connectors.jms.JmsCMLib" resourcetype="JMS" value=""
+        name="JMS1">
+        <properties>
+            <property javatype="STRING" name="dest" value="/vitria/vtVSTestQueue" />
+            <property javatype="BOOLEAN" name="pubSub" value="false" />
+            <property javatype="STRING" name="userId" value="" />
+            <property javatype="STRING" name="password" value="" />
+            <property javatype="STRING" name="jmsConnectionFactoryName" value="jms/queue-factory" />
+            <property javatype="STRING" name="messageSelector" value="" />
+            <property javatype="STRING" name="clientId" value="vitria" />
+            <property javatype="STRING" name="server" value="Local" />
+            <property javatype="STRING" name="jndiUserName" value="" />
+            <property javatype="STRING" name="jndiPassword" value="" />
+            <property javatype="STRING" name="jndiContextFactoryName" value="" />
+            <property javatype="STRING" name="jndiProviderURL" value="" />
+            <property javatype="INT" name="batchSize" value="5" />
+            <property javatype="INT" name="concurrencyLevel" value="3" />
+            <property javatype="LONG" name="pollRate" value="3" />
+            <property javatype="STRING" name="exceptionHandlerClass"
+                value="com.vitria.component.server.M3OExceptionHandlerImpl" />
+        </properties>
+        <models>
+            <model name="Feed/Feed/feed1" value="Feed/feed1" direction="OUTBOUND">
+                <events />
+            </model>
+        </models>
+    </resource>
+</resources>

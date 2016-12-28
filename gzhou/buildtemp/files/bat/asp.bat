@@ -1,0 +1,2 @@
+call aspdir
+call run

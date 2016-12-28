@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+	<template autoinsert="true" context="java" deleted="false"
+		description="log error with commons logging" enabled="true"
+		name="lerror">
+		if(${log:var(org.apache.commons.logging.Log)}.isErrorEnabled())
+		{&#13;
+		${log:var(org.apache.commons.logging.Log)}.error(${message});&#13;
+		}
+	</template>
+	<template autoinsert="true" context="java" deleted="false"
+		description="log warn with commons logging" enabled="true"
+		name="lwarn">
+		if(${log:var(org.apache.commons.logging.Log)}.isWarnEnabled())
+		{&#13;
+		${log:var(org.apache.commons.logging.Log)}.warn(${message});&#13;
+		}
+	</template>
+	<template autoinsert="true" context="java" deleted="false"
+		description="log debug with commons logging" enabled="true"
+		name="ldebug">
+		if(${log:var(org.apache.commons.logging.Log)}.isDebugEnabled())
+		{&#13;
+		${log:var(org.apache.commons.logging.Log)}.debug(${message});&#13;
+		}
+	</template>
+	<template autoinsert="true" context="java" deleted="false"
+		description="log trace with commons logging" enabled="true"
+		name="ltrace">
+		if(${log:var(org.apache.commons.logging.Log)}.isTraceEnabled())
+		{&#13;
+		${log:var(org.apache.commons.logging.Log)}.trace(${message});&#13;
+		}
+	</template>
+	<template autoinsert="true" context="java" deleted="false"
+		description="log fatal with commons logging" enabled="true"
+		name="lfatal">
+		if(${log:var(org.apache.commons.logging.Log)}.isFatalEnabled())
+		{&#13;
+		${log:var(org.apache.commons.logging.Log)}.fatal(${message});&#13;
+		}
+	</template>
+</templates>

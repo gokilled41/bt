@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schema.vitria.com/schema/test"
+	targetNamespace="http://schema.vitria.com/schema/test">
+	
+	<complexType name="taskType">
+		<sequence>
+			<element name="organization" type="string" nillable="true" minOccurs="0"/>
+			<element name="resource" type="string" nillable="true" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	
+	<complexType name="taskListType">
+		<sequence>
+			<element name="task" type="tns:taskType" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+
+	<complexType name="responseType">
+		<sequence>
+			<element name="organization" type="string" nillable="true" minOccurs="0"/>
+			<element name="actiontaken" type="string" nillable="true" minOccurs="0"/>
+			<element name="comment" type="string" nillable="true" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	
+	<complexType name="responseListType">
+		<sequence>
+			<element name="response" type="tns:responseType" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	
+	<complexType name="FacilitatorActionType">
+		<sequence>
+			<element name="taskList" type="tns:taskListType" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	
+	<complexType name="CollaboratorActionType">
+		<sequence>
+			<element name="responseList" type="tns:responseListType" minOccurs="0"/>
+		</sequence>
+	</complexType>
+
+	
+	<element name="FacilitatorAction" type="tns:FacilitatorActionType"/>
+	
+	<element name="CollaboratorAction" type="tns:CollaboratorActionType"/>
+
+	
+</schema>

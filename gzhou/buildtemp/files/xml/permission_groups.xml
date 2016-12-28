@@ -1,0 +1,30 @@
+<PermissionGroups>
+	<PermissionGroup>
+		<actID>1</actID>
+		<perString>[user:user1]</perString>
+		<supString></supString>
+		<obsString></obsString>
+		<info></info>
+	</PermissionGroup>
+	<PermissionGroup>
+		<actID>2</actID>
+		<perString></perString>
+		<supString></supString>
+		<obsString></obsString>
+		<info></info>
+	</PermissionGroup>
+	<PermissionGroup>
+		<actID>3</actID>
+		<perString></perString>
+		<supString></supString>
+		<obsString></obsString>
+		<info></info>
+	</PermissionGroup>
+	<PermissionGroup>
+		<actID>4</actID>
+		<perString></perString>
+		<supString></supString>
+		<obsString></obsString>
+		<info></info>
+	</PermissionGroup>
+</PermissionGroups>

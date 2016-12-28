@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dms:integerTypes xmlns:dms="http://schema.vitria.com/dmstest">
+	<integerType>100</integerType>
+	<nonPositiveIntegerType>-101</nonPositiveIntegerType>
+	<negativeIntegerType>-102</negativeIntegerType>
+	<longType>103</longType>
+	<intType>105</intType>
+	<shortType>106</shortType>
+	<byteType>0</byteType>
+	<nonNegativeIntegerType>108</nonNegativeIntegerType>
+	<positiveIntegerType>109</positiveIntegerType>
+	<unsignedLongType>110</unsignedLongType>
+	<unsignedIntType>111</unsignedIntType>
+	<unsignedShortType>112</unsignedShortType>
+	<unsignedByteType>113</unsignedByteType>
+</dms:integerTypes>
+

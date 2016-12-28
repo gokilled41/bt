@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://workflow.vitria.com/rest"
+	targetNamespace="http://workflow.vitria.com/rest" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+
+	<xsd:complexType name="TaskInfo">
+		<xsd:sequence>
+			<xsd:element name="activityName" type="xsd:string" minOccurs="0" />
+			<xsd:element name="activityStateID" type="xsd:string" minOccurs="0" />
+			<xsd:element name="applicationName" type="xsd:string" />
+			<xsd:element name="processName" type="xsd:string" />
+			<xsd:element name="processID" type="xsd:string" />
+			<xsd:element name="category" type="xsd:string" />
+			<xsd:element name="priority" type="xsd:int" />
+			<xsd:element name="startTime" type="xsd:dateTime" />
+			<xsd:element name="documentContext" type="xsd:string" minOccurs="0" />
+			<xsd:element name="caseID" type="xsd:string" />
+			<xsd:element name="businessEnvironment" type="xsd:string" />
+			<xsd:element name="loggingThreshold" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="AssignmentPolicy">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" />
+			<xsd:element name="parameter" type="xsd:string" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="SubtaskPolicy">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="TimerInfo">
+		<xsd:sequence>
+			<xsd:element name="timeline" type="Timeline" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Timeline">
+		<xsd:sequence>
+			<xsd:element name="id" type="xsd:string" />
+			<xsd:element name="timerType" type="xsd:string" />
+			<xsd:element name="fireTime" type="xsd:string" />
+			<xsd:element name="actions" type="Actions" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Actions">
+		<xsd:sequence>
+			<xsd:element name="action" type="Action" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Action">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Permissions">
+		<xsd:sequence>
+			<xsd:element name="permission" type="Permission" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Permission">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" />
+			<xsd:element name="type" type="xsd:string" />
+			<xsd:element name="parameter" type="xsd:string" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="EventActionMappings">
+		<xsd:sequence>
+			<xsd:element name="eventActionMapping" type="EventActionMapping" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="EventActionMapping">
+		<xsd:sequence>
+			<xsd:element name="eventCode" type="xsd:string" />
+			<xsd:element name="actions" type="Actions" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ReferenceData">
+		<xsd:sequence>
+			<xsd:element name="referenceDataEntry" type="ReferenceDataEntry" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ReferenceDataChange">
+		<xsd:sequence>
+			<xsd:element name="referenceDataEntry" type="ReferenceDataEntry" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ReferenceDataEntry">
+		<xsd:sequence>
+			<xsd:element name="key" type="xsd:string" />
+			<xsd:element name="type" type="xsd:string" />
+			<xsd:element name="value" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

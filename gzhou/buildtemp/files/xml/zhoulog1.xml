@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+   <appender name="PROJECT1_LOG" class="org.jboss.logging.appender.DailyRollingFileAppender">
+      <errorHandler class="org.jboss.logging.util.OnlyOnceErrorHandler"/>
+      <param name="File" value="C:/project1.log"/>
+      <param name="Append" value="true"/>
+   </appender>
+   <category name="project1">
+      <appender-ref ref="PROJECT1_LOG"></appender-ref>
+   </category>
+</log4j:configuration>

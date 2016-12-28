@@ -1,0 +1,1 @@
+call kfc %* > "C:\Users\gzhou\Desktop\kfc.log"

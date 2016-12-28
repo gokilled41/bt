@@ -1,0 +1,20 @@
+dir: D:\jedi\yoda\unbundled\apps\predictive_analytics\plugins\dataflow\pmmlmodule\components\pmml
+
+from: DFI18NError
+to:   a
+from: DFI18NWarn
+to:   a
+from: DFI18NInfo
+to:   a
+from: DFI18NEx
+to:   a
+from: LocaleSortMC
+to:   a
+from: LocaleSortMSG
+to:   a
+
+onlySearch: true
+-printSearch: true
+
+mcFile:  D:\jedi\yoda\unbundled\apps\predictive_analytics\plugins\dataflow\pmmlmodule\components\pmml\com\vitria\predictive\module\MessageCode.java
+msgFile: D:\jedi\yoda\unbundled\apps\predictive_analytics\plugins\dataflow\pmmlmodule\components\pmml\locale\en_US\pmmlmodule.properties

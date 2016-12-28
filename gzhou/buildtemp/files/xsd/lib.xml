@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lib:order xmlns:lib="http://arraysupport.schema.vitria.com/OR">
+	<orderId>oid</orderId>
+	<custId>cid</custId>
+	<code>222-dd</code>
+	<notes>notes</notes>
+	<items>
+		<item>
+			<productName>product1</productName>
+			<quantity>100</quantity>
+			<price>5.5</price>
+			<notes>This is a book.</notes>
+		</item>
+		<item>
+			<productName>product2</productName>
+			<quantity>50</quantity>
+			<price>18.5</price>
+			<notes>This is a pencil.</notes>
+		</item>
+	</items>
+</lib:order>

@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+
+<project name="performance" basedir="../..">
+    <import file="../../properties.xml" />
+
+    <target name="performance_clean" depends="performance_removejar, performance_removeTestRunner, performance_removebininsvn" />
+
+    <target name="performance_upbin">
+        <delete dir="${jboss.deploy.dir}\TestRunner.jar" />
+        <mkdir dir="${jboss.deploy.dir}\TestRunner.jar" />
+        <copy todir="${jboss.deploy.dir}\TestRunner.jar">
+            <fileset dir="C:\workspace\wf_2.3\bin" />
+        </copy>
+
+        <property name="wfp.dir" value="${yoda.home}\workflow\devtests\performance\wf_2.3\bin" />
+        <delete dir="${wfp.dir}" />
+        <mkdir dir="${wfp.dir}" />
+        <copy todir="${wfp.dir}">
+            <fileset dir="C:\workspace\wf_2.3\bin" />
+        </copy>
+    </target>
+
+    <target name="performance_copyjar">
+        <copy todir="${jboss.lib.dir}" overwrite="true">
+            <fileset dir="C:\workspace\wf_2.3\lib">
+                <include name="asm-commons.jar" />
+                <include name="asm-util.jar" />
+                <include name="aspectjlib.jar" />
+                <include name="aspectjrt.jar" />
+                <include name="jarjar.jar" />
+                <include name="junit.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="performance_removejar">
+        <delete>
+            <fileset dir="${jboss.lib.dir}">
+                <include name="asm-commons.jar" />
+                <include name="asm-util.jar" />
+                <include name="aspectjlib.jar" />
+                <include name="aspectjrt.jar" />
+                <include name="jarjar.jar" />
+                <include name="junit.jar" />
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="performance_removeTestRunner">
+        <delete dir="${jboss.deploy.dir}\TestRunner.jar" />
+    </target>
+
+    <target name="performance_removebininsvn">
+        <delete dir="${yoda.home}\workflow\devtests\performance\wf_2.3\bin" />
+    </target>
+</project>

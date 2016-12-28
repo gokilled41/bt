@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wf:primitiveTypes xmlns:wf="http://www.vitria.com/workflow/smoke">
+	<wf:dateTimeType>2009-07-08T21:30:00.0Z</wf:dateTimeType>
+	<wf:dateType>2009-05-22</wf:dateType>
+	<wf:booleanType>true</wf:booleanType>
+	<wf:floatType>3.141592654</wf:floatType>
+	<wf:decimalType>10000000000000</wf:decimalType>
+	<wf:doubleType>3.141592654</wf:doubleType>
+	<wf:anyURIType>anyURI</wf:anyURIType>
+	<wf:stringType>string</wf:stringType>
+</wf:primitiveTypes>
+

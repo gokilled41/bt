@@ -1,0 +1,116 @@
+<xsd:schema targetNamespace="http://www.spry.com/m3o" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:tns="http://www.spry.com/m3o">
+  <xsd:element name="Discussion" type="tns:DiscussionType" />
+  <xsd:element name="Message" type="tns:MessageType" />
+  <xsd:element name="Task" type="tns:TaskType" />
+  <xsd:element name="Action" type="tns:ActionType" />
+  <xsd:element name="OperationParameter" type="tns:OperationParameterType" />
+  <xsd:element name="DiscussionIDDB" type="tns:DiscussionIDDBType"/>
+  <xsd:element name="HttpRequestInfo" type="tns:HttpRequestInfoType"/>
+  <xsd:complexType name="DiscussionType">
+    <xsd:annotation>
+      <xsd:appinfo source="teneo.jpa">@Table(name="SPRY_DISCUSSION")</xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="ID" type="xsd:string" nillable="true" minOccurs="0">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="ID", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Source" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="Subject" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="AssignedGroup" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="Status" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="AtRisk" type="xsd:boolean" nillable="true" minOccurs="0" />
+      <xsd:element name="OverdueCount" type="xsd:int" nillable="true" minOccurs="0" />
+      <xsd:element name="Priority" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="Started" type="xsd:dateTime" nillable="true" minOccurs="0" />
+      <xsd:element name="Ended" type="xsd:dateTime" nillable="true" minOccurs="0" />
+      <xsd:element name="Group" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="Author" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="Messages" minOccurs="0" maxOccurs="unbounded" type="tns:MessageType" />
+      <xsd:element name="Tasks" minOccurs="0" maxOccurs="unbounded" type="tns:TaskType" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="MessageType">
+    <xsd:sequence>
+      <xsd:element name="ID" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="DiscussionID" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="RecievedTime" type="xsd:dateTime" nillable="true" minOccurs="0" />
+      <xsd:element name="Author" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="Source" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="Content" type="xsd:string" nillable="true" minOccurs="0" >
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Lob
+            @Column(name="CONTENT", nullable="true", length=1048576)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Subject" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="Link" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="GUID" type="xsd:string" nillable="true" minOccurs="0" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="TaskType">
+    <xsd:sequence>
+      <xsd:element name="ID" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="DiscussionID" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="RelatedMessage" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="DueDate" type="xsd:dateTime" nillable="true" minOccurs="0" />
+      <xsd:element name="Priority" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="Title" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="AssignedWorkgroup" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="AssignedPerformer" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="ActualPerformer" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="Status" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="Comment" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="Action" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="Recommended" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="Notes" type="xsd:string" nillable="true" minOccurs="0" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ActionType">
+    <xsd:sequence>
+      <xsd:element name="ID" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="DiscussionID" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="ActionType" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="OperatorID" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="OperatorType" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="Status" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="Started" type="xsd:dateTime" nillable="true" minOccurs="0" />
+      <xsd:element name="Ended" type="xsd:dateTime" nillable="true" minOccurs="0" />
+      <xsd:element name="OperationParameter" type="tns:OperationParameterType" nillable="true"
+                   maxOccurs="unbounded" minOccurs="0" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="OperationParameterType">
+    <xsd:sequence>
+      <xsd:element name="Key" type="xsd:string" nillable="true" minOccurs="0" />
+      <xsd:element name="Value" type="xsd:string" nillable="true" minOccurs="0" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DiscussionIDDBType">
+    <xsd:sequence>
+      <xsd:element name="Loop" maxOccurs="unbounded" minOccurs="0">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>  
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="HttpRequestInfoType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Endpoint" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Query" type="xsd:string"/>        
+      <xsd:element minOccurs="0" name="Encoding" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Timeout" type="xsd:int"/>
+      <xsd:element minOccurs="0" name="RetryCount" type="xsd:int"/>
+      <xsd:element minOccurs="0" name="Auth" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="AuthServer" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="AuthPort" type="xsd:int"/>
+      <xsd:element minOccurs="0" name="Username" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Password" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>  
+</xsd:schema>

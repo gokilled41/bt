@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+	<display-name>m3oui</display-name>
+	<description>M3O UI Application</description>
+
+	<context-param>
+		<param-name>flex.class.path</param-name>
+		<param-value>
+			/WEB-INF/flex/hotfixes,/WEB-INF/flex/jars
+		 </param-value>
+	</context-param>
+
+	<!-- Http Flex Session attribute and binding listener support -->
+	<listener>
+		<listener-class>flex.messaging.HttpFlexSession</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>
+			com.vitria.m3oui.session.SessionListener
+		</listener-class>
+	</listener>
+
+	<!-- MessageBroker Servlet -->
+	<servlet>
+		<servlet-name>MessageBrokerServlet</servlet-name>
+		<display-name>MessageBrokerServlet</display-name>
+		<servlet-class>
+			com.vitria.m3oui.osgi.fds.FlexOSGiMessageBrokerServlet
+		</servlet-class>
+    <init-param>
+       <param-name>servlet.class</param-name>
+       <param-value>flex.messaging.MessageBrokerServlet</param-value>
+    </init-param>		
+		<init-param>
+			<param-name>services.configuration.file</param-name>
+			<param-value>/WEB-INF/flex/services-config.xml</param-value>		
+		</init-param>
+		<init-param>
+			<param-name>flex.write.path</param-name>
+			<param-value>/WEB-INF/flex</param-value>
+		</init-param>
+		<init-param>
+			<param-name>useContextClassLoader</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>services.configuration.parser</param-name>
+			<param-value>com.vitria.m3oui.osgi.fds.OSGiConfigurationParser</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet> 
+	
+	<servlet>
+		<servlet-name>SwfServlet</servlet-name>
+		<display-name>SwfServlet</display-name>
+		<description></description>
+		<servlet-class>com.vitria.m3oui.osgi.SwfServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>ServletBroker</servlet-name>
+		<display-name>Servlet Broker Servlet</display-name>
+		<servlet-class>com.vitria.m3oui.osgi.ServletBrokerServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>FelixInit</servlet-name>
+		<display-name>FelixInit</display-name>
+		<description>Init the Felix OSGi framework</description>
+		<servlet-class>com.vitria.m3oui.osgi.FelixInitServlet</servlet-class>
+		<init-param>
+			<param-name>OSGI_PROFILE_DIR</param-name>
+			<param-value>
+				$VTBA_HOME/bundles/m3o/ui/cache
+			</param-value>
+			<description>The OSGi cache directory</description>
+		</init-param>
+		<init-param>
+			<param-name>OSGI_PLUGIN_DIR</param-name>
+			<param-value>$VTBA_HOME/bundles/m3o/ui</param-value>
+			<description>The plugin directory</description>
+		</init-param>
+		<!-- Comment: redeploy ear will cause memory leak or other issues.
+		<init-param>
+			<param-name>REDEPLOY_WATCH_FILE</param-name>
+			<param-value>$VTBA_HOME/bundles/m3o/ui/conf/config.properties</param-value>
+			<description>Watch file for redeploying OSGi Framework</description>
+		</init-param>
+		<init-param>
+			<param-name>REDEPLOY_WATCH_INTERVAL</param-name>
+			<param-value>5</param-value>
+			<description>Interval seconds for watching some file</description>
+		</init-param>
+		<init-param>
+			<param-name>REDEPLOY_TOUCH_FILE</param-name>
+			<param-value>$VTBA_HOME/jboss/server/vtba/deploy/vtm3oui.ear;$VTBA_HOME/jboss/server/vtba/deploy/vtm3oui.ear/META-INF/application.xml</param-value>
+			<description>File to change modified time when finding watched file changed</description>
+		</init-param>
+		-->
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>MessageBrokerServlet</servlet-name>
+		<url-pattern>/messagebroker/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>SwfServlet</servlet-name>
+		<url-pattern>/swfservlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>SwfServlet</servlet-name>
+		<url-pattern>/help/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>FelixInit</servlet-name>
+		<url-pattern>/felixinit</url-pattern>
+	</servlet-mapping>
+
+
+
+	<servlet>
+		<servlet-name>FileServlet</servlet-name>
+		<servlet-class>
+			com.vitria.m3oui.appfw.servlet.FileServlet
+		</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>ReleaseFileServlet</servlet-name>
+		<servlet-class>
+			com.vitria.m3oui.release.servlet.ReleaseFileServlet
+		</servlet-class>
+	</servlet>	
+
+	<session-config>
+		<session-timeout>120</session-timeout>
+	</session-config>
+
+	<servlet-mapping>
+		<servlet-name>FileServlet</servlet-name>
+		<url-pattern>/fileservlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>ReleaseFileServlet</servlet-name>
+		<url-pattern>/releasefileservlet</url-pattern>
+	</servlet-mapping>	
+
+	<servlet-mapping>
+        	<servlet-name>ServletBroker</servlet-name>
+        	<url-pattern>/servletbroker/*</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>Main.html</welcome-file>
+	</welcome-file-list>
+
+	<!-- for WebSphere deployment, please uncomment -->
+	<!--
+		<resource-ref>
+		<description>Flex Messaging WorkManager</description>
+		<res-ref-name>wm/MessagingWorkManager</res-ref-name>
+		<res-type>com.ibm.websphere.asynchbeans.WorkManager</res-type>
+		<res-auth>Container</res-auth>
+		<res-sharing-scope>Shareable</res-sharing-scope>
+		</resource-ref>
+	-->
+	<ejb-local-ref>
+		<ejb-ref-name>RepositoryModelStorage</ejb-ref-name>
+		<ejb-ref-type>Session</ejb-ref-type>
+		<local-home>
+			com.vitria.modeling.repository.beans.RepositoryModelStorageLocalHome
+		</local-home>
+		<local>
+			com.vitria.modeling.repository.beans.RepositoryModelStorageLocal
+		</local>
+		<ejb-link>RepositoryModelStorage</ejb-link>
+	</ejb-local-ref>
+</web-app>

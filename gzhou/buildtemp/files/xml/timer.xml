@@ -1,0 +1,27 @@
+<timers>
+	<deadline>
+		<timeLineName>Deadline</timeLineName>
+		<baseTime>STARTOFTHESTEP</baseTime>
+		<timeDuration>5</timeDuration>
+		<timeUnit>MINUTES</timeUnit>
+		<timerAction>
+			<actionType>Terminate</actionType>
+		</timerAction>
+		<variablePath></variablePath>
+		<isTerminate>true</isTerminate>
+	</deadline>
+	<timeLines>
+		<timeline>
+			<timeLineName>Jeopardy</timeLineName>
+			<baseTime>DUEDATE</baseTime>
+			<timeDuration>-4</timeDuration>
+			<timeUnit>MINUTES</timeUnit>
+			<timerAction>
+				<actionType>Send Email</actionType>
+			</timerAction>
+			<variablePath></variablePath>
+			<isTerminate>false</isTerminate>
+		</timeline>
+	</timeLines>
+</timers>
+

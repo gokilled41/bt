@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<wsdl:definitions name="ServiceTwo" targetNamespace="http://other.vitria.com"
+    xmlns:tns="http://other.vitria.com" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://other.vitria.com"
+            xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:soap11-enc="http://schemas.xmlsoap.org/soap/encoding/"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <xsd:complexType name="addString">
+                <xsd:sequence>
+                    <xsd:element name="Stringone" nillable="true" type="string" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="addStringResponse">
+                <xsd:sequence>
+                    <xsd:element name="result" nillable="true" type="string" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:element name="addString" type="tns:addString" />
+            <xsd:element name="addStringResponse" type="tns:addStringResponse" />
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="TestString_addStringResponse">
+        <wsdl:part name="result" element="tns:addStringResponse" />
+    </wsdl:message>
+    <wsdl:message name="TestString_addString">
+        <wsdl:part name="parameters" element="tns:addString" />
+    </wsdl:message>
+    <wsdl:portType name="TestString">
+        <wsdl:operation name="addString">
+            <wsdl:input message="tns:TestString_addString" />
+            <wsdl:output message="tns:TestString_addStringResponse" />
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="TestStringHTTPBinding" type="tns:TestString">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+        <wsdl:operation name="addString">
+            <soap:operation soapAction="" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="TestStringBinding" type="tns:TestString">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+        <wsdl:operation name="addString">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service
+        name="_home_vtbaadmin_memleak_process2_1263869738604_Process_1236761887705_TestStringService">
+        <wsdl:port name="TestStringPort" binding="tns:TestStringHTTPBinding">
+            <soap:address
+                location="http://10.101.3.83:8080/vtservices/services/_home_vtbaadmin_memleak_process2_1263869738604_Process_1236761887705_TestStringService/" />
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

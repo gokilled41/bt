@@ -1,0 +1,845 @@
+A    D:\jedi\yoda\esms\devtests\querygen\src\readme.txt
+U    D:\jedi\yoda\esms\src\m3omodules\querycomponent\src\com\vitria\esms\querycomponent\esms\EsmsServer.java
+U    D:\jedi\yoda\esms\src\m3omodules\QueryBuilder\src\com\vitria\m3oui\query\editor\func\ConfigurableFunction.mxml
+U    D:\jedi\yoda\esms\src\m3omodules\QueryBuilder\src\com\vitria\m3oui\query\editor\func\expression\ExpressionEditor.mxml
+U    D:\jedi\yoda\esms\src\m3omodules\QueryBuilder\src\com\vitria\m3oui\query\editor\func\expression\FloatingDrawer.as
+U    D:\jedi\yoda\esms\src\m3omodules\QueryBuilder\src\com\vitria\m3oui\query\editor\func\CustomExpression.mxml
+U    D:\jedi\yoda\esms\src\m3omodules\QueryBuilder\src\com\vitria\m3oui\query\editor\func\CustomExpressionEditor.mxml
+U    D:\jedi\yoda\esms\src\m3omodules\QueryBuilder\src\com\vitria\m3oui\query\editor\QueryWorkarea.mxml
+A    D:\jedi\yoda\m3o\workflow\devtests\performance\workflow\dmp.py
+A    D:\jedi\yoda\m3o\workflow\devtests\performance\workflow\dmp.jacl
+U    D:\jedi\yoda\m3o\ui\src\m3o\src\com\vitria\m3oui\validator\util\UserTaskAndTaskSchemaLib.java
+U    D:\jedi\yoda\m3o\ui\src\m3o\src\com\vitria\m3oui\workgroup\WorkgroupLib.java
+U    D:\jedi\yoda\m3o\ui\src\m3o\src\com\vitria\m3oui\model\ModelLib.java
+U    D:\jedi\yoda\m3o\ui\src\m3o\webapp\core\com\vitria\m3oui\comp\feedClasses\FeedButtonPicker.as
+U    D:\jedi\yoda\m3o\ui\src\m3o\webapp\core\com\vitria\m3oui\comp\feedClasses\FeedHelper.as
+U    D:\jedi\yoda\m3o\ui\src\m3o\webapp\core\com\vitria\m3oui\comp\feedClasses\FeedTreeInterpreter.as
+U    D:\jedi\yoda\m3o\ui\src\m3o\webapp\core\com\vitria\m3oui\model\KeyLib.as
+U    D:\jedi\yoda\m3o\ui\src\m3o\webapp\core\com\vitria\m3oui\model\ClientModelMgr.as
+U    D:\jedi\yoda\m3o\ui\src\m3o\webapp\workspace\com\vitria\m3oui\ws\eventpolicy\util\FunctionMapper.as
+U    D:\jedi\yoda\m3o\ui\src\m3o\webapp\workspace\com\vitria\m3oui\ws\eventsource\file\view\EventDefinitionEditor.mxml
+U    D:\jedi\yoda\m3o\ui\src\m3o\webapp\workspace\com\vitria\m3oui\ws\feed\view\FeedStateProperty.mxml
+U    D:\jedi\yoda\m3o\ui\src\m3o\webapp\calendar\com\vitria\m3oui\comp\calendarClasses\ImportCalendarDialog.mxml
+U    D:\jedi\yoda\m3o\ui\src\m3o\webapp\calendar\com\vitria\m3oui\comp\calendarClasses\ExportCalendarDialog.mxml
+U    D:\jedi\yoda\m3o\bpa\emf\server\src\components\com\vitria\component\source\ParserUtil.java
+U    D:\jedi\yoda\m3o\bpa\emf\server\src\modules\source\db\com\vitria\component\source\db\DBSourceActivator.java
+U    D:\jedi\yoda\m3o\bpa\emf\server\src\modules\source\db\com\vitria\component\source\db\DBSourceLifecycle.java
+A    D:\jedi\yoda\m3o\bpa\emf\server\src\modules\source\db\com\vitria\component\source\db\DBResourceCallback.java
+U    D:\jedi\yoda\m3o\j2ee\src\application\java\com\vtg\M3OServerApplication\app\M3OServerClusterBean.java
+U    D:\jedi\yoda\m3o\j2ee\src\application\java\com\vitria\component\server\beans\ServerBean.java
+U    D:\jedi\yoda\m3o\j2ee\src\application\build.xml
+U    D:\jedi\yoda\m3o\j2ee\src\servlet\com\vitria\servlet\autostart\AutoStartServlet.java
+U    D:\jedi\yoda\m3o\j2ee\src\config\websphere\scripts\installEJB.jacl
+U    D:\jedi\yoda\m3o\j2ee\src\config\websphere\scripts\lib\Websphere6ScriptLib.jacl
+U    D:\jedi\yoda\m3o\server\src\engine\com\vitria\rules\RulesEngineFactory.java
+U    D:\jedi\yoda\m3o\server\src\client\com\vitria\component\server\beans\Server.java
+U    D:\jedi\yoda\m3o\server\src\client\com\vitria\component\server\client\ServerAdminClientInterface.java
+U    D:\jedi\yoda\m3o\server\src\client\com\vitria\component\server\client\ServerAdminClient.java
+U    D:\jedi\yoda\m3o\server\src\client\com\vitria\dbhelper\querygen\ModelImpl.java
+U    D:\jedi\yoda\m3o\server\src\client\com\vitria\dbhelper\querygen\functiondef.xml
+U    D:\jedi\yoda\m3o\server\src\client\com\vitria\client\util\ClientMessageCode.java
+U    D:\jedi\yoda\m3o\utilities\devtests\junit\src\com\vitria\modeling\repository\testutil\ModelTestBase.java
+U    D:\jedi\yoda\shared\installer\properties\componentKeyList.properties
+U    D:\jedi\yoda\bw\devtests\dms\DMSTypeRegistryTest\src\log4j.properties
+U    D:\jedi\yoda\bw\devtests\dms\DMSTypeRegistryTest\src\com\vitria\dms\type\impl\TypeRegistryTest.java
+U    D:\jedi\yoda\bw\src\dms\src\com\vitria\dms\type\impl\SchemaImporter.java
+U    D:\jedi\yoda\bw\src\dms\src\com\vitria\dms\type\impl\TypeRegistryImpl.java
+U    D:\jedi\yoda\bw\src\dms\src\com\vitria\dms\type\impl\RegistryURIConverterImpl.java
+U    D:\jedi\yoda\bw\src\dms\src\com\vitria\dms\type\impl\AbstractTypeRegistryImpl.java
+U    D:\jedi\yoda\bw\src\dms\src\com\vitria\dms\type\impl\ResourceManager.java
+ U   D:\jedi\yoda\bw\src\config\jboss\login-config-vtba-application-policy.xml
+UU   D:\jedi\yoda\bw\src\config\jboss\vtusermgr.properties
+UU   D:\jedi\yoda\bw\src\config\jboss\vtsecurity.properties
+U    D:\jedi\yoda\opbook\samples\ApplicationErrorsSample\data\ApplicationErrorsSample.zip
+A    D:\jedi\yoda\opbook\samples\ApplicationErrorsSample\client\addqueue.bat
+A    D:\jedi\yoda\opbook\samples\ApplicationErrorsSample\client\addqueue.sh
+A    D:\jedi\yoda\opbook\samples\ApplicationErrorsSample\client\removequeue.bat
+A    D:\jedi\yoda\opbook\samples\ApplicationErrorsSample\client\src\QueueManager.java
+A    D:\jedi\yoda\opbook\samples\ApplicationErrorsSample\client\removequeue.sh
+U    D:\jedi\yoda\opbook\samples\ShippingLogisticsSample\data\ShippingLogisticsSample.zip
+A    D:\jedi\yoda\opbook\samples\HelloFeedSample\client\jms.jacl
+A    D:\jedi\yoda\opbook\samples\HelloFeedSample\client\addqueue.bat
+A    D:\jedi\yoda\opbook\samples\HelloFeedSample\client\addqueue.sh
+A    D:\jedi\yoda\opbook\samples\HelloFeedSample\client\removequeue.bat
+A    D:\jedi\yoda\opbook\samples\HelloFeedSample\client\src\com\vitria\samples\QueueManager.java
+A    D:\jedi\yoda\opbook\samples\HelloFeedSample\client\removequeue.sh
+A    D:\jedi\yoda\opbook\samples\SalesFederationSample\client\jms.jacl
+A    D:\jedi\yoda\opbook\samples\SalesFederationSample\client\addqueue.bat
+A    D:\jedi\yoda\opbook\samples\SalesFederationSample\client\addqueue.sh
+A    D:\jedi\yoda\opbook\samples\SalesFederationSample\client\removequeue.bat
+A    D:\jedi\yoda\opbook\samples\SalesFederationSample\client\src\com\vitria\samples\QueueManager.java
+A    D:\jedi\yoda\opbook\samples\SalesFederationSample\client\removequeue.sh
+U    D:\jedi\yoda\opbook\src\schema\com\vitria\workspace\dbschema\DbSchemaNavCategoryLoader.as
+U    D:\jedi\yoda\opbook\src\widget\DisplayWidget\src\com\vitria\opbook\widgets\chart\NumericComboChartWidget.mxml
+U    D:\jedi\yoda\opbook\src\widget\DisplayWidget\src\com\vitria\opbook\widgets\chart\DateTimeComboChartWidget.mxml
+U    D:\jedi\yoda\opbook\src\widget\DisplayWidget\src\com\vitria\opbook\widgets\renders\BarRenderer.mxml
+U    D:\jedi\yoda\opbook\src\widget\DisplayWidget\src\com\vitria\opbook\widgets\renders\LineRenderer.mxml
+U    D:\jedi\yoda\opbook\src\widget\FunctionWidget\src\com\vitria\opbook\widgets\MappingFunctionWidget.mxml
+U    D:\jedi\yoda\opbook\src\server\data\dev\monitor\Query\Monitor\ProcessInstancesTable\widgetModel.txt
+U    D:\jedi\yoda\opbook\src\server\data\dev\monitor\Query\Monitor\WorkFlowTaskInstances\widgetModel.txt
+U    D:\jedi\yoda\opbook\src\server\data\dev\monitor\Page\Monitoring\Sub Process Summary\pageModel.txt
+U    D:\jedi\yoda\opbook\src\server\data\dev\monitor\Page\Monitoring\Activity By Name\pageModel.txt
+U    D:\jedi\yoda\opbook\src\server\data\dev\monitor\Page\Monitoring\Activity Summary\pageModel.txt
+U    D:\jedi\yoda\opbook\src\client\conf\locale\zh_CN\OpbookQuery.properties
+U    D:\jedi\yoda\opbook\src\client\conf\locale\en_US\OpbookQuery.properties
+U    D:\jedi\yoda\opbook\src\client\com\vitria\opbook\QueryParamSettingsBaseDrawer.mxml
+U    D:\jedi\yoda\opbook\src\client\com\vitria\opbook\QueryParamSettingsDrawer.mxml
+U    D:\jedi\yoda\opbook\src\client\com\vitria\opbook\ws\book\BookPanel.mxml
+U    D:\jedi\yoda\opbook\src\client\com\vitria\opbook\ws\page\PagePanel.mxml
+U    D:\jedi\yoda\opbook\src\client\com\vitria\opbook\controls\CustomBottomDrawerMechanism.as
+A    D:\jedi\yoda\opbook\src\client\com\vitria\opbook\images\taskbar_service.png
+U    D:\jedi\yoda\opbook\src\client\com\vitria\opbook\QueryNetworkEditor.mxml
+U    D:\jedi\yoda\opbook\src\client\com\vitria\opbook\WidgetEditor.mxml
+U    D:\jedi\yoda\opbook\src\client\com\vitria\opbook\widgets\items\XPathFieldMappingItemPopup.mxml
+U    D:\jedi\yoda\opbook\src\client\com\vitria\opbook\widgets\impl\data\QueryWidget.mxml
+U    D:\jedi\yoda\opbook\src\client\com\vitria\opbook\widgets\impl\data\TestDataWidget.mxml
+A    D:\jedi\yoda\opbook\src\client\com\vitria\opbook\widgets\impl\data\csvFiles\5.txt
+U    D:\jedi\yoda\opbook\src\client\com\vitria\opbook\widgets\editor\WidgetWorkarea.mxml
+U    D:\jedi\yoda\opbook\src\client\com\vitria\opbook\util\OpBookUtil.as
+U    D:\jedi\yoda\opbook\src\client\com\vitria\opbook\util\CookieUtil.as
+A    D:\jedi\yoda\opbook\src\client\com\vitria\workspace\query\QueryNavigatorToolbar.mxml
+U    D:\jedi\yoda\opbook\src\client\com\vitria\workspace\query\QueryExtension.as
+U    D:\jedi\yoda\opbook\src\m3o\conf\component.xml
+U    D:\jedi\yoda\suites\bpm\docs\bpm.zip
+A    D:\jedi\yoda\suites\m3o\src\scripts\vtconfig\websphere
+A    D:\jedi\yoda\suites\m3o\src\scripts\vtconfig\websphere\build.xml
+U    D:\jedi\yoda\suites\m3o\src\scripts\vtconfig\build.xml
+U    D:\jedi\yoda\suites\m3o\src\build.xml
+U    D:\jedi\yoda\suites\m3o\installer\M3O_Suite.iap_xml
+U    D:\jedi\yoda\suites\m3o\installer\bom.xml
+
+Fetching external item into 'D:\jedi\yoda\build\deploy\jackrabbit'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\compile\resources-1pc'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\compile\websphere'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\compile\j2ee'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\compile\ant'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\compile\jboss'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\compile\weblogic'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\compile\sap'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\compile\bw'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\ant'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\panopticode'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\driver\ojdbc'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\driver\mysql'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\plugin\emf-sdo-runtime'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\plugin\xsd-runtime'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\plugin\wtp-wst'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\plugin\teneo-runtime'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\flex\flexlib'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\flex\cairngorm'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\flex\flexbook'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\flex\papervision3d'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\flex\xpath'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\flex\degrafa'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\flex\datavisualization'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\flex\as3corelib'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\suites\esb\src\scripts\vtconfig'
+A    D:\jedi\yoda\suites\esb\src\scripts\vtconfig\websphere
+A    D:\jedi\yoda\suites\esb\src\scripts\vtconfig\websphere\build.xml
+U    D:\jedi\yoda\suites\esb\src\scripts\vtconfig\build.xml
+Updated external to revision 116540.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\dtdparser'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\antlr'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\xerces'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\hibernate'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\velocity'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\log4j'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\xdoclet'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\xmlbeans'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\commons-lang'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\commons-logging'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\axis'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\commons-discovery'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\soap'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\wsdl4j'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\jakarta-regexp'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\cgilib'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\commons-collections'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\ehcache'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\dom4j'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\asm'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\xml-apis'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\xml-commons-resolver'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\emf-sdo-runtime'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\xsd-runtime'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\birt'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\jackrabbit'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\taglibs'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\flex-dataservices'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\commons-beanutils'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\rhino'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\java-scripting'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\javamail'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\woden'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\stax'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\quartz'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\felix'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\commons-digester'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\commons-validator'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\commons-fileupload'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\commons-io'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\flexlib'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\cairngorm'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\flexbook'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\papervision3d'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\xpath'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\commons-httpclient'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\axis2'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\ical4j'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\degrafa'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\velocity-tools'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\jcs'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\restlet'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\as3corelib'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\commons-codec'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\icu4j'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\jasypt'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\mondrian'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\commons-dbcp'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\commons-pool'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\commons-vfs'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\commons-math'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\eigenbase-properties'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\eigenbase-resgen'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\javacup'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\license\runtime\woodstox'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\test\ant-testutil'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\test\junit'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\test\junitee'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\test\jakarta-cactus'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\test\jmock'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\test\xmlunit'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\test\hibernate'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\test\xalan'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\test\jcoverage'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\test\aspectj'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\test\junitperf'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\test\transactions-essentials'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\test\tomcat'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\maven\maven-exe'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\maven\maven2-exe'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\ownership'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\ant\ant-contrib'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\ant\vtant'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\ant\svnClientAdapter'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\ant\svnant'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\ant\svnjavahl'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\ant\jlm-tools'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\ant\rrant'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\ant\maven'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\ant\installanywhere'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\ant\image'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\ant\statsvn'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\ant\purge'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\ant\ivy'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\ant\jreleaseinfo'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\dtdparser'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\antlr'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\xerces'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\hibernate'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\velocity'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\log4j'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\xdoclet'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\xmlbeans'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\commons-lang'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\commons-logging'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\axis'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\commons-discovery'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\soap'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\wsdl4j'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\jakarta-regexp'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\cgilib'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\commons-collections'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\ehcache'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\dom4j'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\asm'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\xml-apis'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\xml-commons-resolver'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\jackrabbit'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\birt'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\taglibs'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\flex-dataservices'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\commons-beanutils'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\rhino'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\javamail'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\jboss-rules'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\xalan'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\stax'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\woden'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\quartz'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\felix'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\commons-digester'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\commons-validator'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\commons-fileupload'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\commons-io'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\commons-httpclient'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\axis2'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\ical4j'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\velocity-tools'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\jcs'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\restlet'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\commons-codec'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\icu4j'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\jasypt'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\mondrian'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\commons-dbcp'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\commons-pool'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\commons-vfs'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\commons-math'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\eigenbase-properties'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\eigenbase-resgen'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\javacup'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\eclipse-emf'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\eclipse-teneo'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\eclipse-wtp-wst'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\eclipse-xsd'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\build\lib\runtime\woodstox'
+Updated external to revision 783.
+
+
+Fetching external item into 'D:\jedi\yoda\shared\preconfigured\eclipse\samples_workspace\vtRABaseApp'
+Updated external to revision 116540.
+
+Updated to revision 116540.

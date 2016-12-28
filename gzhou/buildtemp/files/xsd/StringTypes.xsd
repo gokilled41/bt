@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://schema.vitria.com/dmstest"
+	xmlns:dms="http://schema.vitria.com/dmstest">
+
+	<element name="stringTypes" type="dms:StringTypes" />
+
+	<complexType name="StringTypes">
+		<sequence>
+			<element name="stringType" type="string" minOccurs="0" />
+
+			<element name="normalizedStringType" type="normalizedString"
+				minOccurs="0" />
+			<element name="tokenType" type="token" minOccurs="0" />
+			<element name="languageType" type="language" minOccurs="0" />
+
+			<element name="NameType" type="Name" minOccurs="0" />
+			<element name="NCNameType" type="NCName" minOccurs="0" />
+		</sequence>
+	</complexType>
+</schema>

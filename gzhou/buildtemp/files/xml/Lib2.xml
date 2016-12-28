@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lib:order xmlns:lib="http://samples.schema.vitria.com/OR">
+	<orderId>oid</orderId>
+	<custId>cid</custId>
+	<code>222-dd</code>
+	<notes>notes</notes>
+	<items>
+	</items>
+</lib:order>

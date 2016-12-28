@@ -1,0 +1,48 @@
+<xsd:schema targetNamespace="http://www.spry.com/m3o" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.spry.com/m3o" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore">
+  
+  <xsd:element type="tns:UserType" name="User"/>
+  
+  <xsd:complexType name="UserType">
+    <xsd:annotation>
+      <xsd:appinfo source="teneo.jpa">@Table(name="SPRY_USER")</xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="ID">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="ID", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="FirstName">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="FIRST_NAME", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="LastName">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="LAST_NAME", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Group">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="GROUP", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Email">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="EMAIL", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Phone">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="PHONE", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Description">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="DESCRIPTION", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+</xsd:schema>

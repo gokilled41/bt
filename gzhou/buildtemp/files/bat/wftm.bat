@@ -1,0 +1,2 @@
+call wftmdir
+call ant

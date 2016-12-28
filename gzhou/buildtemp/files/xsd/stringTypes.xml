@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dms:stringTypes xmlns:dms="http://schema.vitria.com/dmstest">
+	<stringType>stringType</stringType>
+	<normalizedStringType>Being a Dog Is a Full-Time Job</normalizedStringType>
+	<tokenType>Being a Dog Is a Full-Time Job</tokenType>
+	<languageType>en-US</languageType>
+	<NameType>Snoopy</NameType>
+	<NCNameType>Snoopy</NCNameType>
+</dms:stringTypes>
+

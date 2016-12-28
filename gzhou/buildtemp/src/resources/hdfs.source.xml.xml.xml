@@ -1,0 +1,7 @@
+<model type="hdfs.reader">
+  <config server="hadoop.qilinsoft.com" port="9020" path="/home/khuang/" start="0" end="-1" batchEnabled="true" realtimeEnabled="true"/>
+  <target type="feed">
+    <feed name="ProcessActivity" url="http://localhost:8080/m3oui/rest/prj/appdata/ds/_prj/vtc56cc14c-115a-4825-889c-28b226cbcdee$Deployment/ProcessActivity"/>
+  </target>
+  <mapping fileFormat="text" parser="XML" firstRowAsHeader="true" separator="," encoding="UTF-8" format="Unix"/>
+</model>

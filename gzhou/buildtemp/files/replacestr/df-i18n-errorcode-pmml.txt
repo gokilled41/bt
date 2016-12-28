@@ -1,0 +1,9 @@
+dir: D:\jedi\yoda\unbundled\apps\predictive_analytics\plugins\dataflow\pmmlmodule\components\pmml
+
+from: LocaleSortMSG
+to:   a
+
+sortByErrorCode: true
+
+mcFile:  D:\jedi\yoda\unbundled\apps\predictive_analytics\plugins\dataflow\pmmlmodule\components\pmml\com\vitria\predictive\module\MessageCode.java
+msgFile: D:\jedi\yoda\unbundled\apps\predictive_analytics\plugins\dataflow\pmmlmodule\components\pmml\locale\en_US\pmmlmodule.properties

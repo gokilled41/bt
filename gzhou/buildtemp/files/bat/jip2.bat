@@ -1,0 +1,9 @@
+call gr datam3o2 pek-wkst67766 10.101.3.73
+call gr datam3o2 localhost 10.101.3.73
+call gr datarep2 pek-wkst67766 10.101.3.73
+call gr datarep2 localhost 10.101.3.73
+call gr jconf2 pek-wkst67766 10.101.3.73
+call gr jconf2 localhost 10.101.3.73
+call gr jconf2 "@CLUSTER_NODE_IP@" 10.101.3.73
+call gr jd2 pek-wkst67766 10.101.3.73
+call gr jd2 localhost 10.101.3.73

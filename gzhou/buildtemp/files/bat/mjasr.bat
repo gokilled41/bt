@@ -1,0 +1,2 @@
+call mjadir
+call sr

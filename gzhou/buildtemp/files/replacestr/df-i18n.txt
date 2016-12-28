@@ -1,0 +1,27 @@
+dir: D:\jedi\yoda\unbundled\af\java\common
+dir: D:\jedi\yoda\unbundled\af\java\dataflow\locale
+dir: D:\jedi\yoda\unbundled\af\java\dataflow\model
+dir: D:\jedi\yoda\unbundled\af\java\dataflow\framework
+dir: D:\jedi\yoda\unbundled\af\java\dataflow\lifecycle
+dir: D:\jedi\yoda\unbundled\af\java\dataflow\voi
+dir: D:\jedi\yoda\unbundled\af\java\dataflow\standalone
+
+from: DFI18NError
+to:   a
+from: DFI18NWarn
+to:   a
+from: DFI18NInfo
+to:   a
+from: DFI18NEx
+to:   a
+-from: DFI18NValidation
+-to:   a
+from: LocaleSortMC
+to:   a
+from: LocaleSortMSG
+to:   a
+
+-sortByErrorCode: true
+
+mcFile:  D:\jedi\yoda\unbundled\af\java\dataflow\model\com\vitria\dataflow\MessageCode.java
+msgFile: D:\jedi\yoda\unbundled\af\java\dataflow\locale\en_US\dataflow.properties

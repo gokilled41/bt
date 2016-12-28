@@ -1,0 +1,60 @@
+<datasources>
+<!-- Oracle datasource for Oracle001 -->
+	<local-tx-datasource>
+		<jndi-name>/vitria/m3o/app001/ds/testds1</jndi-name>
+		<connection-url>jdbc:oracle:thin:@10.101.3.108:1521:orcl</connection-url>
+		<driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
+		<user-name>zgf2</user-name>
+		<password>zgf2</password>
+		<valid-connection-checker-class-name>
+		    org.jboss.resource.adapter.jdbc.vendor.OracleValidConnectionChecker
+		</valid-connection-checker-class-name>		
+		<exception-sorter-class-name>
+			org.jboss.resource.adapter.jdbc.vendor.OracleExceptionSorter
+		</exception-sorter-class-name>
+		<metadata>
+			<type-mapping>Oracle10g</type-mapping>
+		</metadata>
+	</local-tx-datasource>
+	
+	<local-tx-datasource>
+		<jndi-name>/vitria/m3o/app001/ds/analytic</jndi-name>
+		<use-java-context>false</use-java-context>
+		<connection-url>jdbc:oracle:thin:@10.101.3.108:1521:orcl</connection-url>
+		<driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
+		<user-name>zgf2</user-name>
+		<password>zgf2</password>
+		<valid-connection-checker-class-name>
+		    org.jboss.resource.adapter.jdbc.vendor.OracleValidConnectionChecker
+		</valid-connection-checker-class-name>		
+		<exception-sorter-class-name>
+			org.jboss.resource.adapter.jdbc.vendor.OracleExceptionSorter
+		</exception-sorter-class-name>
+		<metadata>
+			<type-mapping>Oracle10g</type-mapping>
+		</metadata>
+	</local-tx-datasource>
+
+<!-- Oracle xa datasource for Oracle001 -->
+	<xa-datasource>
+		<jndi-name>/vitria/m3o/app001/ds/testds1(XA)</jndi-name>
+		<track-connection-by-tx/>
+		<isSameRM-override-value>false</isSameRM-override-value>
+		<xa-datasource-class>oracle.jdbc.xa.client.OracleXADataSource</xa-datasource-class>
+		<xa-datasource-property name="URL">
+			jdbc:oracle:thin:@10.101.3.108:1521:orcl
+		</xa-datasource-property>
+		<xa-datasource-property name="User">zgf2</xa-datasource-property>
+		<xa-datasource-property name="Password">zgf2</xa-datasource-property>
+		<valid-connection-checker-class-name>
+		    org.jboss.resource.adapter.jdbc.vendor.OracleValidConnectionChecker
+		</valid-connection-checker-class-name>		
+		<exception-sorter-class-name>
+			org.jboss.resource.adapter.jdbc.vendor.OracleExceptionSorter
+		</exception-sorter-class-name>
+		<no-tx-separate-pools/>
+		<metadata>
+			<type-mapping>Oracle10g</type-mapping>
+		</metadata>
+	</xa-datasource>
+</datasources>

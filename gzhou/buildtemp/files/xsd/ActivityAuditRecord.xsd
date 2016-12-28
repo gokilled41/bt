@@ -1,0 +1,58 @@
+<complexType name="ActivityAuditRecord" targetNamespace="http://workflow.vitria.com/audit/activity" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:activity="http://workflow.vitria.com/audit/activity" xmlns:tns="http://workflow.vitria.com/audit/activity">
+  <annotation>
+    <appinfo source="teneo.jpa">@Entity @Table(name="VT_WF_ActivityAuditRecord")</appinfo>
+  </annotation>
+  <sequence>
+    <element form="qualified" name="eventID">
+      <simpleType>
+        <restriction base="string">
+          <maxLength value="100"/>
+        </restriction>
+      </simpleType>
+    </element>
+    <element form="qualified" name="activityID">
+      <simpleType>
+        <restriction base="string">
+          <maxLength value="100"/>
+        </restriction>
+      </simpleType>
+    </element>
+    <element form="qualified" name="activityName">
+      <simpleType>
+        <restriction base="string">
+          <maxLength value="100"/>
+        </restriction>
+      </simpleType>
+    </element>
+    <element form="qualified" name="processID">
+      <simpleType>
+        <restriction base="string">
+          <maxLength value="100"/>
+        </restriction>
+      </simpleType>
+    </element>
+    <element form="qualified" name="caseID">
+      <simpleType>
+        <restriction base="string">
+          <maxLength value="100"/>
+        </restriction>
+      </simpleType>
+    </element>
+    <element form="qualified" name="action">
+      <simpleType>
+        <restriction base="string">
+          <maxLength value="100"/>
+        </restriction>
+      </simpleType>
+    </element>
+    <element form="qualified" name="performer">
+      <simpleType>
+        <restriction base="string">
+          <maxLength value="100"/>
+        </restriction>
+      </simpleType>
+    </element>
+    <element form="qualified" minOccurs="0" name="timeOccurred" type="dateTime"/>
+    <element form="qualified" minOccurs="0" name="detail" type="string"/>
+  </sequence>
+</complexType>

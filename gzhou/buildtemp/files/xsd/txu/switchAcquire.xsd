@@ -1,0 +1,9 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.txu.poc/dup"
+    targetNamespace="http://www.txu.poc/dup">
+    <xs:complexType name="SwitchAcquireType">
+        <xs:sequence>
+            <xs:element name="SwitchNum" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="switchAcquire" type="tns:SwitchAcquireType" />
+</xs:schema>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  JBOSS deployment descriptor for the queue that ius the receiver for
+    the generic callback service that is used for asynchronous invocations
+    from the dynamic services framework
+-->
+<server>
+  <mbean code="org.jboss.jms.server.destination.QueueService" name="jboss.messaging.destination:service=Queue,name=vtCallBackReceiver" xmbean-dd="xmdesc/Queue-xmbean.xml">
+    <attribute name="JNDIName">queue/vtCallBackServicesReceiver</attribute>
+    <depends optional-attribute-name="ServerPeer">jboss.messaging:service=ServerPeer</depends>
+    <depends>jboss.messaging:service=PostOffice</depends>
+    <attribute name="Clustered">true</attribute>
+  </mbean>
+</server>

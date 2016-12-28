@@ -1,0 +1,9 @@
+@echo off
+call c
+call bwc
+call bwfc
+call bds
+call n
+call muja
+call munew
+call msdds

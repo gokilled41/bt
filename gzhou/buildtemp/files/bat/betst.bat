@@ -1,0 +1,2 @@
+call betdir
+call st

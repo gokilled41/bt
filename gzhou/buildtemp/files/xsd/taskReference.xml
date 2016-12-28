@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wf:taskReference xmlns:wf="http://www.vitria.com/workflow/test">
+	<manager>vtbaadmin</manager>
+	<businessEnvironment>SampleBE</businessEnvironment>
+	<processId>7d9f6770-67af-11de-9d35-bb94481e3df3</processId>
+	<note>The task is closed by vtbaadmin programatically.</note>
+</wf:taskReference>

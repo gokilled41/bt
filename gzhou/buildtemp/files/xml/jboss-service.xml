@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<server xmlns="urn:jboss:service:7.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="urn:jboss:service:7.0 D:\jedi\soft\jboss\7.1.1\jboss-as-7.1.1.Final\docs\schema\jboss-service_7_0.xsd">
+	<mbean code="com.vitria.admin.JBossAdminMBean" name="jboss.admin:type=vtAdminMBean">
+        <xmbean>
+            <descriptors>
+            <injection id="MBeanServerType"
+                    setMethod="setMBeanServer" />
+            </descriptors>
+            <class>com.vitria.admin.JBossAdminMBean</class>
+            <operation>
+                <description>Purge process engine state</description>
+                <name>purgeEngineStates</name>
+                <parameter>
+                    <description>Application Name</description>
+                    <name>appName</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <parameter>
+                    <description>The option</description>
+                    <name>options</name>
+                    <type>java.util.Hashtable</type>
+                </parameter>
+                <return-type>java.util.Hashtable</return-type>
+            </operation>
+            <operation>
+                <description>Purge connector state</description>
+                <name>purgeConnectorStates</name>
+                <parameter>
+                    <description>Application Name</description>
+                    <name>appName</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <parameter>
+                    <description>The options</description>
+                    <name>options</name>
+                    <type>java.util.Hashtable</type>
+                </parameter>
+                <return-type>java.util.Hashtable</return-type>
+            </operation>
+            <operation>
+                <description>Start the application</description>
+                <name>startApplication</name>
+                <parameter>
+                    <description>Application name</description>
+                    <name>appName</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <return-type>java.lang.String</return-type>
+            </operation>
+            <operation>
+                <description>Stop the application</description>
+                <name>stopApplication</name>
+                <parameter>
+                    <description>Application name</description>
+                    <name>appName</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <return-type>java.lang.String</return-type>
+            </operation>
+            <operation>
+                <description>
+                    Check the current status of the application
+                </description>
+                <name>checkApplication</name>
+                <parameter>
+                    <description>Application name</description>
+                    <name>appName</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <return-type>java.util.Vector</return-type>
+            </operation>
+            <operation>
+                <description>
+                    List the applications deployed on the application
+                    server
+                </description>
+                <name>listApplications</name>
+                <return-type>java.util.Vector</return-type>
+            </operation>
+            <operation>
+                <description>
+                    List JNDI names related to the application
+                </description>
+                <name>listJNDIs</name>
+                <parameter>
+                    <description>Application name</description>
+                    <name>appName</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <return-type>java.util.Vector</return-type>
+            </operation>
+            <operation>
+                <description>
+                    Drop the process engine state table
+                </description>
+                <name>dropEngineStateTable</name>
+                <parameter>
+                    <description>The application name</description>
+                    <name>appName</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <parameter>
+                    <description>The options</description>
+                    <name>options</name>
+                    <type>java.util.Hashtable</type>
+                </parameter>
+                <return-type>java.util.Vector</return-type>
+            </operation>
+            <operation>
+                <description>
+                    Drop the connector state table
+                </description>
+                <name>dropConnectorStateTable</name>
+                <parameter>
+                    <description>The application name</description>
+                    <name>appName</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <parameter>
+                    <description>The options</description>
+                    <name>options</name>
+                    <type>java.util.Hashtable</type>
+                </parameter>
+                <return-type>java.util.Vector</return-type>
+            </operation>
+            <operation>
+                <description>
+                    List all the roles
+                </description>
+                <name>listAllRoles</name>
+                <return-type>java.util.Vector</return-type>
+            </operation>
+            <operation>
+                <description>
+                    List the users in a role
+                </description>
+                <name>listUsersInRole</name>
+                <parameter>
+                    <description>The role to list</description>
+                    <name>role</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <return-type>java.util.Vector</return-type>
+            </operation>
+            <operation>
+                <description>
+                    Add users to role
+                </description>
+                <name>addUsersToRole</name>
+                <parameter>
+                    <description>The users to add</description>
+                    <name>users</name>
+                    <type>java.util.Vector</type>
+                </parameter>
+                <parameter>
+                    <description>The role to add to</description>
+                    <name>role</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <return-type>java.util.Vector</return-type>
+            </operation>
+            <operation>
+                <description>
+                    Add users to dynamic role
+                </description>
+                <name>addUsersToDynamicRole</name>
+                <parameter>
+                    <description>The users to add</description>
+                    <name>users</name>
+                    <type>java.util.Vector</type>
+                </parameter>
+                <parameter>
+                    <description>The role to add to</description>
+                    <name>role</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <parameter>
+                    <description>The role context</description>
+                    <name>context</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <return-type>java.util.Vector</return-type>
+            </operation>
+            <operation>
+                <description>
+                    Remove users from role
+                </description>
+                <name>removeUsersFromRole</name>
+                <parameter>
+                    <description>The users to remove</description>
+                    <name>users</name>
+                    <type>java.util.Vector</type>
+                </parameter>
+                <parameter>
+                    <description>The role to remove from</description>
+                    <name>role</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <return-type>java.util.Vector</return-type>
+            </operation>
+            <operation>
+                <description>
+                    Remove role records that have invalid user ids
+                </description>
+                <name>purgeRole</name>
+                <parameter>
+                    <description>Role name to be purged</description>
+                    <name>roleName</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <return-type>void</return-type>
+            </operation>
+            <operation>
+                <description>
+                    Remove role records that have invalid user ids
+                </description>
+                <name>purgeRoles</name>
+                <return-type>java.util.Vector</return-type>
+            </operation>
+            <operation>
+                <description>
+                    create tables for BA
+                </description>
+                <name>createTables</name>
+                <parameter>
+                    <description>JNDI of the DataSource</description>
+                    <name>dataSourceJndi</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <parameter>
+                    <description>The options</description>
+                    <name>options</name>
+                    <type>java.util.Hashtable</type>
+                </parameter>
+                <return-type>java.util.Vector</return-type>
+            </operation>
+            <operation>
+                <description>
+                    drop tables for BA
+                </description>
+                <name>dropTables</name>
+                <parameter>
+                    <description>JNDI of the DataSource</description>
+                    <name>dataSourceJndi</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <parameter>
+                    <description>The options</description>
+                    <name>options</name>
+                    <type>java.util.Hashtable</type>
+                </parameter>
+                <return-type>java.util.Vector</return-type>
+            </operation>
+            <operation>
+                <description>
+                    Add user to the user repository.
+                </description>
+                <name>addUsers</name>
+                <parameter>
+                    <description>The users to be added to user repository</description>
+                    <name>users</name>
+                    <type>java.util.List</type>
+                </parameter>
+                <return-type>java.util.Vector</return-type>
+            </operation>
+            <operation>
+                <description>
+                    Remove users from the user repository
+                </description>
+                <name>removeUsers</name>
+                <parameter>
+                    <description>The users to be removed</description>
+                    <name>userNames</name>
+                    <type>java.util.List</type>
+                </parameter>
+                <return-type>java.util.Vector</return-type>
+            </operation>
+           <operation>
+                <description>
+                    List all the users in the user repository
+                </description>
+                <name>listUsers</name>
+                <parameter>
+                    <description>The option to the list users.</description>
+                    <name>options</name>
+                    <type>java.util.Hashtable</type>
+                </parameter>
+                <return-type>java.util.Vector</return-type>
+            </operation>      
+          <operation>
+                <description>
+                    Add groups to the user repository.
+                </description>
+                <name>addGroups</name>
+                <parameter>
+                    <description>The group names to be added.</description>
+                    <name>groupNames</name>
+                    <type>java.util.List</type>
+                </parameter>
+                <return-type>java.util.Vector</return-type>
+            </operation>      
+         	<operation>
+                <description>
+                    Remove groups from the user repository.
+                </description>
+                <name>removeGroups</name>
+                <parameter>
+                    <description>The group names to be removed.</description>
+                    <name>groupNames</name>
+                    <type>java.util.List</type>
+                </parameter>
+                <return-type>java.util.Vector</return-type>
+            </operation>                                            
+         	<operation>
+                <description>
+                    List group names in the user repository.
+                </description>
+                <name>listGroups</name>
+                <parameter>
+                    <description>The option to the list groups.</description>
+                    <name>options</name>
+                    <type>java.util.Hashtable</type>
+                </parameter>
+                <return-type>java.util.Vector</return-type>
+            </operation>                                            
+         	<operation>
+                <description>
+                    List group members in the user repository.
+                </description>
+                <name>listGroupMembers</name>
+               <parameter>
+                    <description>The group name.</description>
+                    <name>groupName</name>
+                    <type>java.lang.String</type>
+                </parameter>                
+                <parameter>
+                    <description>The option to the list memebers.</description>
+                    <name>options</name>
+                    <type>java.util.Hashtable</type>
+                </parameter>
+                <return-type>java.util.Vector</return-type>
+            </operation>                                            
+         	<operation>
+                <description>
+                    List group users in the user repository.
+                </description>
+                <name>listGroupUsers</name>
+               <parameter>
+                    <description>The group name.</description>
+                    <name>groupName</name>
+                    <type>java.lang.String</type>
+                </parameter>                
+                <parameter>
+                    <description>The option to the list userrs.</description>
+                    <name>options</name>
+                    <type>java.util.Hashtable</type>
+                </parameter>
+                <return-type>java.util.Vector</return-type>
+            </operation>                                            
+         	<operation>
+                <description>
+                    Add members to the group.
+                </description>
+                <name>addGroupMembers</name>
+               <parameter>
+                    <description>The group name.</description>
+                    <name>groupName</name>
+                    <type>java.lang.String</type>
+                </parameter>                
+                <parameter>
+                    <description>The group names.</description>
+                    <name>groupNames</name>
+                    <type>java.util.List</type>
+                </parameter>
+                <parameter>
+                    <description>The user names.</description>
+                    <name>userNames</name>
+                    <type>java.util.List</type>
+                </parameter>
+                <return-type>java.util.Vector</return-type>
+            </operation>        
+         	<operation>
+                <description>
+                    Remove members to the group.
+                </description>
+                <name>removeGroupMembers</name>
+                <parameter>
+                    <description>The group name.</description>
+                    <name>groupName</name>
+                    <type>java.lang.String</type>
+                </parameter>                
+                <parameter>
+                    <description>The group names.</description>
+                    <name>groupNames</name>
+                    <type>java.util.List</type>
+                </parameter>
+                <parameter>
+                    <description>The user names.</description>
+                    <name>userNames</name>
+                    <type>java.util.List</type>
+                </parameter>
+                <return-type>java.util.Vector</return-type>
+            </operation>        
+         	<operation>
+                <description>
+                    Get data for the specified user.
+                </description>
+                <name>getUserData</name>
+               <parameter>
+                    <description>The name of the user to get data for.</description>
+                    <name>userName</name>
+                    <type>java.lang.String</type>
+                </parameter>                
+                <return-type>com.vitria.admin.UserData</return-type>
+            </operation>                                            
+         	<operation>
+                <description>
+                    Modify the specified user.
+                </description>
+                <name>modifyUser</name>
+               <parameter>
+                    <description>The name of the user to get data for.</description>
+                    <name>userName</name>
+                    <type>java.lang.String</type>
+                </parameter>                
+               <parameter>
+                    <description>The new attributes for the user.</description>
+                    <name>newAttributes</name>
+                    <type>java.util.Map</type>
+                </parameter>                
+                <return-type>void</return-type>
+            </operation>                                            
+            <operation>
+               <description>
+                   Prepare to unlock the specified user.
+               </description>
+               <name>prepareToUnlockUser</name>
+              <parameter>
+                   <description>The name of the user to prepare to unlock.</description>
+                   <name>userName</name>
+                   <type>java.lang.String</type>
+               </parameter>
+               <return-type>java.lang.String</return-type>
+           </operation>
+            <operation>
+               <description>
+                   Unlock the specified user.
+               </description>
+               <name>unlockUser</name>
+              <parameter>
+                   <description>The name of the user to unlock.</description>
+                   <name>userName</name>
+                   <type>java.lang.String</type>
+               </parameter>
+                <parameter>
+                     <description>The token for unlocking the user.</description>
+                     <name>token</name>
+                     <type>java.lang.String</type>
+                 </parameter>
+               <return-type>void</return-type>
+           </operation>
+        </xmbean>
+  </mbean>
+  <mbean code="com.vitria.admin.M3OAdminService" name="jboss.admin:type=vtM3OAdminMBean">
+  </mbean>
+</server>

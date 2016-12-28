@@ -1,0 +1,8 @@
+-from: training-data_3750.csv
+-to:   training-data_3750.json
+-from: Transactions_SampleData.csv
+-to:   Transactions_SampleData.json
+-from: value="csv" name="inputFormat"
+-to:   value="json" name="inputFormat"
+from: /user/gzhou/iot/hdfs/text
+to:   /user/gzhou/iot/test/hdfs/text

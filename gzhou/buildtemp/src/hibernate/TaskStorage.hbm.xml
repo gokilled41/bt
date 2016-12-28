@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+  "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class entity-name="TASKSTORAGEDEFAULTENTITYNAME"
+		name="com.vitria.workflow.util.internal.TaskStorage" table="vt_wf_task">
+		<!-- basic properties from com.vitria.workflow.Task -->
+		<id name="ID" type="string">
+			<column name="id" length="100" />
+		</id>
+		<version name="version" column="version" type="integer" />
+		<property name="state" column="state" type="string" length="20" />
+		<property name="description" column="description" type="string" length="200" />
+		<property name="activityID" column="activity_id" type="string" length="100" />
+		<property name="owner" column="owner_id" type="string" length="50" />
+		<property name="endUserID" column="end_user_id" type="string" length="50" />
+		<property name="timeEnded" column="ended" type="calendar" not-null="false" />
+		<property name="reasonEnded" column="reason" type="string" length="50" />
+		<property name="expiration" column="expires" type="timestamp" not-null="false" />
+		<property name="assignmentPolicy" column="assignmentpolicy" type="string" length="50" />
+		<!-- additional properties for TaskStorage -->
+		<property name="parentID" column="parent" type="string" length="100" />
+		<property name="performerString" column="performer" type="string" />
+		<property name="supervisorString" column="supervisor" type="string" />
+		<property name="observerString" column="observer" type="string" />
+		<property name="originalPerformer" column="originalPerformer" type="string" length="100" />
+		<property name="isManaged" column="managed" type="yes_no" />
+		<!-- nested TaskInfo object -->
+		<component name="info">
+			<property name="activityName" column="activity" type="string" length="50" />
+			<property name="applicationName" column="application" type="string" length="50" />
+			<property name="activityStateID" column="activity_state_id" type="string" length="20" />
+			<property name="processName" column="process" type="string" length="100" />
+			<property name="processID" column="process_id" type="string" length="100" />
+			<property name="businessEnvironment" column="be" type="string" length="80"
+				not-null="false" />
+			<property name="category" column="category" type="string" length="100" />
+			<property name="priority" column="priority" type="integer" />
+			<property name="startTime" column="started" type="calendar" />
+			<property name="documentContextID" column="doc_context_id" type="string" />
+			<property name="caseID" column="case_id" type="string" length="100" />
+			<property name="loggingThreshold" column="logging_threshold" type="integer" />
+		</component>
+		<!-- references to tables containing display information -->
+		<many-to-one name="activityLabel" class="com.vitria.workflow.util.internal.ActivityLabel"
+			lazy="false" not-null="false" not-found="ignore" fetch="join" update="false" insert="false">
+			<column name="activity" />
+			<column name="be" />
+		</many-to-one>
+		<many-to-one name="stateDisplay" class="com.vitria.workflow.util.internal.StateDisplay"
+			lazy="false" not-null="false" not-found="ignore" fetch="join" update="false" insert="false">
+			<column name="state" />
+			<column name="be" />
+		</many-to-one>
+		<many-to-one name="performerDisplay"
+			class="com.vitria.workflow.util.internal.PerformerDisplay" lazy="false" not-null="false"
+			not-found="ignore" fetch="join" update="false" insert="false">
+			<column name="performer" />
+			<column name="be" />
+		</many-to-one>
+
+	</class>
+	<database-object>
+		<create>
+			create index vt_wf_task_category_list on vt_wf_task(category, activity_state_id,
+			process, performer, observer, be)
+		</create>
+		<drop />
+	</database-object>
+	<database-object>
+		<create>create index vt_wf_task_doccontextid on vt_wf_task(doc_context_id)</create>
+		<drop />
+	</database-object>
+</hibernate-mapping>

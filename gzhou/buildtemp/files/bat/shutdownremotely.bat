@@ -1,0 +1,1 @@
+call shutdown -s -t 0

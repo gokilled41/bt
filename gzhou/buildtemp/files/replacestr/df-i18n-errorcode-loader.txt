@@ -1,0 +1,9 @@
+dir: D:\jedi\yoda\unbundled\af\java\common\loader\locale
+
+from: LocaleSortMSG
+to:   a
+
+sortByErrorCode: true
+
+mcFile:  D:\jedi\yoda\unbundled\af\java\common\loader\com\vitria\loader\MessageCode.java
+msgFile: D:\jedi\yoda\unbundled\af\java\common\loader\locale\en_US\loader.properties

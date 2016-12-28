@@ -1,0 +1,11 @@
+<xsd:schema targetNamespace="http://www.spry.com/m3o/util" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.spry.com/m3o/util" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore">
+  
+  <xsd:element type="tns:ExistType" name="Exist"/>
+  
+  <xsd:complexType name="ExistType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:int" name="existOrNot" />
+    </xsd:sequence>
+  </xsd:complexType>
+  
+</xsd:schema>

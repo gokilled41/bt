@@ -1,0 +1,2 @@
+call mscldir
+call st

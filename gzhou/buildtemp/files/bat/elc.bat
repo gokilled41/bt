@@ -1,0 +1,2 @@
+call elcdir
+call ant

@@ -1,0 +1,2 @@
+call umgdir
+call ant

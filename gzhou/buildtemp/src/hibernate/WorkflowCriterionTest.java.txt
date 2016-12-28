@@ -1,0 +1,304 @@
+package hibernate;
+
+import java.io.File;
+import java.util.List;
+
+import junit.framework.TestCase;
+
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.MatchMode;
+
+import com.vitria.workflow.hibernate.criterion.Criterion;
+import com.vitria.workflow.hibernate.criterion.Order;
+import com.vitria.workflow.hibernate.criterion.Restrictions;
+import com.vitria.workflow.tx.SessionOperation;
+import com.vitria.workflow.tx.SessionOperator;
+import com.vitria.workflow.util.internal.ActivityLabel;
+import com.vitria.workflow.util.internal.ActivityStorage;
+import com.vitria.workflow.util.internal.NextTask;
+import com.vitria.workflow.util.internal.PerformerDisplay;
+import com.vitria.workflow.util.internal.StateDisplay;
+import com.vitria.workflow.util.internal.TaskStorage;
+
+public class WorkflowCriterionTest extends TestCase {
+
+    private static SessionOperator operator;
+
+    static {
+        setup();
+    }
+
+    public WorkflowCriterionTest(String name) {
+        super(name);
+    }
+
+    protected void setUp() throws Exception {
+    }
+
+    protected void tearDown() throws Exception {
+    }
+
+    public void testEQ() throws Exception {
+        final String taskID = "M3OServerApplication-Task000000";
+        SessionOperation op = new SessionOperation() {
+            public Object operate(Session session) {
+                String hql = "from TaskStorage task";
+                Criterion c = Restrictions.eq("task.ID", taskID);
+                com.vitria.workflow.hibernate.criterion.Query q = com.vitria.workflow.hibernate.criterion.Query
+                        .createQuery(session, hql);
+                q.add(c);
+                return q.getQuery().list();
+            }
+        };
+        List list = (List) operator.operate(op);
+        assertEquals(list.size(), 1);
+        TaskStorage task = (TaskStorage) list.get(0);
+        assertEquals(task.getID(), taskID);
+    }
+
+    public void testNE() throws Exception {
+        final String taskID = "M3OServerApplication-Task000000";
+        final String taskID2 = "M3OServerApplication-Task000001";
+        SessionOperation op = new SessionOperation() {
+            public Object operate(Session session) {
+                String hql = "from TaskStorage task";
+                Criterion c = Restrictions.ne("task.ID", taskID);
+                com.vitria.workflow.hibernate.criterion.Query q = com.vitria.workflow.hibernate.criterion.Query
+                        .createQuery(session, hql);
+                q.add(c);
+                return q.getQuery().list();
+            }
+        };
+        List list = (List) operator.operate(op);
+        assertEquals(list.size(), 1);
+        TaskStorage task = (TaskStorage) list.get(0);
+        assertEquals(task.getID(), taskID2);
+    }
+
+    public void testLike() throws Exception {
+        final String taskID = "Task000000";
+        SessionOperation op = new SessionOperation() {
+            public Object operate(Session session) {
+                String hql = "from TaskStorage task";
+                Criterion c = Restrictions.like("task.ID", taskID, MatchMode.ANYWHERE);
+                com.vitria.workflow.hibernate.criterion.Query q = com.vitria.workflow.hibernate.criterion.Query
+                        .createQuery(session, hql);
+                q.add(c);
+                return q.getQuery().list();
+            }
+        };
+        List list = (List) operator.operate(op);
+        assertEquals(list.size(), 1);
+        TaskStorage task = (TaskStorage) list.get(0);
+        assertEquals(task.getID().indexOf(taskID) > -1, true);
+    }
+
+    public void testILike() throws Exception {
+        final String taskID = "TASK000000";
+        SessionOperation op = new SessionOperation() {
+            public Object operate(Session session) {
+                String hql = "from TaskStorage task";
+                Criterion c = Restrictions.ilike("task.ID", taskID, MatchMode.ANYWHERE);
+                com.vitria.workflow.hibernate.criterion.Query q = com.vitria.workflow.hibernate.criterion.Query
+                        .createQuery(session, hql);
+                q.add(c);
+                return q.getQuery().list();
+            }
+        };
+        List list = (List) operator.operate(op);
+        assertEquals(list.size(), 1);
+        TaskStorage task = (TaskStorage) list.get(0);
+        assertEquals(task.getID().toLowerCase().indexOf(taskID.toLowerCase()) > -1, true);
+    }
+
+    public void testBetween() throws Exception {
+        final String taskID1 = "M3OServerApplication-Task000000";
+        final String taskID2 = "M3OServerApplication-Task000000";
+        SessionOperation op = new SessionOperation() {
+            public Object operate(Session session) {
+                String hql = "from TaskStorage task";
+                Criterion c = Restrictions.between("task.ID", taskID1, taskID2);
+                com.vitria.workflow.hibernate.criterion.Query q = com.vitria.workflow.hibernate.criterion.Query
+                        .createQuery(session, hql);
+                q.add(c);
+                return q.getQuery().list();
+            }
+        };
+        List list = (List) operator.operate(op);
+        assertEquals(list.size(), 1);
+        TaskStorage task = (TaskStorage) list.get(0);
+        assertEquals(task.getID(), taskID1);
+    }
+
+    public void testIn() throws Exception {
+        final String taskID1 = "M3OServerApplication-Task000000";
+        final String taskID2 = "M3OServerApplication-Task000001";
+        SessionOperation op = new SessionOperation() {
+            public Object operate(Session session) {
+                String hql = "from TaskStorage task";
+                Criterion c = Restrictions.in("task.ID", new String[] { taskID1, taskID2 });
+                com.vitria.workflow.hibernate.criterion.Query q = com.vitria.workflow.hibernate.criterion.Query
+                        .createQuery(session, hql);
+                q.add(c);
+                return q.getQuery().list();
+            }
+        };
+        List list = (List) operator.operate(op);
+        assertEquals(list.size(), 2);
+    }
+
+    public void testIsNull() throws Exception {
+        SessionOperation op = new SessionOperation() {
+            public Object operate(Session session) {
+                String hql = "from TaskStorage task";
+                Criterion c = Restrictions.isNull("task.description");
+                com.vitria.workflow.hibernate.criterion.Query q = com.vitria.workflow.hibernate.criterion.Query
+                        .createQuery(session, hql);
+                q.add(c);
+                return q.getQuery().list();
+            }
+        };
+        List list = (List) operator.operate(op);
+        assertEquals(list.size(), 2);
+    }
+
+    public void testNEProperty() throws Exception {
+        SessionOperation op = new SessionOperation() {
+            public Object operate(Session session) {
+                String hql = "from TaskStorage task";
+                Criterion c = Restrictions.neProperty("task.ID", "task.state");
+                com.vitria.workflow.hibernate.criterion.Query q = com.vitria.workflow.hibernate.criterion.Query
+                        .createQuery(session, hql);
+                q.add(c);
+                return q.getQuery().list();
+            }
+        };
+        List list = (List) operator.operate(op);
+        assertEquals(list.size(), 2);
+    }
+
+    public void testAnd() throws Exception {
+        SessionOperation op = new SessionOperation() {
+            public Object operate(Session session) {
+                String hql = "from TaskStorage task";
+                Criterion c1 = Restrictions.eq("task.ID", "M3OServerApplication-Task000000");
+                Criterion c2 = Restrictions.eq("task.activityID",
+                        "85d79ef0-7a3c-11dd-b421-95b76588cc06");
+                Criterion c = Restrictions.and(c1, c2);
+                com.vitria.workflow.hibernate.criterion.Query q = com.vitria.workflow.hibernate.criterion.Query
+                        .createQuery(session, hql);
+                q.add(c);
+                return q.getQuery().list();
+            }
+        };
+        List list = (List) operator.operate(op);
+        assertEquals(list.size(), 1);
+    }
+
+    public void testOr() throws Exception {
+        SessionOperation op = new SessionOperation() {
+            public Object operate(Session session) {
+                String hql = "from TaskStorage task";
+                Criterion c1 = Restrictions.eq("task.ID", "M3OServerApplication-Task000000");
+                Criterion c2 = Restrictions.eq("task.ID", "M3OServerApplication-Task000001");
+                Criterion c3 = Restrictions.eq("task.ID", "M3OServerApplication-Task000002");
+                Criterion c4 = Restrictions.or(c1, c2);
+                Criterion c = Restrictions.or(c3, c4);
+                com.vitria.workflow.hibernate.criterion.Query q = com.vitria.workflow.hibernate.criterion.Query
+                        .createQuery(session, hql);
+                q.add(c);
+                return q.getQuery().list();
+            }
+        };
+        List list = (List) operator.operate(op);
+        assertEquals(list.size(), 2);
+    }
+
+    public void testNot() throws Exception {
+        SessionOperation op = new SessionOperation() {
+            public Object operate(Session session) {
+                String hql = "from TaskStorage task";
+                Criterion c1 = Restrictions.eq("task.ID", "M3OServerApplication-Task000000");
+                Criterion c = Restrictions.not(c1);
+                com.vitria.workflow.hibernate.criterion.Query q = com.vitria.workflow.hibernate.criterion.Query
+                        .createQuery(session, hql);
+                q.add(c);
+                return q.getQuery().list();
+            }
+        };
+        List list = (List) operator.operate(op);
+        assertEquals(list.size(), 1);
+    }
+
+    public void testOrder() throws Exception {
+        SessionOperation op = new SessionOperation() {
+            public Object operate(Session session) {
+                String hql = "from TaskStorage task";
+                com.vitria.workflow.hibernate.criterion.Query q = com.vitria.workflow.hibernate.criterion.Query
+                        .createQuery(session, hql);
+
+                Order order = new Order("task.ID", true);
+                q.addOrder(order);
+
+                Criterion c1 = Restrictions.eq("task.ID", "M3OServerApplication-Task000000");
+                Criterion c2 = Restrictions.eq("task.ID", "M3OServerApplication-Task000001");
+                Criterion c3 = Restrictions.eq("task.ID", "M3OServerApplication-Task000002");
+                Criterion c4 = Restrictions.or(c1, c2);
+                Criterion c = Restrictions.or(c3, c4);
+                q.add(c);
+
+                order = new Order("task.description", false);
+                q.addOrder(order);
+
+                return q.getQuery().list();
+            }
+        };
+        List list = (List) operator.operate(op);
+        assertEquals(list.size(), 2);
+        TaskStorage task = (TaskStorage) list.get(0);
+        assertEquals(task.getID(), "M3OServerApplication-Task000000");
+    }
+
+    public void testAlias() throws Exception {
+        SessionOperation op = new SessionOperation() {
+            public Object operate(Session session) {
+
+                Criteria criteria = session.createCriteria(TaskStorage.DEFAULT_ENTITY_NAME,
+                        TaskStorage.ALIAS);
+                criteria.createCriteria(TaskStorage.ACTIVITY_LABEL_ALIAS,
+                        ActivityLabel.ALIAS, org.hibernate.sql.JoinFragment.LEFT_OUTER_JOIN);
+                criteria.createCriteria(TaskStorage.STATE_DISPLAY_ALIAS,
+                        StateDisplay.ALIAS, org.hibernate.sql.JoinFragment.LEFT_OUTER_JOIN);
+                criteria.createCriteria(TaskStorage.PERFORMER_DISPLAY_ALIAS,
+                        PerformerDisplay.ALIAS, org.hibernate.sql.JoinFragment.LEFT_OUTER_JOIN);
+
+                criteria.add(org.hibernate.criterion.Restrictions.eq(StateDisplay.LABEL_ALIAS,
+                        "NotStarted"));
+                criteria.add(org.hibernate.criterion.Restrictions.eq("task.ID",
+                "1"));
+
+                return criteria.list();
+            }
+        };
+        List list = (List) operator.operate(op);
+        assertEquals(list.size(), 0);
+    }
+
+    private static void setup() {
+        Configuration cfg = new Configuration();
+        cfg.configure(new File("C:\\workspace\\buildtemp\\src\\hibernate\\hibernate.cfg.xml"));
+        //cfg.addClass(TaskStorage.class);
+        cfg.addClass(ActivityLabel.class);
+        cfg.addClass(PerformerDisplay.class);
+        cfg.addClass(StateDisplay.class);
+        cfg.addClass(NextTask.class);
+        cfg.addClass(ActivityStorage.class);
+
+        SessionFactory factory = cfg.buildSessionFactory();
+        operator = new SessionOperator();
+        operator.setSessionFactory(factory);
+    }
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:or="http://qualified1.schema.vitria.com" targetNamespace="http://qualified1.schema.vitria.com" elementFormDefault="qualified">
+  <element name="elementA" type="or:ComplexTypeA"/>
+  <complexType name="ComplexTypeA">
+    <sequence>
+       <element name="address" type="string" minOccurs="0" form="unqualified"/>
+       <element name="notes" type="string" minOccurs="0"/>
+     </sequence>
+  </complexType>
+</schema>

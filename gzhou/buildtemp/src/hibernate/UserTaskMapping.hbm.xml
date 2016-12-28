@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping 
+	PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class entity-name="com.vitria.workflow.util.internal.UserTaskMapping" table="vt_wf_usertask">
+		<id name="id" type="com.vitria.workflow.hibernate.usertype.UserTaskMappingIDType">
+			<column name="utname" />
+			<column name="utnamespace" />
+			<column name="taskvarname" />
+		</id>
+		<property name="utname" lazy="false" insert="false" update="false" not-null="true"
+			unique="false" type="java.lang.String">
+			<column not-null="true" unique="false" name="utname" length="100" />
+		</property>
+		<property name="utnamespace" lazy="false" insert="false" update="false" not-null="true"
+			unique="false" type="java.lang.String">
+			<column not-null="true" unique="false" name="utnamespace" length="255" />
+		</property>
+		<property name="taskvarname" lazy="false" insert="false" update="false" not-null="true"
+			unique="false" type="java.lang.String">
+			<column not-null="true" unique="false" name="taskvarname" length="100" />
+		</property>
+		<property name="be" lazy="false" insert="false" update="false" not-null="false"
+			unique="false" type="java.lang.String">
+			<column not-null="false" unique="false" name="be" length="80" />
+		</property>
+		<property name="docname" lazy="false" insert="false" update="false" not-null="true"
+			unique="false" type="java.lang.String">
+			<column not-null="true" unique="false" name="docname" length="255" />
+		</property>
+	</class>
+</hibernate-mapping>

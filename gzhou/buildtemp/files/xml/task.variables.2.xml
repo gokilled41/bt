@@ -1,0 +1,22 @@
+<variables xmlns="http://workflow.vitria.com/model" xmlns:common="http://common.vitria.com/model" xmlns:schema="http://schema.vitria.com/model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <variable name="Header" kind="XSDVIEW">
+    <schema:modelRef name="mr.TaskHeader_1201778827238" content="structure"/>
+    <field name="id" type="string" visible="true" displayOrder="1" xpath=""/>
+    <field name="activity" type="string" visible="true" displayOrder="2" xpath=""/>
+    <field name="performer" type="string" visible="true" displayOrder="3" xpath=""/>
+    <field name="description" type="string" visible="true" displayOrder="4" xpath=""/>
+    <field name="priority" type="int" visible="true" displayOrder="5" xpath=""/>
+    <field name="state" type="string" visible="true" displayOrder="6" xpath=""/>
+    <field name="dueDate" type="dateTime" visible="true" displayOrder="7" xpath=""/>
+  </variable>
+  <variable name="OAGOrder" kind="XSDVIEW">
+    <schema:modelRef content="structure" valid="false" name="mr.OAGOrder_1201778833574"/>
+    <field name="oid" visible="true" displayOrder="8" type="string" xpath="g1/oid"/>
+    <field name="cid" visible="true" displayOrder="9" type="string" xpath="g1/cid"/>
+    <field name="notes" visible="true" displayOrder="10" type="string" xpath="g1/notes"/>
+  </variable>
+  <variable name="myAuditLogType" kind="XSDTYPE" type="{http://test.vitria.com}myAuditLogType">
+    <field name="lifecycleId" visible="true" displayOrder="11" type="string" xpath="lifecycleId"/>
+    <field name="processInstanceId" visible="true" displayOrder="12" type="string" xpath="processInstanceId"/>
+  </variable>
+</variables>

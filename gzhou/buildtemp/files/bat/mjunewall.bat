@@ -1,0 +1,2 @@
+call mjunew
+call samjunew

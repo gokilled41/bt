@@ -1,0 +1,1 @@
+call vtutil admin m3o -purgeProject /home/vtbaadmin/TestProject$Deployment

@@ -1,0 +1,2 @@
+call bedir
+call st

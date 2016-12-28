@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dms:PrimitiveTypes xmlns:dms="http://schema.vitria.com/dmstest">
+	<dateTimeType>2008-08-08T09:30:47.0Z</dateTimeType>
+	<dateType>2001-12-17</dateType>
+	<booleanType>true</booleanType>
+	<floatType>3.141592654</floatType>
+	<decimalType>10000000000000</decimalType>
+	<doubleType>3.141592654</doubleType>
+	<anyURIType>anyURI</anyURIType>
+</dms:PrimitiveTypes>
+

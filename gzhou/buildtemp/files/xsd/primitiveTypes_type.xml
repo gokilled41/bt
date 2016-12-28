@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmstype:PrimitiveTypes xmlns:dmstype="http://schema.vitria.com/dmstesttype" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="dmstype:PrimitiveTypes">
+	<dateTimeType>2008-07-02T17:40:00</dateTimeType>
+	<dateType>2001-12-17</dateType>
+	<booleanType>true</booleanType>
+	<anyURIType>anyURI</anyURIType>
+</dmstype:PrimitiveTypes>
+

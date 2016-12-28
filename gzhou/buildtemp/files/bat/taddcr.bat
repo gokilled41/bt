@@ -1,0 +1,1 @@
+call tadd %1 """C:\Program Files (x86)\Google\Chrome\Application\chrome.exe""|--allow-outdated-plugins %2"

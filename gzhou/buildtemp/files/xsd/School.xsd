@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wf="http://www.vitria.com/workflow/smoke"
+	targetNamespace="http://www.vitria.com/workflow/smoke">
+
+	<element name="school" type="wf:School" />
+	<element name="address" type="wf:Address" />
+	<element name="president" type="wf:President" />
+
+	<complexType name="School">
+		<sequence>
+			<element name="name" type="string" />
+			<element name="location" type="string" />
+			<element name="departments" type="int" />
+			<element name="president" type="wf:President" />
+		</sequence>
+	</complexType>
+
+	<complexType name="President">
+		<sequence>
+			<element name="name" type="string" />
+			<element name="age" type="int" />
+			<element name="sex" type="string" />
+			<element name="address" type="wf:Address" />
+		</sequence>
+	</complexType>
+
+	<complexType name="Address">
+		<sequence>
+			<element name="zone" type="string" />
+			<element name="street" type="string" />
+			<element name="houseId" type="int" />
+		</sequence>
+	</complexType>
+</schema>
+

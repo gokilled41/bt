@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping 
+	PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false">
+	<class entity-name="entity1_part1" table="entity1_part1">
+		<id name="id" type="string" />
+		<property name="part1_value_prop" column="part1_value" type="string" insert="false"
+			update="false" />
+		<property name="part2_id_prop" column="part2_id" type="string" insert="false"
+			update="false" />
+		<many-to-one name="part2" entity-name="entity1_part2" cascade="delete" lazy="false"
+			insert="false" update="false" not-null="false" fetch="join">
+			<formula>part2_id</formula>
+		</many-to-one>
+	</class>
+	<class entity-name="entity1_part2" table="entity1_part2">
+		<id name="id" type="string" />
+		<property name="part2_value" type="string" insert="false" update="false" />
+	</class>
+
+	<class entity-name="entity2_part1" table="entity2_part1">
+		<id name="id" type="string" />
+
+		<property name="part1_value" type="string" insert="false" update="false" />
+
+		<properties name="part2_props">
+			<many-to-one name="part2" entity-name="entity2_part2" cascade="delete" lazy="false"
+				insert="false" update="false" not-null="false" fetch="join">
+				<column name="part2_id" />
+			</many-to-one>
+		</properties>
+
+	</class>
+	<class entity-name="entity2_part2" table="entity2_part2">
+		<id name="id" type="string" />
+		<property name="part2_value" type="string" insert="false" update="false" />
+	</class>
+</hibernate-mapping>

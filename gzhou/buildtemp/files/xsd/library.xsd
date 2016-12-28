@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:or="http://arraysupport.schema.vitria.com/OR"
+	targetNamespace="http://arraysupport.schema.vitria.com/OR"
+	elementFormDefault="unqualified" attributeFormDefault="unqualified">
+
+	<element name="order" type="or:OrderType" />
+
+	<complexType name="OrderType">
+		<sequence>
+			<element name="orderId" type="string" />
+			<element name="custId" type="string" />
+			<element name="code" type="or:CCode" />
+			<element name="items" type="or:Items" minOccurs="0" />
+			<element minOccurs="0" name="notes" type="string" />
+		</sequence>
+	</complexType>
+
+	<complexType name="Items">
+		<sequence>
+			<element maxOccurs="unbounded" minOccurs="0" name="item">
+				<annotation>
+					<appinfo source="teneo.jpa">
+						@OneToMany(fetch=FetchType.EAGER cascade={MERGE
+						PERSIST})
+					</appinfo>
+				</annotation>
+				<complexType>
+					<sequence>
+						<element name="productName" type="string" />
+						<element name="quantity" type="integer" />
+						<element name="price" type="decimal" />
+						<element minOccurs="0" name="notes"
+							type="string" />
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+
+	<simpleType name="CCode">
+		<restriction base="string">
+			<pattern value="\d{3}-[A-Z]{2}" />
+		</restriction>
+	</simpleType>
+</schema>

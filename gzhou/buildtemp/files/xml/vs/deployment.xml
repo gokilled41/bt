@@ -1,0 +1,89 @@
+<deploymentConfiguration xmlns="http://schema.vitria.com/vs/deployment">
+
+    <projectSettings>
+        <traceLevel>5</traceLevel>
+        <auditLevel policy="accuracy">normal</auditLevel>
+        <retryCount>3</retryCount>
+        <persistLevel>normal</persistLevel>
+    </projectSettings>
+    <connectorSettings>
+        <batchSize>5</batchSize>
+        <concurrency>1</concurrency>
+        <pollrate>30</pollrate>
+    </connectorSettings>
+
+    <resources>
+        <resource CMLClassName="com.vitria.connectors.line.LineCMLib" resourcetype="File" value=""
+            name="File1">
+            <properties>
+                <property javatype="STRING" name="fileName" value="C:\Source1.txt" />
+                <property javatype="STRING" name="encodingValue" value="UTF8" />
+                <property javatype="STRING" name="delimiters" value="\r\n" />
+                <property javatype="INT" name="batchSize" value="5" />
+                <property javatype="INT" name="concurrencyLevel" value="3" />
+                <property javatype="LONG" name="pollRate" value="3" />
+                <property javatype="STRING" name="exceptionHandlerClass"
+                    value="com.vitria.component.server.M3OExceptionHandlerImpl" />
+            </properties>
+            <models>
+                <model name="EventSource/File/file" value="File/file" direction="INBOUND">
+                    <events>
+                        <event name="Error">
+                            <feed name="VirtualServerTest/Feed/Feed/feed1" value="Feed/feed1" />
+                        </event>
+                    </events>
+                </model>
+            </models>
+        </resource>
+
+        <resource CMLClassName="com.vitria.connectors.jms.JmsCMLib" resourcetype="JMS" value=""
+            name="JMS1">
+            <properties>
+                <property javatype="STRING" name="dest" value="/vitria/vtVSTestQueue" />
+                <property javatype="BOOLEAN" name="pubSub" value="false" />
+                <property javatype="STRING" name="userId" value="" />
+                <property javatype="STRING" name="password" value="" />
+                <property javatype="STRING" name="jmsConnectionFactoryName"
+                    value="jms/queue-factory" />
+                <property javatype="STRING" name="messageSelector" value="" />
+                <property javatype="STRING" name="clientId" value="vitria" />
+                <property javatype="STRING" name="server" value="Local" />
+                <property javatype="STRING" name="jndiUserName" value="" />
+                <property javatype="STRING" name="jndiPassword" value="" />
+                <property javatype="STRING" name="jndiContextFactoryName" value="" />
+                <property javatype="STRING" name="jndiProviderURL" value="" />
+                <property javatype="INT" name="batchSize" value="5" />
+                <property javatype="INT" name="concurrencyLevel" value="3" />
+                <property javatype="LONG" name="pollRate" value="3" />
+                <property javatype="STRING" name="exceptionHandlerClass"
+                    value="com.vitria.component.server.M3OExceptionHandlerImpl" />
+            </properties>
+            <models>
+                <model name="EventSource/JMS/JMS" value="JMS/JMS" direction="INBOUND">
+                    <events>
+                        <event name="Error">
+                            <feed name="VirtualServerTest/Feed/Feed/feed2" value="Feed/feed2" />
+                        </event>
+                    </events>
+                </model>
+            </models>
+        </resource>
+    </resources>
+
+    <workgroupMapping>
+        <modelRef content="" label="wg1" name="_mr__workgroups__wg1" valid="true" />
+    </workgroupMapping>
+    <serviceClientSettings>
+        <serviceURI>kirkwoodLoanApproverService</serviceURI>
+        <localAddress>http://kirkwood:8080</localAddress>
+    </serviceClientSettings>
+    <calendarSettings>
+        <calendarResourceId>Default</calendarResourceId>
+    </calendarSettings>
+    <autoPurge>false</autoPurge>
+    <runtimeValidation>false</runtimeValidation>
+    <releaseConfiguration type="LatestRelease" />
+    <runtime-persistence>
+        <dialect>org.hibernate.dialect.Oracle10gDialect</dialect>
+    </runtime-persistence>
+</deploymentConfiguration>

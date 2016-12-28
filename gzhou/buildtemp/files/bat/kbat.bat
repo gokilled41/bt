@@ -1,0 +1,5 @@
+call g1 "C:\Users\Chudy" "C:\Users\gzhou"
+call g1 "C:\\Users\\Chudy" "C:\\Users\\gzhou"
+call g1 "D:\soft\typeandrun" "D:\Workflow-G\software\typeandrun"
+call g1 "D:\\soft\\typeandrun" "D:\\Workflow-G\\software\\typeandrun"
+call g1 "G:\huazhi" "H:\huazhi"

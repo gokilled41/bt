@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notes xmlns="http://schema.vitria.com/workflow/notes">
+    <taskId>taskId</taskId>
+    <note>
+        <datetime>2001-12-31T12:00:00</datetime>
+        <user>user</user>
+        <note>note</note>
+        <taskId>taskId</taskId>
+        <processId>processId</processId>
+    </note>
+    <note>
+        <datetime>2001-12-31T12:00:00</datetime>
+        <user>user</user>
+        <note>note</note>
+        <taskId>taskId</taskId>
+        <processId>processId</processId>
+    </note>
+</notes>

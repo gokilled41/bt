@@ -1,0 +1,2 @@
+call msvsdir
+call sd

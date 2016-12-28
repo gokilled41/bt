@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://ws.apache.org/axis2/mtomsample/" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://ws.apache.org/axis2/mtomsample/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://ws.apache.org/axis2/mtomsample/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+			<xsd:import namespace="http://www.vitria.com/workflow/smoke"/>
+			<xsd:complexType name="AttachmentType">
+				<xsd:sequence>
+					<xsd:element minOccurs="0" name="primitiveTypes" type="xsd:string"/>
+					<xsd:element minOccurs="0" name="fileName" type="xsd:string"/>
+					<xsd:element minOccurs="0" name="binaryData" type="xmime:base64Binary"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:element name="AttachmentRequest" type="tns:AttachmentType"/>
+			<xsd:element name="AttachmentResponse" type="xsd:string"/>
+		</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="AttachmentRequest">
+    <wsdl:part name="part1" element="tns:AttachmentRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AttachmentResponse">
+    <wsdl:part name="part1" element="tns:AttachmentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="MTOMServicePortType">
+    <wsdl:operation name="attachment">
+      <wsdl:input message="tns:AttachmentRequest" wsaw:Action="wsdl:attachment">
+    </wsdl:input>
+      <wsdl:output message="tns:AttachmentResponse" wsaw:Action="http://schemas.xmlsoap.org/wsdl/MTOMServicePortType/AttachmentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MTOMServiceSOAP12Binding" type="tns:MTOMServicePortType">
+    <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="attachment">
+      <soap12:operation soapAction="attachment" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="MTOMServiceSOAP11Binding" type="tns:MTOMServicePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="attachment">
+      <soap:operation soapAction="attachment" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Process_1240972628005_MTOMServiceService">
+    <wsdl:port name="MTOMSampleSOAP11port_http" binding="tns:MTOMServiceSOAP11Binding">
+      <soap:address location="http://localhost:9080/vtservices/services/Process_1240972628005_MTOMServiceService"/>
+    </wsdl:port>
+    <wsdl:port name="MTOMSampleSOAP12port_http" binding="tns:MTOMServiceSOAP12Binding">
+      <soap12:address location="http://localhost:9080/vtservices/services/Process_1240972628005_MTOMServiceService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

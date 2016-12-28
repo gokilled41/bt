@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:Message xmlns:tns="http://www.spry.com/m3o">
+  <ID>ID</ID>
+  <DiscussionID>DiscussionID</DiscussionID>
+  <RecievedTime>2001-12-31T12:00:00</RecievedTime>
+  <Author>Author</Author>
+  <Source>Source</Source>
+  <Content>Content</Content>
+  <Subject>Subject</Subject>
+  <ReplyTo>ReplyTo</ReplyTo>
+  <RelatedTask>RelatedTask</RelatedTask>
+</tns:Message>

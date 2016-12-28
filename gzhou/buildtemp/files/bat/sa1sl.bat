@@ -1,0 +1,1 @@
+call ar1 set-log

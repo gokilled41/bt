@@ -1,0 +1,854 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instance name="vtAFDocument" type="vtAFDocument">
+	<application name="M3OServerApplication" />
+	<hibernate>
+		<hibernate-mapping auto-import="false">
+			<class abstract="false" discriminator-value="com.vitria.schema.samples.or.OrderType"
+				entity-name="com.vitria.schema.samples.or.OrderType" lazy="false"
+				table="`VTDM_ORDERTYP_HTTP_SMPLS_SCH`">
+				<meta attribute="eclassName">OrderType</meta>
+				<meta attribute="epackage">http://samples.schema.vitria.com/OR</meta>
+				<id
+					access="org.eclipse.emf.teneo.hibernate.mapping.identifier.IdentifierPropertyHandler"
+					column="e_id" name="e_id">
+					<meta attribute="syntheticId">true</meta>
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">com.vitria.schema.samples.or.OrderType</param>
+					</type>
+					<generator class="com.vitria.data.extension.DataContentIDGenerator" />
+				</id>
+				<discriminator column="`DTYPE`" type="string" />
+				<version
+					access="org.eclipse.emf.teneo.hibernate.mapping.property.VersionPropertyHandler"
+					column="version" name="version">
+					<meta attribute="syntheticVersion">true</meta>
+				</version>
+				<property insert="true" lazy="false" name="orderId" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column name="`ORDERID`" not-null="true" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="custId" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column name="`CUSTID`" not-null="true" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="code" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column name="`CODE`" not-null="true" unique="false" />
+				</property>
+				<component class="com.vitria.schema.samples.or.Items" name="items">
+					<list cascade="all" lazy="true" name="item">
+						<key foreign-key="COM_VITR_SCHM_SMPLS_R_TMS_TM" update="true">
+							<column name="`ITEMS_ITEM_E_ID`" not-null="false" unique="false" />
+						</key>
+						<list-index column="`ITEMS_ITEM_IDX`" />
+						<one-to-many entity-name="com.vitria.schema.samples.or.ItemType" />
+					</list>
+				</component>
+				<property insert="true" lazy="false" name="notes" not-null="false"
+					type="java.lang.String" unique="false" update="true">
+					<column name="`NOTES`" not-null="false" unique="false" />
+				</property>
+			</class>
+			<class entity-name="9f22a498-7113-4243-94d7-a63617a925ff.OrderType" lazy="false"
+				mutable="true" name="com.vitria.af.document.instance.UnstructuredContentInstance"
+				table="vt_docinstances">
+				<id name="Storage">
+					<column name="docid" />
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">
+							9f22a498-7113-4243-94d7-a63617a925ff.OrderType
+						</param>
+					</type>
+				</id>
+				<property column="contentType" insert="true" name="ContentType"
+					type="com.vitria.af.document.content.storage.type.TypeType" update="true" />
+				<component class="com.vitria.af.document.util.Location" insert="true" mutable="true"
+					name="Content" update="true">
+					<property column="contentid" insert="false" name="ID" type="string"
+						update="false" />
+					<property name="Collection" type="string">
+						<formula>'com.vitria.schema.samples.or.OrderType'</formula>
+					</property>
+				</component>
+				<component class="com.vitria.af.document.util.Location" insert="true" mutable="true"
+					name="Context" update="true">
+					<property column="contextID" insert="true" name="ID" type="string"
+						update="true" />
+				</component>
+				<property column="docName" insert="true" name="Definition"
+					type="com.vitria.af.document.content.storage.type.NameType" update="true" />
+				<many-to-one cascade="all" entity-name="com.vitria.schema.samples.or.OrderType"
+					foreign-key="e_id" insert="true" lazy="false" name="dataObject" not-null="true"
+					update="true">
+					<column name="contentid" not-null="true" unique="false" />
+				</many-to-one>
+			</class>
+			<class abstract="false" discriminator-value="com.vitria.wf.audit.doc.DocAuditRecord"
+				entity-name="com.vitria.wf.audit.doc.DocAuditRecord" lazy="false"
+				table="`VT_WF_DOCAUDITRECORD`">
+				<meta attribute="eclassName">DocAuditRecord</meta>
+				<meta attribute="epackage">http://vitria.com/wf/audit/doc</meta>
+				<id
+					access="org.eclipse.emf.teneo.hibernate.mapping.identifier.IdentifierPropertyHandler"
+					column="e_id" name="e_id">
+					<meta attribute="syntheticId">true</meta>
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">com.vitria.wf.audit.doc.DocAuditRecord</param>
+					</type>
+					<generator class="com.vitria.data.extension.DataContentIDGenerator" />
+				</id>
+				<discriminator column="`DTYPE`" type="string" />
+				<version
+					access="org.eclipse.emf.teneo.hibernate.mapping.property.VersionPropertyHandler"
+					column="version" name="version">
+					<meta attribute="syntheticVersion">true</meta>
+				</version>
+				<property insert="true" lazy="false" name="eventID" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column length="100" name="`EVENTID`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="taskID" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column length="100" name="`TASKID`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="activityID" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column length="100" name="`ACTIVITYID`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="activityName" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column length="100" name="`ACTIVITYNAME`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="caseID" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column length="100" name="`CASEID`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="docContextID" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column length="100" name="`DOCCONTEXTID`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="performer" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column length="100" name="`PERFORMER`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="timeOccurred" not-null="false"
+					type="org.eclipse.emf.teneo.hibernate.mapping.XSDDateTime" unique="false" update="true">
+					<column name="`TIMEOCCURRED`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="refDataChanges" not-null="false"
+					type="text" unique="false" update="true">
+					<column name="`REFDATACHANGES`" not-null="false" unique="false" />
+				</property>
+			</class>
+			<class entity-name="474f2081-23c4-4034-bbfd-b1d4f3f5ad77.DocAuditRecord" lazy="false"
+				mutable="true" name="com.vitria.af.document.instance.UnstructuredContentInstance"
+				table="vt_docinstances">
+				<id name="Storage">
+					<column name="docid" />
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">
+							474f2081-23c4-4034-bbfd-b1d4f3f5ad77.DocAuditRecord
+						</param>
+					</type>
+				</id>
+				<property column="contentType" insert="true" name="ContentType"
+					type="com.vitria.af.document.content.storage.type.TypeType" update="true" />
+				<component class="com.vitria.af.document.util.Location" insert="true" mutable="true"
+					name="Content" update="true">
+					<property column="contentid" insert="false" name="ID" type="string"
+						update="false" />
+					<property name="Collection" type="string">
+						<formula>'com.vitria.wf.audit.doc.DocAuditRecord'</formula>
+					</property>
+				</component>
+				<component class="com.vitria.af.document.util.Location" insert="true" mutable="true"
+					name="Context" update="true">
+					<property column="contextID" insert="true" name="ID" type="string"
+						update="true" />
+				</component>
+				<property column="docName" insert="true" name="Definition"
+					type="com.vitria.af.document.content.storage.type.NameType" update="true" />
+				<many-to-one cascade="all" entity-name="com.vitria.wf.audit.doc.DocAuditRecord"
+					foreign-key="e_id" insert="true" lazy="false" name="dataObject" not-null="true"
+					update="true">
+					<column name="contentid" not-null="true" unique="false" />
+				</many-to-one>
+			</class>
+			<class entity-name="ecc90c68-8c47-40ab-812e-46cbb96f25d6.Header.Content" lazy="false"
+				mutable="true" name="com.vitria.af.document.content.storage.StoredContent"
+				persister="com.vitria.af.document.content.storage.ContentPersister"
+				table="VTXM_EMFEVENTHEADER">
+				<id name="Storage">
+					<column name="docid" />
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">
+							ecc90c68-8c47-40ab-812e-46cbb96f25d6.Header.Content
+						</param>
+					</type>
+				</id>
+			</class>
+			<class entity-name="ecc90c68-8c47-40ab-812e-46cbb96f25d6.Header.Structure" lazy="false"
+				mutable="false" name="com.vitria.af.document.content.StructureImpl"
+				table="VTXM_EMFEVENTHEADER_V">
+				<id name="Storage">
+					<column name="docid" />
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">
+							ecc90c68-8c47-40ab-812e-46cbb96f25d6.Header.Structure
+						</param>
+					</type>
+				</id>
+				<property access="org.hibernate.property.MapAccessor" column="`EVENTSPACE`"
+					insert="false" name="EventSpace" type="string" update="false" />
+				<property access="org.hibernate.property.MapAccessor" column="`EVENTCODE`"
+					insert="false" name="EventCode" type="string" update="false" />
+				<property access="org.hibernate.property.MapAccessor" column="`TIMESTAMP`"
+					insert="false" name="Timestamp"
+					type="com.vitria.af.document.content.storage.type.XSDDateTimeType" update="false" />
+				<property access="org.hibernate.property.MapAccessor" column="`EXTERNALID`"
+					insert="false" name="ExternalID" type="string" update="false" />
+			</class>
+			<class entity-name="ecc90c68-8c47-40ab-812e-46cbb96f25d6.Header" lazy="false"
+				mutable="true" name="com.vitria.af.document.instance.StructuredContentInstance"
+				table="vt_docinstances">
+				<id name="Storage">
+					<column name="docid" />
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">ecc90c68-8c47-40ab-812e-46cbb96f25d6.Header</param>
+					</type>
+				</id>
+				<property column="contentType" insert="true" name="ContentType"
+					type="com.vitria.af.document.content.storage.type.TypeType" update="true" />
+				<component class="com.vitria.af.document.util.Location" insert="true" mutable="true"
+					name="Content" update="true">
+					<property column="contentid" insert="false" name="ID" type="string"
+						update="false" />
+					<property name="Collection" type="string">
+						<formula>'ecc90c68-8c47-40ab-812e-46cbb96f25d6.Header.Content'</formula>
+					</property>
+				</component>
+				<component class="com.vitria.af.document.util.Location" insert="true" mutable="true"
+					name="Context" update="true">
+					<property column="contextID" insert="true" name="ID" type="string"
+						update="true" />
+				</component>
+				<property column="docName" insert="true" name="Definition"
+					type="com.vitria.af.document.content.storage.type.NameType" update="true" />
+				<many-to-one cascade="none"
+					entity-name="ecc90c68-8c47-40ab-812e-46cbb96f25d6.Header.Structure" foreign-key="Storage"
+					insert="false" lazy="false" name="contentStructure" not-null="true" update="false">
+					<column name="contentid" not-null="true" unique="false" />
+				</many-to-one>
+				<many-to-one cascade="all"
+					entity-name="ecc90c68-8c47-40ab-812e-46cbb96f25d6.Header.Content" foreign-key="Storage"
+					insert="true" lazy="false" name="contentInstance" not-null="true" update="true">
+					<column name="contentid" not-null="true" unique="false" />
+				</many-to-one>
+			</class>
+			<class entity-name="8ee73778-1729-49e8-a686-f78de20af4ca.Header.Content" lazy="false"
+				mutable="true" name="com.vitria.af.document.content.storage.StoredContent"
+				persister="com.vitria.af.document.content.storage.ContentPersister"
+				table="VTXM_EMFEVENTHEADER">
+				<id name="Storage">
+					<column name="docid" />
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">
+							8ee73778-1729-49e8-a686-f78de20af4ca.Header.Content
+						</param>
+					</type>
+				</id>
+			</class>
+			<class entity-name="8ee73778-1729-49e8-a686-f78de20af4ca.Header.Structure" lazy="false"
+				mutable="false" name="com.vitria.af.document.content.StructureImpl"
+				table="VTXM_EMFEVENTHEADER_V">
+				<id name="Storage">
+					<column name="docid" />
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">
+							8ee73778-1729-49e8-a686-f78de20af4ca.Header.Structure
+						</param>
+					</type>
+				</id>
+				<property access="org.hibernate.property.MapAccessor" column="`EVENTSPACE`"
+					insert="false" name="EventSpace" type="string" update="false" />
+				<property access="org.hibernate.property.MapAccessor" column="`EVENTCODE`"
+					insert="false" name="EventCode" type="string" update="false" />
+				<property access="org.hibernate.property.MapAccessor" column="`TIMESTAMP`"
+					insert="false" name="Timestamp"
+					type="com.vitria.af.document.content.storage.type.XSDDateTimeType" update="false" />
+				<property access="org.hibernate.property.MapAccessor" column="`EXTERNALID`"
+					insert="false" name="ExternalID" type="string" update="false" />
+			</class>
+			<class entity-name="8ee73778-1729-49e8-a686-f78de20af4ca.Header" lazy="false"
+				mutable="true" name="com.vitria.af.document.instance.StructuredContentInstance"
+				table="vt_docinstances">
+				<id name="Storage">
+					<column name="docid" />
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">8ee73778-1729-49e8-a686-f78de20af4ca.Header</param>
+					</type>
+				</id>
+				<property column="contentType" insert="true" name="ContentType"
+					type="com.vitria.af.document.content.storage.type.TypeType" update="true" />
+				<component class="com.vitria.af.document.util.Location" insert="true" mutable="true"
+					name="Content" update="true">
+					<property column="contentid" insert="false" name="ID" type="string"
+						update="false" />
+					<property name="Collection" type="string">
+						<formula>'8ee73778-1729-49e8-a686-f78de20af4ca.Header.Content'</formula>
+					</property>
+				</component>
+				<component class="com.vitria.af.document.util.Location" insert="true" mutable="true"
+					name="Context" update="true">
+					<property column="contextID" insert="true" name="ID" type="string"
+						update="true" />
+				</component>
+				<property column="docName" insert="true" name="Definition"
+					type="com.vitria.af.document.content.storage.type.NameType" update="true" />
+				<many-to-one cascade="all"
+					entity-name="8ee73778-1729-49e8-a686-f78de20af4ca.Header.Content" foreign-key="Storage"
+					insert="true" lazy="false" name="contentInstance" not-null="true" update="true">
+					<column name="contentid" not-null="true" unique="false" />
+				</many-to-one>
+				<many-to-one cascade="none"
+					entity-name="8ee73778-1729-49e8-a686-f78de20af4ca.Header.Structure" foreign-key="Storage"
+					insert="false" lazy="false" name="contentStructure" not-null="true" update="false">
+					<column name="contentid" not-null="true" unique="false" />
+				</many-to-one>
+			</class>
+			<class entity-name="44bb79f2-c86f-4909-bf4e-90be3ceb596b._userTaskResult.Content"
+				lazy="false" mutable="true" name="com.vitria.af.document.content.storage.StoredContent"
+				persister="com.vitria.af.document.content.storage.ContentPersister"
+				table="VTXM_USERTASKRSLTCNTNT_HTTP_">
+				<id name="Storage">
+					<column name="docid" />
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">
+							44bb79f2-c86f-4909-bf4e-90be3ceb596b._userTaskResult.Content
+						</param>
+					</type>
+				</id>
+			</class>
+			<class entity-name="44bb79f2-c86f-4909-bf4e-90be3ceb596b._userTaskResult" lazy="false"
+				mutable="true" name="com.vitria.af.document.instance.UnstructuredContentInstance"
+				table="vt_docinstances">
+				<id name="Storage">
+					<column name="docid" />
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">
+							44bb79f2-c86f-4909-bf4e-90be3ceb596b._userTaskResult
+						</param>
+					</type>
+				</id>
+				<property column="contentType" insert="true" name="ContentType"
+					type="com.vitria.af.document.content.storage.type.TypeType" update="true" />
+				<component class="com.vitria.af.document.util.Location" insert="true" mutable="true"
+					name="Content" update="true">
+					<property column="contentid" insert="false" name="ID" type="string"
+						update="false" />
+					<property name="Collection" type="string">
+						<formula>
+							'44bb79f2-c86f-4909-bf4e-90be3ceb596b._userTaskResult.Content'
+						</formula>
+					</property>
+				</component>
+				<component class="com.vitria.af.document.util.Location" insert="true" mutable="true"
+					name="Context" update="true">
+					<property column="contextID" insert="true" name="ID" type="string"
+						update="true" />
+				</component>
+				<property column="docName" insert="true" name="Definition"
+					type="com.vitria.af.document.content.storage.type.NameType" update="true" />
+				<many-to-one cascade="all"
+					entity-name="44bb79f2-c86f-4909-bf4e-90be3ceb596b._userTaskResult.Content"
+					foreign-key="Storage" insert="true" lazy="false" name="contentInstance" not-null="true"
+					update="true">
+					<column name="contentid" not-null="true" unique="false" />
+				</many-to-one>
+			</class>
+			<class entity-name="e96f6b10-ed05-45c4-894f-e8d4cd9f52f5.Header.Content" lazy="false"
+				mutable="true" name="com.vitria.af.document.content.storage.StoredContent"
+				persister="com.vitria.af.document.content.storage.ContentPersister"
+				table="VTXM_EMFEVENTHEADER">
+				<id name="Storage">
+					<column name="docid" />
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">
+							e96f6b10-ed05-45c4-894f-e8d4cd9f52f5.Header.Content
+						</param>
+					</type>
+				</id>
+			</class>
+			<class entity-name="e96f6b10-ed05-45c4-894f-e8d4cd9f52f5.Header.Structure" lazy="false"
+				mutable="false" name="com.vitria.af.document.content.StructureImpl"
+				table="VTXM_EMFEVENTHEADER_V">
+				<id name="Storage">
+					<column name="docid" />
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">
+							e96f6b10-ed05-45c4-894f-e8d4cd9f52f5.Header.Structure
+						</param>
+					</type>
+				</id>
+				<property access="org.hibernate.property.MapAccessor" column="`EVENTSPACE`"
+					insert="false" name="EventSpace" type="string" update="false" />
+				<property access="org.hibernate.property.MapAccessor" column="`EVENTCODE`"
+					insert="false" name="EventCode" type="string" update="false" />
+				<property access="org.hibernate.property.MapAccessor" column="`TIMESTAMP`"
+					insert="false" name="Timestamp"
+					type="com.vitria.af.document.content.storage.type.XSDDateTimeType" update="false" />
+				<property access="org.hibernate.property.MapAccessor" column="`EXTERNALID`"
+					insert="false" name="ExternalID" type="string" update="false" />
+			</class>
+			<class entity-name="e96f6b10-ed05-45c4-894f-e8d4cd9f52f5.Header" lazy="false"
+				mutable="true" name="com.vitria.af.document.instance.StructuredContentInstance"
+				table="vt_docinstances">
+				<id name="Storage">
+					<column name="docid" />
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">e96f6b10-ed05-45c4-894f-e8d4cd9f52f5.Header</param>
+					</type>
+				</id>
+				<property column="contentType" insert="true" name="ContentType"
+					type="com.vitria.af.document.content.storage.type.TypeType" update="true" />
+				<component class="com.vitria.af.document.util.Location" insert="true" mutable="true"
+					name="Content" update="true">
+					<property column="contentid" insert="false" name="ID" type="string"
+						update="false" />
+					<property name="Collection" type="string">
+						<formula>'e96f6b10-ed05-45c4-894f-e8d4cd9f52f5.Header.Content'</formula>
+					</property>
+				</component>
+				<component class="com.vitria.af.document.util.Location" insert="true" mutable="true"
+					name="Context" update="true">
+					<property column="contextID" insert="true" name="ID" type="string"
+						update="true" />
+				</component>
+				<property column="docName" insert="true" name="Definition"
+					type="com.vitria.af.document.content.storage.type.NameType" update="true" />
+				<many-to-one cascade="none"
+					entity-name="e96f6b10-ed05-45c4-894f-e8d4cd9f52f5.Header.Structure" foreign-key="Storage"
+					insert="false" lazy="false" name="contentStructure" not-null="true" update="false">
+					<column name="contentid" not-null="true" unique="false" />
+				</many-to-one>
+				<many-to-one cascade="all"
+					entity-name="e96f6b10-ed05-45c4-894f-e8d4cd9f52f5.Header.Content" foreign-key="Storage"
+					insert="true" lazy="false" name="contentInstance" not-null="true" update="true">
+					<column name="contentid" not-null="true" unique="false" />
+				</many-to-one>
+			</class>
+			<class entity-name="b873f596-56df-4ca5-9f83-37f452e7c83f.Header.Content" lazy="false"
+				mutable="true" name="com.vitria.af.document.content.storage.StoredContent"
+				persister="com.vitria.af.document.content.storage.ContentPersister"
+				table="VTXM_EMFEVENTHEADER">
+				<id name="Storage">
+					<column name="docid" />
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">
+							b873f596-56df-4ca5-9f83-37f452e7c83f.Header.Content
+						</param>
+					</type>
+				</id>
+			</class>
+			<class entity-name="b873f596-56df-4ca5-9f83-37f452e7c83f.Header.Structure" lazy="false"
+				mutable="false" name="com.vitria.af.document.content.StructureImpl"
+				table="VTXM_EMFEVENTHEADER_V">
+				<id name="Storage">
+					<column name="docid" />
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">
+							b873f596-56df-4ca5-9f83-37f452e7c83f.Header.Structure
+						</param>
+					</type>
+				</id>
+				<property access="org.hibernate.property.MapAccessor" column="`EVENTSPACE`"
+					insert="false" name="EventSpace" type="string" update="false" />
+				<property access="org.hibernate.property.MapAccessor" column="`EVENTCODE`"
+					insert="false" name="EventCode" type="string" update="false" />
+				<property access="org.hibernate.property.MapAccessor" column="`TIMESTAMP`"
+					insert="false" name="Timestamp"
+					type="com.vitria.af.document.content.storage.type.XSDDateTimeType" update="false" />
+				<property access="org.hibernate.property.MapAccessor" column="`EXTERNALID`"
+					insert="false" name="ExternalID" type="string" update="false" />
+			</class>
+			<class entity-name="b873f596-56df-4ca5-9f83-37f452e7c83f.Header" lazy="false"
+				mutable="true" name="com.vitria.af.document.instance.StructuredContentInstance"
+				table="vt_docinstances">
+				<id name="Storage">
+					<column name="docid" />
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">b873f596-56df-4ca5-9f83-37f452e7c83f.Header</param>
+					</type>
+				</id>
+				<property column="contentType" insert="true" name="ContentType"
+					type="com.vitria.af.document.content.storage.type.TypeType" update="true" />
+				<component class="com.vitria.af.document.util.Location" insert="true" mutable="true"
+					name="Content" update="true">
+					<property column="contentid" insert="false" name="ID" type="string"
+						update="false" />
+					<property name="Collection" type="string">
+						<formula>'b873f596-56df-4ca5-9f83-37f452e7c83f.Header.Content'</formula>
+					</property>
+				</component>
+				<component class="com.vitria.af.document.util.Location" insert="true" mutable="true"
+					name="Context" update="true">
+					<property column="contextID" insert="true" name="ID" type="string"
+						update="true" />
+				</component>
+				<property column="docName" insert="true" name="Definition"
+					type="com.vitria.af.document.content.storage.type.NameType" update="true" />
+				<many-to-one cascade="none"
+					entity-name="b873f596-56df-4ca5-9f83-37f452e7c83f.Header.Structure" foreign-key="Storage"
+					insert="false" lazy="false" name="contentStructure" not-null="true" update="false">
+					<column name="contentid" not-null="true" unique="false" />
+				</many-to-one>
+				<many-to-one cascade="all"
+					entity-name="b873f596-56df-4ca5-9f83-37f452e7c83f.Header.Content" foreign-key="Storage"
+					insert="true" lazy="false" name="contentInstance" not-null="true" update="true">
+					<column name="contentid" not-null="true" unique="false" />
+				</many-to-one>
+			</class>
+			<class abstract="false" discriminator-value="com.vitria.wf.audit.task.TaskAuditRecord"
+				entity-name="com.vitria.wf.audit.task.TaskAuditRecord" lazy="false"
+				table="`VT_WF_TASKAUDITRECORD`">
+				<meta attribute="eclassName">TaskAuditRecord</meta>
+				<meta attribute="epackage">http://vitria.com/wf/audit/task</meta>
+				<id
+					access="org.eclipse.emf.teneo.hibernate.mapping.identifier.IdentifierPropertyHandler"
+					column="e_id" name="e_id">
+					<meta attribute="syntheticId">true</meta>
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">com.vitria.wf.audit.task.TaskAuditRecord</param>
+					</type>
+					<generator class="com.vitria.data.extension.DataContentIDGenerator" />
+				</id>
+				<discriminator column="`DTYPE`" type="string" />
+				<version
+					access="org.eclipse.emf.teneo.hibernate.mapping.property.VersionPropertyHandler"
+					column="version" name="version">
+					<meta attribute="syntheticVersion">true</meta>
+				</version>
+				<property insert="true" lazy="false" name="eventID" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column length="100" name="`EVENTID`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="taskID" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column length="100" name="`TASKID`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="activityID" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column length="100" name="`ACTIVITYID`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="caseID" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column length="100" name="`CASEID`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="processID" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column length="100" name="`PROCESSID`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="action" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column length="100" name="`ACTION`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="performer" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column name="`PERFORMER`" not-null="true" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="timeOccurred" not-null="false"
+					type="org.eclipse.emf.teneo.hibernate.mapping.XSDDateTime" unique="false" update="true">
+					<column name="`TIMEOCCURRED`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="detail" not-null="false"
+					type="java.lang.String" unique="false" update="true">
+					<column length="256" name="`DETAIL`" not-null="false" unique="false" />
+				</property>
+			</class>
+			<class entity-name="cd47ba45-2473-4459-98a5-9408b25b5e9c.TaskAuditRecord" lazy="false"
+				mutable="true" name="com.vitria.af.document.instance.UnstructuredContentInstance"
+				table="vt_docinstances">
+				<id name="Storage">
+					<column name="docid" />
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">
+							cd47ba45-2473-4459-98a5-9408b25b5e9c.TaskAuditRecord
+						</param>
+					</type>
+				</id>
+				<property column="contentType" insert="true" name="ContentType"
+					type="com.vitria.af.document.content.storage.type.TypeType" update="true" />
+				<component class="com.vitria.af.document.util.Location" insert="true" mutable="true"
+					name="Content" update="true">
+					<property column="contentid" insert="false" name="ID" type="string"
+						update="false" />
+					<property name="Collection" type="string">
+						<formula>'com.vitria.wf.audit.task.TaskAuditRecord'</formula>
+					</property>
+				</component>
+				<component class="com.vitria.af.document.util.Location" insert="true" mutable="true"
+					name="Context" update="true">
+					<property column="contextID" insert="true" name="ID" type="string"
+						update="true" />
+				</component>
+				<property column="docName" insert="true" name="Definition"
+					type="com.vitria.af.document.content.storage.type.NameType" update="true" />
+				<many-to-one cascade="all" entity-name="com.vitria.wf.audit.task.TaskAuditRecord"
+					foreign-key="e_id" insert="true" lazy="false" name="dataObject" not-null="true"
+					update="true">
+					<column name="contentid" not-null="true" unique="false" />
+				</many-to-one>
+			</class>
+			<class abstract="false"
+				discriminator-value="com.vitria.wf.audit.activity.ActivityAuditRecord"
+				entity-name="com.vitria.wf.audit.activity.ActivityAuditRecord" lazy="false"
+				table="`VT_WF_ACTIVITYAUDITRECORD`">
+				<meta attribute="eclassName">ActivityAuditRecord</meta>
+				<meta attribute="epackage">http://vitria.com/wf/audit/activity</meta>
+				<id
+					access="org.eclipse.emf.teneo.hibernate.mapping.identifier.IdentifierPropertyHandler"
+					column="e_id" name="e_id">
+					<meta attribute="syntheticId">true</meta>
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">
+							com.vitria.wf.audit.activity.ActivityAuditRecord
+						</param>
+					</type>
+					<generator class="com.vitria.data.extension.DataContentIDGenerator" />
+				</id>
+				<discriminator column="`DTYPE`" type="string" />
+				<version
+					access="org.eclipse.emf.teneo.hibernate.mapping.property.VersionPropertyHandler"
+					column="version" name="version">
+					<meta attribute="syntheticVersion">true</meta>
+				</version>
+				<property insert="true" lazy="false" name="eventID" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column length="100" name="`EVENTID`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="activityID" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column length="100" name="`ACTIVITYID`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="activityName" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column length="100" name="`ACTIVITYNAME`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="processID" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column length="100" name="`PROCESSID`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="caseID" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column length="100" name="`CASEID`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="action" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column length="100" name="`ACTION`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="performer" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column length="100" name="`PERFORMER`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="timeOccurred" not-null="false"
+					type="org.eclipse.emf.teneo.hibernate.mapping.XSDDateTime" unique="false" update="true">
+					<column name="`TIMEOCCURRED`" not-null="false" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="detail" not-null="false"
+					type="java.lang.String" unique="false" update="true">
+					<column name="`DETAIL`" not-null="false" unique="false" />
+				</property>
+			</class>
+			<class entity-name="e0992f8f-196f-4d1d-8bc1-e91265ba134c.ActivityAuditRecord"
+				lazy="false" mutable="true" name="com.vitria.af.document.instance.UnstructuredContentInstance"
+				table="vt_docinstances">
+				<id name="Storage">
+					<column name="docid" />
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">
+							e0992f8f-196f-4d1d-8bc1-e91265ba134c.ActivityAuditRecord
+						</param>
+					</type>
+				</id>
+				<property column="contentType" insert="true" name="ContentType"
+					type="com.vitria.af.document.content.storage.type.TypeType" update="true" />
+				<component class="com.vitria.af.document.util.Location" insert="true" mutable="true"
+					name="Content" update="true">
+					<property column="contentid" insert="false" name="ID" type="string"
+						update="false" />
+					<property name="Collection" type="string">
+						<formula>'com.vitria.wf.audit.activity.ActivityAuditRecord'</formula>
+					</property>
+				</component>
+				<component class="com.vitria.af.document.util.Location" insert="true" mutable="true"
+					name="Context" update="true">
+					<property column="contextID" insert="true" name="ID" type="string"
+						update="true" />
+				</component>
+				<property column="docName" insert="true" name="Definition"
+					type="com.vitria.af.document.content.storage.type.NameType" update="true" />
+				<many-to-one cascade="all"
+					entity-name="com.vitria.wf.audit.activity.ActivityAuditRecord" foreign-key="e_id" insert="true"
+					lazy="false" name="dataObject" not-null="true" update="true">
+					<column name="contentid" not-null="true" unique="false" />
+				</many-to-one>
+			</class>
+			<class entity-name="b873f596-56df-4ca5-9f83-37f452e7c83f.order" lazy="false"
+				mutable="true" name="com.vitria.af.document.instance.UnstructuredContentInstance"
+				table="vt_docinstances">
+				<id name="Storage">
+					<column name="docid" />
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">b873f596-56df-4ca5-9f83-37f452e7c83f.order</param>
+					</type>
+				</id>
+				<property column="contentType" insert="true" name="ContentType"
+					type="com.vitria.af.document.content.storage.type.TypeType" update="true" />
+				<component class="com.vitria.af.document.util.Location" insert="true" mutable="true"
+					name="Content" update="true">
+					<property column="contentid" insert="false" name="ID" type="string"
+						update="false" />
+					<property name="Collection" type="string">
+						<formula>'com.vitria.schema.samples.or.OrderType'</formula>
+					</property>
+				</component>
+				<component class="com.vitria.af.document.util.Location" insert="true" mutable="true"
+					name="Context" update="true">
+					<property column="contextID" insert="true" name="ID" type="string"
+						update="true" />
+				</component>
+				<property column="docName" insert="true" name="Definition"
+					type="com.vitria.af.document.content.storage.type.NameType" update="true" />
+				<many-to-one cascade="all" entity-name="com.vitria.schema.samples.or.OrderType"
+					foreign-key="e_id" insert="true" lazy="false" name="dataObject" not-null="true"
+					update="true">
+					<column name="contentid" not-null="true" unique="false" />
+				</many-to-one>
+			</class>
+			<class abstract="false" discriminator-value="com.vitria.schema.samples.or.Items"
+				entity-name="com.vitria.schema.samples.or.Items" lazy="false"
+				table="`VTDM_ITEMS_HTTP_SMPLS_SCHM_V`">
+				<meta attribute="eclassName">Items</meta>
+				<meta attribute="epackage">http://samples.schema.vitria.com/OR</meta>
+				<id
+					access="org.eclipse.emf.teneo.hibernate.mapping.identifier.IdentifierPropertyHandler"
+					column="e_id" name="e_id">
+					<meta attribute="syntheticId">true</meta>
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">com.vitria.schema.samples.or.Items</param>
+					</type>
+					<generator class="com.vitria.data.extension.DataContentIDGenerator" />
+				</id>
+				<discriminator column="`DTYPE`" type="string" />
+				<version
+					access="org.eclipse.emf.teneo.hibernate.mapping.property.VersionPropertyHandler"
+					column="version" name="version">
+					<meta attribute="syntheticVersion">true</meta>
+				</version>
+				<list cascade="all" lazy="true" name="item">
+					<key foreign-key="COM_VITR_SCHM_SMPLS_R_TMS_TM" update="true">
+						<column name="`ITEMS_ITEM_E_ID`" not-null="false" unique="false" />
+					</key>
+					<list-index column="`ITEMS_ITEM_IDX`" />
+					<one-to-many entity-name="com.vitria.schema.samples.or.ItemType" />
+				</list>
+			</class>
+			<class abstract="false" discriminator-value="com.vitria.schema.samples.or.ItemType"
+				entity-name="com.vitria.schema.samples.or.ItemType" lazy="false"
+				table="`VTDM_COM_VTR_SCHM_SMPLS_R_TM`">
+				<meta attribute="eclassName">ItemType</meta>
+				<meta attribute="epackage">http://samples.schema.vitria.com/OR</meta>
+				<id
+					access="org.eclipse.emf.teneo.hibernate.mapping.identifier.IdentifierPropertyHandler"
+					column="e_id" name="e_id">
+					<meta attribute="syntheticId">true</meta>
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">com.vitria.schema.samples.or.ItemType</param>
+					</type>
+					<generator class="com.vitria.data.extension.DataContentIDGenerator" />
+				</id>
+				<discriminator column="`DTYPE`" type="string" />
+				<version
+					access="org.eclipse.emf.teneo.hibernate.mapping.property.VersionPropertyHandler"
+					column="version" name="version">
+					<meta attribute="syntheticVersion">true</meta>
+				</version>
+				<property insert="true" lazy="false" name="productName" not-null="true"
+					type="java.lang.String" unique="false" update="true">
+					<column name="`PRODUCTNAME`" not-null="true" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="quantity" not-null="true"
+					type="java.math.BigInteger" unique="false" update="true">
+					<column name="`QUANTITY`" not-null="true" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="price" not-null="true"
+					type="java.math.BigDecimal" unique="false" update="true">
+					<column name="`PRICE`" not-null="true" unique="false" />
+				</property>
+				<property insert="true" lazy="false" name="notes" not-null="false"
+					type="java.lang.String" unique="false" update="true">
+					<column name="`NOTES`" not-null="false" unique="false" />
+				</property>
+			</class>
+			<class entity-name="9f22a498-7113-4243-94d7-a63617a925ff.Items" lazy="false"
+				mutable="true" name="com.vitria.af.document.instance.UnstructuredContentInstance"
+				table="vt_docinstances">
+				<id name="Storage">
+					<column name="docid" />
+					<type
+						name="com.vitria.af.document.content.storage.type.ContentStorageLocationType">
+						<param name="collection">9f22a498-7113-4243-94d7-a63617a925ff.Items</param>
+					</type>
+				</id>
+				<property column="contentType" insert="true" name="ContentType"
+					type="com.vitria.af.document.content.storage.type.TypeType" update="true" />
+				<component class="com.vitria.af.document.util.Location" insert="true" mutable="true"
+					name="Content" update="true">
+					<property column="contentid" insert="false" name="ID" type="string"
+						update="false" />
+					<property name="Collection" type="string">
+						<formula>'com.vitria.schema.samples.or.Items'</formula>
+					</property>
+				</component>
+				<component class="com.vitria.af.document.util.Location" insert="true" mutable="true"
+					name="Context" update="true">
+					<property column="contextID" insert="true" name="ID" type="string"
+						update="true" />
+				</component>
+				<property column="docName" insert="true" name="Definition"
+					type="com.vitria.af.document.content.storage.type.NameType" update="true" />
+				<many-to-one cascade="all" entity-name="com.vitria.schema.samples.or.Items"
+					foreign-key="e_id" insert="true" lazy="false" name="dataObject" not-null="true"
+					update="true">
+					<column name="contentid" not-null="true" unique="false" />
+				</many-to-one>
+			</class>
+		</hibernate-mapping>
+	</hibernate>
+	<configuration />
+</instance>

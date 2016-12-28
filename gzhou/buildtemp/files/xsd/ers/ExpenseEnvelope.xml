@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<exp:expenseEnvelope xmlns:exp="http://schema.vitria.com/exp">
+	<expenseHeader>
+		<envelopeId>0</envelopeId>
+		<userName>userName</userName>
+		<department>department</department>
+		<creationDate>2001-01-01</creationDate>
+		<managerResponsible>managerResponsible</managerResponsible>
+		<status>status</status>
+		<expensePeriod>expensePeriod</expensePeriod>
+		<description>description</description>
+		<notes>notes</notes>
+	</expenseHeader>
+	<expenseLineItems>
+		<expenseLineItem>
+			<referenceId>0</referenceId>
+			<expenseAccount>expenseAccount</expenseAccount>
+			<costCenter>costCenter</costCenter>
+			<warningIcon>warningIcon</warningIcon>
+			<client>client</client>
+			<project>project</project>
+			<expenseItem>Airfare - Employee Paid</expenseItem>
+			<amount>0.0</amount>
+			<payType>payType</payType>
+			<quantity>0.0</quantity>
+			<reimbursable>true</reimbursable>
+			<currencySymbol>currencySymbol</currencySymbol>
+			<foreignCurrencyAmount>0.0</foreignCurrencyAmount>
+			<foreignExchangeRateUsed>0.0</foreignExchangeRateUsed>
+			<description>description</description>
+		</expenseLineItem>
+	</expenseLineItems>
+	<expenseFooter>
+		<total>0</total>
+		<nonReimbursableTotal>0</nonReimbursableTotal>
+		<totalDue>0.0</totalDue>
+	</expenseFooter>
+</exp:expenseEnvelope>

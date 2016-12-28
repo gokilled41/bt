@@ -1,0 +1,2 @@
+call emdir
+call run

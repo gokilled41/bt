@@ -1,0 +1,2 @@
+call dmgdir
+cd bin

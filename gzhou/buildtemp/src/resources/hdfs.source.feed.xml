@@ -1,0 +1,6 @@
+<model type="hdfs.reader">
+  <config server="hadoop.qilinsoft.com" port="9000" path="/user/gzhou/input/a.txt" pollRate="30" />
+  <target type="feed">
+    <feed name="targetFeed" url="/home/vtbaadmin/TestProject$Deployment/targetFeed" />
+  </target>
+</model>

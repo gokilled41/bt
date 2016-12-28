@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lc:lifecycle name="" persistMode=""
+	xmlns:lc="http://workflow.vitria.com/lifecycle"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://workflow.vitria.com/lifecycle ../xsd/Lifecycle.xsd ">
+	<lc:class className="" idField="" stateField="" />
+	<lc:states initialState="">
+		<lc:state name="">
+			<lc:operation name="" toState="" />
+		</lc:state>
+	</lc:states>
+</lc:lifecycle>

@@ -1,0 +1,34 @@
+        Document doc = XQueryLib.parseXML(new InputSource(
+                new FileInputStream("src/xml/project.xml")), new Hashtable());
+
+        Node[] nodes = XQueryLib.getFromXPath(doc.getDocumentElement(),
+                "/projectDescription/linkedResources/link");
+        Node parent = (Node) XQueryLib.getFirstFromXPath(doc.getDocumentElement(),
+                "/projectDescription/linkedResources");
+
+        for (int i = 0; i < nodes.length; i++) {
+            parent.removeChild(nodes[i]);
+        }
+
+        Comparator<Node> c = new Comparator<Node>() {
+            public int compare(Node o1, Node o2) {
+                String name1 = "";
+                String name2 = "";
+                try {
+                    name1 = (String) XQueryLib.getFirstFromXPath(o1, "/name/text()");
+                    name2 = (String) XQueryLib.getFirstFromXPath(o2, "/name/text()");
+                } catch (XPathException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                return name1.compareTo(name2);
+            }
+        };
+
+        Arrays.sort(nodes, c);
+
+        for (int i = 0; i < nodes.length; i++) {
+            parent.appendChild(nodes[i]);
+        }
+        
+        System.out.println(XQueryLib.unparsePrettyXML(doc));

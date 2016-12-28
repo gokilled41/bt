@@ -1,0 +1,2 @@
+call msdsdir
+call sr

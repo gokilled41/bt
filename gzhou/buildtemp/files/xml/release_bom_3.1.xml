@@ -1,0 +1,320 @@
+<businessenvironment releasetag="v1_0" product_version="3.1.0.0" xmlns:vtui="http://m3oui.vitria.com" uuid="0054fdb5-af74-4d6b-ac80-4769777f2a6e" name="Enrollment">
+  <knowledgespace name="Process" vtui:hidden="false" hasSandbox="true" releasable="true" hasLifecycle="true" vtui:flags="31">
+    <folder name="EnrollmentSubProcesses" vtui:lcStatusNote="" vtui:lcStatusBy="dmcpherson" vtui:KS="Process" vtui:lcStatusDate="1271182095881" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:lcStatus="Draft">
+      <model uuid="c689b521-62ad-4fd2-8570-0f8386099d13" name="DupCheck" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272540186" modelstatus="Validated" type="subprocess"/>
+      <model uuid="216e2ac6-c0b0-4822-81d9-06035ade2dea" name="CheckReplError" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272540217" modelstatus="Validated" type="subprocess"/>
+      <model uuid="43490978-0a8e-4bca-a4cb-8e56ee3d063e" name="GetISUContract" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272540232" modelstatus="Validated" type="subprocess"/>
+      <model uuid="d3899fa6-0029-485f-8033-8258bf920ba6" name="ISUContractBillable" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272540295" modelstatus="Validated" type="subprocess"/>
+      <model uuid="a1eaab86-c454-456c-9bfc-c15e82def8d3" name="GetReplBPEMCase" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272540326" modelstatus="Validated" type="subprocess"/>
+      <model uuid="fecb26ac-6cad-4e73-8ea9-1c703bb09adb" name="GetHoldDescriptions" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272540342" modelstatus="Validated" type="subprocess"/>
+      <model uuid="2a0984ed-757e-4150-a54e-6af857527f43" name="CheckSwitchType" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272540373" modelstatus="Validated" type="subprocess"/>
+    </folder>
+    <folder name="SLAAlert" vtui:KS="Process" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e">
+      <model uuid="87304d0f-d6cf-4c0d-8b51-9dfab2e64dcc" name="CreateSLAMonitoring" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272540389" modelstatus="Validated" type="subprocess"/>
+      <model uuid="a978cb57-e691-418e-b565-94197e7f597a" name="CustomContractNotify" version="1.5" modifiedby="vtbaadmin" modifiedon="1277272563842" modelstatus="Validated" type="process"/>
+      <model uuid="9330c7ad-a4eb-4423-b3cc-a279503a6877" name="Send_Email" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272540467" modelstatus="Validated" type="subprocess"/>
+      <model uuid="8878caf0-bbc9-4767-bed9-345650df317d" name="AggregateAlertNotify" version="1.5" modifiedby="vtbaadmin" modifiedon="1277272563857" modelstatus="Validated" type="process"/>
+    </folder>
+    <folder name="SwitchSubProcesses" vtui:KS="Process" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="31">
+      <model uuid="2d56330b-ee80-4c68-bd08-4283cdef6897" name="WaitforSwitchDoc" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272540529" modelstatus="Validated" type="subprocess"/>
+    </folder>
+    <folder name="EnrollReqForward" vtui:lcStatusNote="" vtui:lcStatusBy="dmcpherson" vtui:KS="Process" vtui:lcStatusDate="1270580017387" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:lcStatus="Draft">
+      <model uuid="5a11e9c6-915a-4756-a5c5-9746107994a4" name="InEnrollReq" version="1.13" modifiedby="vtbaadmin" modifiedon="1277272563873" modelstatus="Validated" type="process"/>
+    </folder>
+    <folder name="MktMsgSubProcesses" vtui:lcStatusNote="" vtui:lcStatusBy="sburg" vtui:KS="Process" vtui:lcStatusDate="1270139637225" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:lcStatus="Draft">
+      <model uuid="6df81231-b64c-4594-9d07-f45a9fff583e" name="WaitforMktCanUpd" version="1.3" modifiedby="vtbaadmin" modifiedon="1277272540701" modelstatus="Validated" type="subprocess"/>
+      <model uuid="16db4e3b-5cd2-4961-9d93-36821efe759b" name="GetBPEMCase" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272540732" modelstatus="Validated" type="subprocess"/>
+      <model uuid="3de71a40-86bd-462a-80c4-aee87d3eb77a" name="WaitforMktMsg" version="1.3" modifiedby="vtbaadmin" modifiedon="1277272540795" modelstatus="Validated" type="subprocess"/>
+      <model uuid="d46f46ff-7b90-4aed-9345-31140758b72a" name="GetMktReason" version="1.4" modifiedby="vtbaadmin" modifiedon="1277272540826" modelstatus="Validated" type="subprocess"/>
+      <model uuid="2d130504-6d65-4edc-a85c-ed23402f626b" name="GetTLEOTranId" version="1.4" modifiedby="vtbaadmin" modifiedon="1277272540889" modelstatus="Validated" type="subprocess"/>
+      <model uuid="a7ed7a8f-1cf0-484c-b968-7d7c7c091e61" name="WaitforMktCanUpd2" version="1.3" modifiedby="vtbaadmin" modifiedon="1277272540936" modelstatus="Validated" type="subprocess"/>
+    </folder>
+    <folder name="MktMsgHandlers" vtui:lcStatusNote="" vtui:lcStatusBy="sburg" vtui:KS="Process" vtui:lcStatusDate="1269962777577" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:lcStatus="Draft">
+      <model uuid="dce011ab-3cf5-4d07-8d4f-3f0726070733" name="SAPInbound" version="1.8" modifiedby="vtbaadmin" modifiedon="1277272563889" modelstatus="Validated" type="process"/>
+      <model uuid="9d4d7bf6-8ac8-4dd2-a26e-f3cbb2580380" name="SAPOutbound" version="1.8" modifiedby="vtbaadmin" modifiedon="1277272563904" modelstatus="Validated" type="process"/>
+      <model uuid="18aa9843-5606-42db-b591-78bf389a163f" name="InovisInbound" version="1.8" modifiedby="vtbaadmin" modifiedon="1277272563920" modelstatus="Validated" type="process"/>
+      <model uuid="f330d5f0-eec3-4163-8984-a737ae1713bc" name="SAPOutboundChgCancel" version="1.8" modifiedby="vtbaadmin" modifiedon="1277272563935" modelstatus="Validated" type="process"/>
+      <model uuid="6aac3245-6473-4095-9124-e4eec45f74a8" name="InovisInbound867" version="1.9" modifiedby="vtbaadmin" modifiedon="1277272563951" modelstatus="Validated" type="process"/>
+      <model uuid="4c3e2404-320a-4167-a612-bf7b41510f76" name="InovisOutbound" version="1.8" modifiedby="vtbaadmin" modifiedon="1277272563982" modelstatus="Validated" type="process"/>
+      <model uuid="9a5e6950-863f-4784-9a27-3d5fe5691a2e" name="InovisOutboundChgCancel" version="1.8" modifiedby="vtbaadmin" modifiedon="1277272563998" modelstatus="Validated" type="process"/>
+    </folder>
+    <model uuid="552f4eba-e851-4a0a-af52-a8fa0e73a7f6" name="Enrollment" version="1.23" modifiedby="vtbaadmin" modifiedon="1277272563810" modelstatus="Validated" type="process"/>
+    <model uuid="f52ffb8b-3b4d-4e04-96ad-08a6b82fb07a" name="SwitchDocForward" version="1.9" modifiedby="vtbaadmin" modifiedon="1277272563826" modelstatus="Validated" type="process"/>
+  </knowledgespace>
+  <knowledgespace name="Schema" vtui:hidden="false" hasSandbox="true" releasable="true" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" hasLifecycle="true" vtui:flags="31">
+    <folder name="Constraint" vtui:KS="Schema" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="48">
+      <folder name="Field Dependency" vtui:category="Constraint" vtui:KS="Schema" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="48"/>
+    </folder>
+    <folder name="Document" vtui:KS="Schema" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="48">
+      <folder name="Vitria" vtui:category="Document" vtui:KS="Schema" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="32">
+        <model uuid="003be57c-f49f-4013-8d23-b4219b3a823b" name="EMFEventHeader" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272236375" modelstatus="Validated" type="schema.document"/>
+      </folder>
+      <model uuid="1387257b-40c0-4e62-bad6-5ca99d1cb102" name="SE" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272555123" modelstatus="Validated" type="schema.document"/>
+      <model uuid="c692514f-4758-43f4-bb5b-592d63e6ec44" name="BPEMCase" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272560139" modelstatus="Validated" type="schema.document"/>
+      <model uuid="447b56ad-02bc-4a6a-8c8c-2360d1057d1f" name="EnrollBV" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272549935" modelstatus="Validated" type="schema.document"/>
+      <model uuid="077f928a-8a6b-4567-a4c9-ade0a511360c" name="EnrollUpdCor" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272557576" modelstatus="Validated" type="schema.document"/>
+      <model uuid="e87030ff-eef5-466e-b666-6dfc5eaf4376" name="MktMsgCor" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272547248" modelstatus="Validated" type="schema.document"/>
+      <model uuid="13bf61b8-567a-4ce6-a4f1-35d18538b766" name="EmailInfo" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272552420" modelstatus="Validated" type="schema.document"/>
+    </folder>
+    <folder name="SchemaType" vtui:KS="Schema" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="48">
+      <model uuid="be459f00-7994-4f48-a2b7-6393b3fb57e8" name="KeyValueList" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272560185" modelstatus="Validated" type=""/>
+      <model uuid="18555b4b-f362-4a93-96eb-7dafaba1e585" name="MarketMessage" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272563654" modelstatus="Validated" type=""/>
+      <model uuid="cd5f9c53-5c8c-4b74-b365-902e9f4a4dbe" name="EnrollmentRequest" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272562904" modelstatus="Validated" type=""/>
+      <model uuid="24946517-5e2b-415d-8b88-c67831e9f6e1" name="Enrollment" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272562060" modelstatus="Validated" type=""/>
+    </folder>
+    <folder name="Event" vtui:KS="Schema" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="48">
+      <model uuid="ba7cafb0-f032-4fa9-b2a5-a91c09347b90" name="Untyped" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272236437" modelstatus="Validated" type="schema.event"/>
+      <model uuid="fd5643e2-2873-43d5-b49c-0aa9f04ccfca" name="EventSourceExceptionEvent" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272236515" modelstatus="Validated" type="schema.event"/>
+      <model uuid="70c6549d-bc33-4c53-8e11-002c14b3a7fc" name="Exception" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272524045" modelstatus="Validated" type="schema.event"/>
+      <model uuid="25cb3651-0d1f-4c3d-8e1f-d8a632c74141" name="SwitchDoc" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272541545" modelstatus="Validated" type="schema.event"/>
+      <model uuid="0a8f8685-48fd-4693-884c-fa6b4a3c1394" name="EnrollUpdate" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272541561" modelstatus="Validated" type="schema.event"/>
+      <model uuid="dd083eb7-af04-4ba9-8df0-1fb541237fd1" name="MktMsg" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272541576" modelstatus="Validated" type="schema.event"/>
+      <model uuid="37c2c7bc-804a-4fd0-ad7e-b109a642b21a" name="Alert" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272524201" modelstatus="Validated" type="schema.event"/>
+      <model uuid="d53218d5-05b7-48d5-99fc-30b4fd51e6c4" name="EnrollReq" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272541592" modelstatus="Validated" type="schema.event"/>
+    </folder>
+    <folder name="Task" vtui:KS="Schema" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="48"/>
+    <folder name="Exception" vtui:KS="Schema" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="48">
+      <folder name="Vitria" vtui:category="Exception" vtui:KS="Schema" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="32">
+        <model uuid="d4c7e1c0-d48d-41ac-aef1-6b138ad44013" name="Exception" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272236578" modelstatus="Validated" type="schema.exception"/>
+        <model uuid="5469e245-c657-4cc0-b99e-0ed1c1fa64f3" name="BusinessException" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272236609" modelstatus="Validated" type="schema.exception"/>
+        <model uuid="0bb97711-2afa-4335-876a-33cf7ad96407" name="SystemException" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272236640" modelstatus="Validated" type="schema.exception"/>
+        <model uuid="fb4d9744-e9e9-4221-b130-e0f8c729e7f6" name="SQLException" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272236672" modelstatus="Validated" type="schema.exception"/>
+      </folder>
+    </folder>
+    <folder name="Compensation" vtui:KS="Schema" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="48">
+      <folder name="Vitria" vtui:category="Compensation" vtui:KS="Schema" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="32">
+        <model uuid="0afb6a86-d582-4cb0-931e-d33f0ab583ed" name="Compensation" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272236734" modelstatus="Validated" type="schema.compensation"/>
+      </folder>
+    </folder>
+  </knowledgespace>
+  <knowledgespace name="Workbench" vtui:hidden="false" hasSandbox="true" releasable="true" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" hasLifecycle="true" vtui:flags="31" vtui:prjUUID="0054fdb5-af74-4d6b-ac80-4769777f2a6e">
+    <folder name="SLAMaintenance" vtui:KS="Workbench" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e">
+      <model uuid="c372a29b-b353-4d33-ab35-685201da3c8f" name="SLAUpdate" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272536295" modelstatus="Validated" type="dbquery"/>
+      <model uuid="c03565f5-55c9-48ec-abd6-fed7fb8f275a" name="ManageAlertSLA" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272542639" modelstatus="Validated" type="page"/>
+      <model uuid="940b5cbe-475f-4664-9c48-8950ee9ab0ab" name="SLAQueryAll" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272542654" modelstatus="Validated" type="dbquery"/>
+    </folder>
+    <folder name="Images" vtui:KS="Workbench" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e">
+      <model uuid="a4e0c8d9-66c0-4512-af54-e12d49fd2049" name="EnrollMap5-80" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272536420" modelstatus="" type="image"/>
+      <model uuid="19d1de12-eb27-4608-8b61-eb1a60f4143f" name="Map5-80" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272536451" modelstatus="" type="image"/>
+    </folder>
+    <folder name="RT-Pages" vtui:KS="Workbench" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="31">
+      <model uuid="2e4fa481-b504-4ff8-9fab-0d6f2e3f7cdb" name="MonitorbySrcSub2" version="1.12" modifiedby="vtbaadmin" modifiedon="1277272542779" modelstatus="Validated" type="page"/>
+      <model uuid="5a9ecd6b-9001-4805-a379-e8a60c8f6137" name="ESI-TrackerSub" version="1.3" modifiedby="vtbaadmin" modifiedon="1277272542811" modelstatus="Validated" type="page"/>
+      <model uuid="7e8cb4a8-814c-4520-a68a-21aa844b95fb" name="Monitor" version="1.14" modifiedby="vtbaadmin" modifiedon="1277272542920" modelstatus="Validated" type="page"/>
+      <model uuid="1af5fe7f-a683-4d71-b6f7-9e43fd13a31f" name="Enrollment-Monitor" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272542920" modelstatus="Validated" type="page"/>
+      <model uuid="4e623a36-c184-4320-9657-4169a94fb93b" name="Monitor-by-Source" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272542936" modelstatus="Validated" type="page"/>
+      <model uuid="06cdfb00-a74c-4d4f-ab52-ee4e6895215b" name="ProcessInstance" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272536701" modelstatus="" type="page"/>
+      <model uuid="dcf7d498-3927-449d-b030-a7cddce37e63" name="ESI-Tracker" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272542967" modelstatus="Validated" type="page"/>
+      <model uuid="b0e70534-b8e0-489b-99db-845061e80c7a" name="ProcessMap" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272542982" modelstatus="Validated" type="page"/>
+      <model uuid="4fd042a3-941b-48dc-b063-2c9778da7624" name="AgedRequests" version="1.3" modifiedby="vtbaadmin" modifiedon="1277272543014" modelstatus="Validated" type="page"/>
+    </folder>
+    <folder name="AggregatedSLAs" vtui:KS="Workbench" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="31">
+      <folder name="Pages" vtui:KS="Workbench" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="31">
+        <model uuid="fc268370-4810-4351-b774-b68793bd59b9" name="AlertsSummary" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543029" modelstatus="Validated" type="page"/>
+      </folder>
+      <folder name="Schema" vtui:KS="Workbench" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="31">
+        <model uuid="59ec9a03-44c1-46f3-86f8-7ed99d5469f5" name="TXU_ALERT_SLA" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543076" modelstatus="Validated" type="dbschema"/>
+      </folder>
+      <folder name="Queries" vtui:KS="Workbench" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="31">
+        <model uuid="e9b84766-cc2c-4331-b887-f7e918f36111" name="TDiffQuery" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272536920" modelstatus="Validated" type="dbquery"/>
+        <model uuid="39e33ed1-e867-4ad4-b41d-2340fc8d0771" name="AlertCountByNameCode" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543092" modelstatus="Validated" type="EPN"/>
+        <model uuid="fdfbe608-b0bf-4ae9-9ab9-73ba9202a042" name="ThresholdQuery" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543107" modelstatus="Validated" type="dbquery"/>
+        <model uuid="ce942605-edb7-49de-bb4a-ac2476747fe9" name="AlertThresholdNotify" version="1.4" modifiedby="vtbaadmin" modifiedon="1277272543154" modelstatus="Validated" type="EPN"/>
+      </folder>
+    </folder>
+    <folder name="Tools" vtui:KS="Workbench" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e">
+      <model uuid="cdb4bf98-2088-45d6-a719-d78afd07477b" name="CalendarWidget" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543170" modelstatus="" type="page"/>
+      <model uuid="2b35c944-d355-47e2-abd1-e5aea010ac74" name="GetDates" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272537170" modelstatus="" type="dbquery"/>
+    </folder>
+    <folder name="Alerts" vtui:KS="Workbench" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="31"/>
+    <folder name="Layouts" vtui:KS="Workbench" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e">
+      <model uuid="d784e1ef-987b-4fce-9549-b7d34d1e62f0" name="MainMonitor" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272537217" modelstatus="" type="layout"/>
+      <model uuid="27522b62-059c-4816-899f-e28477cb16e5" name="ESITraceLayout" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272537248" modelstatus="" type="layout"/>
+      <model uuid="87f35cb3-c6c6-413e-9ff5-c1abbab9566e" name="AgedReq" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272537264" modelstatus="" type="layout"/>
+      <model uuid="bebd9c02-ccf6-4c9d-a806-2c0a722e9de3" name="SuccessRt" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272537279" modelstatus="" type="layout"/>
+    </folder>
+    <folder name="Schemas" vtui:KS="Workbench" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e">
+      <model uuid="ca7f8a6d-0c20-4455-9a18-e895441dc801" name="SwitchDoc" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543217" modelstatus="Validated" type="dbschema"/>
+      <model uuid="0f8aa84e-9d72-4f1f-9828-355a11e10f2b" name="EnrollError" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543232" modelstatus="Validated" type="dbschema"/>
+      <model uuid="7083d1b9-19f2-4d67-868e-68f2d5322035" name="MktMsg" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543264" modelstatus="Validated" type="dbschema"/>
+      <model uuid="d06fcd28-a9cd-4ecb-9daa-e42af8479cae" name="EnrollStep" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543264" modelstatus="Validated" type="dbschema"/>
+      <model uuid="0a823956-6b31-4baa-a602-1e8ad5504b1f" name="Alert" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543279" modelstatus="Validated" type="dbschema"/>
+      <model uuid="51e8c485-cce4-4791-a0ec-11c661c29127" name="Enrollment" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543295" modelstatus="Validated" type="dbschema"/>
+      <model uuid="a40b0a0b-e79a-46ff-8174-4fdbfeb3bba4" name="EnrollReq" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543311" modelstatus="Validated" type="dbschema"/>
+      <model uuid="7a420d47-a587-4b60-929e-49a414974cb5" name="AlertSLA" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543311" modelstatus="Validated" type="dbschema"/>
+    </folder>
+    <folder name="Applications" vtui:KS="Workbench" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e">
+      <model uuid="39b57ead-8ee1-4105-82f4-c48385da8732" name="C2C-Enrollment-Admin" version="1.17" modifiedby="vtbaadmin" modifiedon="1277272543436" modelstatus="Validated" type="app.view"/>
+      <model uuid="bb5d99c0-94da-41e4-a44d-ed11217ad113" name="C2C-Enrollment" version="1.23" modifiedby="vtbaadmin" modifiedon="1277272543670" modelstatus="Validated" type="app.view"/>
+    </folder>
+    <folder name="RT-Queries" vtui:KS="Workbench" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="31">
+      <model uuid="c821e7ed-35d3-4af7-bce2-b24a4d43b5c6" name="StepErrors2" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272543686" modelstatus="" type="dbquery"/>
+      <model uuid="33eeaab8-1997-4970-893e-acc8ee6eaae3" name="StepDtl" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543701" modelstatus="" type="dbquery"/>
+      <model uuid="1e569164-2207-4f8f-8d50-7e97f2342dc1" name="StepStatusDtl" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272543717" modelstatus="Validated" type="dbquery"/>
+      <model uuid="a5d76e1a-4b49-4536-bfb5-714b62d51238" name="MktTrace" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543732" modelstatus="Validated" type="dbquery"/>
+      <model uuid="563793d4-4faa-4490-9056-f728497e68b6" name="StepErrors2Summary" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272543748" modelstatus="" type="dbquery"/>
+      <model uuid="8a247e9f-b834-4adb-b928-0392a13a2e51" name="StatusOWbySrc" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543779" modelstatus="" type="dbquery"/>
+      <model uuid="ddef6d68-762d-4936-8fde-b7ae62034e3f" name="StepErrors2SummbySrc" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272543795" modelstatus="" type="dbquery"/>
+      <model uuid="db9f6687-75ca-4f6b-a3b8-f8cb3046ed24" name="SummaryStatusDtl" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543811" modelstatus="Validated" type="dbquery"/>
+      <model uuid="7b84c682-a086-410a-8c3d-8530a14cd93d" name="StepTimerAlertsbySource" version="1.3" modifiedby="vtbaadmin" modifiedon="1277272543826" modelstatus="Validated" type="dbquery"/>
+      <model uuid="42007cd6-849c-4d04-ab13-20fb711d3305" name="StepErrors" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543842" modelstatus="" type="dbquery"/>
+      <model uuid="eb5c095d-7a0e-431a-ba60-44e27d2760a9" name="StepErrorsbySrc" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272543857" modelstatus="Validated" type="dbquery"/>
+      <model uuid="13aa017d-6dd0-4cb2-9302-9e51098c1149" name="SummaryTimerAlerts" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543873" modelstatus="Validated" type="dbquery"/>
+      <model uuid="acc316ee-635a-41e4-bd01-59907b259570" name="StepStatus" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543889" modelstatus="" type="dbquery"/>
+      <model uuid="8abfb5b7-d04f-4834-954c-fbcac9624a2b" name="ESIDStatusDtl" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543904" modelstatus="Validated" type="dbquery"/>
+      <model uuid="ae1cf36d-0e4d-49f2-969f-170f29908d80" name="StepTimerAlerts" version="1.3" modifiedby="vtbaadmin" modifiedon="1277272543936" modelstatus="Validated" type="dbquery"/>
+      <model uuid="1412cc1e-f676-4fc1-a17a-a68075e5aeca" name="AdminStatusDtl" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543951" modelstatus="Validated" type="dbquery"/>
+      <model uuid="52fd7c1b-2c8c-4ff8-b279-3a1ffd361e51" name="StatusOW" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543951" modelstatus="" type="dbquery"/>
+      <model uuid="1e42d533-7670-491f-b462-bf1905657f9f" name="OtherAlerts" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543967" modelstatus="Validated" type="dbquery"/>
+      <model uuid="da76a68f-4fc2-4db5-be60-fd75ad002eb7" name="StepErrDtl" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272543982" modelstatus="Validated" type="dbquery"/>
+      <model uuid="6e9199da-eb40-437f-a291-4c6f6f729a8c" name="StepStatusbySrc" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272544014" modelstatus="" type="dbquery"/>
+    </folder>
+    <folder name="PM-Pages" vtui:KS="Workbench" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="31">
+      <model uuid="1e9a079c-fc6d-4ac2-86be-489bb05033f6" name="Latency" version="1.5" modifiedby="vtbaadmin" modifiedon="1277272544045" modelstatus="Validated" type="page"/>
+      <model uuid="94430c10-eea3-439d-9c00-7c536039b582" name="Enrollment_ArrivalRate_pg" version="1.3" modifiedby="vtbaadmin" modifiedon="1277272544107" modelstatus="" type="page"/>
+      <model uuid="db65dff9-8add-4f10-b8de-a59884affa1b" name="Event_Arrrival_Rate" version="1.4" modifiedby="vtbaadmin" modifiedon="1277272544154" modelstatus="" type="page"/>
+      <model uuid="08f4b75d-d13a-424f-b1f2-18d296e6f40c" name="CancelledMoveIns" version="1.9" modifiedby="vtbaadmin" modifiedon="1277272544232" modelstatus="" type="page"/>
+      <model uuid="6e670bba-4503-4e81-965d-eb6f1eb09aad" name="SuccessRates" version="1.9" modifiedby="vtbaadmin" modifiedon="1277272544295" modelstatus="Validated" type="page"/>
+      <model uuid="884deea4-d846-4c59-a938-ab8f773cf906" name="Switch_docArrivalRate_pg" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272544326" modelstatus="" type="page"/>
+      <model uuid="73a2a232-01df-4f64-b500-0089acf7539d" name="MKtTrans_ArrivalRate_pg" version="1.3" modifiedby="vtbaadmin" modifiedon="1277272544342" modelstatus="" type="page"/>
+    </folder>
+    <folder name="CancellationQueries" vtui:KS="Workbench" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="31">
+      <model uuid="330b1826-9c43-4e73-b9e9-8191e765eaa6" name="CancelsByTDSP" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272544357" modelstatus="" type="dbquery"/>
+      <model uuid="f4fe632a-39b2-458f-84c5-d02b9db608a7" name="CancelsByLOB" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272544373" modelstatus="" type="dbquery"/>
+      <model uuid="16a8af45-27a3-4c0b-aff1-2824fece2ef1" name="CancelRate" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272544389" modelstatus="" type="dbquery"/>
+      <model uuid="28aa7535-d229-4cef-a539-58da1bba2f83" name="CanceledBy" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272544389" modelstatus="" type="dbquery"/>
+      <model uuid="f5551a9f-0696-437e-a36d-39ed76da6bc8" name="GetDistributors" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272544404" modelstatus="" type="dbquery"/>
+      <model uuid="e297b5c8-3e1f-4d18-af26-7a4a0be720d4" name="CancelReasons" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272544420" modelstatus="" type="dbquery"/>
+      <model uuid="4e1d4eea-374c-4b20-8bbb-55c5af0c3766" name="CancelsBySource" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272544436" modelstatus="" type="dbquery"/>
+      <model uuid="f12b378b-3b77-4957-b377-c4da5cc5a9ea" name="CancellationsByDay" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272544451" modelstatus="" type="dbquery"/>
+      <model uuid="a6871b7e-5591-4767-9929-b8f68a746e0e" name="GetLOB" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272544467" modelstatus="" type="dbquery"/>
+    </folder>
+    <folder name="PM-Queries" vtui:KS="Workbench" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="31">
+      <model uuid="90293a91-0cb0-4032-8172-ad48b954a7aa" name="TDSPSuccess" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272544482" modelstatus="Validated" type="dbquery"/>
+      <model uuid="cfeb6e08-970d-4b37-b053-126e82a78d62" name="LOBSuccess" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272544482" modelstatus="Validated" type="dbquery"/>
+      <model uuid="fbba55ec-1179-4f03-b0c0-a721cba77f71" name="EnrollRequests" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272539029" modelstatus="Validated" type="dbquery"/>
+      <model uuid="7cb885ac-0bd0-4c54-9da8-b275aa18c03d" name="MktTrans_Rate" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272544498" modelstatus="" type="dbquery"/>
+      <model uuid="8d47e52f-d6d5-4ac8-881c-bfc3ad5d276e" name="InovisNon867_04" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272539123" modelstatus="Validated" type="dbquery"/>
+      <model uuid="83c894cf-9cc3-4539-9f0f-361cc6affb32" name="VarianceToMoveIn" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272544514" modelstatus="Validated" type="dbquery"/>
+      <model uuid="e600bfc3-e03a-424f-9f81-30dece4ac90b" name="FilteredTotalSuccess" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272544529" modelstatus="Validated" type="dbquery"/>
+      <model uuid="608779ff-84b7-48e7-a1c7-d521af4b1c60" name="MKtTrans_ArrivalRate" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272539264" modelstatus="" type="dbquery"/>
+      <model uuid="cce2f6fa-7502-4a43-835e-633ca7c58f18" name="GetLOB" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272544545" modelstatus="" type="dbquery"/>
+      <model uuid="84ae6892-b3df-4ca2-8ca2-7ec95bd05949" name="SAPAllTransactions" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272539342" modelstatus="Validated" type="dbquery"/>
+      <model uuid="fbe0ec48-180c-4199-a70d-92fc1d2286b2" name="SwitchDocCreated" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272539373" modelstatus="Validated" type="dbquery"/>
+      <model uuid="47d03f3d-0ecc-49cd-9def-3b35c50ef0b4" name="Enrollment_AR" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272544576" modelstatus="" type="dbquery"/>
+      <model uuid="b9541de1-d112-4e9b-9a98-672ae01b8005" name="GetDistributors" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272544592" modelstatus="" type="dbquery"/>
+      <model uuid="975f15a8-6461-49fc-85b3-cdb54b2f61dc" name="SuccessByDate" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272544607" modelstatus="Validated" type="dbquery"/>
+      <model uuid="d9901e52-0cbb-4fa5-b362-c22318f2e344" name="Inovis867_04" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272539529" modelstatus="Validated" type="dbquery"/>
+      <model uuid="87974d42-cd20-4d6a-ae89-d5a2883f4241" name="ChannelSuccess" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272544623" modelstatus="Validated" type="dbquery"/>
+      <model uuid="3f8eb533-3fe4-4507-b34e-5d04ddfa3038" name="Enrollment_arrivalrate" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272544623" modelstatus="" type="dbquery"/>
+      <model uuid="a15a7b54-bea1-4271-92da-252d05c52f42" name="SwitchDoc_AR" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272544639" modelstatus="" type="dbquery"/>
+    </folder>
+  </knowledgespace>
+  <knowledgespace name="TypeRegistry" vtui:hidden="true" hasSandbox="false" releasable="true" vtui:flags="31">
+    <folder name="Schemas">
+      <model uuid="d6a46b67-7823-4f80-866f-d5af35796459" name="SchemaModel_1600036453" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272234890" modelstatus="" type=""/>
+      <model uuid="f05073c8-f51f-43c5-9ebd-80ce7ccf853b" name="SchemaModel_1059989899" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272235125" modelstatus="" type=""/>
+      <model uuid="d03e6398-125b-400b-ab59-63b3f605b489" name="SchemaModel_1952986079" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272235250" modelstatus="" type=""/>
+      <model uuid="6ede8977-df29-472f-b883-530deed9a7f9" name="SchemaModel_1440052060" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272236234" modelstatus="" type=""/>
+      <model uuid="bf77b361-4b73-4459-a10a-a24e97bb3e6b" name="SchemaModel_-1457860585" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272235093" modelstatus="" type=""/>
+      <model uuid="36199c83-278c-43b9-bfef-952e2c43bf4a" name="SchemaModel_903881071" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272235218" modelstatus="" type=""/>
+      <model uuid="073ff9d1-0e2c-487d-a150-fdd94c9ebe8c" name="SchemaModel_1691710478" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272235328" modelstatus="" type=""/>
+      <model uuid="0121f753-2d0d-43b2-9987-4294eb427a16" name="SchemaModel_1984391987" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272235406" modelstatus="" type=""/>
+      <model uuid="1b53dfaf-60d7-4be1-bd18-77bedbb2569c" name="SchemaModel_-1550647023" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272235593" modelstatus="" type=""/>
+      <model uuid="0fe65156-b7f2-4f9e-bd26-e29db9ce053a" name="SchemaModel_-756426247" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272235672" modelstatus="" type=""/>
+      <model uuid="0a71d652-4e28-4255-a772-75aca851b113" name="SchemaModel_375267045" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272563639" modelstatus="" type=""/>
+      <model uuid="7d83899f-13a7-4ca1-a7e8-8921d8cfaa30" name="SchemaModel_564911678" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272562889" modelstatus="" type=""/>
+      <model uuid="0b4cb92a-11c3-440b-b752-35187b6bc79a" name="SchemaModel_272880010" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272530123" modelstatus="" type=""/>
+      <model uuid="d68c772f-2c97-4d5b-bc42-71c9777218a5" name="SchemaModel_802769986" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272530779" modelstatus="" type=""/>
+      <model uuid="00774d32-b290-4fd4-8fed-288e19148e38" name="SchemaModel_332243902" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272562045" modelstatus="" type=""/>
+      <model uuid="d04df9a8-a35b-4f0b-b568-31eca6a482a0" name="SchemaModel_1697689385" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272533107" modelstatus="" type=""/>
+      <model uuid="68280a45-6181-4298-9ca2-9de846c5d9e7" name="SchemaModel_-907241642" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272533186" modelstatus="" type=""/>
+      <model uuid="3aecc018-a649-4cf3-a65c-09f2931abd03" name="SchemaModel_1683391772" version="1.6" modifiedby="vtbaadmin" modifiedon="1277272560123" modelstatus="" type=""/>
+      <model uuid="45c293c2-8181-47dd-897b-735080452624" name="SchemaModel_-934564320" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272560170" modelstatus="" type=""/>
+      <model uuid="3e1cf2a0-c699-4ed2-8e72-83426c8d16f2" name="SchemaModel_-5454557" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272536123" modelstatus="" type=""/>
+      <model uuid="4b12d6f3-de3f-4358-bdae-408626b7cadd" name="SchemaModel_823197070" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272536232" modelstatus="" type=""/>
+    </folder>
+    <folder name="DBAccessObjects">
+      <folder name="HibernateMappings">
+        <model uuid="3b9967ed-7e1f-4a64-8eaa-0b2b0b76cfe4" name="HibernateMappingModel_-1350986675" version="1.34" modifiedby="vtbaadmin" modifiedon="1277272563623" modelstatus="" type=""/>
+      </folder>
+    </folder>
+    <model uuid="c37eb0cb-4674-462f-ba84-8659929910f8" name="ResourceBOM" version="1.165" modifiedby="vtbaadmin" modifiedon="1277272563654" modelstatus="" type=""/>
+    <model uuid="8139d91f-6ee9-4c86-9970-f1c0a722b81f" name="DataDictionary" version="1.95" modifiedby="vtbaadmin" modifiedon="1277272563529" modelstatus="" type=""/>
+  </knowledgespace>
+  <knowledgespace name="Service" vtui:hidden="false" hasSandbox="true" releasable="true" hasLifecycle="true" vtui:flags="31">
+    <folder name="WSDLService" vtui:KS="Service" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="16"/>
+    <folder name="Function" vtui:KS="Service" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="48">
+      <model uuid="bb0e8f2b-0fef-40f6-a444-5cde9c26f861" name="PriorityCheck" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272563717" modelstatus="Validated" type="service.function"/>
+      <model uuid="21d6869d-b2c8-44eb-a7d8-56a6ba5d7cab" name="MktReleaseCalc" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272563701" modelstatus="Validated" type="service.function"/>
+      <model uuid="1e22faad-cea2-453b-a4cf-dec06dea7778" name="CheckCustomContract" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272563685" modelstatus="Validated" type="service.function"/>
+      <model uuid="2552604e-ca85-4c48-bd17-fbe6dce2bb4b" name="GetICodes" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272563701" modelstatus="Validated" type="service.function"/>
+      <model uuid="9c5828bf-71d5-485e-aa64-badf1c34821d" name="DateManipulator" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272563717" modelstatus="Validated" type="service.function"/>
+      <model uuid="01089fbe-584a-44df-83a7-b7b4147edf99" name="GetLOB" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272563685" modelstatus="Validated" type="service.function"/>
+      <model uuid="68be8ca6-4bff-4c19-8cc7-f3f5dadc283a" name="GetECodes" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272563732" modelstatus="Validated" type="service.function"/>
+      <model uuid="f1a9cc7b-2583-404c-b311-2842c3733e0d" name="CalcSLATime" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272563670" modelstatus="Validated" type="service.function"/>
+    </folder>
+  </knowledgespace>
+  <knowledgespace name="Resource" vtui:hidden="false" hasSandbox="true" releasable="true" hasLifecycle="true" vtui:flags="31">
+    <folder name="DataSource" vtui:KS="Resource" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="16">
+      <model uuid="1e225ddb-fe01-46c7-9665-5825652c81ae" name="BizLink" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272524295" modelstatus="Validated" type="Resource"/>
+      <model uuid="a42a2c8f-edf0-455a-8fae-388a3c9d34bb" name="ISU" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272524311" modelstatus="Validated" type="Resource"/>
+      <model uuid="5dd01b69-8d53-46c3-a5b8-359fe49d0436" name="M3O" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272524342" modelstatus="Validated" type="Resource"/>
+      <model uuid="b6794f09-9db2-43c3-92e4-2f4b3ab360fe" name="TLE" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272524357" modelstatus="Validated" type="Resource"/>
+      <model uuid="9bd9a341-968f-4b79-ac35-954f399c7e13" name="CRM" version="1.0" modifiedby="vtbaadmin" modifiedon="1277272524404" modelstatus="Validated" type="Resource"/>
+    </folder>
+  </knowledgespace>
+  <knowledgespace name="EventPolicy" vtui:hidden="false" hasSandbox="true" releasable="true" hasLifecycle="true" vtui:flags="31">
+    <folder name="MktMsgRouting" vtui:lcStatusNote="" _modelType="EventPolicy" vtui:lcStatusBy="sburg" vtui:KS="EventPolicy" vtui:lcStatusDate="1269900759785" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" tree.PathFilter="MktMsgRouting" node.category="PolicyFolder" vtui:lcStatus="Draft">
+      <folder name="Routing.MktMsg" vtui:KS="EventPolicy" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" tree.PathFilter="MktMsgRouting.Routing.MktMsg" node.category="EventFolder" event.enabled="true">
+        <model uuid="e8487405-26cb-4f9a-b867-1b9ecdfe7cac" name="Default" version="1.23" modifiedby="vtbaadmin" modifiedon="1277272564764" modelstatus="Validated" type="eventpolicy"/>
+        <model uuid="560880bc-4170-4601-931a-3e64b29f35e8" name="Default.SAPOutboundChgCancel" version="1.4" modifiedby="vtbaadmin" modifiedon="1277272564779" modelstatus="Validated" type="eventpolicy"/>
+        <model uuid="f0954567-8a34-435f-a24d-b925fea89e0e" name="Default.SAPOutbound" version="1.4" modifiedby="vtbaadmin" modifiedon="1277272564717" modelstatus="Validated" type="eventpolicy"/>
+        <model uuid="ecb26585-fd57-441d-9c36-8f16d108d414" name="Default.SAPInboundChgCancel" version="1.4" modifiedby="vtbaadmin" modifiedon="1277272564639" modelstatus="Validated" type="eventpolicy"/>
+        <model uuid="d7616c91-cc97-41be-b500-e8f594d6faa9" name="Default.InovisInbound" version="1.4" modifiedby="vtbaadmin" modifiedon="1277272564217" modelstatus="Validated" type="eventpolicy"/>
+        <model uuid="32096423-6a28-4a35-b7ea-6dc87f2cf352" name="Default.InovisOutbound" version="1.4" modifiedby="vtbaadmin" modifiedon="1277272564420" modelstatus="Validated" type="eventpolicy"/>
+        <model uuid="fc857ad5-b094-4d75-85ef-279ac9518681" name="Default.InovisInbound867" version="1.4" modifiedby="vtbaadmin" modifiedon="1277272564295" modelstatus="Validated" type="eventpolicy"/>
+        <model uuid="1a5bd9b7-c924-4f87-b93c-f804eb9d3be3" name="Default.SAPInbound" version="1.4" modifiedby="vtbaadmin" modifiedon="1277272564576" modelstatus="Validated" type="eventpolicy"/>
+        <model uuid="540e38d6-1717-4da0-9f26-b948f5c5625b" name="Default.InovisInboundChgCancel" version="1.4" modifiedby="vtbaadmin" modifiedon="1277272564357" modelstatus="Validated" type="eventpolicy"/>
+        <model uuid="84db99b2-47c9-4ea7-8335-3b2313265cf9" name="Default.InovisOutboundChgCancel" version="1.4" modifiedby="vtbaadmin" modifiedon="1277272564482" modelstatus="Validated" type="eventpolicy"/>
+      </folder>
+      <model uuid="971a0c12-794a-487d-8e18-0485137febeb" name="Routing" version="1.3" modifiedby="vtbaadmin" modifiedon="1277272564014" modelstatus="Validated" type="EventPolicy"/>
+    </folder>
+    <folder name="AlertResponse" vtui:lcStatusNote="" _modelType="EventPolicy" vtui:lcStatusBy="sburg" vtui:KS="EventPolicy" vtui:lcStatusDate="1270483590763" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" tree.PathFilter="AlertResponse" node.category="PolicyFolder" vtui:lcStatus="Draft">
+      <folder name="Alert.Alert" vtui:KS="EventPolicy" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" tree.PathFilter="AlertResponse.Alert.Alert" node.category="EventFolder" event.enabled="true">
+        <model uuid="ab217c36-3397-495f-9b2d-d8e8294161ef" name="Default" version="1.9" modifiedby="vtbaadmin" modifiedon="1277272564951" modelstatus="Validated" type="eventpolicy"/>
+        <model uuid="b6d0f3f6-dd8f-4334-9e30-b1470cb898c5" name="Default.CustomContractCancel" version="1.4" modifiedby="vtbaadmin" modifiedon="1277272564967" modelstatus="Validated" type="eventpolicy"/>
+        <model uuid="32987557-400a-4854-88f7-9bd7c27c5738" name="Default.AlertThreshold" version="1.4" modifiedby="vtbaadmin" modifiedon="1277272564904" modelstatus="Validated" type="eventpolicy"/>
+      </folder>
+      <model uuid="cd998193-aaed-4e2b-85e2-54ea50a3e6f8" name="Alert" version="1.3" modifiedby="vtbaadmin" modifiedon="1277272564029" modelstatus="Validated" type="EventPolicy"/>
+    </folder>
+  </knowledgespace>
+  <knowledgespace name="EventSource" vtui:hidden="false" hasSandbox="true" releasable="true" hasLifecycle="true" vtui:flags="31">
+    <folder name="File" vtui:KS="EventSource" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="16"/>
+    <folder name="JMS" vtui:KS="EventSource" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="16">
+      <model uuid="920db2f9-9e84-424c-9ced-200341052d79" name="AlertJMS" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272542420" modelstatus="Validated" type="eventsource.jms"/>
+    </folder>
+    <folder name="REST" vtui:KS="EventSource" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="16"/>
+    <folder name="Database" vtui:flags="31">
+      <model uuid="ebe90521-e55c-4f80-a5ef-a4e617d79fe7" name="SAPMktMsgStateful" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272542436" modelstatus="Validated" type=""/>
+      <model uuid="739e6972-b3bd-4de3-b823-451c2baa0ccc" name="SwitchDocStateful" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272542467" modelstatus="Validated" type=""/>
+      <model uuid="5105331e-d7e2-4df7-9e02-978c5a6f97d8" name="InovisMktMsgStateful" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272542482" modelstatus="Validated" type=""/>
+      <model uuid="e8e2796b-c34b-4dbe-8f07-eaebd9348891" name="EnrollReqStateful" version="1.2" modifiedby="vtbaadmin" modifiedon="1277272542498" modelstatus="Validated" type=""/>
+    </folder>
+  </knowledgespace>
+  <knowledgespace name="Feed" vtui:hidden="false" hasSandbox="true" releasable="true" hasLifecycle="true" vtui:flags="31">
+    <folder name="Feed" vtui:KS="Feed" vtui:BE="0054fdb5-af74-4d6b-ac80-4769777f2a6e" vtui:flags="16">
+      <model uuid="ba5c502d-524b-464e-b874-c06b2306254c" name="EventSourceExceptionFeed" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272236906" modelstatus="Validated" type=""/>
+      <model uuid="214be776-2879-44c2-8dc7-defb5edbf7ec" name="EnrollUpdate" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272542514" modelstatus="Validated" type="Feed"/>
+      <model uuid="0f1337d4-ad28-4dc1-9e2c-15694357a302" name="MktMsgToMonitor" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272542529" modelstatus="Validated" type="Feed"/>
+      <model uuid="81874b59-5918-402c-b227-9986c9c5e517" name="Alert" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272542545" modelstatus="Validated" type="Feed"/>
+      <model uuid="f56fcda6-7aae-4134-b06b-3afbe22cc5de" name="MktMsgIn" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272542545" modelstatus="Validated" type="Feed"/>
+      <model uuid="db018570-9f25-4a7f-a2d1-83bea2a70257" name="SwitchDocIn" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272542561" modelstatus="Validated" type="Feed"/>
+      <model uuid="bf08ee61-2cba-4e42-a1ae-6fc12d409fe6" name="InEnrollReq" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272542576" modelstatus="Validated" type="Feed"/>
+      <model uuid="1c01eddf-7815-49bc-8777-581506b81dc2" name="SwitchDocToMonitor" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272542592" modelstatus="Validated" type="Feed"/>
+      <model uuid="8f2660de-e654-497b-80ce-d8d35b6f49ee" name="EnrollReq" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272542592" modelstatus="Validated" type="Feed"/>
+      <model uuid="1fae7b22-59b9-4d50-aace-998591f4f367" name="MktMsgUpdate" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272542607" modelstatus="Validated" type="Feed"/>
+      <model uuid="42e98052-cdbd-4bfa-8d10-395f1b8507cd" name="ExceptionFeed" version="1.1" modifiedby="vtbaadmin" modifiedon="1277272542623" modelstatus="Validated" type=""/>
+    </folder>
+  </knowledgespace>
+</businessenvironment>

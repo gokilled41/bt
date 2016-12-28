@@ -1,0 +1,2 @@
+call msfdir
+call ai

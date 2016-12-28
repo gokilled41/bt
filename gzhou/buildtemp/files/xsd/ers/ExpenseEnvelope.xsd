@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://schema.vitria.com/exp"
+	xmlns:exp="http://schema.vitria.com/exp">
+
+	<element name="expenseEnvelope" type="exp:ExpenseEnvelope" />
+
+	<complexType name="ExpenseEnvelope">
+		<sequence>
+			<element name="expenseHeader" type="exp:ExpenseHeader" />
+			<element name="expenseLineItems" type="exp:ExpenseLineItems" />
+			<element name="expenseFooter" type="exp:ExpenseFooter" />
+		</sequence>
+	</complexType>
+
+	<complexType name="ExpenseHeader">
+		<sequence>
+			<element name="envelopeId" type="int" />
+			<element name="userName" type="string" />
+			<element name="department" type="string" />
+			<element name="creationDate" type="date" />
+			<element name="managerResponsible" type="string" />
+			<element name="status" type="string" />
+
+			<element name="expensePeriod" type="string" />
+			<element name="description" type="string" />
+			<element name="notes" type="string" />
+		</sequence>
+	</complexType>
+
+	<complexType name="ExpenseFooter">
+		<sequence>
+			<element name="total" type="int" />
+			<element name="nonReimbursableTotal" type="int" />
+			<element name="totalDue" type="double" />
+		</sequence>
+	</complexType>
+
+	<complexType name="ExpenseLineItems">
+		<sequence>
+			<element name="expenseLineItem" type="exp:ExpenseLineItem" minOccurs="1"
+				maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
+
+	<complexType name="ExpenseLineItem">
+		<sequence>
+			<element name="referenceId" type="int" />
+			<element name="expenseAccount" type="string" />
+			<element name="costCenter" type="string" />
+			<element name="warningIcon" type="string" />
+
+			<element name="client" type="string" />
+			<element name="project" type="string" />
+			<element name="expenseItem" type="string" />
+			<element name="amount" type="double" />
+			<element name="payType" type="string" />
+			<element name="quantity" type="double" />
+			<element name="reimbursable" type="boolean" />
+			<element name="currencySymbol" type="string" />
+			<element name="foreignCurrencyAmount" type="double" />
+			<element name="foreignExchangeRateUsed" type="double" />
+			<element name="description" type="string" />
+		</sequence>
+	</complexType>
+
+</schema>

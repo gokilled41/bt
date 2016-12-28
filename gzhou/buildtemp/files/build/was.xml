@@ -1,0 +1,696 @@
+<?xml version="1.0"?>
+
+<project name="was" basedir="../..">
+    <import file="../../properties.xml" />
+
+    <property name="was.home" value="C:\WAS" />
+    <property name="profile" value="AppSrv01" />
+    <property name="cell" value="pek-wkst67766Node01Cell" />
+    <property name="node" value="pek-wkst67766Node01" />
+    <property name="resources.dir" value="${vtba.home}\resources" />
+    <property name="oracle.dir" value="${vtba.home}\resources\websphere\properties\resources\jdbc\Oracle" />
+    <property name="alias.dir" value="${vtba.home}\resources\websphere\properties\resources\alias" />
+    <property name="was.dir" value="${files.dir}\was" />
+
+    <property name="was.logs.dir" value="${was.home}\profiles\AppSrv01\logs\server1" />
+    <property name="was.logs.sysout.file.name" value="SystemOut.log" />
+
+    <property name="was.profiles.dir" value="${was.home}\profiles" />
+    <property name="was.profile.name" value="AppSrv01" />
+    <property name="was.profile.zip.name" value="AppSrv01.zip" />
+    <property name="was.profile.dir" value="${was.profiles.dir}\${was.profile.name}" />
+    <property name="was.profile.zip.file" value="${was.profiles.dir}\${was.profile.zip.name}" />
+
+    <property name="was.lib.dir" value="${was.home}\lib" />
+    <property name="was.lib.ext.dir" value="${was.lib.dir}\ext" />
+
+    <property name="was.profile.dir" value="${was.home}\profiles\${profile}" />
+    <property name="was.apps.dir" value="${was.profile.dir}\installedApps\${cell}" />
+    <property name="was.apps.server.dir" value="${was.apps.dir}\M3OServerApplication.ear" />
+    <property name="was.apps.server.lib.dir" value="${was.apps.server.dir}\lib" />
+    <property name="was.apps.server.ejb.dir" value="${was.apps.server.dir}\ejb" />
+    <property name="was.apps.server.war.dir" value="${was.apps.server.dir}\war" />
+    <property name="was.apps.ui.dir" value="${was.apps.dir}\M3OUI.ear" />
+    <property name="was.apps.ui.ejb.dir" value="${was.apps.ui.dir}\ejb" />
+    <property name="was.apps.ui.sar.dir" value="${was.apps.ui.dir}\sar" />
+    <property name="was.apps.ui.war.dir" value="${was.apps.ui.dir}\war" />
+    <property name="was.apps.ui.war.lib.dir" value="${was.apps.ui.war.dir}\m3oui.war\WEB-INF\lib" />
+
+
+    <target name="was-init">
+        <property name="appserver.properties.file" value="${resources.dir}\appserver.properties" />
+        <prop file="${appserver.properties.file}" key="websphere.host" value="localhost" />
+        <prop file="${appserver.properties.file}" key="websphere.profile" value="AppSrv01" />
+        <prop file="${appserver.properties.file}" key="websphere.cell" value="pek-wkst67766Node01Cell" />
+        <prop file="${appserver.properties.file}" key="websphere.node" value="pek-wkst67766Node01" />
+        <prop file="${appserver.properties.file}" key="websphere.server" value="server1" />
+        <prop file="${appserver.properties.file}" key="websphere.soap.port" value="8880" />
+        <prop file="${appserver.properties.file}" key="websphere.admin.username" value="vtbaadmin" />
+        <prop file="${appserver.properties.file}" key="websphere.admin.password" value="vitria" />
+        <prop file="${appserver.properties.file}" key="websphere.isClustered" value="false" />
+        <prop file="${appserver.properties.file}" key="websphere.clusterName" value="" />
+
+        <property name="analytic.ds" value="${resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-analytic-ds.properties" />
+        <prop file="${analytic.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${analytic.ds}" key="username" value="${vt_ds_username}" />
+        <prop file="${analytic.ds}" key="password" value="${vt_ds_password}" />
+
+        <property name="bc.ds" value="${resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-bc-ds.properties" />
+        <prop file="${bc.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${bc.ds}" key="username" value="${vt_ds_username}" />
+        <prop file="${bc.ds}" key="password" value="${vt_ds_password}" />
+
+        <property name="dmsdt.ds" value="${resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-dmsdt-ds.properties" />
+        <prop file="${dmsdt.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${dmsdt.ds}" key="username" value="${vt_ds_username}" />
+        <prop file="${dmsdt.ds}" key="password" value="${vt_ds_password}" />
+
+        <property name="emf.ds" value="${resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-emf-ds.properties" />
+        <prop file="${emf.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${emf.ds}" key="username" value="${vt_ds_username}" />
+        <prop file="${emf.ds}" key="password" value="${vt_ds_password}" />
+
+        <property name="um.ds" value="${resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-um-ds.properties" />
+        <prop file="${um.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${um.ds}" key="username" value="${vt_ds_username}" />
+        <prop file="${um.ds}" key="password" value="${vt_ds_password}" />
+
+        <property name="vitriabus.ds" value="${resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-vitriabus-ds.properties" />
+        <prop file="${vitriabus.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${vitriabus.ds}" key="username" value="${vt_ds_username}" />
+        <prop file="${vitriabus.ds}" key="password" value="${vt_ds_password}" />
+
+        <property name="vtusermgr" value="${resources.dir}\websphere\properties\vtusermgr.properties" />
+        <prop file="${vtusermgr}" key="com.vitria.usermanager.provider.userrepository.wsldap.base.dn" value="dc=qilinsoftcorp,dc=qilinsoft,dc=com" />
+        <prop file="${vtusermgr}" key="com.vitria.usermanager.provider.userrepository.wsldap.provider.url" value="ldap://localhost:50783/" />
+        <prop file="${vtusermgr}" key="com.vitria.usermanager.provider.userrepository.wsldap.admin.dn" value="cn=Directory Manager" />
+        <prop file="${vtusermgr}" key="com.vitria.usermanager.provider.userrepository.wsldap.admin.password" value="password" />
+
+        <property name="vtmodelrepos" value="${resources.dir}\websphere\properties\vtmodelrepos.properties" />
+        <prop file="${vtmodelrepos}" key="java.naming.provider.url" value="corbaloc:iiop:localhost:2809" />
+
+        <echo message="modify and deploy server.xml, server_analytic.xml, server_feed.xml" />
+        <echo message="vt.server.context.factory: ${vt.server.context.factory.websphere}" />
+        <echo message="vt.server.provider.url: ${vt.server.provider.url.websphere}" />
+
+        <filter token="VTBA_HOME" value="${vtba.home}" />
+        <filter token="VT_DB_DIALECT_TYPE" value="${vt.db.dialect.type}" />
+        <filter token="VT_SERVER_CONTEXT_FACTORY" value="${vt.server.context.factory.websphere}" />
+        <filter token="VT_SERVER_PROVIDER_URL" value="${vt.server.provider.url.websphere}" />
+        <filter token="VT_REMOTE_CONTEXT_FACTORY" value="${vt.server.context.factory.websphere}" />
+        <filter token="VT_REMOTE_PROVIDER_URL" value="${vt.server.provider.url.websphere}" />
+        <filter token="VT_REMOTE_FEED_SERVER_CONTEXT_FACTORY" value="${vt.server.context.factory.websphere}" />
+        <filter token="VT_REMOTE_FEED_SERVER_PROVIDER_URL" value="${vt.server.provider.url.websphere}" />
+
+        <filter token="VT_SERVER_NAME" value="${vt.server.name.m3o}" />
+        <copy todir="${vtba.home}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${vtba.home}\data\m3o\template">
+                <include name="server.xml" />
+            </fileset>
+        </copy>
+
+        <filter token="VT_SERVER_NAME" value="${vt.server.name.analytic}" />
+        <copy todir="${vtba.home}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${vtba.home}\data\m3o\template">
+                <include name="server_analytic.xml" />
+            </fileset>
+        </copy>
+
+        <filter token="VT_SERVER_NAME" value="${vt.server.name.feed}" />
+        <copy todir="${vtba.home}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${vtba.home}\data\m3o\template">
+                <include name="server_feed.xml" />
+            </fileset>
+        </copy>
+
+        <copy todir="${was.lib.ext.dir}" overwrite="true">
+            <fileset dir="${was.dir}">
+                <include name="commons-logging.properties" />
+                <include name="log4j.properties" />
+            </fileset>
+        </copy>
+
+        <copy todir="${was.lib.ext.dir}" overwrite="true">
+            <fileset file="${ojdbc.jar}" />
+        </copy>
+
+
+        <copy todir="${vtba.home}\data" overwrite="true">
+            <fileset dir="${vtba.home}\data\vtutil\template">
+                <include name="vtutil.properties.was" />
+            </fileset>
+        </copy>
+        <delete file="${vtba.home}\data\vtutil.properties" />
+        <move tofile="${vtba.home}\data\vtutil.properties" file="${vtba.home}\data\vtutil.properties.was" />
+        <property name="vtutil" value="${vtba.home}\data\vtutil.properties" />
+        <prop file="${vtutil}" key="was.node" value="pek-wkst67766Node01" />
+        <prop file="${vtutil}" key="was.soap.connector.port" value="8880" />
+        <prop file="${vtutil}" key="was.soap.connector.hostname" value="localhost" />
+        <prop file="${vtutil}" key="admin.username" value="vtbaadmin" />
+        <prop file="${vtutil}" key="admin.password" value="vitria" />
+        <prop file="${vtutil}" key="extension.m3o" value="com.vitria.admin.VTM3OUtil" />
+
+    </target>
+
+    <target name="was-clean-log">
+        <copy todir="${was.logs.dir}" overwrite="true">
+            <fileset dir="${was.dir}">
+                <include name="${was.logs.sysout.file.name}" />
+            </fileset>
+        </copy>
+        <copy todir="D:\" overwrite="true">
+            <fileset dir="${was.dir}">
+                <include name="was-m3o.log" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="was-clean-log-1">
+        <copy todir="C:\WASHA\profiles\AppSrv01\logs\node1" overwrite="true">
+            <fileset dir="${was.dir}">
+                <include name="${was.logs.sysout.file.name}" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="was-clean-log-2">
+        <copy todir="C:\WASHA\profiles\AppSrv02\logs\node2" overwrite="true">
+            <fileset dir="${was.dir}">
+                <include name="${was.logs.sysout.file.name}" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="ear">
+        <echo message="update m3oserver.ear with eclipse jars" />
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${runtime.websphere.deploy.dir}/${m3o.ear.name}" dest="${m3o.ear.dir}" />
+        <copy todir="${m3o.ear.dir}/lib" overwrite="true">
+            <fileset dir="${runtime.common.lib.dir}">
+                <include name="org.eclipse.*.jar" />
+                <include name="vtclient.jar" />
+            </fileset>
+        </copy>
+        <zip destfile="${runtime.websphere.deploy.dir}/${m3o.ear.name}" basedir="${m3o.ear.dir}" />
+        <delete dir="${m3o.ear.dir}" />
+    </target>
+
+    <target name="was-clean">
+        <delete dir="${was.profile.dir}" />
+        <unzip src="${was.profile.zip.file}" dest="${was.profiles.dir}" />
+        <delete>
+            <fileset dir="${was.lib.ext.dir}">
+                <include name="*.*" />
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="was-clean-profile">
+        <delete dir="${was.profile.dir}" />
+        <unzip src="${was.profiles.dir}\AppSrv01_deployed3.zip" dest="${was.profiles.dir}" />
+    </target>
+
+    <target name="was-clean-tranlog">
+        <copy todir="C:\WAS\profiles\AppSrv01\tranlog\pek-wkst67766Node01Cell\pek-wkst67766Node01\server1\transaction\tranlog" overwrite="true">
+            <fileset dir="${was.dir}\tranlog\tranlog">
+                <include name="*" />
+            </fileset>
+        </copy>
+        <copy todir="C:\WAS\profiles\AppSrv01\tranlog\pek-wkst67766Node01Cell\pek-wkst67766Node01\server1\transaction\partnerlog" overwrite="true">
+            <fileset dir="${was.dir}\tranlog\partnerlog">
+                <include name="*" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="was-cluster-init-dm">
+        <property name="cluster.home.dir" value="${export.bak.dir}/wha/home1" />
+        <property name="cluster.resources.dir" value="${cluster.home.dir}\resources" />
+        <property name="vt_ds_username_cluster" value="washa" />
+        <property name="vt_ds_password_cluster" value="washa" />
+        <property name="vt.server.provider.url.websphere_cluster" value="corbaloc:iiop:localhost:2814" />
+        <property name="nodeid" value="1" />
+        <property name="was.cluster.server.name" value="node${nodeid}" />
+
+        <property name="appserver.properties.file" value="${cluster.resources.dir}\appserver.properties" />
+        <prop file="${appserver.properties.file}" key="websphere.host" value="localhost" />
+        <prop file="${appserver.properties.file}" key="websphere.profile" value="Dmgr01" />
+        <prop file="${appserver.properties.file}" key="websphere.cell" value="pek-wkst67766Cell01" />
+        <prop file="${appserver.properties.file}" key="websphere.node" value="pek-wkst67766Node02" />
+        <prop file="${appserver.properties.file}" key="websphere.server" value="${was.cluster.server.name}" />
+        <prop file="${appserver.properties.file}" key="websphere.soap.port" value="8879" />
+        <prop file="${appserver.properties.file}" key="websphere.admin.username" value="vtbaadmin" />
+        <prop file="${appserver.properties.file}" key="websphere.admin.password" value="vitria" />
+        <prop file="${appserver.properties.file}" key="websphere.isClustered" value="true" />
+        <prop file="${appserver.properties.file}" key="websphere.clusterName" value="washa" />
+
+        <property name="analytic.ds" value="${cluster.resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-analytic-ds.properties" />
+        <prop file="${analytic.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${analytic.ds}" key="username" value="${vt_ds_username_cluster}" />
+        <prop file="${analytic.ds}" key="password" value="${vt_ds_password_cluster}" />
+
+        <property name="bc.ds" value="${cluster.resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-bc-ds.properties" />
+        <prop file="${bc.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${bc.ds}" key="username" value="${vt_ds_username_cluster}" />
+        <prop file="${bc.ds}" key="password" value="${vt_ds_password_cluster}" />
+
+        <property name="dmsdt.ds" value="${cluster.resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-dmsdt-ds.properties" />
+        <prop file="${dmsdt.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${dmsdt.ds}" key="username" value="${vt_ds_username_cluster}" />
+        <prop file="${dmsdt.ds}" key="password" value="${vt_ds_password_cluster}" />
+
+        <property name="emf.ds" value="${cluster.resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-emf-ds.properties" />
+        <prop file="${emf.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${emf.ds}" key="username" value="${vt_ds_username_cluster}" />
+        <prop file="${emf.ds}" key="password" value="${vt_ds_password_cluster}" />
+
+        <property name="um.ds" value="${cluster.resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-um-ds.properties" />
+        <prop file="${um.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${um.ds}" key="username" value="${vt_ds_username_cluster}" />
+        <prop file="${um.ds}" key="password" value="${vt_ds_password_cluster}" />
+
+        <property name="vitriabus.ds" value="${cluster.resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-vitriabus-ds.properties" />
+        <prop file="${vitriabus.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${vitriabus.ds}" key="username" value="${vt_ds_username_cluster}" />
+        <prop file="${vitriabus.ds}" key="password" value="${vt_ds_password_cluster}" />
+
+        <property name="vtusermgr" value="${cluster.resources.dir}\websphere\properties\vtusermgr.properties" />
+        <prop file="${vtusermgr}" key="com.vitria.usermanager.provider.userrepository.wsldap.base.dn" value="dc=qilinsoftcorp,dc=qilinsoft,dc=com" />
+        <prop file="${vtusermgr}" key="com.vitria.usermanager.provider.userrepository.wsldap.provider.url" value="ldap://localhost:50783/" />
+        <prop file="${vtusermgr}" key="com.vitria.usermanager.provider.userrepository.wsldap.admin.dn" value="cn=Directory Manager" />
+        <prop file="${vtusermgr}" key="com.vitria.usermanager.provider.userrepository.wsldap.admin.password" value="password" />
+
+        <property name="vtmodelrepos" value="${cluster.resources.dir}\websphere\properties\vtmodelrepos.properties" />
+        <prop file="${vtmodelrepos}" key="java.naming.provider.url" value="corbaloc:iiop:localhost:2814" />
+
+        <filter token="VTBA_HOME" value="${cluster.home.dir}" />
+        <filter token="VT_DB_DIALECT_TYPE" value="${vt.db.dialect.type}" />
+        <filter token="VT_SERVER_CONTEXT_FACTORY" value="${vt.server.context.factory.websphere}" />
+        <filter token="VT_SERVER_PROVIDER_URL" value="${vt.server.provider.url.websphere_cluster}" />
+        <filter token="VT_REMOTE_CONTEXT_FACTORY" value="${vt.server.context.factory.websphere}" />
+        <filter token="VT_REMOTE_PROVIDER_URL" value="${vt.server.provider.url.websphere_cluster}" />
+        <filter token="VT_REMOTE_FEED_SERVER_CONTEXT_FACTORY" value="${vt.server.context.factory.websphere}" />
+        <filter token="VT_REMOTE_FEED_SERVER_PROVIDER_URL" value="${vt.server.provider.url.websphere_cluster}" />
+
+        <filter token="VT_SERVER_NAME" value="${vt.server.name.m3o}" />
+        <copy todir="${cluster.home.dir}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${cluster.home.dir}\data\m3o\template">
+                <include name="server.xml" />
+            </fileset>
+        </copy>
+
+        <filter token="VT_SERVER_NAME" value="${vt.server.name.analytic}" />
+        <copy todir="${cluster.home.dir}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${cluster.home.dir}\data\m3o\template">
+                <include name="server_analytic.xml" />
+            </fileset>
+        </copy>
+
+        <filter token="VT_SERVER_NAME" value="${vt.server.name.feed}" />
+        <copy todir="${cluster.home.dir}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${cluster.home.dir}\data\m3o\template">
+                <include name="server_feed.xml" />
+            </fileset>
+        </copy>
+
+
+        <copy todir="${cluster.home.dir}\data" overwrite="true">
+            <fileset dir="${cluster.home.dir}\data\vtutil\template">
+                <include name="vtutil.properties.was" />
+            </fileset>
+        </copy>
+        <delete file="${cluster.home.dir}\data\vtutil.properties" />
+        <move tofile="${cluster.home.dir}\data\vtutil.properties" file="${cluster.home.dir}\data\vtutil.properties.was" />
+        <property name="vtutil" value="${cluster.home.dir}\data\vtutil.properties" />
+        <prop file="${vtutil}" key="was.node" value="pek-wkst67766Node02" />
+        <prop file="${vtutil}" key="was.soap.connector.port" value="8884" />
+        <prop file="${vtutil}" key="was.soap.connector.hostname" value="localhost" />
+        <prop file="${vtutil}" key="admin.username" value="vtbaadmin" />
+        <prop file="${vtutil}" key="admin.password" value="vitria" />
+        <prop file="${vtutil}" key="extension.m3o" value="com.vitria.admin.VTM3OUtil" />
+
+        <property name="uiconf" value="${cluster.home.dir}\bundles\m3o\ui\conf\config.properties" />
+        <prop file="${uiconf}" key="fds.clustering" value="cluster" />
+
+        <property name="jcsui" value="${cluster.home.dir}\data\jcs\m3oui-cache-config.properties" />
+        <prop file="${jcsui}" key="m3oui.useDistributedCache" value="true" />
+
+        <property name="jcswf" value="${cluster.home.dir}\bundles\m3o\ui\conf\config.properties" />
+        <prop file="${jcswf}" key="workflow.useDistributedCache" value="true" />
+
+
+        <property name="url_cluster" value="jdbc:oracle:thin:@${vt_ds_connection_url}" />
+        <property name="user_cluster" value="${vt_ds_username_cluster}" />
+        <property name="password_cluster" value="${vt_ds_password_cluster}" />
+        <echo message="modify and deploy repository-ora.xml" />
+        <echo message="url: ${url_cluster}" />
+        <echo message="user: ${user_cluster}" />
+        <echo message="password: ${password_cluster}" />
+        <filter token="URL" value="${url_cluster}" />
+        <filter token="USER" value="${user_cluster}" />
+        <filter token="PASSWORD" value="${password_cluster}" />
+        <filter token="JDBC_DRIVER_CLASSNAME" value="${driver}" />
+        <filter token="ServerPeerID" value="${was.cluster.server.name}" />
+        <copy todir="${cluster.home.dir}\data\repository" filtering="true" overwrite="true">
+            <fileset dir="${cluster.home.dir}\data\repository\template">
+                <include name="repository-ora.xml" />
+                <include name="repository-cluster-section.xml" />
+            </fileset>
+        </copy>
+
+        <append src="${cluster.home.dir}\data\repository\repository-cluster-section.xml" dest="${cluster.home.dir}\data\repository\repository-ora.xml" xpath="/Repository" />
+        <delete file="${cluster.home.dir}\data\repository\repository-cluster-section.xml" />
+
+        <copy tofile="${cluster.home.dir}\data\cluster\websphere\wascluster.properties" file="${appserver.properties.file}" overwrite="true" />
+        <copy todir="${cluster.home.dir}\data\cluster\websphere" overwrite="true">
+            <fileset dir="C:\WASHA\profiles\AppSrv01\etc">
+                <include name="DummyClientKeyFile.jks" />
+                <include name="DummyClientTrustFile.jks" />
+            </fileset>
+        </copy>
+
+    </target>
+
+    <target name="was-cluster-init-1">
+        <property name="cluster.home.dir" value="${export.bak.dir}/wha/home1" />
+        <property name="cluster.resources.dir" value="${cluster.home.dir}\resources" />
+        <property name="vt_ds_username_cluster" value="washa" />
+        <property name="vt_ds_password_cluster" value="washa" />
+        <property name="vt.server.provider.url.websphere_cluster" value="corbaloc:iiop:localhost:2814" />
+        <property name="nodeid" value="1" />
+        <property name="was.cluster.server.name" value="node${nodeid}" />
+
+        <property name="appserver.properties.file" value="${cluster.resources.dir}\appserver.properties" />
+        <prop file="${appserver.properties.file}" key="websphere.host" value="localhost" />
+        <prop file="${appserver.properties.file}" key="websphere.profile" value="AppSrv01" />
+        <prop file="${appserver.properties.file}" key="websphere.cell" value="pek-wkst67766Cell01" />
+        <prop file="${appserver.properties.file}" key="websphere.node" value="pek-wkst67766Node02" />
+        <prop file="${appserver.properties.file}" key="websphere.server" value="${was.cluster.server.name}" />
+        <prop file="${appserver.properties.file}" key="websphere.soap.port" value="8879" />
+        <prop file="${appserver.properties.file}" key="websphere.admin.username" value="vtbaadmin" />
+        <prop file="${appserver.properties.file}" key="websphere.admin.password" value="vitria" />
+        <prop file="${appserver.properties.file}" key="websphere.isClustered" value="true" />
+        <prop file="${appserver.properties.file}" key="websphere.clusterName" value="washa" />
+
+        <property name="analytic.ds" value="${cluster.resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-analytic-ds.properties" />
+        <prop file="${analytic.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${analytic.ds}" key="username" value="${vt_ds_username_cluster}" />
+        <prop file="${analytic.ds}" key="password" value="${vt_ds_password_cluster}" />
+
+        <property name="bc.ds" value="${cluster.resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-bc-ds.properties" />
+        <prop file="${bc.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${bc.ds}" key="username" value="${vt_ds_username_cluster}" />
+        <prop file="${bc.ds}" key="password" value="${vt_ds_password_cluster}" />
+
+        <property name="dmsdt.ds" value="${cluster.resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-dmsdt-ds.properties" />
+        <prop file="${dmsdt.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${dmsdt.ds}" key="username" value="${vt_ds_username_cluster}" />
+        <prop file="${dmsdt.ds}" key="password" value="${vt_ds_password_cluster}" />
+
+        <property name="emf.ds" value="${cluster.resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-emf-ds.properties" />
+        <prop file="${emf.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${emf.ds}" key="username" value="${vt_ds_username_cluster}" />
+        <prop file="${emf.ds}" key="password" value="${vt_ds_password_cluster}" />
+
+        <property name="um.ds" value="${cluster.resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-um-ds.properties" />
+        <prop file="${um.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${um.ds}" key="username" value="${vt_ds_username_cluster}" />
+        <prop file="${um.ds}" key="password" value="${vt_ds_password_cluster}" />
+
+        <property name="vitriabus.ds" value="${cluster.resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-vitriabus-ds.properties" />
+        <prop file="${vitriabus.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${vitriabus.ds}" key="username" value="${vt_ds_username_cluster}" />
+        <prop file="${vitriabus.ds}" key="password" value="${vt_ds_password_cluster}" />
+
+        <property name="vtusermgr" value="${cluster.resources.dir}\websphere\properties\vtusermgr.properties" />
+        <prop file="${vtusermgr}" key="com.vitria.usermanager.provider.userrepository.wsldap.base.dn" value="dc=qilinsoftcorp,dc=qilinsoft,dc=com" />
+        <prop file="${vtusermgr}" key="com.vitria.usermanager.provider.userrepository.wsldap.provider.url" value="ldap://localhost:50783/" />
+        <prop file="${vtusermgr}" key="com.vitria.usermanager.provider.userrepository.wsldap.admin.dn" value="cn=Directory Manager" />
+        <prop file="${vtusermgr}" key="com.vitria.usermanager.provider.userrepository.wsldap.admin.password" value="password" />
+
+        <property name="vtmodelrepos" value="${cluster.resources.dir}\websphere\properties\vtmodelrepos.properties" />
+        <prop file="${vtmodelrepos}" key="java.naming.provider.url" value="corbaloc:iiop:localhost:2814" />
+
+        <filter token="VTBA_HOME" value="${cluster.home.dir}" />
+        <filter token="VT_DB_DIALECT_TYPE" value="${vt.db.dialect.type}" />
+        <filter token="VT_SERVER_CONTEXT_FACTORY" value="${vt.server.context.factory.websphere}" />
+        <filter token="VT_SERVER_PROVIDER_URL" value="${vt.server.provider.url.websphere_cluster}" />
+        <filter token="VT_REMOTE_CONTEXT_FACTORY" value="${vt.server.context.factory.websphere}" />
+        <filter token="VT_REMOTE_PROVIDER_URL" value="${vt.server.provider.url.websphere_cluster}" />
+        <filter token="VT_REMOTE_FEED_SERVER_CONTEXT_FACTORY" value="${vt.server.context.factory.websphere}" />
+        <filter token="VT_REMOTE_FEED_SERVER_PROVIDER_URL" value="${vt.server.provider.url.websphere_cluster}" />
+
+        <filter token="VT_SERVER_NAME" value="${vt.server.name.m3o}" />
+        <copy todir="${cluster.home.dir}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${cluster.home.dir}\data\m3o\template">
+                <include name="server.xml" />
+            </fileset>
+        </copy>
+
+        <filter token="VT_SERVER_NAME" value="${vt.server.name.analytic}" />
+        <copy todir="${cluster.home.dir}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${cluster.home.dir}\data\m3o\template">
+                <include name="server_analytic.xml" />
+            </fileset>
+        </copy>
+
+        <filter token="VT_SERVER_NAME" value="${vt.server.name.feed}" />
+        <copy todir="${cluster.home.dir}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${cluster.home.dir}\data\m3o\template">
+                <include name="server_feed.xml" />
+            </fileset>
+        </copy>
+
+
+        <copy todir="${cluster.home.dir}\data" overwrite="true">
+            <fileset dir="${cluster.home.dir}\data\vtutil\template">
+                <include name="vtutil.properties.was" />
+            </fileset>
+        </copy>
+        <delete file="${cluster.home.dir}\data\vtutil.properties" />
+        <move tofile="${cluster.home.dir}\data\vtutil.properties" file="${cluster.home.dir}\data\vtutil.properties.was" />
+        <property name="vtutil" value="${cluster.home.dir}\data\vtutil.properties" />
+        <prop file="${vtutil}" key="was.node" value="pek-wkst67766Node02" />
+        <prop file="${vtutil}" key="was.soap.connector.port" value="8884" />
+        <prop file="${vtutil}" key="was.soap.connector.hostname" value="localhost" />
+        <prop file="${vtutil}" key="admin.username" value="vtbaadmin" />
+        <prop file="${vtutil}" key="admin.password" value="vitria" />
+        <prop file="${vtutil}" key="extension.m3o" value="com.vitria.admin.VTM3OUtil" />
+
+        <property name="uiconf" value="${cluster.home.dir}\bundles\m3o\ui\conf\config.properties" />
+        <prop file="${uiconf}" key="fds.clustering" value="cluster" />
+
+        <property name="jcsui" value="${cluster.home.dir}\data\jcs\m3oui-cache-config.properties" />
+        <prop file="${jcsui}" key="m3oui.useDistributedCache" value="true" />
+
+        <property name="jcswf" value="${cluster.home.dir}\bundles\m3o\ui\conf\config.properties" />
+        <prop file="${jcswf}" key="workflow.useDistributedCache" value="true" />
+
+
+        <property name="url_cluster" value="jdbc:oracle:thin:@${vt_ds_connection_url}" />
+        <property name="user_cluster" value="${vt_ds_username_cluster}" />
+        <property name="password_cluster" value="${vt_ds_password_cluster}" />
+        <echo message="modify and deploy repository-ora.xml" />
+        <echo message="url: ${url_cluster}" />
+        <echo message="user: ${user_cluster}" />
+        <echo message="password: ${password_cluster}" />
+        <filter token="URL" value="${url_cluster}" />
+        <filter token="USER" value="${user_cluster}" />
+        <filter token="PASSWORD" value="${password_cluster}" />
+        <filter token="JDBC_DRIVER_CLASSNAME" value="${driver}" />
+        <filter token="ServerPeerID" value="${was.cluster.server.name}" />
+        <copy todir="${cluster.home.dir}\data\repository" filtering="true" overwrite="true">
+            <fileset dir="${cluster.home.dir}\data\repository\template">
+                <include name="repository-ora.xml" />
+                <include name="repository-cluster-section.xml" />
+            </fileset>
+        </copy>
+
+        <append src="${cluster.home.dir}\data\repository\repository-cluster-section.xml" dest="${cluster.home.dir}\data\repository\repository-ora.xml" xpath="/Repository" />
+        <delete file="${cluster.home.dir}\data\repository\repository-cluster-section.xml" />
+
+        <copy tofile="${cluster.home.dir}\data\cluster\websphere\wascluster.properties" file="${appserver.properties.file}" overwrite="true" />
+        <copy todir="${cluster.home.dir}\data\cluster\websphere" overwrite="true">
+            <fileset dir="C:\WASHA\profiles\AppSrv01\etc">
+                <include name="DummyClientKeyFile.jks" />
+                <include name="DummyClientTrustFile.jks" />
+            </fileset>
+        </copy>
+
+    </target>
+
+    <target name="was-cluster-init-2">
+        <property name="cluster.home.dir" value="${export.bak.dir}/wha/home2" />
+        <property name="cluster.resources.dir" value="${cluster.home.dir}\resources" />
+        <property name="vt_ds_username_cluster" value="washa" />
+        <property name="vt_ds_password_cluster" value="washa" />
+        <property name="vt.server.provider.url.websphere_cluster" value="corbaloc:iiop:localhost:2815" />
+        <property name="nodeid" value="2" />
+        <property name="was.cluster.server.name" value="node${nodeid}" />
+
+        <property name="appserver.properties.file" value="${cluster.resources.dir}\appserver.properties" />
+        <prop file="${appserver.properties.file}" key="websphere.host" value="localhost" />
+        <prop file="${appserver.properties.file}" key="websphere.profile" value="AppSrv02" />
+        <prop file="${appserver.properties.file}" key="websphere.cell" value="pek-wkst67766Cell01" />
+        <prop file="${appserver.properties.file}" key="websphere.node" value="pek-wkst67766Node03" />
+        <prop file="${appserver.properties.file}" key="websphere.server" value="${was.cluster.server.name}" />
+        <prop file="${appserver.properties.file}" key="websphere.soap.port" value="8879" />
+        <prop file="${appserver.properties.file}" key="websphere.admin.username" value="vtbaadmin" />
+        <prop file="${appserver.properties.file}" key="websphere.admin.password" value="vitria" />
+        <prop file="${appserver.properties.file}" key="websphere.isClustered" value="true" />
+        <prop file="${appserver.properties.file}" key="websphere.clusterName" value="washa" />
+
+        <property name="analytic.ds" value="${cluster.resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-analytic-ds.properties" />
+        <prop file="${analytic.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${analytic.ds}" key="username" value="${vt_ds_username_cluster}" />
+        <prop file="${analytic.ds}" key="password" value="${vt_ds_password_cluster}" />
+
+        <property name="bc.ds" value="${cluster.resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-bc-ds.properties" />
+        <prop file="${bc.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${bc.ds}" key="username" value="${vt_ds_username_cluster}" />
+        <prop file="${bc.ds}" key="password" value="${vt_ds_password_cluster}" />
+
+        <property name="dmsdt.ds" value="${cluster.resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-dmsdt-ds.properties" />
+        <prop file="${dmsdt.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${dmsdt.ds}" key="username" value="${vt_ds_username_cluster}" />
+        <prop file="${dmsdt.ds}" key="password" value="${vt_ds_password_cluster}" />
+
+        <property name="emf.ds" value="${cluster.resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-emf-ds.properties" />
+        <prop file="${emf.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${emf.ds}" key="username" value="${vt_ds_username_cluster}" />
+        <prop file="${emf.ds}" key="password" value="${vt_ds_password_cluster}" />
+
+        <property name="um.ds" value="${cluster.resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-um-ds.properties" />
+        <prop file="${um.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${um.ds}" key="username" value="${vt_ds_username_cluster}" />
+        <prop file="${um.ds}" key="password" value="${vt_ds_password_cluster}" />
+
+        <property name="vitriabus.ds" value="${cluster.resources.dir}\websphere\properties\resources\jdbc\Oracle\vt-vitriabus-ds.properties" />
+        <prop file="${vitriabus.ds}" key="server" value="${vt_ds_server}" />
+        <prop file="${vitriabus.ds}" key="username" value="${vt_ds_username_cluster}" />
+        <prop file="${vitriabus.ds}" key="password" value="${vt_ds_password_cluster}" />
+
+        <property name="vtusermgr" value="${cluster.resources.dir}\websphere\properties\vtusermgr.properties" />
+        <prop file="${vtusermgr}" key="com.vitria.usermanager.provider.userrepository.wsldap.base.dn" value="dc=qilinsoftcorp,dc=qilinsoft,dc=com" />
+        <prop file="${vtusermgr}" key="com.vitria.usermanager.provider.userrepository.wsldap.provider.url" value="ldap://localhost:50783/" />
+        <prop file="${vtusermgr}" key="com.vitria.usermanager.provider.userrepository.wsldap.admin.dn" value="cn=Directory Manager" />
+        <prop file="${vtusermgr}" key="com.vitria.usermanager.provider.userrepository.wsldap.admin.password" value="password" />
+
+        <property name="vtmodelrepos" value="${cluster.resources.dir}\websphere\properties\vtmodelrepos.properties" />
+        <prop file="${vtmodelrepos}" key="java.naming.provider.url" value="corbaloc:iiop:localhost:2815" />
+
+        <filter token="VTBA_HOME" value="${cluster.home.dir}" />
+        <filter token="VT_DB_DIALECT_TYPE" value="${vt.db.dialect.type}" />
+        <filter token="VT_SERVER_CONTEXT_FACTORY" value="${vt.server.context.factory.websphere}" />
+        <filter token="VT_SERVER_PROVIDER_URL" value="${vt.server.provider.url.websphere_cluster}" />
+        <filter token="VT_REMOTE_CONTEXT_FACTORY" value="${vt.server.context.factory.websphere}" />
+        <filter token="VT_REMOTE_PROVIDER_URL" value="${vt.server.provider.url.websphere_cluster}" />
+        <filter token="VT_REMOTE_FEED_SERVER_CONTEXT_FACTORY" value="${vt.server.context.factory.websphere}" />
+        <filter token="VT_REMOTE_FEED_SERVER_PROVIDER_URL" value="${vt.server.provider.url.websphere_cluster}" />
+
+        <filter token="VT_SERVER_NAME" value="${vt.server.name.m3o}" />
+        <copy todir="${cluster.home.dir}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${cluster.home.dir}\data\m3o\template">
+                <include name="server.xml" />
+            </fileset>
+        </copy>
+
+        <filter token="VT_SERVER_NAME" value="${vt.server.name.analytic}" />
+        <copy todir="${cluster.home.dir}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${cluster.home.dir}\data\m3o\template">
+                <include name="server_analytic.xml" />
+            </fileset>
+        </copy>
+
+        <filter token="VT_SERVER_NAME" value="${vt.server.name.feed}" />
+        <copy todir="${cluster.home.dir}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${cluster.home.dir}\data\m3o\template">
+                <include name="server_feed.xml" />
+            </fileset>
+        </copy>
+
+
+        <copy todir="${cluster.home.dir}\data" overwrite="true">
+            <fileset dir="${cluster.home.dir}\data\vtutil\template">
+                <include name="vtutil.properties.was" />
+            </fileset>
+        </copy>
+        <delete file="${cluster.home.dir}\data\vtutil.properties" />
+        <move tofile="${cluster.home.dir}\data\vtutil.properties" file="${cluster.home.dir}\data\vtutil.properties.was" />
+        <property name="vtutil" value="${cluster.home.dir}\data\vtutil.properties" />
+        <prop file="${vtutil}" key="was.node" value="pek-wkst67766Node03" />
+        <prop file="${vtutil}" key="was.soap.connector.port" value="8885" />
+        <prop file="${vtutil}" key="was.soap.connector.hostname" value="localhost" />
+        <prop file="${vtutil}" key="admin.username" value="vtbaadmin" />
+        <prop file="${vtutil}" key="admin.password" value="vitria" />
+        <prop file="${vtutil}" key="extension.m3o" value="com.vitria.admin.VTM3OUtil" />
+
+        <property name="uiconf" value="${cluster.home.dir}\bundles\m3o\ui\conf\config.properties" />
+        <prop file="${uiconf}" key="fds.clustering" value="cluster" />
+
+        <property name="jcsui" value="${cluster.home.dir}\data\jcs\m3oui-cache-config.properties" />
+        <prop file="${jcsui}" key="m3oui.useDistributedCache" value="true" />
+
+        <property name="jcswf" value="${cluster.home.dir}\bundles\m3o\ui\conf\config.properties" />
+        <prop file="${jcswf}" key="workflow.useDistributedCache" value="true" />
+
+
+        <property name="url_cluster" value="jdbc:oracle:thin:@${vt_ds_connection_url}" />
+        <property name="user_cluster" value="${vt_ds_username_cluster}" />
+        <property name="password_cluster" value="${vt_ds_password_cluster}" />
+        <echo message="modify and deploy repository-ora.xml" />
+        <echo message="url: ${url_cluster}" />
+        <echo message="user: ${user_cluster}" />
+        <echo message="password: ${password_cluster}" />
+        <filter token="URL" value="${url_cluster}" />
+        <filter token="USER" value="${user_cluster}" />
+        <filter token="PASSWORD" value="${password_cluster}" />
+        <filter token="JDBC_DRIVER_CLASSNAME" value="${driver}" />
+        <filter token="ServerPeerID" value="${was.cluster.server.name}" />
+        <copy todir="${cluster.home.dir}\data\repository" filtering="true" overwrite="true">
+            <fileset dir="${cluster.home.dir}\data\repository\template">
+                <include name="repository-ora.xml" />
+                <include name="repository-cluster-section.xml" />
+            </fileset>
+        </copy>
+
+        <append src="${cluster.home.dir}\data\repository\repository-cluster-section.xml" dest="${cluster.home.dir}\data\repository\repository-ora.xml" xpath="/Repository" />
+        <delete file="${cluster.home.dir}\data\repository\repository-cluster-section.xml" />
+
+        <copy tofile="${cluster.home.dir}\data\cluster\websphere\wascluster.properties" file="${appserver.properties.file}" overwrite="true" />
+        <copy todir="${cluster.home.dir}\data\cluster\websphere" overwrite="true">
+            <fileset dir="C:\WASHA\profiles\AppSrv02\etc">
+                <include name="DummyClientKeyFile.jks" />
+                <include name="DummyClientTrustFile.jks" />
+            </fileset>
+        </copy>
+
+    </target>
+
+    <target name="was-cluster-copy-1">
+        <property name="cluster.home.dir" value="${export.bak.dir}/wha/home1" />
+
+        <mkdir dir="${cluster.home.dir}" />
+        <copy todir="${cluster.home.dir}">
+            <fileset dir="${vtba.home}">
+                <include name="**/*.*" />
+                <exclude name="eclipse/**/*.*" />
+                <exclude name="modelrepository/**/*.*" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="was-cluster-copy-2">
+        <property name="cluster.home.dir" value="${export.bak.dir}/wha/home1" />
+
+        <mkdir dir="${cluster.home.dir}" />
+        <copy todir="${cluster.home.dir}">
+            <fileset dir="${vtba.home}">
+                <include name="**/*.*" />
+                <exclude name="eclipse/**/*.*" />
+                <exclude name="modelrepository/**/*.*" />
+            </fileset>
+        </copy>
+    </target>
+</project>

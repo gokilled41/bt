@@ -1,0 +1,68 @@
+Index: main/com/vitria/calendar/util/Util.java
+===================================================================
+--- main/com/vitria/calendar/util/Util.java	(revision 100271)
++++ main/com/vitria/calendar/util/Util.java	(working copy)
+@@ -6,6 +6,7 @@
+ import java.text.SimpleDateFormat;
+ import java.util.ArrayList;
+ import java.util.Calendar;
++import java.util.Date;
+ import java.util.HashSet;
+ import java.util.List;
+ import java.util.Set;
+@@ -25,6 +26,7 @@
+ public abstract class Util {
+ 
+     static protected final Log log_ = LogFactory.getLog(Util.class);
++    public static final String DATE_FORMAT_STRING = "yyyy-MM-dd HH:mm:ss"; // 2007-12-28 12:30:00
+ 
+     public static void validateNotNull(Object object, String msg, Log log) throws CalendarException {
+         if (object == null) {
+@@ -235,6 +237,20 @@
+             bArr[i] = b.get(i).longValue();
+         }
+ 
++        if (System.getenv("PrintSystemEvents") != null
++                && System.getenv("PrintSystemEvents").equals("true")) {
++            Calendar calA = Calendar.getInstance();
++            Calendar calB = Calendar.getInstance();
++            for (int i = 0; i < aArr.length; i++) {
++                calA.setTimeInMillis(aArr[i]);
++                calB.setTimeInMillis(bArr[i]);
++                computeTime(calA);
++                computeTime(calB);
++                log_.info(format(calA, TimeZone.getDefault()) + " - "
++                        + format(calB, TimeZone.getDefault()));
++            }
++        }
++
+         return new Object[] { aArr, bArr };
+     }
+ 
+@@ -497,6 +513,26 @@
+         return sb.toString();
+     }
+ 
++    public static String format(Calendar time, TimeZone timeZone) {
++        TimeZone defaultTimeZone = TimeZone.getDefault();
++        TimeZone.setDefault(timeZone);
++        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_STRING);
++        String result = sdf.format(time.getTime());
++        TimeZone.setDefault(defaultTimeZone);
++        return result;
++    }
++
++    public static Calendar parse(String str, TimeZone timeZone) throws Exception {
++        TimeZone defaultTimeZone = TimeZone.getDefault();
++        TimeZone.setDefault(timeZone);
++        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_STRING);
++        Date date = sdf.parse(str);
++        Calendar calendar = Calendar.getInstance(timeZone);
++        calendar.setTime(date);
++        TimeZone.setDefault(defaultTimeZone);
++        return calendar;
++    }
++
+     private static String getWeekendString(int i) {
+         String result = null;
+         switch (i) {

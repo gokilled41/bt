@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.txu.poc/mvi" xmlns="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap11-enc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:poctype="http://www.txu.poc/mvi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xsd:element name="eventSwitchType" type="poctype:eventSwitchType" />
+    <xsd:complexType name="eventSwitchType">
+        <xsd:sequence>
+            <xsd:element ref="poctype:SwitchNum" />
+            <xsd:element ref="poctype:SwitchType" />
+            <xsd:element ref="poctype:MoveInDate" />
+            <xsd:element ref="poctype:Partner" />
+            <xsd:element ref="poctype:Employee_Resp" />
+            <xsd:element ref="poctype:ServiceProvOld" />
+            <xsd:element ref="poctype:ServiceProvNew" />
+            <xsd:element ref="poctype:Distributor" />
+            <xsd:element ref="poctype:EnrollDoc" />
+            <xsd:element ref="poctype:Status" />
+            <xsd:element ref="poctype:StatusTime" />
+            <xsd:element ref="poctype:Last_update" />
+            <xsd:element ref="poctype:Source" />
+            <xsd:element ref="poctype:ContractId" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="SwitchNum" type="xsd:string" />
+    <xsd:element name="SwitchType" type="xsd:string" />
+    <xsd:element name="MoveInDate" type="xsd:date" />
+    <xsd:element name="Partner" type="xsd:string" />
+    <xsd:element name="Employee_Resp" type="xsd:string" />
+    <xsd:element name="ServiceProvOld" type="xsd:string" />
+    <xsd:element name="ServiceProvNew" type="xsd:string" />
+    <xsd:element name="Distributor" type="xsd:string" />
+    <xsd:element name="EnrollDoc" type="xsd:string" />
+    <xsd:element name="Status" type="xsd:string" />
+    <xsd:element name="StatusTime" type="xsd:dateTime" />
+    <xsd:element name="Last_update" type="xsd:dateTime" />
+    <xsd:element name="Source" type="xsd:string" />
+    <xsd:element name="ContractId" type="xsd:string" />
+
+    <xsd:element name="outmsg">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="message" type="xsd:string" />
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

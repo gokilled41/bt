@@ -1,0 +1,1 @@
+java -cp %JMSTESTCLIENT_PATH% gzhou.JMSTestClient -t Error -d primitiveTypes=primitiveTypes.xml -d order=OAGOrder.xml

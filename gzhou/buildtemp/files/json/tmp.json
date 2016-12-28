@@ -1,0 +1,53 @@
+{
+  "Event": {
+    "string": "0",
+    "bookOrder1": {
+      "bookOrder": {
+        "orderId": "oid",
+        "custId": "cid",
+        "code": "222-DD",
+        "notes": "notes",
+        "purchaser": {
+          "firstName": "Guifang",
+          "lastName": "Zhou",
+          "age": "26",
+          "address": {
+            "city": "Beijing",
+            "street": "East Chang An street",
+            "houseNumber": "1"
+          }
+        },
+        "item": {
+          "productName": "product1",
+          "quantity": "100",
+          "price": "5.5",
+          "notes": "This is a book."
+        }
+      }
+    },
+    "bookOrder2": {
+      "bookOrder": {
+        "orderId": "oid",
+        "custId": "cid",
+        "code": "222-DD",
+        "notes": "notes",
+        "purchaser": {
+          "firstName": "Guifang",
+          "lastName": "Zhou",
+          "age": "26",
+          "address": {
+            "city": "Beijing",
+            "street": "East Chang An street",
+            "houseNumber": "1"
+          }
+        },
+        "item": {
+          "productName": "product1",
+          "quantity": "100",
+          "price": "5.5",
+          "notes": "This is a book."
+        }
+      }
+    }
+  }
+}

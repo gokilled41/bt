@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-app>
+    <security-domain>java:/jaas/VTBA-domain</security-domain>
+    <module-order>strict</module-order>
+    <loader-repository>
+        vtm3oserver:loader=__vitria_default___zgf_default_vtm3oserver.ear
+        <loader-repository-config>
+            java2ParentDelegation=false
+        </loader-repository-config>
+    </loader-repository>
+    <!-- MCFs used by workflow project -->
+    <module><service>res/MCF_vtM3OInternalJmsTarget-ds.xml</service></module>
+		<module><service>res/MCF_vtTaskManager_TaskManagerMain_com_vitria_workflow_taskmanager_internal_TaskManagerMain_vtActivityTarget-ds.xml</service></module>
+		<module><service>res/MCF_vtTaskManager_TaskManagerMain_com_vitria_workflow_taskmanager_internal_TaskManagerMain_vtCacheManagerTarget-ds.xml</service></module>
+		<module><service>res/MCF_vtTaskManager_TaskManagerMain_com_vitria_workflow_taskmanager_internal_TaskManagerMain_vtTaskTarget-ds.xml</service></module>
+		<module><service>res/vt-dyncbq-ds.xml</service></module>
+		<module><service>res/vt-dynrecq-ds.xml</service></module>
+		<module><service>res/vt-oracle-emf-ds.xml</service></module>
+		<module><service>res/vt-vtActivityInternal-service.xml</service></module>
+		<module><service>res/vt-vtAuditLogging-service.xml</service></module>
+		<module><service>res/vt-vtCacheManager-service.xml</service></module>
+		<module><service>res/vt-vtCallbackService-service.xml</service></module>
+		<module><service>res/vt-vtEmfFeedService-service.xml</service></module>
+		<module><service>res/vt-vtEmfService-service.xml</service></module>
+		<module><service>res/vt-vtProcessService-service.xml</service></module>
+		<module><service>res/vt-vtQueueInternal-service.xml</service></module>
+		<module><service>res/vt-vtTaskInternal-service.xml</service></module>
+	 	<!-- BA startup service -->
+	 	<module>
+		<connector>rar/vtlineconnector.rar</connector>
+	</module>
+	<module>
+		<connector>rar/vtdynamicconnector.rar</connector>
+	</module>
+	<module>
+		<ejb>ejb/__vitria_default___zgf_default_M3OServerApplication-ejb.jar</ejb>
+	</module>
+	<module>
+		<ejb>ejb/BPMNProcessControl-ejb.jar</ejb>
+	</module>
+	<module>
+		<ejb>ejb/DynamicMDB-ejb.jar</ejb>
+	</module>
+	<module>
+		<ejb>ejb/M3OAuditLogger-ejb.jar</ejb>
+	</module>
+	<module>
+		<web>
+			<web-uri>war/vtaxis2.war</web-uri>
+			<context-root>__vitria_default___zgf_default_vtservices</context-root>
+		</web>
+	</module>
+
+    <!-- WF Project EJBs -->
+	<module>
+		<ejb>projects/vtTaskManager/EJB/vtTaskManager-ejb.jar</ejb>
+	</module>
+	<module>
+		<ejb>projects/vtWorkflowCommon/EJB/vtWorkflowCommon-ejb.jar</ejb>
+	</module>
+	 	<module>
+       <service>sar/M3OServerApplicationStartup.sar</service>
+       </module>
+       <module>
+       <service>sar/vtm3ocommands.sar</service>
+    </module>
+</jboss-app>

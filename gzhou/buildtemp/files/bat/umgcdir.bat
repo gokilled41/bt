@@ -1,0 +1,2 @@
+call umgdir
+cd cypress

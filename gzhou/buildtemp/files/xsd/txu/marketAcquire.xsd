@@ -1,0 +1,10 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.txu.poc/dup"
+    targetNamespace="http://www.txu.poc/dup">
+    <xs:complexType name="MarketAcquireType">
+        <xs:sequence>
+            <xs:element name="SwitchNum" type="xs:string" />
+            <xs:element name="MessageType" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="marketAcquire" type="tns:MarketAcquireType" />
+</xs:schema>

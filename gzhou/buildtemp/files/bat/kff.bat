@@ -1,0 +1,1 @@
+call kf %* > "C:\Users\gzhou\Desktop\kf.log"

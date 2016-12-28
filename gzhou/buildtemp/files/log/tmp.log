@@ -1,0 +1,173 @@
+2009-12-01 12:23:31,811 DEBUG [com.vitria.component.util.ComponentLogger] Home Server Configuration: "com.vitria.component.server.HomeServerLib@13ded77 (serverName: feedserver) (namingProviderUrl: jnp://localhost:1099) (namingFactory: org.jnp.interfaces.NamingContextFactory) (mcastAddr: null) (dynSvcReuseHttpClient: false) (dynSvcHttpConnPoolSize: 25)(dialect: org.hibernate.dialect.Oracle10gDialect) (serverNotificationListeners: com.vitria.dms.service.DMSServerThinListener ) (uiNotificationListeners: )"
+2009-12-01 12:25:23,326 DEBUG [com.vitria.component.util.ComponentLogger] Home Server Configuration: "com.vitria.component.server.HomeServerLib@774999 (serverName: analytic) (namingProviderUrl: jnp://localhost:1099) (namingFactory: org.jnp.interfaces.NamingContextFactory) (mcastAddr: null) (dynSvcReuseHttpClient: false) (dynSvcHttpConnPoolSize: 25)(dialect: org.hibernate.dialect.Oracle10gDialect) (serverNotificationListeners: com.vitria.dms.service.DMSServerThinListener ) (uiNotificationListeners: )"
+2009-12-01 12:25:23,451 DEBUG [com.vitria.component.util.ComponentLogger] Home Server Configuration: "com.vitria.component.server.HomeServerLib@66c23 (serverName: kirkwood) (namingProviderUrl: jnp://localhost:1099) (namingFactory: org.jnp.interfaces.NamingContextFactory) (mcastAddr: null) (dynSvcReuseHttpClient: true) (dynSvcHttpConnPoolSize: 25)(dialect: org.hibernate.dialect.Oracle10gDialect) (serverNotificationListeners: com.vitria.audit.listener.BPMNEventListener com.vitria.dms.service.DMSServerNotificationHandler com.vitria.rules.RulesEngineNotificationListener com.vitria.bpmn.BPMNAliveManagerListener com.vitria.workflow.service.WorkflowServerNotificationListener com.vitria.bpmn.BPMNTimerManagerListener ) (uiNotificationListeners: )"
+2009-12-01 12:25:31,967 DEBUG [com.vitria.component.util.ComponentLogger] >>configureUsingRepository
+2009-12-01 12:25:31,967 DEBUG [com.vitria.component.util.ComponentLogger] beName: VirtualServerTest
+2009-12-01 12:25:32,013 DEBUG [com.vitria.component.util.ComponentLogger] serverName: kirkwood
+2009-12-01 12:25:32,154 DEBUG [com.vitria.component.util.ComponentLogger] Setting resource=File1 property=fileName value=C:\Source1.txt result=C:\Source1.txt class=java.lang.String
+2009-12-01 12:25:32,154 DEBUG [com.vitria.component.util.ComponentLogger] Setting resource=File1 property=encodingValue value=UTF8 result=UTF8 class=java.lang.String
+2009-12-01 12:25:32,154 DEBUG [com.vitria.component.util.ComponentLogger] Setting resource=File1 property=delimiters value=\r\n result=\r\n class=java.lang.String
+2009-12-01 12:25:32,154 DEBUG [com.vitria.component.util.ComponentLogger] Setting resource=File1 property=batchSize value=5 result=5 class=java.lang.Integer
+2009-12-01 12:25:32,154 DEBUG [com.vitria.component.util.ComponentLogger] Setting resource=File1 property=concurrencyLevel value=3 result=3 class=java.lang.Integer
+2009-12-01 12:25:32,154 DEBUG [com.vitria.component.util.ComponentLogger] Setting resource=File1 property=pollRate value=3 result=3 class=java.lang.Long
+2009-12-01 12:25:32,154 DEBUG [com.vitria.component.util.ComponentLogger] Setting resource=File1 property=exceptionHandlerClass value=com.vitria.component.server.M3OExceptionHandlerImpl result=com.vitria.component.server.M3OExceptionHandlerImpl class=java.lang.String
+2009-12-01 12:25:32,248 DEBUG [com.vitria.component.util.ComponentLogger] computeReleaseMap model = v1_0
+2009-12-01 12:25:32,248 DEBUG [com.vitria.component.util.ComponentLogger] computeReleaseMap latest release ="1"
+2009-12-01 12:25:32,248 DEBUG [com.vitria.component.util.ComponentLogger] Configured release tag = v1_0
+2009-12-01 12:25:32,248 DEBUG [com.vitria.component.util.ComponentLogger] serviceURI = "kirkwoodLoanApproverService" local address = "http://kirkwood:8080"
+2009-12-01 12:25:32,420 INFO  [com.vitria.component.util.ComponentLogger] Registered component: "VirtualServerTest::File1"
+2009-12-01 12:25:32,420 INFO  [com.vitria.component.util.ComponentLogger] Registered component: "VirtualServerTest::JMS::Connector"
+2009-12-01 12:25:36,748 DEBUG [com.vitria.component.util.ComponentLogger] Deploy process "subprocess1"
+2009-12-01 12:25:37,013 DEBUG [com.vitria.component.util.ComponentLogger] Deploy process "process1"
+2009-12-01 12:25:39,623 DEBUG [com.vitria.component.util.ComponentLogger] Deploy process "Policy_f"
+2009-12-01 12:25:39,638 DEBUG [com.vitria.component.util.ComponentLogger] Deploy process "Default"
+2009-12-01 12:25:39,951 DEBUG [com.vitria.component.util.ComponentLogger] Deploy process "p"
+2009-12-01 12:25:39,967 INFO  [com.vitria.component.util.ComponentLogger] Registered component: "VirtualServerTest::Resolution::Component1"
+2009-12-01 12:25:39,967 INFO  [com.vitria.component.util.ComponentLogger] Registered component: "VirtualServerTest::Source::Echo1"
+2009-12-01 12:25:39,967 INFO  [com.vitria.component.util.ComponentLogger] Registered component: "VirtualServerTest::Classifier::Component1"
+2009-12-01 12:25:39,982 INFO  [com.vitria.component.util.ComponentLogger] Registered component: "VirtualServerTest::FeedSource::FeedPublisher1"
+2009-12-01 12:25:39,982 INFO  [com.vitria.component.util.ComponentLogger] Registered component: "VirtualServerTest::WSDL::InputProxy"
+2009-12-01 12:25:39,982 INFO  [com.vitria.component.util.ComponentLogger] Registered component: "VirtualServerTest::JMS::InputProxy"
+2009-12-01 12:25:39,982 INFO  [com.vitria.component.util.ComponentLogger] Registered component: "VirtualServerTest::JMS::Parser1"
+2009-12-01 12:25:39,998 INFO  [com.vitria.component.util.ComponentLogger] Registered component: "VirtualServerTest::Rest::Parser1"
+2009-12-01 12:25:40,029 INFO  [com.vitria.component.util.ComponentLogger] Registered component: "VirtualServerTest::DB::Parser1"
+2009-12-01 12:25:40,076 INFO  [com.vitria.component.util.ComponentLogger] Registered component: "VirtualServerTest::Line::Parser1"
+2009-12-01 12:25:40,170 INFO  [com.vitria.component.util.ComponentLogger] Registered component: "VirtualServerTest::File/file"
+2009-12-01 12:25:40,342 INFO  [com.vitria.component.util.ComponentLogger] Registered component: "VirtualServerTest::Feed/feed2"
+2009-12-01 12:25:40,342 INFO  [com.vitria.component.util.ComponentLogger] Registered component: "VirtualServerTest::Feed/feed1"
+2009-12-01 12:25:40,342 INFO  [com.vitria.component.util.ComponentLogger] Registered component: "VirtualServerTest::SimpleService::Component1"
+2009-12-01 12:25:40,342 INFO  [com.vitria.component.util.ComponentLogger] Registered component: "VirtualServerTest::AuditLogger::Compopnent1"
+2009-12-01 12:25:40,670 DEBUG [com.vitria.component.util.ComponentLogger] SystemFactory::createComponentImplementation serviceName=WSDLSource
+2009-12-01 12:25:40,732 INFO  [com.vitria.component.util.ComponentLogger] Initialized component: "VirtualServerTest::WSDL::InputProxy"
+2009-12-01 12:25:40,732 DEBUG [com.vitria.component.util.ComponentLogger] SystemFactory::createComponentImplementation serviceName=Resolution
+2009-12-01 12:25:40,732 INFO  [com.vitria.component.util.ComponentLogger] Initialized component: "VirtualServerTest::Resolution::Component1"
+2009-12-01 12:25:40,732 DEBUG [com.vitria.component.util.ComponentLogger] SystemFactory::createComponentImplementation implClazz=com.vitria.component.impl.ConnectorImplementation
+2009-12-01 12:25:40,732 INFO  [com.vitria.component.util.ComponentLogger] Initialized component: "VirtualServerTest::File1"
+2009-12-01 12:25:40,732 DEBUG [com.vitria.component.util.ComponentLogger] SystemFactory::createComponentImplementation serviceName=SimpleService
+2009-12-01 12:25:40,748 INFO  [com.vitria.component.util.ComponentLogger] Initialized component: "VirtualServerTest::SimpleService::Component1"
+2009-12-01 12:25:40,748 DEBUG [com.vitria.component.util.ComponentLogger] SystemFactory::createComponentImplementation serviceName=LineParser
+2009-12-01 12:25:41,529 DEBUG [com.vitria.component.util.ComponentLogger] Home Server Configuration: "com.vitria.component.server.HomeServerLib@66c23 (serverName: kirkwood) (namingProviderUrl: jnp://localhost:1099) (namingFactory: org.jnp.interfaces.NamingContextFactory) (mcastAddr: null) (dynSvcReuseHttpClient: true) (dynSvcHttpConnPoolSize: 25)(dialect: org.hibernate.dialect.Oracle10gDialect) (serverNotificationListeners: com.vitria.audit.listener.BPMNEventListener com.vitria.dms.service.DMSServerNotificationHandler com.vitria.rules.RulesEngineNotificationListener com.vitria.bpmn.BPMNAliveManagerListener com.vitria.workflow.service.WorkflowServerNotificationListener com.vitria.bpmn.BPMNTimerManagerListener ) (uiNotificationListeners: )"
+2009-12-01 12:25:41,529 INFO  [com.vitria.component.util.ComponentLogger] Initialized component: "VirtualServerTest::Line::Parser1"
+2009-12-01 12:25:41,529 DEBUG [com.vitria.component.util.ComponentLogger] SystemFactory::createComponentImplementation serviceName=JMSParser
+2009-12-01 12:25:41,560 INFO  [com.vitria.component.util.ComponentLogger] Initialized component: "VirtualServerTest::JMS::Parser1"
+2009-12-01 12:25:41,560 DEBUG [com.vitria.component.util.ComponentLogger] SystemFactory::createComponentImplementation implClazz=com.vitria.component.impl.FeedPassThroughImplementation
+2009-12-01 12:25:41,560 INFO  [com.vitria.component.util.ComponentLogger] Initialized component: "VirtualServerTest::Feed/feed1"
+2009-12-01 12:25:41,560 DEBUG [com.vitria.component.util.ComponentLogger] SystemFactory::createComponentImplementation implClazz=com.vitria.component.impl.PassThroughComponent
+2009-12-01 12:25:41,560 INFO  [com.vitria.component.util.ComponentLogger] Initialized component: "VirtualServerTest::File/file"
+2009-12-01 12:25:41,560 DEBUG [com.vitria.component.util.ComponentLogger] SystemFactory::createComponentImplementation implClazz=com.vitria.component.impl.FeedPassThroughImplementation
+2009-12-01 12:25:41,560 INFO  [com.vitria.component.util.ComponentLogger] Initialized component: "VirtualServerTest::Feed/feed2"
+2009-12-01 12:25:41,560 DEBUG [com.vitria.component.util.ComponentLogger] SystemFactory::createComponentImplementation serviceName=JMSSource
+2009-12-01 12:25:41,607 INFO  [com.vitria.component.util.ComponentLogger] Initialized component: "VirtualServerTest::JMS::InputProxy"
+2009-12-01 12:25:41,607 DEBUG [com.vitria.component.util.ComponentLogger] SystemFactory::createComponentImplementation serviceName=AuditLogger
+2009-12-01 12:25:41,607 INFO  [com.vitria.component.util.ComponentLogger] Initialized component: "VirtualServerTest::AuditLogger::Compopnent1"
+2009-12-01 12:25:41,607 DEBUG [com.vitria.component.util.ComponentLogger] SystemFactory::createComponentImplementation implClazz=com.vitria.component.source.Echo
+2009-12-01 12:25:41,623 INFO  [com.vitria.component.util.ComponentLogger] Initialized component: "VirtualServerTest::Source::Echo1"
+2009-12-01 12:25:41,623 DEBUG [com.vitria.component.util.ComponentLogger] SystemFactory::createComponentImplementation serviceName=DBParser
+2009-12-01 12:25:41,685 INFO  [com.vitria.component.util.ComponentLogger] Initialized component: "VirtualServerTest::DB::Parser1"
+2009-12-01 12:25:41,685 DEBUG [com.vitria.component.util.ComponentLogger] SystemFactory::createComponentImplementation serviceName=RestParser
+2009-12-01 12:25:41,748 INFO  [com.vitria.component.util.ComponentLogger] Initialized component: "VirtualServerTest::Rest::Parser1"
+2009-12-01 12:25:41,748 DEBUG [com.vitria.component.util.ComponentLogger] SystemFactory::createComponentImplementation implClazz=com.vitria.component.impl.ConnectorImplementation
+2009-12-01 12:25:41,748 INFO  [com.vitria.component.util.ComponentLogger] Initialized component: "VirtualServerTest::JMS::Connector"
+2009-12-01 12:25:41,748 DEBUG [com.vitria.component.util.ComponentLogger] SystemFactory::createComponentImplementation implClazz=com.vitria.component.source.FeedPublisherComponent
+2009-12-01 12:25:41,763 INFO  [com.vitria.component.util.ComponentLogger] Initialized component: "VirtualServerTest::FeedSource::FeedPublisher1"
+2009-12-01 12:25:41,763 DEBUG [com.vitria.component.util.ComponentLogger] SystemFactory::createComponentImplementation serviceName=Classifier
+2009-12-01 12:25:41,763 INFO  [com.vitria.component.util.ComponentLogger] Initialized component: "VirtualServerTest::Classifier::Component1"
+2009-12-01 12:25:41,763 DEBUG [com.vitria.component.util.ComponentLogger] Starting Component: "Feed/feed1"
+2009-12-01 12:25:41,826 DEBUG [com.vitria.component.util.ComponentLogger] Get feed model: 
+2009-12-01 12:25:42,779 DEBUG [com.vitria.component.util.ComponentLogger] Started Component: "Feed/feed1" 
+2009-12-01 12:25:42,779 INFO  [com.vitria.component.util.ComponentLogger] Component "VirtualServerTest::Feed/feed1" has been started.
+2009-12-01 12:25:42,779 DEBUG [com.vitria.component.util.ComponentLogger] Starting Component: "Feed/feed2"
+2009-12-01 12:25:42,857 DEBUG [com.vitria.component.util.ComponentLogger] Get feed model: 
+2009-12-01 12:25:43,045 DEBUG [com.vitria.component.util.ComponentLogger] Started Component: "Feed/feed2" 
+2009-12-01 12:25:43,045 INFO  [com.vitria.component.util.ComponentLogger] Component "VirtualServerTest::Feed/feed2" has been started.
+2009-12-01 12:25:43,045 DEBUG [com.vitria.component.util.ComponentLogger] Starting Component: "WSDL::InputProxy"
+2009-12-01 12:25:43,045 DEBUG [com.vitria.component.util.ComponentLogger] Started Component: "WSDL::InputProxy" 
+2009-12-01 12:25:43,045 INFO  [com.vitria.component.util.ComponentLogger] Component "VirtualServerTest::WSDL::InputProxy" has been started.
+2009-12-01 12:25:43,045 DEBUG [com.vitria.component.util.ComponentLogger] Starting Component: "Resolution::Component1"
+2009-12-01 12:25:43,045 DEBUG [com.vitria.component.util.ComponentLogger] Started Component: "Resolution::Component1" 
+2009-12-01 12:25:43,045 INFO  [com.vitria.component.util.ComponentLogger] Component "VirtualServerTest::Resolution::Component1" has been started.
+2009-12-01 12:25:43,045 DEBUG [com.vitria.component.util.ComponentLogger] Starting Component: "SimpleService::Component1"
+2009-12-01 12:25:43,076 DEBUG [com.vitria.component.util.ComponentLogger] Started Component: "SimpleService::Component1" 
+2009-12-01 12:25:43,076 INFO  [com.vitria.component.util.ComponentLogger] Component "VirtualServerTest::SimpleService::Component1" has been started.
+2009-12-01 12:25:43,076 DEBUG [com.vitria.component.util.ComponentLogger] Starting Component: "Line::Parser1"
+2009-12-01 12:25:43,076 DEBUG [com.vitria.component.util.ComponentLogger] Started Component: "Line::Parser1" 
+2009-12-01 12:25:43,076 INFO  [com.vitria.component.util.ComponentLogger] Component "VirtualServerTest::Line::Parser1" has been started.
+2009-12-01 12:25:43,076 DEBUG [com.vitria.component.util.ComponentLogger] Starting Component: "JMS::Parser1"
+2009-12-01 12:25:43,107 DEBUG [com.vitria.component.util.ComponentLogger] Started Component: "JMS::Parser1" 
+2009-12-01 12:25:43,107 INFO  [com.vitria.component.util.ComponentLogger] Component "VirtualServerTest::JMS::Parser1" has been started.
+2009-12-01 12:25:43,107 DEBUG [com.vitria.component.util.ComponentLogger] Starting Component: "File/file"
+2009-12-01 12:25:43,107 DEBUG [com.vitria.component.util.ComponentLogger] Started Component: "File/file" 
+2009-12-01 12:25:43,107 INFO  [com.vitria.component.util.ComponentLogger] Component "VirtualServerTest::File/file" has been started.
+2009-12-01 12:25:43,107 DEBUG [com.vitria.component.util.ComponentLogger] Starting Component: "JMS::InputProxy"
+2009-12-01 12:25:43,107 DEBUG [com.vitria.component.util.ComponentLogger] Started Component: "JMS::InputProxy" 
+2009-12-01 12:25:43,107 INFO  [com.vitria.component.util.ComponentLogger] Component "VirtualServerTest::JMS::InputProxy" has been started.
+2009-12-01 12:25:43,107 DEBUG [com.vitria.component.util.ComponentLogger] Starting Component: "AuditLogger::Compopnent1"
+2009-12-01 12:25:43,107 DEBUG [com.vitria.component.util.ComponentLogger] Started Component: "AuditLogger::Compopnent1" 
+2009-12-01 12:25:43,107 INFO  [com.vitria.component.util.ComponentLogger] Component "VirtualServerTest::AuditLogger::Compopnent1" has been started.
+2009-12-01 12:25:43,107 DEBUG [com.vitria.component.util.ComponentLogger] Starting Component: "Source::Echo1"
+2009-12-01 12:25:43,107 DEBUG [com.vitria.component.util.ComponentLogger] Started Component: "Source::Echo1" 
+2009-12-01 12:25:43,107 INFO  [com.vitria.component.util.ComponentLogger] Component "VirtualServerTest::Source::Echo1" has been started.
+2009-12-01 12:25:43,107 DEBUG [com.vitria.component.util.ComponentLogger] Starting Component: "DB::Parser1"
+2009-12-01 12:25:43,138 DEBUG [com.vitria.component.util.ComponentLogger] Started Component: "DB::Parser1" 
+2009-12-01 12:25:43,138 INFO  [com.vitria.component.util.ComponentLogger] Component "VirtualServerTest::DB::Parser1" has been started.
+2009-12-01 12:25:43,138 DEBUG [com.vitria.component.util.ComponentLogger] Starting Component: "Rest::Parser1"
+2009-12-01 12:25:43,170 DEBUG [com.vitria.component.util.ComponentLogger] Started Component: "Rest::Parser1" 
+2009-12-01 12:25:43,170 INFO  [com.vitria.component.util.ComponentLogger] Component "VirtualServerTest::Rest::Parser1" has been started.
+2009-12-01 12:25:43,170 DEBUG [com.vitria.component.util.ComponentLogger] Starting Component: "FeedSource::FeedPublisher1"
+2009-12-01 12:25:43,170 DEBUG [com.vitria.component.util.ComponentLogger] Started Component: "FeedSource::FeedPublisher1" 
+2009-12-01 12:25:43,170 INFO  [com.vitria.component.util.ComponentLogger] Component "VirtualServerTest::FeedSource::FeedPublisher1" has been started.
+2009-12-01 12:25:43,170 DEBUG [com.vitria.component.util.ComponentLogger] Starting Component: "Classifier::Component1"
+2009-12-01 12:25:43,763 DEBUG [com.vitria.component.util.ComponentLogger] Started Component: "Classifier::Component1" 
+2009-12-01 12:25:43,763 INFO  [com.vitria.component.util.ComponentLogger] Component "VirtualServerTest::Classifier::Component1" has been started.
+2009-12-01 12:25:44,029 DEBUG [com.vitria.component.util.ComponentLogger] Starting Component: "File1"
+2009-12-01 12:25:44,138 DEBUG [com.vitria.component.util.ComponentLogger] Started Component: "File1" 
+2009-12-01 12:25:44,138 DEBUG [com.vitria.component.util.ComponentLogger] Starting Component: "JMS::Connector"
+2009-12-01 12:25:44,232 DEBUG [com.vitria.component.util.ComponentLogger] Started Component: "JMS::Connector" 
+2009-12-01 12:25:51,279 DEBUG [com.vitria.component.util.ComponentLogger] >>configureUsingRepository
+2009-12-01 12:25:51,279 DEBUG [com.vitria.component.util.ComponentLogger] beName: VirtualServerTest
+2009-12-01 12:25:51,310 DEBUG [com.vitria.component.util.ComponentLogger] serverName: analytic
+2009-12-01 12:25:51,357 DEBUG [com.vitria.component.util.ComponentLogger] computeReleaseMap model = v1_0
+2009-12-01 12:25:51,357 DEBUG [com.vitria.component.util.ComponentLogger] computeReleaseMap latest release ="1"
+2009-12-01 12:25:51,357 DEBUG [com.vitria.component.util.ComponentLogger] Configured release tag = v1_0
+2009-12-01 12:25:51,357 DEBUG [com.vitria.component.util.ComponentLogger] serviceURI = "analyticLoanApproverService" local address = "http://analytic:8080"
+2009-12-01 12:25:51,373 INFO  [com.vitria.component.util.ComponentLogger] Registered component: "VirtualServerTest::JMS::FeedConnector"
+2009-12-01 12:25:51,373 INFO  [com.vitria.component.util.ComponentLogger] Registered component: "VirtualServerTest::FeedSource::FeedPublisher1"
+2009-12-01 12:25:51,373 INFO  [com.vitria.component.util.ComponentLogger] Registered component: "VirtualServerTest::FeedSource::Echo1"
+2009-12-01 12:25:51,373 INFO  [com.vitria.component.util.ComponentLogger] Registered component: "VirtualServerTest::JMSFeed::Parser1"
+2009-12-01 12:25:51,466 INFO  [com.vitria.component.util.ComponentLogger] Registered component: "VirtualServerTest::JMS::FeedInputProxy"
+2009-12-01 12:25:51,920 DEBUG [com.vitria.component.util.ComponentLogger] SystemFactory::createComponentImplementation serviceName=JMSFeedParser
+2009-12-01 12:25:52,857 INFO  [com.vitria.component.util.ComponentLogger] Initialized component: "VirtualServerTest::JMSFeed::Parser1"
+2009-12-01 12:25:52,857 DEBUG [com.vitria.component.util.ComponentLogger] SystemFactory::createComponentImplementation implClazz=com.vitria.component.impl.ConnectorImplementation
+2009-12-01 12:25:52,857 INFO  [com.vitria.component.util.ComponentLogger] Initialized component: "VirtualServerTest::JMS::FeedConnector"
+2009-12-01 12:25:52,857 DEBUG [com.vitria.component.util.ComponentLogger] SystemFactory::createComponentImplementation implClazz=com.vitria.component.source.FeedPublisherComponent
+2009-12-01 12:25:52,857 INFO  [com.vitria.component.util.ComponentLogger] Initialized component: "VirtualServerTest::FeedSource::FeedPublisher1"
+2009-12-01 12:25:52,857 DEBUG [com.vitria.component.util.ComponentLogger] SystemFactory::createComponentImplementation serviceName=JMSSource
+2009-12-01 12:25:52,888 INFO  [com.vitria.component.util.ComponentLogger] Initialized component: "VirtualServerTest::JMS::FeedInputProxy"
+2009-12-01 12:25:52,888 DEBUG [com.vitria.component.util.ComponentLogger] SystemFactory::createComponentImplementation implClazz=com.vitria.component.source.Echo
+2009-12-01 12:25:52,888 INFO  [com.vitria.component.util.ComponentLogger] Initialized component: "VirtualServerTest::FeedSource::Echo1"
+2009-12-01 12:25:52,888 DEBUG [com.vitria.component.util.ComponentLogger] Starting Component: "JMSFeed::Parser1"
+2009-12-01 12:25:53,576 DEBUG [com.vitria.component.util.ComponentLogger] Started Component: "JMSFeed::Parser1" 
+2009-12-01 12:25:53,576 INFO  [com.vitria.component.util.ComponentLogger] Component "VirtualServerTest::JMSFeed::Parser1" has been started.
+2009-12-01 12:25:53,591 DEBUG [com.vitria.component.util.ComponentLogger] Starting Component: "FeedSource::FeedPublisher1"
+2009-12-01 12:25:53,591 DEBUG [com.vitria.component.util.ComponentLogger] Started Component: "FeedSource::FeedPublisher1" 
+2009-12-01 12:25:53,591 INFO  [com.vitria.component.util.ComponentLogger] Component "VirtualServerTest::FeedSource::FeedPublisher1" has been started.
+2009-12-01 12:25:53,591 DEBUG [com.vitria.component.util.ComponentLogger] Starting Component: "JMS::FeedInputProxy"
+2009-12-01 12:25:53,591 DEBUG [com.vitria.component.util.ComponentLogger] Started Component: "JMS::FeedInputProxy" 
+2009-12-01 12:25:53,591 INFO  [com.vitria.component.util.ComponentLogger] Component "VirtualServerTest::JMS::FeedInputProxy" has been started.
+2009-12-01 12:25:53,591 DEBUG [com.vitria.component.util.ComponentLogger] Starting Component: "FeedSource::Echo1"
+2009-12-01 12:25:53,591 DEBUG [com.vitria.component.util.ComponentLogger] Started Component: "FeedSource::Echo1" 
+2009-12-01 12:25:53,591 INFO  [com.vitria.component.util.ComponentLogger] Component "VirtualServerTest::FeedSource::Echo1" has been started.
+2009-12-01 12:25:53,591 DEBUG [com.vitria.component.util.ComponentLogger] Starting Component: "JMS::FeedConnector"
+2009-12-01 12:25:53,623 DEBUG [com.vitria.component.util.ComponentLogger] Started Component: "JMS::FeedConnector" 
+2009-12-01 12:25:59,435 DEBUG [com.vitria.component.util.ComponentLogger] Routing event "a7986417-169b-4f85-8218-be1f759cebe2": [OUTPUTPORT::VirtualServerTest::File/file::defaultOutputPort] ----> [INPUTPORT::VirtualServerTest::Line::Parser1::defaultInputPort]
+2009-12-01 12:25:59,435 DEBUG [com.vitria.component.util.ComponentLogger] Routing event "a7986417-169b-4f85-8218-be1f759cebe2": [INPUTPORT::VirtualServerTest::Line::Parser1::defaultInputPort] ----> [COMPONENT::VirtualServerTest::Line::Parser1]
+2009-12-01 12:25:59,748 DEBUG [com.vitria.component.util.ComponentLogger] Routing event "9d6a8d3e-3071-4779-9429-a00cef9bbe9e": [OUTPUTPORT::VirtualServerTest::Line::Parser1::defaultOutputPort] ----> [INPUTPORT::VirtualServerTest::FeedSource::FeedPublisher1::defaultInputPort]
+2009-12-01 12:25:59,748 DEBUG [com.vitria.component.util.ComponentLogger] Routing event "9d6a8d3e-3071-4779-9429-a00cef9bbe9e": [INPUTPORT::VirtualServerTest::FeedSource::FeedPublisher1::defaultInputPort] ----> [COMPONENT::VirtualServerTest::FeedSource::FeedPublisher1]
+2009-12-01 12:26:00,732 DEBUG [com.vitria.component.util.ComponentLogger] Component implementation returned null, drop the event.
+2009-12-01 12:26:00,732 DEBUG [com.vitria.component.util.ComponentLogger] Component implementation returned null, drop the event.
+2009-12-01 12:26:36,841 DEBUG [com.vitria.component.util.ComponentLogger] Routing event "755455f1-ffff-4f82-a634-e99f745cc5da": [OUTPUTPORT::VirtualServerTest::File/file::defaultOutputPort] ----> [INPUTPORT::VirtualServerTest::Line::Parser1::defaultInputPort]
+2009-12-01 12:26:36,841 DEBUG [com.vitria.component.util.ComponentLogger] Routing event "755455f1-ffff-4f82-a634-e99f745cc5da": [INPUTPORT::VirtualServerTest::Line::Parser1::defaultInputPort] ----> [COMPONENT::VirtualServerTest::Line::Parser1]
+2009-12-01 12:26:36,872 DEBUG [com.vitria.component.util.ComponentLogger] Routing event "9b9a93d0-628f-48b1-a71a-9254d1eef598": [OUTPUTPORT::VirtualServerTest::Line::Parser1::defaultOutputPort] ----> [INPUTPORT::VirtualServerTest::FeedSource::FeedPublisher1::defaultInputPort]
+2009-12-01 12:26:36,872 DEBUG [com.vitria.component.util.ComponentLogger] Routing event "9b9a93d0-628f-48b1-a71a-9254d1eef598": [INPUTPORT::VirtualServerTest::FeedSource::FeedPublisher1::defaultInputPort] ----> [COMPONENT::VirtualServerTest::FeedSource::FeedPublisher1]
+2009-12-01 12:26:36,872 DEBUG [com.vitria.component.util.ComponentLogger] Component implementation returned null, drop the event.
+2009-12-01 12:26:36,872 DEBUG [com.vitria.component.util.ComponentLogger] Component implementation returned null, drop the event.

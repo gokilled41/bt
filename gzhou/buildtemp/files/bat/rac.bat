@@ -1,0 +1,1 @@
+call sac D:\dmsdk\mysamplesource.properties

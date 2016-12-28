@@ -1,0 +1,1 @@
+grtar http://pek-wkst67766:8080/vitria-oi/app http://localhost:8080/vitria-oi/app

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test:wholeType xmlns:test="http://test.vitria.com/ct2">
+	<varGroup varNMTOKEN="NMTOKEN">
+		<varString>String</varString>
+		<varNormalizedString>normalizedString</varNormalizedString>
+		<varToken>token</varToken>
+		<varBoolean>true</varBoolean>
+		<varInt>0</varInt>
+		<varByte>127</varByte>
+		<varShort>4096</varShort>
+		<varLong>2147483647</varLong>
+		<varFloat>3.14159E0</varFloat>
+		<varDouble>3.141593E0</varDouble>
+		<varDate>1967-08-13</varDate>
+		<varDateTime>2001-12-17T09:30:47.0Z</varDateTime>
+		<varInteger>0</varInteger>
+		<varPositiveInteger>2</varPositiveInteger>
+		<varNegativeInteger>-2</varNegativeInteger>
+		<varNonNegativeInteger>1</varNonNegativeInteger>
+		<varNonPositiveInteger>-1</varNonPositiveInteger>
+		<varUnsignedLong>4294967295</varUnsignedLong>
+		<varUnsignedInt>0</varUnsignedInt>
+		<varUnsignedShort>65535</varUnsignedShort>
+		<varUnsignedByte>255</varUnsignedByte>
+		<varDecimal>3.1415926535897932384626433832795</varDecimal>
+		<varTime>14:20:02</varTime>
+		<vargYear>2008</vargYear>
+		<vargYearMonth>2001-12</vargYearMonth>
+		<vargMonth>--12</vargMonth>
+		<vargMonthDay>--12-17</vargMonthDay>
+		<vargDay>---17</vargDay>
+		<varanyURI>http://www.altova.com</varanyURI>
+		<varlanguage>en-us</varlanguage>
+		<varName>token</varName>
+		<varNCName>NCName</varNCName>
+	</varGroup>
+</test:wholeType>

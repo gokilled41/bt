@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping 
+	PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class entity-name="ts_ed41caaa-970f-424e-85e7-a9972df42fce_stringTypes1">
+		<subselect>
+			select st1.docID.contextID context_id,ut.utname utname, ut.utnamespace utnamespace,
+			st1.stringType11 C1, st1.stringType12 C2,st1.stringType13 C3,st1.stringType14
+			C4,st1.stringType15 C5 from com.vitria.schema.dmstest.StringTypes1 st1,
+			com.vitria.workflow.UserTask ut where st1.docID.docName = ut.docname and ut.taskvarname
+			= 'stringTypes1'
+		</subselect>
+
+		<id name="id" type="com.vitria.workflow.ViewIDType">
+			<column name="context_id" />
+			<column name="utname" />
+			<column name="utnamespace" />
+		</id>
+		<properties name="key" unique="true">
+			<property access="org.hibernate.property.MapAccessor" update="false" insert="false"
+				type="string" column="context_id" name="context_id" />
+			<property access="org.hibernate.property.MapAccessor" update="false" insert="false"
+				type="string" column="utname" name="utname" />
+			<property access="org.hibernate.property.MapAccessor" update="false" insert="false"
+				type="string" column="utnamespace" name="utnamespace" />
+		</properties>
+		<property access="org.hibernate.property.MapAccessor" update="false" insert="false"
+			type="string" column="C1" name="COLUMN12" />
+		<property access="org.hibernate.property.MapAccessor" update="false" insert="false"
+			type="string" column="C2" name="COLUMN13" />
+		<property access="org.hibernate.property.MapAccessor" update="false" insert="false"
+			type="string" column="C3" name="COLUMN14" />
+		<property access="org.hibernate.property.MapAccessor" update="false" insert="false"
+			type="string" column="C4" name="COLUMN15" />
+		<property access="org.hibernate.property.MapAccessor" update="false" insert="false"
+			type="string" column="C5" name="COLUMN16" />
+
+	</class>
+</hibernate-mapping>

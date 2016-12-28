@@ -1,0 +1,3 @@
+ 
+rem For hot deploy of classes
+set JAVA_OPTS=%JAVA_OPTS% -noverify -javaagent:"C:\workspace\buildtemp\lib\jrebel.jar" -Drebel.dirs=D:\jedi\yoda\export\test\classes\domainservice-junitee,D:\jedi\yoda\export\test\classes\server-test-tools,D:\jedi\yoda\export\m3o\classes\client,D:\jedi\yoda\export\m3o\classes\core,D:\jedi\yoda\export\m3o\classes\engine,D:\jedi\yoda\export\m3o\classes\virtualserver,D:\jedi\yoda\export\m3o\classes\domainservice,D:\jedi\yoda\export\m3o\stage\JBoss\application\classes

@@ -1,0 +1,1 @@
+select * from VTDM_TXU_LOG where event_type <> 'Completed' and message_type like '%04%' order by update_time desc

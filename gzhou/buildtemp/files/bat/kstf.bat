@@ -1,0 +1,1 @@
+call kst > "C:\Users\gzhou\Desktop\kst.txt"

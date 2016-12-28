@@ -1,0 +1,122 @@
+Buildfile: C:\workspace\buildtemp\build.xml
+
+clean-env:
+
+clean-repository-folder:
+
+clean-dms-artifacts:
+
+clean-dms-resource-bom:
+
+clean-dms-runtime-sqls:
+
+copy-oracle-drivers:
+     [copy] Copying 1 file to D:\jedi\yoda\export\home\jboss\server\vtba\lib
+     [copy] Copying 1 file to D:\jedi\yoda\export\home\jboss\server\vtba\lib
+     [copy] Copying 1 file to D:\jedi\yoda\export\home\jboss\server\vtba\lib
+
+copy-eclipse-settings:
+    [mkdir] Created dir: D:\jedi\yoda\export\home\eclipse\configuration\.settings
+     [copy] Copying 1 file to D:\jedi\yoda\export\home\eclipse\configuration\.settings
+
+set-debug:
+
+deploy-repository:
+     [echo] modify and deploy repository-ora.xml
+     [echo] url: jdbc:oracle:thin:@10.101.7.67:1521:orcl
+     [echo] user: zgf3
+     [echo] password: zgf3
+     [copy] Copying 1 file to D:\jedi\yoda\export\home\data\repository
+
+copy-datasources:
+     [echo] modify and deploy vt-oracle-emf-ds.xml and vt-oracle-um-ds.xml
+     [echo] url: jdbc:oracle:thin:@10.101.7.67:1521:orcl
+     [echo] user: zgf3
+     [echo] password: zgf3
+     [copy] Copying 4 files to D:\jedi\yoda\export\home\jboss\server\vtba\deploy
+
+drop-db:
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\drop-attachment-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\drop-audit-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\drop-ba-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\drop-bc-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\drop-dm-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\drop-dmsdt-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\drop-feedserver-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\drop-m3ocluster-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\drop-m3oengine-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\drop-m3oenginetimer-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\drop-mr-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\drop-querycomp-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\drop-rules-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\drop-simpleservice-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\drop-tc-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\drop-um-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\drop-workflow-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\drop-xdbconfig-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\drop_analytics_ora.sql
+      [sql] 126 of 143 SQL statements executed successfully
+
+modify-xdbconfig-sql:
+
+drop-tables:
+
+run-filtered-sql:
+      [sql] Executing file: C:\workspace\buildtemp\files\sql\drop_all_tables.sql
+      [sql] 6 of 6 SQL statements executed successfully
+      [sql] Executing file: C:\workspace\buildtemp\files\sql\handled.results.sql
+      [sql] 14 of 14 SQL statements executed successfully
+   [delete] Deleting 2 files from C:\workspace\buildtemp\files\sql
+
+create-db:
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\create-attachment-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\create-audit-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\create-ba-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\create-bc-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\create-dm-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\create-dmsdt-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\create-feedserver-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\create-m3ocluster-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\create-m3oengine-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\create-m3oenginetimer-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\create-mr-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\create-querycomp-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\create-rules-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\create-simpleservice-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\create-tc-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\create-um-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\create-workflow-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\create-xdbconfig-ora.sql
+      [sql] Executing file: D:\jedi\yoda\export\home\runtime\sqlscripts\create_analytics_ora.sql
+      [sql] 205 of 205 SQL statements executed successfully
+
+set-log:
+     [copy] Copying 1 file to D:\jedi\yoda\export\home\jboss\server\vtba\conf
+
+copy-email-config:
+     [prop] workflow.mail.smtp.host=10.101.0.30
+     [prop] workflow.mail.smtp.auth=true
+     [prop] workflow.mail.smtp.starttls.enable=false
+     [prop] workflow.mail.conn.username=gzhou
+     [prop] workflow.mail.conn.password=fang@222
+     [prop] workflow.mail.header.sender=gzhou@qilinsoft.com
+     [prop] m3oserver.hostname=localhost
+     [prop] m3oserver.port=9080
+
+copy-jcr-browser:
+     [copy] Copying 1 file to D:\jedi\yoda\export\home\jboss\server\vtba\deploy
+
+configure-server-xml-websphere:
+     [echo] modify and deploy server.xml, server_analytic.xml, server_feed.xml
+     [echo] vt.server.context.factory: com.ibm.websphere.naming.WsnInitialContextFactory
+     [echo] vt.server.provider.url: corbaloc:iiop:localhost:2809
+     [copy] Copying 1 file to D:\jedi\yoda\export\home\data\m3o
+     [copy] Copying 1 file to D:\jedi\yoda\export\home\data\m3o
+     [copy] Copying 1 file to D:\jedi\yoda\export\home\data\m3o
+
+clean-build:
+
+all:
+
+BUILD SUCCESSFUL
+Total time: 17 seconds

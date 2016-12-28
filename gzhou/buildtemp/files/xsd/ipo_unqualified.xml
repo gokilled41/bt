@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ipo:purchaseOrder orderDate="2001-01-01" xmlns:ipo="http://www.example.com/IPO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+  <shipTo xsi:type="ipo:AddressType">
+    <name>name</name>
+    <street>street</street>
+    <city>city</city>
+  </shipTo>
+  <billTo xsi:type="ipo:AddressType">
+    <name>name</name>
+    <street>street</street>
+    <city>city</city>
+  </billTo>
+  <comment>comment</comment>
+  <items>
+    <item partNum="222-DD" shipBy="air" weightKg="0.0">
+      <productName>productName</productName>
+      <quantity>1</quantity>
+      <USPrice>0.0</USPrice>
+      <ipo:shipComment>ipo:shipComment</ipo:shipComment>
+      <shipDate>2001-01-01</shipDate>
+    </item>
+  </items>
+</ipo:purchaseOrder>

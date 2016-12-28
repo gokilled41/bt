@@ -1,0 +1,8 @@
+<assignment>
+	<assignmentPolicy>
+		<name>Any</name>
+		<users>
+			<entry type="workgroup">ConsumerProducts/wg1</entry>
+		</users>
+	</assignmentPolicy>
+</assignment>

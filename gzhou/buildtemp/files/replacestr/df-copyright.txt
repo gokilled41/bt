@@ -1,0 +1,27 @@
+dir: D:\jedi\yoda\unbundled\af\java\common
+-dir: D:\jedi\yoda\unbundled\af\java\dataflow
+
+dir: D:\jedi\yoda\unbundled\af\java\dataflow\locale
+dir: D:\jedi\yoda\unbundled\af\java\dataflow\client
+dir: D:\jedi\yoda\unbundled\af\java\dataflow\model
+dir: D:\jedi\yoda\unbundled\af\java\dataflow\framework
+dir: D:\jedi\yoda\unbundled\af\java\dataflow\lifecycle
+dir: D:\jedi\yoda\unbundled\af\java\dataflow\voi
+dir: D:\jedi\yoda\unbundled\af\java\dataflow\standalone
+-
+-dir: D:\jedi\yoda\m3o\server\src\client\com\vitria\domainservice\notify
+-
+-dir: yodast.txt
+
+--dir: D:\jedi\yoda\unbundled\af\java\dataflow\tools\dmsdk\src\framework
+--dir: D:\jedi\yoda\unbundled\af\java\dataflow\tools\dmsdk\src\dmsdk
+-dir: D:\jedi\yoda\unbundled\apps\predictive_analytics\libs\src\data\src
+-dir: D:\jedi\yoda\unbundled\apps\predictive_analytics\libs\src\framework\src
+-dir: D:\jedi\yoda\unbundled\apps\predictive_analytics\plugins\dataflow\pmmlmodule
+-dir: D:\jedi\yoda\unbundled\apps\predictive_analytics\plugins\unifiedservice\rservice
+
+from: CopyrightA2JF
+to:   a
+
+exclude: modules
+exclude: devtests

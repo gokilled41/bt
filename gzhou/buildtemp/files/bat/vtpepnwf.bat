@@ -1,0 +1,1 @@
+call vtutil admin m3o -purgeEPN epn1 -prjName /home/vtbaadmin/TestProject$Deployment -wf

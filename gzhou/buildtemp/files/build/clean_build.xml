@@ -1,0 +1,248 @@
+<?xml version="1.0"?>
+
+<project name="clean-build" basedir="../..">
+    <import file="../../properties.xml" />
+
+    <target name="clean-build" depends="
+        clean-env,
+        copy-datasources-templates,
+        copy-eclipse-settings,
+        set-memory,
+        set-debug,
+        set-log,
+        copy-email-config,
+        copy-jcr-browser,
+        configure-server-xml-jboss" />
+
+    <!-- clean -->
+    <target name="clean-env">
+        <antcall target="clean-repository-folder" />
+        <antcall target="clean-dms-artifacts" />
+        <antcall target="clean-dms-resource-bom" />
+        <antcall target="clean-dms-runtime-sqls" />
+        <antcall target="clean-dms-data-dictionary" />
+        <antcall target="clean-bundle-cache" />
+        <antcall target="clean-esms-data" />
+        <antcall target="clean-apps" />
+    </target>
+
+    <target name="clean-repository-folder">
+        <delete dir="${vtba.home}\modelrepository" failonerror="no" />
+    </target>
+
+    <target name="clean-dms-artifacts">
+        <delete dir="${vtba.home}\tempDMS_artifacts" />
+    </target>
+
+    <target name="clean-dms-resource-bom">
+        <delete dir="${vtba.home}\DMSResourceBOM" />
+    </target>
+
+    <target name="clean-dms-data-dictionary">
+        <delete dir="${vtba.home}\DMSDataDictionary" />
+    </target>
+
+    <target name="clean-bundle-cache">
+        <delete dir="${vtba.home}\bundles\m3o\server\bundle\cache" />
+        <delete dir="${vtba.home}\bundles\m3o\ui\cache" />
+    </target>
+
+    <target name="clean-esms-data">
+        <delete>
+            <fileset dir="${vtba.home}\esms\data">
+                <include name="*.*" />
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="clean-jboss">
+        <delete dir="${jboss.vtba.dir}\data" />
+        <delete dir="${jboss.vtba.dir}\log" />
+        <delete dir="${jboss.vtba.dir}\tmp" />
+        <delete dir="${jboss.vtba.dir}\work" />
+    </target>
+    
+    <target name="clean-apps">
+        <delete dir="${vtba.home}\applications\home\server" />
+    </target>
+
+    <target name="copy-eclipse-settings">
+        <delete dir="${eclipse.settings.dir}" />
+        <mkdir dir="${eclipse.settings.dir}" />
+        <copy todir="${eclipse.settings.dir}" file="${tocopy.eclipse.settings.file}" overwrite="true" />
+    </target>
+
+    <target name="set-debug">
+        <replace file="${jboss.bin.dir}/run.bat" token="${undebug.line}" value="${debug.line}" dir="${jboss.bin.dir}" />
+    </target>
+
+    <target name="set-nodebug">
+        <replace file="${jboss.bin.dir}/run.bat" token="${debug.line}" value="${undebug.line}" dir="${jboss.bin.dir}" />
+    </target>
+
+    <target name="set-log">
+        <copy todir="${jboss.conf.dir}" file="${log.log4j.xml}" overwrite="true" />
+    </target>
+
+    <target name="set-nolog">
+        <copy todir="${jboss.conf.dir}" file="${nolog.log4j.xml}" overwrite="true" />
+    </target>
+
+    <target name="set-memory">
+        <replace file="${jboss.bin.dir}/run.bat" token="${memory.line}" value="${big.memory.line}" dir="${jboss.bin.dir}" />
+    </target>
+
+    <target name="set-nomemory">
+        <replace file="${jboss.bin.dir}/run.bat" token="${big.memory.line}" value="${memory.line}" dir="${jboss.bin.dir}" />
+    </target>
+
+    <target name="update-log">
+        <copy todir="${log.log4j.dir}" file="${jboss.conf.dir}/${log4j.file}" overwrite="true" />
+    </target>
+
+    <target name="set-nolognodebug" depends="set-nodebug, set-nolog" />
+
+    <target name="set-logdebug" depends="set-debug, set-log" />
+
+    <target name="copy-email-config">
+        <property name="email.file" value="${vtba.home}\data\workflow\EmailConfiguration.properties" />
+        <prop file="${email.file}" key="workflow.mail.smtp.host" value="10.101.0.30" />
+        <prop file="${email.file}" key="workflow.mail.smtp.auth" value="true" />
+        <prop file="${email.file}" key="workflow.mail.smtp.starttls.enable" value="false" />
+        <prop file="${email.file}" key="workflow.mail.conn.username" value="gzhou" />
+        <prop file="${email.file}" key="workflow.mail.conn.password" value="${gzhou.password}" />
+        <prop file="${email.file}" key="workflow.mail.header.sender" value="gzhou@qilinsoft.com" />
+        <prop file="${email.file}" key="m3oserver.hostname" value="localhost" />
+        <prop file="${email.file}" key="m3oserver.port" value="8080" />
+    </target>
+
+    <target name="copy-jcr-browser">
+        <copy todir="${jboss.deploy.dir}" file="${lib.dir}\jcr-explorer.war" overwrite="true" />
+        <copy todir="${jboss.deploy.dir}" file="${lib.dir}\util.war" overwrite="true" />
+    </target>
+
+    <target name="configure-server-xml-jboss">
+        <echo message="modify and deploy server.xml, server_analytic.xml, server_feed.xml" />
+        <echo message="vt.server.context.factory: ${vt.server.context.factory.jboss}" />
+        <echo message="vt.server.provider.url: ${vt.server.provider.url.jboss}" />
+
+        <filter token="VTBA_HOME" value="${vtba.home}" />
+        <filter token="VT_DB_DIALECT_TYPE" value="${vt.db.dialect.type}" />
+        <filter token="VT_SERVER_CONTEXT_FACTORY" value="${vt.server.context.factory.jboss}" />
+        <filter token="VT_SERVER_PROVIDER_URL" value="${vt.server.provider.url.jboss}" />
+        <filter token="VT_REMOTE_CONTEXT_FACTORY" value="${vt.server.context.factory.jboss}" />
+        <filter token="VT_REMOTE_PROVIDER_URL" value="${vt.server.provider.url.jboss}" />
+        <filter token="VT_REMOTE_FEED_SERVER_CONTEXT_FACTORY" value="${vt.server.context.factory.jboss}" />
+        <filter token="VT_REMOTE_FEED_SERVER_PROVIDER_URL" value="${vt.server.provider.url.jboss}" />
+
+        <filter token="VT_SERVER_NAME" value="${vt.server.name.m3o}" />
+        <filter token="VT_CEP_ENGINE_URL" value="http://localhost:7950" />
+        
+        <filter token="VT_DOMAINSERVICE_ADDRESS" value="${vt.server.provider.url.jboss}" />
+        <filter token="VIRTUALSERVER_PROVIDER_URL" value="${vt.server.provider.url.jboss}" />
+        <filter token="M3OSERVER_DATASOURCE_JNDI" value="/vitria/m3o/datasource/DefaultDomain/defaultds" />
+        <filter token="ENABLE_DOMAINSERVICE" value="true" />
+        <filter token="ENABLE_FEEDSERVER" value="true" />
+        <filter token="ENABLE_HAFEEDSERVER" value="false" />
+        <filter token="ENABLE_M3OSERVER" value="true" />
+        <filter token="ENABLE_M3OSERVER_MONITORING" value="true" />
+        <filter token="ENABLE_ESMS_MONITORING" value="true" />
+        <filter token="MONITORING_INTERVAL" value="20" />
+        
+        <copy todir="${vtba.home}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${vtba.home}\data\m3o\template">
+                <include name="server.xml" />
+                <include name="default_vs_config.xml" />
+            </fileset>
+        </copy>
+
+        <filter token="VT_SERVER_NAME" value="${vt.server.name.analytic}" />
+        <copy todir="${vtba.home}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${vtba.home}\data\m3o\template">
+                <include name="server_analytic.xml" />
+            </fileset>
+        </copy>
+
+        <filter token="VT_SERVER_NAME" value="${vt.server.name.feed}" />
+        <copy todir="${vtba.home}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${vtba.home}\data\m3o\template">
+                <include name="server_feed.xml" />
+            </fileset>
+        </copy>
+        
+        <filter token="VT_SERVER_NAME" value="${vt.server.name.presentation}" />
+        <copy todir="${vtba.home}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${vtba.home}\data\m3o\template">
+                <include name="server_presentation.xml" />
+            </fileset>
+        </copy>
+        
+        <filter token="VT_SERVER_NAME" value="${vt.server.name.domain}" />
+        <copy todir="${vtba.home}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${vtba.home}\data\m3o\template">
+                <include name="server_domain.xml" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="configure-server-xml-websphere">
+        <echo message="modify and deploy server.xml, server_analytic.xml, server_feed.xml" />
+        <echo message="vt.server.context.factory: ${vt.server.context.factory.websphere}" />
+        <echo message="vt.server.provider.url: ${vt.server.provider.url.websphere}" />
+
+        <filter token="VTBA_HOME" value="${vtba.home}" />
+        <filter token="VT_DB_DIALECT_TYPE" value="${vt.db.dialect.type}" />
+        <filter token="VT_SERVER_CONTEXT_FACTORY" value="${vt.server.context.factory.websphere}" />
+        <filter token="VT_SERVER_PROVIDER_URL" value="${vt.server.provider.url.websphere}" />
+        <filter token="VT_REMOTE_CONTEXT_FACTORY" value="${vt.server.context.factory.websphere}" />
+        <filter token="VT_REMOTE_PROVIDER_URL" value="${vt.server.provider.url.websphere}" />
+        <filter token="VT_REMOTE_FEED_SERVER_CONTEXT_FACTORY" value="${vt.server.context.factory.websphere}" />
+        <filter token="VT_REMOTE_FEED_SERVER_PROVIDER_URL" value="${vt.server.provider.url.websphere}" />
+
+        <filter token="VT_SERVER_NAME" value="${vt.server.name.m3o}" />
+        <copy todir="${vtba.home}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${vtba.home}\data\m3o\template">
+                <include name="server.xml" />
+            </fileset>
+        </copy>
+
+        <filter token="VT_SERVER_NAME" value="${vt.server.name.analytic}" />
+        <copy todir="${vtba.home}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${vtba.home}\data\m3o\template">
+                <include name="server_analytic.xml" />
+            </fileset>
+        </copy>
+
+        <filter token="VT_SERVER_NAME" value="${vt.server.name.feed}" />
+        <copy todir="${vtba.home}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${vtba.home}\data\m3o\template">
+                <include name="server_feed.xml" />
+            </fileset>
+        </copy>
+        
+        <filter token="VT_SERVER_NAME" value="${vt.server.name.presentation}" />
+        <copy todir="${vtba.home}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${vtba.home}\data\m3o\template">
+                <include name="server_presentation.xml" />
+            </fileset>
+        </copy>
+        
+        <filter token="VT_SERVER_NAME" value="${vt.server.name.domain}" />
+        <copy todir="${vtba.home}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${vtba.home}\data\m3o\template">
+                <include name="server_domain.xml" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="copy-test">
+        <echo message="copy test jars" />
+        <delete dir="${vtba.home}\jboss\server\vtba\deploy\test.war" />
+        <mkdir dir="${vtba.home}\jboss\server\vtba\deploy\test.war" />
+        <copy todir="${vtba.home}\jboss\server\vtba\deploy\test.war" overwrite="true">
+            <fileset dir="D:\Workflow-G\documents\M3O\M3O_Projects\Cypress\Server\5_Test\4_OtherTest\migration\src\testwar\test.war">
+                <include name="**" />
+            </fileset>
+        </copy>
+    </target>
+</project>

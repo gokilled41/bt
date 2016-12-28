@@ -1,0 +1,1 @@
+call taskkill /f /im 360AP.exe

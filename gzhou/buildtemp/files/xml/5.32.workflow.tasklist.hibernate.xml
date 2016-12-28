@@ -1,0 +1,181 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class table="VTWF_TASK_V_STRINGTYPES1"
+		entity-name="ts_72cdc638-9b44-4a58-b207-bac1a1c602c5_stringTypes1">
+		<id name="id" type="com.vitria.workflow.ViewIDType">
+			<column name="contexturi" />
+			<column name="utname" />
+			<column name="utnamespace" />
+		</id>
+		<properties name="key" unique="true">
+			<property access="org.hibernate.property.MapAccessor"
+				update="false" insert="false" type="string" column="contexturi"
+				name="contexturi" />
+			<property access="org.hibernate.property.MapAccessor"
+				update="false" insert="false" type="string" column="utname"
+				name="utname" />
+			<property access="org.hibernate.property.MapAccessor"
+				update="false" insert="false" type="string" column="utnamespace"
+				name="utnamespace" />
+		</properties>
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES1_STRINGTYPE1" name="COLUMN9" />
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES1_NRMLZDSTRNGTYP1" name="COLUMN10" />
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES1_TOKENTYPE1" name="COLUMN11" />
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES1_LANGUAGETYPE1" name="COLUMN12" />
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES1_NAMETYPE1" name="COLUMN13" />
+	</class>
+
+	<class table="VTWF_TASK_V_STRINGTYPES2"
+		entity-name="ts_72cdc638-9b44-4a58-b207-bac1a1c602c5_stringTypes2">
+		<id name="id" type="com.vitria.workflow.ViewIDType">
+			<column name="contexturi" />
+			<column name="utname" />
+			<column name="utnamespace" />
+		</id>
+		<properties name="key" unique="true">
+			<property access="org.hibernate.property.MapAccessor"
+				update="false" insert="false" type="string" column="contexturi"
+				name="contexturi" />
+			<property access="org.hibernate.property.MapAccessor"
+				update="false" insert="false" type="string" column="utname"
+				name="utname" />
+			<property access="org.hibernate.property.MapAccessor"
+				update="false" insert="false" type="string" column="utnamespace"
+				name="utnamespace" />
+		</properties>
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES2_STRINGTYPE2" name="COLUMN14" />
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES2_NRMLZDSTRNGTYP2" name="COLUMN15" />
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES2_TOKENTYPE2" name="COLUMN16" />
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES2_LANGUAGETYPE2" name="COLUMN17" />
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES2_NAMETYPE2" name="COLUMN18" />
+	</class>
+
+	<class table="VTWF_TASK_V_STRINGTYPES3"
+		entity-name="ts_72cdc638-9b44-4a58-b207-bac1a1c602c5_stringTypes3">
+		<id name="id" type="com.vitria.workflow.ViewIDType">
+			<column name="contexturi" />
+			<column name="utname" />
+			<column name="utnamespace" />
+		</id>
+		<properties name="key" unique="true">
+			<property access="org.hibernate.property.MapAccessor"
+				update="false" insert="false" type="string" column="contexturi"
+				name="contexturi" />
+			<property access="org.hibernate.property.MapAccessor"
+				update="false" insert="false" type="string" column="utname"
+				name="utname" />
+			<property access="org.hibernate.property.MapAccessor"
+				update="false" insert="false" type="string" column="utnamespace"
+				name="utnamespace" />
+		</properties>
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES3_STRINGTYPE3" name="COLUMN19" />
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES3_NRMLZDSTRNGTYP3" name="COLUMN20" />
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES3_TOKENTYPE3" name="COLUMN21" />
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES3_LANGUAGETYPE3" name="COLUMN22" />
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES3_NAMETYPE3" name="COLUMN23" />
+	</class>
+
+	<class table="VTWF_TASK_V_STRINGTYPES4"
+		entity-name="ts_72cdc638-9b44-4a58-b207-bac1a1c602c5_stringTypes4">
+		<id name="id" type="com.vitria.workflow.ViewIDType">
+			<column name="contexturi" />
+			<column name="utname" />
+			<column name="utnamespace" />
+		</id>
+		<properties name="key" unique="true">
+			<property access="org.hibernate.property.MapAccessor"
+				update="false" insert="false" type="string" column="contexturi"
+				name="contexturi" />
+			<property access="org.hibernate.property.MapAccessor"
+				update="false" insert="false" type="string" column="utname"
+				name="utname" />
+			<property access="org.hibernate.property.MapAccessor"
+				update="false" insert="false" type="string" column="utnamespace"
+				name="utnamespace" />
+		</properties>
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES4_STRINGTYPE4" name="COLUMN24" />
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES4_NRMLZDSTRNGTYP4" name="COLUMN25" />
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES4_TOKENTYPE4" name="COLUMN26" />
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES4_LANGUAGETYPE4" name="COLUMN27" />
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES4_NAMETYPE4" name="COLUMN28" />
+	</class>
+
+	<class table="VTWF_TASK_V_STRINGTYPES5"
+		entity-name="ts_72cdc638-9b44-4a58-b207-bac1a1c602c5_stringTypes5">
+		<id name="id" type="com.vitria.workflow.ViewIDType">
+			<column name="contexturi" />
+			<column name="utname" />
+			<column name="utnamespace" />
+		</id>
+		<properties name="key" unique="true">
+			<property access="org.hibernate.property.MapAccessor"
+				update="false" insert="false" type="string" column="contexturi"
+				name="contexturi" />
+			<property access="org.hibernate.property.MapAccessor"
+				update="false" insert="false" type="string" column="utname"
+				name="utname" />
+			<property access="org.hibernate.property.MapAccessor"
+				update="false" insert="false" type="string" column="utnamespace"
+				name="utnamespace" />
+		</properties>
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES5_STRINGTYPE5" name="COLUMN29" />
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES5_NRMLZDSTRNGTYP5" name="COLUMN30" />
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES5_TOKENTYPE5" name="COLUMN31" />
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES5_LANGUAGETYPE5" name="COLUMN32" />
+		<property access="org.hibernate.property.MapAccessor"
+			update="false" insert="false" type="string"
+			column="STRINGTYPES5_NAMETYPE5" name="COLUMN33" />
+	</class>
+</hibernate-mapping>

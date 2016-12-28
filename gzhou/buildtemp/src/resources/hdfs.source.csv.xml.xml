@@ -1,0 +1,28 @@
+<model type="hdfs.reader" lazyLoadData="true">
+  <config server="hadoop.qilinsoft.com" port="9020" table="" path="/home/khuang/ProcessActivity*.csv" start="0" end="-1" batchEnabled="true" realtimeEnabled="true"/>
+  <target type="newFeed">
+	  <feed local="true" url="Feed" variable=""/>
+	  <event local="true" path="Event" xsdType="Type">
+	    <ns>http://default/data/hadoop/Event</ns>
+	  </event>
+  </target>
+  
+  <mapping fileFormat="text" parser="CSV2XML" firstRowAsHeader="true" separator="," encoding="UTF-8" format="Unix">
+    <field name="OrderID" type="string" loc="0" measure="false" enabled="true"/>
+
+    <field name="Step" type="string" loc="1" measure="false" enabled="true"/>
+    <field name="Timestamp" type="dateTime" format="yyyy-MM-dd'T'HH:mm:ss.SSSZ" loc="2" measure="false" enabled="true"/>
+    <field name="Duration" type="int" loc="3" measure="true" enabled="true"/>
+    <field name="Account" type="string" loc="4" measure="false" enabled="true"/>
+
+    <field name="SubscriberID" type="int" loc="5" measure="true" enabled="true"/>
+    <field name="AccountClassification" type="string" loc="6" measure="false" enabled="true"/>
+    <field name="ServiceType" type="string" loc="7" measure="false" enabled="true"/>
+    <field name="OrderAmount" type="int" loc="8" measure="true" enabled="true"/>
+
+    <field name="Region" type="string" loc="9" measure="false" enabled="true"/>
+    <field name="Latitude" type="float" loc="10" measure="true" enabled="true"/>
+
+    <field name="Longitude" type="float" loc="11" measure="true" enabled="true"/>
+  </mapping>
+</model>

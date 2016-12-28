@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wf="http://www.vitria.com/workflow/smoke"
+    targetNamespace="http://www.vitria.com/workflow/smoke">
+
+    <element name="primitiveTypes" type="wf:PrimitiveTypes" />
+
+    <complexType name="PrimitiveTypes">
+        <sequence>
+            <element name="dateTimeType" type="dateTime" minOccurs="0" />
+            <element name="dateType" type="date" minOccurs="0" />
+            <element name="timeType" type="time" minOccurs="0" />
+            <element name="booleanType" type="boolean" minOccurs="0" />
+            <element name="floatType" type="float" minOccurs="0" />
+            <element name="decimalType" type="decimal" minOccurs="0" />
+            <element name="doubleType" type="double" minOccurs="0" />
+            <element name="anyURIType" type="anyURI" minOccurs="0" />
+            <element name="stringType" type="string" minOccurs="0" />
+        </sequence>
+    </complexType>
+</schema>
+

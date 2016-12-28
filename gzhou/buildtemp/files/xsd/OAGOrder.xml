@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<or:order xmlns:or="http://samples.schema.vitria.com/OR">
+	<orderId>oid</orderId>
+	<custId>cid</custId>
+	<notes>notes</notes>
+</or:order>

@@ -1,0 +1,3 @@
+@echo off
+call yodadir
+call svn st build\imports build\properties build\dtd build\deploy bw\installer bw\src m3o\server\installer m3o\server\src m3o\server\locale m3o\ui\installer m3o\ui\src m3o\j2ee\installer m3o\j2ee\src m3o\bpa\emf\server\installer m3o\bpa\emf\server\src m3o\projectrole\installer m3o\projectrole\src m3o\utilities\installer m3o\utilities\src m3o\collaboration\installer m3o\collaboration\src m3o\workflow\installer m3o\workflow\src esms\installer esms\src opbook\installer opbook\src shared\preconfigured\wildfly unbundled\af unbundled\apps D:\jedi\branches\wildflybrew\trunk\wildfly-core-1.0.2.Final-src\controller\src\main

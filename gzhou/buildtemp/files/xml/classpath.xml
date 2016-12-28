@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="wf_models" />
+	<classpathentry kind="src" path="wf_client" />
+	<classpathentry kind="src" path="wf_common" />
+	<classpathentry kind="src" path="wf_taskmanager" />
+	<classpathentry kind="src" path="wf_process" />
+	<classpathentry kind="src" path="wf_timer" />
+	<classpathentry kind="src" path="wf_admin" />
+	<classpathentry kind="src" path="wf_test" />
+	<classpathentry kind="src" path="wf_bundles_actionHandler_default" />
+	<classpathentry kind="src" path="wf_bundles_assignment_default" />
+	<classpathentry kind="src"
+		path="wf_bundles_assignment_assignmentbymanager" />
+	<classpathentry kind="src" path="wf_bundles_attachment_default" />
+	<classpathentry kind="src" path="wf_bundles_audit_m3o" />
+	<classpathentry kind="src" path="wf_bundles_notification_mbean" />
+	<classpathentry kind="src" path="wf_bundles_taskmanager_m3o" />
+	<classpathentry kind="src" path="wf_bundles_timerHandler_m3o" />
+	<classpathentry kind="src"
+		path="wf_bundles_timerService_quartzTimer" />
+	<classpathentry kind="src" path="wf_bundles_transition_default" />
+	<classpathentry kind="src" path="wf_unit_query_lib" />
+	<classpathentry kind="src" path="wf_unit_m3o" />
+	<classpathentry kind="src" path="wf_unit_audit_prepare" />
+	<classpathentry kind="src" path="wf_unit_audit" />
+	<classpathentry kind="src" path="wf_unit_invoke_prepare" />
+	<classpathentry kind="src" path="wf_unit_invoke" />
+	<classpathentry kind="src" path="wf_unit_timer_prepare" />
+	<classpathentry kind="src" path="wf_unit_timer" />
+	<classpathentry kind="src" path="af_af" />
+	<classpathentry kind="src" path="af_audit" />
+	<classpathentry kind="src" path="af_document" />
+	<classpathentry kind="src" path="af_uifw" />
+	<classpathentry kind="src" path="bw_bc" />
+	<classpathentry kind="src" path="bw_bc_bundles_DOResourceHandler" />
+	<classpathentry kind="src"
+		path="bw_bc_bundles_SimpleResourceHandler" />
+	<classpathentry kind="src" path="bw_bc_junitee" />
+	<classpathentry kind="src" path="bw_bpe" />
+	<classpathentry kind="src" path="bw_cf" />
+	<classpathentry kind="src" path="bw_commands" />
+	<classpathentry kind="src" path="bw_common" />
+	<classpathentry kind="src" path="bw_connectors" />
+	<classpathentry kind="src" path="bw_dm_vtDM" />
+	<classpathentry kind="src" path="bw_dm_vtDMCommon" />
+	<classpathentry kind="src" path="bw_dms" />
+	<classpathentry kind="src" path="bw_fc" />
+	<classpathentry kind="src" path="bw_me_asdcore" />
+	<classpathentry kind="src" path="bw_me_asdjbosscore" />
+	<classpathentry kind="src" path="bw_me_asdjbossui" />
+	<classpathentry kind="src" path="bw_me_asdui" />
+	<classpathentry kind="src" path="bw_me_asdweblogiccore" />
+	<classpathentry kind="src" path="bw_me_asdweblogicui" />
+	<classpathentry kind="src" path="bw_me_asdwebspherecore" />
+	<classpathentry kind="src" path="bw_me_asdwebsphereui" />
+	<classpathentry kind="src" path="bw_me_com.vitria.ba.standalone" />
+	<classpathentry kind="src" path="bw_me_com.vitria.codetemplate" />
+	<classpathentry kind="src"
+		path="bw_me_com.vitria.modeling.bpi.diagram" />
+	<classpathentry kind="src"
+		path="bw_me_com.vitria.modeling.bpm.diagram" />
+	<classpathentry kind="src"
+		path="bw_me_com.vitria.modeling.common.diagram" />
+	<classpathentry kind="src" path="bw_me_com.vitria.modeling.nmt" />
+	<classpathentry kind="src"
+		path="bw_me_com.vitria.modeling.nmt.edit" />
+	<classpathentry kind="src"
+		path="bw_me_com.vitria.modeling.nmt.editor" />
+	<classpathentry kind="src" path="bw_me_connectorscore" />
+	<classpathentry kind="src" path="bw_me_connectorsui" />
+	<classpathentry kind="src" path="bw_me_loggingcore" />
+	<classpathentry kind="src" path="bw_me_loggingui" />
+	<classpathentry kind="src" path="bw_me_mebasecore" />
+	<classpathentry kind="src" path="bw_me_mebaseui" />
+	<classpathentry kind="src" path="bw_me_osgi" />
+	<classpathentry kind="src" path="bw_me_packagerappcore" />
+	<classpathentry kind="src" path="bw_me_packagerappui" />
+	<classpathentry kind="src" path="bw_me_packagercommands" />
+	<classpathentry kind="src" path="bw_me_packagercommoncore" />
+	<classpathentry kind="src" path="bw_me_packagercommonui" />
+	<classpathentry kind="src" path="bw_me_packagerprjcore" />
+	<classpathentry kind="src" path="bw_me_packagerprjui" />
+	<classpathentry kind="src" path="bw_me_projectcore" />
+	<classpathentry kind="src" path="bw_me_projectui" />
+	<classpathentry kind="src" path="bw_models" />
+	<classpathentry kind="src" path="bw_repository_accesscontrol" />
+	<classpathentry kind="src" path="bw_repository_javadoc" />
+	<classpathentry kind="src" path="bw_repository_repositorybeans" />
+	<classpathentry kind="src" path="bw_repository_repositoryclient" />
+	<classpathentry kind="src" path="bw_resource_en_us" />
+	<classpathentry kind="src" path="bw_tools_common" />
+	<classpathentry kind="src" path="bw_tools_jboss" />
+	<classpathentry kind="src" path="bw_tools_license" />
+	<classpathentry kind="src" path="bw_tools_repository" />
+	<classpathentry kind="src" path="bw_tools_verinfo" />
+	<classpathentry kind="src" path="bw_tools_weblogic" />
+	<classpathentry kind="src" path="bw_tools_websphere" />
+	<classpathentry kind="src" path="bw_um" />
+	<classpathentry kind="src" path="m3o_emf_auditlog" />
+	<classpathentry kind="src" path="m3o_emf_bootstrap" />
+	<classpathentry kind="src" path="m3o_emf_components" />
+	<classpathentry kind="src" path="m3o_emf_core" />
+	<classpathentry kind="src" path="m3o_emf_j2ee_ejb" />
+	<classpathentry kind="src" path="m3o_emf_modules_admin_auditlog" />
+	<classpathentry kind="src" path="m3o_emf_modules_admin_dm" />
+	<classpathentry kind="src" path="m3o_emf_modules_admin_engine" />
+	<classpathentry kind="src" path="m3o_emf_modules_admin_workflow" />
+	<classpathentry kind="src" path="m3o_emf_modules_analyticlifecycle" />
+	<classpathentry kind="src" path="m3o_emf_modules_classifier" />
+	<classpathentry kind="src" path="m3o_emf_modules_lifecycle" />
+	<classpathentry kind="src" path="m3o_emf_modules_resolution" />
+	<classpathentry kind="src" path="m3o_emf_modules_source_jms" />
+	<classpathentry kind="src" path="m3o_emf_modules_source_line" />
+	<classpathentry kind="src" path="m3o_emf_modules_source_wsdl" />
+	<classpathentry kind="src" path="m3o_emf_modules_target_jms" />
+	<classpathentry kind="src" path="m3o_j2ee_application" />
+	<classpathentry kind="src" path="m3o_j2ee_connectors" />
+	<classpathentry kind="src" path="m3o_j2ee_engine" />
+	<classpathentry kind="src" path="m3o_modules_tm_client" />
+	<classpathentry kind="src" path="m3o_modules_tm_server" />
+	<classpathentry kind="src" path="m3o_server_client" />
+	<classpathentry kind="src" path="m3o_server_commands" />
+	<classpathentry kind="src" path="m3o_server_connectors_dynamic" />
+	<classpathentry kind="src" path="m3o_server_connectors_line" />
+	<classpathentry kind="src" path="m3o_server_core" />
+	<classpathentry kind="src" path="m3o_server_engine" />
+	<classpathentry kind="src" path="m3o_server_modules_analytic" />
+	<classpathentry kind="src" path="m3o_server_simulation" />
+	<classpathentry kind="src" path="m3o_server_workflow" />
+	<classpathentry kind="src" path="m3o_ui_role_core" />
+	<classpathentry kind="src" path="m3o_ui_role_rbac" />
+	<classpathentry kind="src" path="m3o_ui_role_simulator" />
+	<classpathentry kind="src" path="m3o_ui_role_webapp" />
+	<classpathentry kind="src" path="m3o_ui_role_webapp_tag" />
+	<classpathentry kind="src" path="m3o_ui_dmBuilder" />
+	<classpathentry kind="src" path="m3o_ui_dmsBuilder" />
+	<classpathentry kind="src" path="m3o_ui_j2ee_application" />
+	<classpathentry kind="src" path="m3o_ui" />
+	<classpathentry kind="src" path="m3o_ui_webapp" />
+	<classpathentry kind="src" path="m3o_ui_osgi" />
+	<classpathentry kind="src" path="m3o_utilities_utilitybeans" />
+	<classpathentry kind="src" path="m3o_utilities_utilityclient" />
+	<classpathentry kind="src" path="jboss_varia" />
+	<classpathentry kind="src" path="jboss_transaction" />
+	<classpathentry kind="src" path="jboss_tomcat" />
+	<classpathentry kind="src" path="jboss_system" />
+	<classpathentry kind="src" path="jboss_server" />
+	<classpathentry kind="src" path="jboss_security" />
+	<classpathentry kind="src" path="jboss_remoting-int" />
+	<classpathentry kind="src" path="jboss_naming" />
+	<classpathentry kind="src" path="jboss_messaging" />
+	<classpathentry kind="src" path="jboss_management" />
+	<classpathentry kind="src" path="jboss_jmx" />
+	<classpathentry kind="src" path="jboss_jms" />
+	<classpathentry kind="src" path="jboss_jaxrpc" />
+	<classpathentry kind="src" path="jboss_j2ee" />
+	<classpathentry kind="src" path="jboss_iiop" />
+	<classpathentry kind="src" path="jboss_hibernate-int" />
+	<classpathentry kind="src" path="jboss_ejb3x" />
+	<classpathentry kind="src" path="jboss_ejb3" />
+	<classpathentry kind="src" path="jboss_deployment" />
+	<classpathentry kind="src" path="jboss_console" />
+	<classpathentry kind="src" path="jboss_connector" />
+	<classpathentry kind="src" path="jboss_cluster" />
+	<classpathentry kind="src" path="jboss_aspects" />
+	<classpathentry kind="src" path="emf_ecore" />
+	<classpathentry kind="src" path="emf_common" />
+	<classpathentry kind="src" path="emf_ecore_xmi" />
+	<classpathentry kind="src" path="teneo_annotations" />
+	<classpathentry kind="src" path="teneo_hibernate_mapper" />
+	<classpathentry kind="src" path="teneo" />
+	<classpathentry kind="src" path="teneo_hibernate" />
+	<classpathentry kind="src" path="xsd" />
+	<classpathentry kind="src" path="hibernate3.2.0" />
+	<classpathentry kind="src" path="hibernate3.2.0_test" />
+	<classpathentry kind="src" path="commons_logging" />
+	<classpathentry kind="src" path="commons-collections" />
+	<classpathentry kind="src" path="dom4j" />
+	<classpathentry kind="src" path="wsdl4j" />
+	<classpathentry kind="src" path="junitee" />
+	<classpathentry kind="src" path="junit" />
+	<classpathentry kind="src" path="jmsclient" />
+	<classpathentry kind="src" path="quartz_1.6.0" />
+	<classpathentry kind="src" path="ant_1.6.2" />
+	<classpathentry kind="src" path="ical4j_1.0" />
+	<classpathentry kind="src" path="java_mail_1.4.1" />
+	<classpathentry kind="con"
+		path="org.eclipse.jdt.launching.JRE_CONTAINER" />
+	<classpathentry kind="con"
+		path="org.eclipse.jdt.USER_LIBRARY/JBOSS_LIB" />
+	<classpathentry kind="var"
+		path="WS_HOME/build/lib/driver/ojdbc/ojdbc-10.2.0.1.0.jar" />
+	<classpathentry kind="var"
+		path="WS_HOME/build/lib/driver/ojdbc/xdb-10.2.0.1.0.jar" />
+	<classpathentry kind="var"
+		path="WS_HOME/build/lib/driver/ojdbc/xmlparserv2-10.2.0.1.0.jar" />
+	<classpathentry kind="var"
+		path="WS_HOME/build/lib/runtime/jackrabbit/jcr-1.0.jar" />
+	<classpathentry kind="var"
+		path="WS_HOME/build/lib/runtime/flex-dataservices/flex-messaging.jar" />
+	<classpathentry kind="var"
+		path="WS_HOME/build/lib/runtime/felix/felix-1.0.1.jar"
+		sourcepath="/FELIX" />
+	<classpathentry kind="output" path="bin" />
+</classpath>

@@ -1,0 +1,11 @@
+call taskkill /f /im AliIM.exe
+call taskkill /f /im Alipaybsm.exe
+call taskkill /f /im AlipaySafeTran.exe
+call taskkill /f /im AlipaySecSvc.exe
+call taskkill /f /im ThunderMobilePlatform.exe
+call taskkill /f /im TenpayServer.exe
+call taskkill /f /im ThunderPreload.exe
+call taskkill /f /im TencentUpdateSvc.exe
+call taskkill /f /im TaobaoProtect.exe
+call taskkill /f /im xdelta3.exe
+call taskkill /f /im KKV.exe

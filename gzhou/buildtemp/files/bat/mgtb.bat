@@ -1,0 +1,2 @@
+call mgt
+cd bin

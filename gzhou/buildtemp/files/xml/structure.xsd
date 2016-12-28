@@ -1,0 +1,16 @@
+<xsd:schema xmlns="http://schema.vitria.com/vocabularies"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="unqualified" targetNamespace="http://schema.vitria.com/vocabularies">
+	<xsd:element name="Order" type="Order" />
+	<xsd:complexType name="Order">
+		<xsd:sequence>
+			<xsd:element name="NewGroup">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element default="" name="NewField" type="xs:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

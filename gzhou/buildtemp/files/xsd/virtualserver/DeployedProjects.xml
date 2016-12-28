@@ -1,0 +1,6 @@
+<deployedProjects xmlns="http://schema.vitria.com/vs">
+    <deployedProject id="project1" release="v1_0" path="/user1/project1/deployed/v1_0"
+        autoStart="true" isStarted="false" />
+    <deployedProject id="project2" release="sandbox" path="/user1/project2/deployed/sandbox"
+        autoStart="false" isStarted="false" />
+</deployedProjects>

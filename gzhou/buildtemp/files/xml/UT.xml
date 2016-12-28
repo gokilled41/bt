@@ -1,0 +1,10 @@
+<userTasks xmlns="http://workflow.vitria.com/model" xmlns:common="http://common.vitria.com/model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <userTask>
+    <name>ID5</name>
+    <label>User Task</label>
+    <priority>0</priority>
+    <note/>
+    <taskSchema content="task2" name="mr.0e36e9ea-7beb-4f31-bc1a-6062f5ca467e" valid="false"/>
+    <transitionTimers/>
+  </userTask>
+</userTasks>

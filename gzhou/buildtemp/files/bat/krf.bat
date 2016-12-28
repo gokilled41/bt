@@ -1,0 +1,1 @@
+call kr %* > "C:\Users\gzhou\Desktop\kr.log"

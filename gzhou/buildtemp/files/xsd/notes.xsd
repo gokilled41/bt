@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+    xmlns:notes="http://schema.vitria.com/workflow/notes"
+    targetNamespace="http://schema.vitria.com/workflow/notes">
+
+    <element name="notes" type="notes:NotesType" />
+
+    <complexType name="NotesType">
+        <annotation>
+            <appinfo source="teneo.jpa">@Table(name="vtdm_task_notes")</appinfo>
+        </annotation>
+        <sequence>
+            <element name="taskId" type="string">
+                <annotation>
+                    <appinfo source="teneo.jpa">@Column(name="taskId")</appinfo>
+                </annotation>
+            </element>
+            <element minOccurs="0" maxOccurs="unbounded" name="note">
+                <complexType>
+                    <annotation>
+                        <appinfo source="teneo.jpa">@Table(name="vtdm_task_note")</appinfo>
+                    </annotation>
+                    <sequence>
+                        <element name="datetime" type="dateTime">
+                            <annotation>
+                                <appinfo source="teneo.jpa">@Column(name="datetime")</appinfo>
+                            </annotation>
+                        </element>
+                        <element name="user" type="string">
+                            <annotation>
+                                <appinfo source="teneo.jpa">@Column(name="user")</appinfo>
+                            </annotation>
+                        </element>
+                        <element name="note" type="string">
+                            <annotation>
+                                <appinfo source="teneo.jpa">@Column(name="note")</appinfo>
+                            </annotation>
+                        </element>
+                        <element name="taskId" type="string">
+                            <annotation>
+                                <appinfo source="teneo.jpa">@Column(name="taskId")</appinfo>
+                            </annotation>
+                        </element>
+                        <element name="processId" type="string">
+                            <annotation>
+                                <appinfo source="teneo.jpa">@Column(name="processId")</appinfo>
+                            </annotation>
+                        </element>
+                    </sequence>
+                </complexType>
+            </element>
+        </sequence>
+    </complexType>
+</schema>

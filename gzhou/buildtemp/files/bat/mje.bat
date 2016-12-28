@@ -1,0 +1,2 @@
+call mjedir
+call ant

@@ -1,0 +1,2 @@
+call gdir
+cd build

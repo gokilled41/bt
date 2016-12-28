@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE application PUBLIC "-//Sun Microsystems, Inc.//DTD J2EE Application 1.3//EN" "http://java.sun.com/dtd/application_1_3.dtd">
+
+<application id="M30Server"> 
+  <display-name>M3OServerApplication</display-name>  
+  <module> 
+    <connector>rar/vtlineconnector.rar</connector> 
+  </module>  
+  <module> 
+    <connector>rar/vtdynamicconnector.rar</connector> 
+  </module>  
+  <module> 
+    <ejb>ejb/M3OServerApplication-ejb.jar</ejb> 
+  </module>  
+  <module> 
+    <ejb>ejb/DynamicMDB-ejb.jar</ejb> 
+  </module>  
+  <module> 
+    <ejb>ejb/M3OAuditLogger-ejb.jar</ejb> 
+  </module>  
+  <module> 
+    <web> 
+      <web-uri>war/vtaxis2.war</web-uri>  
+      <context-root>vtservices</context-root> 
+    </web> 
+  </module>  
+  <!-- delpoy AF service EJBs -->  
+  <module> 
+    <ejb>ejb/vtAFService-ejb.jar</ejb> 
+  </module>  
+  <!-- WF Project EJBs -->  
+  <module> 
+    <ejb>projects/vtTaskManager/EJB/vtTaskManager-ejb.jar</ejb> 
+  </module>  
+  <module> 
+    <ejb>projects/vtWorkflowCommon/EJB/vtWorkflowCommon-ejb.jar</ejb> 
+  </module>  
+  <module> 
+    <web> 
+      <web-uri>war/wfquerylib.war</web-uri>  
+      <context-root>wfquerylib</context-root> 
+    </web> 
+  </module> 
+</application>

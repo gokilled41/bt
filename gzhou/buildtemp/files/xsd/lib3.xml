@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lib:order xmlns:lib="http://arraysupport.schema.vitria.com/OR3">
+	<lib:orderId>oid</lib:orderId>
+	<lib:custId>cid</lib:custId>
+	<lib:code>222-dd</lib:code>
+	<lib:notes>notes</lib:notes>
+	<lib:items>
+		<lib:item>
+			<lib:productName>product1</lib:productName>
+			<lib:quantity>100</lib:quantity>
+			<lib:price>5.5</lib:price>
+			<lib:notes>This is a book.</lib:notes>
+		</lib:item>
+		<lib:item>
+			<lib:productName>product2</lib:productName>
+			<lib:quantity>50</lib:quantity>
+			<lib:price>18.5</lib:price>
+			<lib:notes>This is a pencil.</lib:notes>
+		</lib:item>
+	</lib:items>
+</lib:order>

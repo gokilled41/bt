@@ -1,0 +1,66 @@
+<userTasks xmlns="http://workflow.vitria.com/model" xmlns:common="http://common.vitria.com/model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <userTask>
+    <name>ID2</name>
+    <label>testDynamicRoleSupport_001</label>
+    <priority>0</priority>
+    <note/>
+    <taskSchema content="task" name="mr.81005097-46c3-4589-b676-219a5db2cfc8" valid="false"/>
+    <transitionTimers/>
+  </userTask>
+  <userTask>
+    <name>ID3</name>
+    <label>testDynamicRoleSupport_002</label>
+    <priority>0</priority>
+    <note/>
+    <taskSchema content="task" name="mr.81005097-46c3-4589-b676-219a5db2cfc8" valid="false"/>
+    <transitionTimers/>
+  </userTask>
+  <userTask>
+    <name>ID4</name>
+    <label>testDynamicRoleSupport_005</label>
+    <priority>0</priority>
+    <note/>
+    <taskSchema content="task" name="mr.81005097-46c3-4589-b676-219a5db2cfc8" valid="false"/>
+    <transitionTimers/>
+  </userTask>
+  <userTask>
+    <name>ID5</name>
+    <label>testDynamicRoleSupport_006</label>
+    <priority>0</priority>
+    <note/>
+    <taskSchema content="task" name="mr.81005097-46c3-4589-b676-219a5db2cfc8" valid="false"/>
+    <transitionTimers/>
+  </userTask>
+  <userTask>
+    <name>ID6</name>
+    <label>testDynamicRoleSupport_007</label>
+    <priority>0</priority>
+    <note/>
+    <taskSchema content="task" name="mr.81005097-46c3-4589-b676-219a5db2cfc8" valid="false"/>
+    <transitionTimers/>
+  </userTask>
+  <userTask>
+    <name>ID7</name>
+    <label>testDynamicRoleSupport_008</label>
+    <priority>0</priority>
+    <note/>
+    <taskSchema content="task" name="mr.81005097-46c3-4589-b676-219a5db2cfc8" valid="false"/>
+    <transitionTimers/>
+  </userTask>
+  <userTask>
+    <name>ID8</name>
+    <label>testDynamicRoleSupport_009</label>
+    <priority>0</priority>
+    <note/>
+    <taskSchema content="task" name="mr.81005097-46c3-4589-b676-219a5db2cfc8" valid="false"/>
+    <transitionTimers/>
+  </userTask>
+  <userTask>
+    <name>ID9</name>
+    <label>testDynamicRoleSupport_010</label>
+    <priority>0</priority>
+    <note/>
+    <taskSchema content="task" name="mr.81005097-46c3-4589-b676-219a5db2cfc8" valid="false"/>
+    <transitionTimers/>
+  </userTask>
+</userTasks>

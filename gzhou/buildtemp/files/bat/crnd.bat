@@ -1,0 +1,1 @@
+call crd samples/mysample-empty.properties

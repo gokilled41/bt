@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:or="http://schema.vitria.com/dmstest/bo2"
+	targetNamespace="http://schema.vitria.com/dmstest/bo2" elementFormDefault="unqualified"
+	attributeFormDefault="unqualified">
+
+	<element name="bookOrder" type="or:BookOrderType" />
+
+	<complexType name="BookOrderType">
+		<sequence>
+			<element name="orderId" type="string" />
+			<element name="custId" type="string" />
+			<element name="code" type="or:CCode" />
+			<element name="notes" type="string" />
+			<element name="purchaser" type="or:PurchaserType" />
+			<element name="item" type="or:BookItemType" />
+		</sequence>
+	</complexType>
+
+	<complexType name="PurchaserType">
+		<sequence>
+			<element name="firstName" type="string" />
+			<element name="lastName" type="string" />
+			<element name="age" type="integer" />
+			<element name="address" type="or:AddressType" />
+		</sequence>
+	</complexType>
+
+	<complexType name="AddressType">
+		<sequence>
+			<element name="city" type="string" />
+			<element name="street" type="string" />
+			<element name="houseNumber" type="string" />
+		</sequence>
+	</complexType>
+
+	<complexType name="BookItemType">
+		<sequence>
+			<element name="productName" type="string" />
+			<element name="quantity" type="integer" />
+			<element name="price" type="decimal" />
+			<element name="notes" type="string" />
+		</sequence>
+	</complexType>
+
+	<simpleType name="CCode">
+		<restriction base="string">
+			<pattern value="\d{3}-[A-Z]{2}" />
+		</restriction>
+	</simpleType>
+</schema>

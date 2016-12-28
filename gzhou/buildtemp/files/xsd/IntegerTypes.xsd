@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://schema.vitria.com/dmstest"
+	xmlns:dms="http://schema.vitria.com/dmstest">
+
+	<element name="integerTypes" type="dms:IntegerTypes" />
+
+	<complexType name="IntegerTypes">
+		<sequence>
+			<element name="integerType" type="integer" minOccurs="0" />
+			<element name="nonPositiveIntegerType"
+				type="nonPositiveInteger" minOccurs="0" />
+			<element name="negativeIntegerType" type="negativeInteger"
+				minOccurs="0" />
+
+			<element name="longType" type="long" minOccurs="0" />
+			<element name="intType" type="int" minOccurs="0" />
+			<element name="shortType" type="short" minOccurs="0" />
+			<element name="byteType" type="byte" minOccurs="0" />
+
+			<element name="nonNegativeIntegerType"
+				type="nonNegativeInteger" minOccurs="0" />
+			<element name="positiveIntegerType" type="positiveInteger"
+				minOccurs="0" />
+			<element name="unsignedLongType" type="unsignedLong"
+				minOccurs="0" />
+			<element name="unsignedIntType" type="unsignedInt"
+				minOccurs="0" />
+			<element name="unsignedShortType" type="unsignedShort"
+				minOccurs="0" />
+			<element name="unsignedByteType" type="unsignedByte"
+				minOccurs="0" />
+		</sequence>
+	</complexType>
+</schema>

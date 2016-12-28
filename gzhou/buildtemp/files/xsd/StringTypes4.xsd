@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://schema.vitria.com/dmstest"
+	xmlns:dms="http://schema.vitria.com/dmstest">
+
+	<element name="stringTypes4" type="dms:StringTypes4" />
+
+	<complexType name="StringTypes4">
+		<sequence>
+			<element name="stringType41" type="string" minOccurs="0" />
+			<element name="stringType42" type="string" minOccurs="0" />
+			<element name="stringType43" type="string" minOccurs="0" />
+			<element name="stringType44" type="string" minOccurs="0" />
+			<element name="stringType45" type="string" minOccurs="0" />
+		</sequence>
+	</complexType>
+</schema>

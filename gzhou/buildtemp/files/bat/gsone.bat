@@ -1,0 +1,5 @@
+call gr %1 "_()" "()"
+call gr %1 "_(" "("
+call gr %1 "_)" ")"
+call gr %1 """_;/=/this.""" ";"
+call gr %1 """this./=""" ""

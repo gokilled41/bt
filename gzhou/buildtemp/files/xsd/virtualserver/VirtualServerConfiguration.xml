@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<virtualServerConfiguration xmlns="http://schema.vitria.com/vs">
+
+    <properties>
+        <property name="name" value="vs1" />
+        <property name="naming-factory" value="org.jnp.interfaces.NamingContextFactory" />
+        <property name="naming-provider-url" value="jnp://localhost:1099" />
+        <property name="cluster-mcast-addr" value="" />
+        <property name="naming-user" value="hello" />
+        <property name="naming-password" value="hello" />
+    </properties>
+
+    <containers>
+        <container>
+            <name>M3OContainer</name>
+            <properties></properties>
+        </container>
+        <container>
+            <name>ESMSContainer</name>
+            <properties>
+                <property name="model-repository-user-name" value="vtbasystem" />
+                <property name="model-repository-password"
+                    value="&lt;dI9napCJcMiRLHxtZ4VLdZwlWlV8>" />
+                <property name="runtime-persistence-dialect"
+                    value="org.hibernate.dialect.Oracle10gDialect" />
+                <property name="server-notification-listeners"
+                    value="com.vitria.dms.service.DMSServerThinListener" />
+                <property name="server-lifecycle-service" value="AnalyticServerLifecycle" />
+                <property name="dynamic-connector-mbean"
+                    value="com.vitria.connectors.dynamic:type=vtAnalyticCMF" />
+
+                <property name="naming-factory" value="org.jnp.interfaces.NamingContextFactory" />
+                <property name="naming-provider-url" value="jnp://localhost:1099" />
+                <property name="cluster-mcast-addr" value="" />
+                <property name="naming-user" value="hello" />
+                <property name="naming-password" value="hello" />
+            </properties>
+        </container>
+        <container>
+            <name>ClientContainer</name>
+            <properties></properties>
+        </container>
+        <container>
+            <name>LegacyContainer</name>
+            <properties>
+                <property name="model-repository-user-name" value="vtbasystem" />
+                <property name="model-repository-password"
+                    value="&lt;dI9napCJcMiRLHxtZ4VLdZwlWlV8>" />
+                <property name="runtime-persistence-dialect"
+                    value="org.hibernate.dialect.Oracle10gDialect" />
+                <property name="server-notification-listeners"
+                    value="com.vitria.audit.listener.BPMNEventListener,com.vitria.dms.service.DMSServerNotificationHandler,com.vitria.rules.RulesEngineNotificationListener,com.vitria.bpmn.BPMNAliveManagerListener,com.vitria.workflow.service.WorkflowServerNotificationListener,com.vitria.bpmn.BPMNTimerManagerListener" />
+                <property name="server-lifecycle-service" value="M3OServerLifecycle" />
+                <property name="dynamic-connector-mbean"
+                    value="com.vitria.connectors.dynamic:type=vtCMF" />
+                <property name="script-engine-pool-size" value="10" />
+                <property name="dynamicservices-reuse-http-client" value="true" />
+                <property name="dynamicservices-http-connection-pool-size" value="25" />
+                <property name="dynamicservices-artifacts-dir"
+                    value="D:\jedi\yoda\export\home/tmp/dynamicservices" />
+                <property name="callback-servcie-url" value="" />
+            </properties>
+        </container>
+    </containers>
+
+</virtualServerConfiguration>

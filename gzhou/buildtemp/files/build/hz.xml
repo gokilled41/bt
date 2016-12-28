@@ -1,0 +1,333 @@
+﻿<project name="huazhi" basedir=".">
+    <import file="../../properties.xml" />
+
+    <!-- huazhi properties ========================================================================== -->
+    <property name="tm.dir" value="D:\soft\tomcat\apache-tomcat-7.0.64" />
+    <property name="tm.deploy.dir" value="${tm.dir}\webapps" />
+    
+    <property name="hz.dir" value="D:\huazhi" />
+    <property name="hzw.dir" value="${hz.dir}\work" />
+    <property name="hzwx.dir" value="${hzw.dir}\xybank" />
+    <property name="hzwj.dir" value="${hzw.dir}\jnh" />
+    <property name="hzwf.dir" value="${hzw.dir}\fms" />
+
+    <property name="hzp.dir" value="${hz.dir}\projects" />
+    <property name="hzy.dir" value="${hzp.dir}\git\yhm" />
+    <property name="hzy.target.dir" value="${hzy.dir}\yhm\target" />
+    <property name="hzx.dir" value="${hzp.dir}\git\xybank" />
+    <property name="hzx.sql.dir" value="${hzx.dir}\src\sql" />
+    <property name="hzx.target.dir" value="${hzx.dir}\export\dist" />
+    <property name="hzj.dir" value="${hzp.dir}\git\jnh" />
+    <property name="hzj.sql.dir" value="${hzj.dir}\sql" />
+    <property name="hzj.target.dir" value="${hzj.dir}\jnh\target" />
+    <property name="hzf.dir" value="${hzp.dir}\svn\fms" />
+    <property name="hzf.target.dir" value="${hz.dir}\export\fms" />
+    
+    <property name="hz.udisk.dir" value="H:\huazhi" />
+    <property name="hz.buildtemp.dir" value="C:\workspace\buildtemp" />
+    <property name="hz.typeandrun.dir" value="D:\Workflow-G\software\typeandrun" />
+    
+    <property name="hz_mysql_driver" value="com.mysql.jdbc.Driver" />
+    <property name="hz_mysql_vt_ds_connection_ip" value="localhost" />
+    <property name="hz_mysql_vt_ds_connection_port" value="3306" />
+    <property name="hz_mysql_vt_ds_database" value="jnh" />
+    <property name="hz_mysql_vt_ds_username" value="root" />
+    <property name="hz_mysql_vt_ds_password" value="qilinsoft" />
+
+    <property name="hz_mysql_vt_ds_connection_url" value="${hz_mysql_vt_ds_connection_ip}:${hz_mysql_vt_ds_connection_port}/${hz_mysql_vt_ds_database}?autoReconnect=true" />
+    <property name="hz_mysql_vt_ds_connection_url_no_auto_reconnect" value="${hz_mysql_vt_ds_connection_ip}:${hz_mysql_vt_ds_connection_port}/${hz_mysql_vt_ds_database}" />
+    <property name="hz_mysql_url" value="jdbc:mysql://${hz_mysql_vt_ds_connection_url}" />
+    <property name="hz_mysql_url_no_auto_reconnect" value="jdbc:mysql://${hz_mysql_vt_ds_connection_url_no_auto_reconnect}" />
+    <property name="hz_mysql_user" value="${hz_mysql_vt_ds_username}" />
+    <property name="hz_mysql_password" value="${hz_mysql_vt_ds_password}" />
+
+    <property name="hzf_mysql_url" value="jdbc:mysql://${hz_mysql_vt_ds_connection_ip}:${hz_mysql_vt_ds_connection_port}/fms?autoReconnect=true" />
+
+    <property name="hz_mysql_sqljdbc.dir" value="${files.lib.dir}" />
+    <property name="hz_mysql_sqljdbc.version" value="5.1.17" />
+    <property name="hz_mysql_sqljdbc.jar" value="${hz_mysql_sqljdbc.dir}\mysql-connector-java-${hz_mysql_sqljdbc.version}-bin.jar" />
+    <!-- huazhi properties ========================================================================== -->
+
+    <target name="hzy-deploy">
+        <delete dir="${tm.deploy.dir}" />
+        <mkdir dir="${tm.deploy.dir}" />
+        <copy todir="${tm.deploy.dir}" overwrite="true">
+            <fileset dir="${hzy.target.dir}">
+                <include name="yhm.war" />
+            </fileset>
+        </copy>
+        <copy todir="${hz.dir}" overwrite="true">
+            <fileset dir="${hzy.target.dir}">
+                <include name="yhm.war" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="hzy-clean">
+        <delete dir="${hzy.target.dir}" />
+        <mkdir dir="${hzy.target.dir}" />
+        <delete file="${hz.dir}\yhm.war" />
+    </target>
+
+    <target name="hzy-db">
+        <antcall target="hzy-drop-db" />
+        <antcall target="hzy-create-db" />
+    </target>
+
+    <target name="hzy-create-db">
+        <sql driver="${hz_mysql_driver}" url="${hz_mysql_url}" userid="${hz_mysql_user}" password="${hz_mysql_password}" onerror="continue">
+            <fileset dir="${hz.dir}\sql">
+                <include name="yhm.create.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${hz_mysql_sqljdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="hzy-drop-db">
+        <sql driver="${hz_mysql_driver}" url="${hz_mysql_url}" userid="${hz_mysql_user}" password="${hz_mysql_password}" onerror="continue">
+            <fileset dir="${hz.dir}\sql">
+                <include name="yhm.drop.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${hz_mysql_sqljdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="hzx-deploy">
+        <delete dir="${tm.deploy.dir}" />
+        <mkdir dir="${tm.deploy.dir}" />
+        <copy todir="${tm.deploy.dir}" overwrite="true">
+            <fileset dir="${hzx.target.dir}">
+                <include name="xybank.war" />
+            </fileset>
+        </copy>
+        <copy todir="${hz.dir}" overwrite="true">
+            <fileset dir="${hzx.target.dir}">
+                <include name="xybank.war" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="hzx-clean">
+        <delete dir="${hzx.target.dir}" />
+        <mkdir dir="${hzx.target.dir}" />
+        <delete file="${hz.dir}\xybank.war" />
+    </target>
+
+    <target name="hzx-db">
+        <antcall target="hzx-drop-db" />
+        <antcall target="hzx-create-db" />
+    </target>
+
+    <target name="hzx-create-db">
+        <sql driver="${hz_mysql_driver}" url="${hz_mysql_url}" userid="${hz_mysql_user}" password="${hz_mysql_password}" onerror="continue">
+            <fileset dir="${hz.dir}\sql">
+                <include name="xybank.create.sql" />
+            </fileset>
+            <fileset dir="${hzx.sql.dir}">
+                <include name="createTable.sql" />
+                <include name="createView.sql" />
+                <include name="sampleData.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${hz_mysql_sqljdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="hzx-drop-db">
+        <sql driver="${hz_mysql_driver}" url="${hz_mysql_url}" userid="${hz_mysql_user}" password="${hz_mysql_password}" onerror="continue">
+            <fileset dir="${hz.dir}\sql">
+                <include name="xybank.drop.sql" />
+            </fileset>
+            <fileset dir="${hzx.sql.dir}">
+                <include name="dropTable.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${hz_mysql_sqljdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="hzj-deploy">
+        <delete dir="${tm.deploy.dir}" />
+        <mkdir dir="${tm.deploy.dir}" />
+        <copy todir="${tm.deploy.dir}" overwrite="true">
+            <fileset dir="${hzj.target.dir}">
+                <include name="jnh.war" />
+            </fileset>
+        </copy>
+        <copy todir="${hz.dir}" overwrite="true">
+            <fileset dir="${hzj.target.dir}">
+                <include name="jnh.war" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="hzj-clean">
+        <delete dir="${hzj.target.dir}" />
+        <mkdir dir="${hzj.target.dir}" />
+        <delete file="${hz.dir}\jnh.war" />
+    </target>
+
+    <target name="hzj-db">
+        <antcall target="hzj-drop-db" />
+        <antcall target="hzj-create-db" />
+    </target>
+
+    <target name="hzj-create-db">
+        <sql driver="${hz_mysql_driver}" url="${hz_mysql_url}" userid="${hz_mysql_user}" password="${hz_mysql_password}" onerror="continue">
+            <fileset dir="${hzj.sql.dir}">
+                <include name="jnh.create.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${hz_mysql_sqljdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="hzj-drop-db">
+        <sql driver="${hz_mysql_driver}" url="${hz_mysql_url}" userid="${hz_mysql_user}" password="${hz_mysql_password}" onerror="continue">
+            <fileset dir="${hzj.sql.dir}">
+                <include name="jnh.drop.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${hz_mysql_sqljdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="hz-backup-udisk">
+        <delete dir="${hz.udisk.dir}" />
+        <mkdir dir="${hz.udisk.dir}" />
+        <copy todir="${hz.udisk.dir}" overwrite="true">
+            <fileset dir="${hz.typeandrun.dir}">
+                <include name="Config.ini" />
+            </fileset>
+        </copy>
+        <copy todir="${hz.udisk.dir}" overwrite="true">
+            <fileset dir="D:\to-delete">
+                <include name="buildtemp.zip" />
+                <include name="huazhi.zip" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="hz-backup-udisk2">
+        <copy todir="D:\share\buildtemp" overwrite="true">
+            <fileset dir="${hz.typeandrun.dir}">
+                <include name="Config.ini" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="hz-restore-udisk">
+        <delete dir="${desktop.dir}/buildtemp" />
+        <delete file="${desktop.dir}/Config.ini" />
+        <mkdir dir="D:\huazhi1" />
+        <copy todir="${desktop.dir}" overwrite="true">
+            <fileset dir="${hz.udisk.dir}">
+                <include name="Config.ini" />
+            </fileset>
+        </copy>
+        <copy todir="D:\to-delete" overwrite="true">
+            <fileset dir="${hz.udisk.dir}">
+                <include name="buildtemp.zip" />
+                <include name="huazhi.zip" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="hzf-deploy">
+        <delete dir="${tm.deploy.dir}" />
+        <mkdir dir="${tm.deploy.dir}" />
+        <copy todir="${tm.deploy.dir}" overwrite="true">
+            <fileset dir="${hzf.target.dir}">
+                <include name="fms.war" />
+            </fileset>
+        </copy>
+        <copy todir="${hz.dir}" overwrite="true">
+            <fileset dir="${hzf.target.dir}">
+                <include name="fms.war" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="hzf-clean">
+        <delete dir="${hzf.target.dir}" />
+        <mkdir dir="${hzf.target.dir}" />
+        <delete file="${hz.dir}\fms.war" />
+    </target>
+
+    <target name="hzf-db">
+        <echo message="url: ${hzf_mysql_url}" />
+        <antcall target="hzf-drop-db" />
+        <antcall target="hzf-create-db" />
+        <antcall target="hzf-update-db" />
+        <antcall target="hzf-delete-formatted-sqls" />
+        <antcall target="hzf-clean-upload-files" />
+    </target>
+
+    <target name="hzf-drop-db" depends="hzf-format-drop-sql">
+        <sql driver="${hz_mysql_driver}" url="${hzf_mysql_url}" userid="${hz_mysql_user}" password="${hz_mysql_password}" onerror="continue" encoding="UTF-8">
+            <fileset dir="${hzf.dir}\sql">
+                <include name="fms.drop.formatted.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${hz_mysql_sqljdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="hzf-create-db" depends="hzf-format-create-sql">
+        <sql driver="${hz_mysql_driver}" url="${hzf_mysql_url}" userid="${hz_mysql_user}" password="${hz_mysql_password}" onerror="continue" encoding="UTF-8">
+            <fileset dir="${hzf.dir}\sql">
+                <include name="fms.create.formatted.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${hz_mysql_sqljdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="hzf-update-db" depends="hzf-format-update-sql">
+        <sql driver="${hz_mysql_driver}" url="${hzf_mysql_url}" userid="${hz_mysql_user}" password="${hz_mysql_password}" onerror="continue" encoding="UTF-8">
+            <fileset dir="${hzf.dir}\sql">
+                <include name="fms.update.email.formatted.sql" />
+                <include name="fms.update.gzhou.formatted.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${hz_mysql_sqljdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+    
+    <target name="hzf-format-drop-sql">
+        <hzfsqlformat from="${hzf.dir}\sql\fms.drop.sql" to="${hzf.dir}\sql\fms.drop.formatted.sql"/>
+    </target>
+    
+    <target name="hzf-format-create-sql">
+        <hzfsqlformat from="${hzf.dir}\sql\fms.create.sql" to="${hzf.dir}\sql\fms.create.formatted.sql"/>
+    </target>
+    
+    <target name="hzf-format-update-sql">
+        <hzfsqlformat from="${hzf.dir}\sql\fms.update.email.sql" to="${hzf.dir}\sql\fms.update.email.formatted.sql"/>
+        <hzfsqlformat from="${hzf.dir}\sql\fms.update.gzhou.sql" to="${hzf.dir}\sql\fms.update.gzhou.formatted.sql"/>
+    </target>
+    
+    <target name="hzf-delete-formatted-sqls">
+        <delete file="${hzf.dir}\sql\fms.drop.formatted.sql" />
+        <delete file="${hzf.dir}\sql\fms.create.formatted.sql" />
+        <delete file="${hzf.dir}\sql\fms.update.email.formatted.sql" />
+        <delete file="${hzf.dir}\sql\fms.update.gzhou.formatted.sql" />
+    </target>
+    
+    <target name="hzf-clean-upload-files">
+        <delete dir="${hz.dir}\files\fms\files" />
+        <mkdir dir="${hz.dir}\files\fms\files" />
+    </target>
+
+</project>

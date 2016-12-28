@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rbom:ResourceBOM
+	xmlns:rbom="http://schema.vitria.com/typeregistry/resourcebom"
+	xmlns:xmi="http://www.omg.org/XMI">
+	<Schemas
+		location="mr://com.vitria.modeling.repository?uuid=7610cd5f-0410-4a20-8923-44c7af43da81&amp;release=v3_0"
+		name="SchemaModel_2"
+		namespace="http://schema.vitria.com/dms/data/docinstance">
+		<SchemaContent
+			location="mr://com.vitria.modeling.repository?uuid=7610cd5f-0410-4a20-8923-44c7af43da81&amp;release=v3_0&amp;content=schema.xsd"
+			name="schema.xsd" timestamp="2008-07-07T10:23:41.647+0800" />
+		<StorageSettingContent
+			location="mr://com.vitria.modeling.repository?uuid=7610cd5f-0410-4a20-8923-44c7af43da81&amp;release=v3_0&amp;content=setting.stg"
+			name="setting.stg" timestamp="2008-07-07T10:23:41.647+0800" />
+		<EcoreModelContent
+			location="mr://com.vitria.modeling.repository?uuid=7610cd5f-0410-4a20-8923-44c7af43da81&amp;release=v3_0&amp;content=model.ecore"
+			name="model.ecore" timestamp="2008-07-07T10:23:41.647+0800" />
+	</Schemas>
+	<Schemas
+		location="mr://com.vitria.modeling.repository?uuid=e9cf4759-66f8-41c5-ab5f-2829c64f3898&amp;release=v3_0"
+		name="SchemaModel_3" namespace="http://vitria.com/wf/audit/doc">
+		<SchemaContent
+			location="mr://com.vitria.modeling.repository?uuid=e9cf4759-66f8-41c5-ab5f-2829c64f3898&amp;release=v3_0&amp;content=schema.xsd"
+			name="schema.xsd" timestamp="2008-07-07T10:23:43.553+0800" />
+		<EcoreModelContent
+			location="mr://com.vitria.modeling.repository?uuid=e9cf4759-66f8-41c5-ab5f-2829c64f3898&amp;release=v3_0&amp;content=model.ecore"
+			name="model.ecore" timestamp="2008-07-07T10:23:43.553+0800" />
+	</Schemas>
+	<Schemas
+		location="mr://com.vitria.modeling.repository?uuid=b254828c-beab-4710-a1e9-c1f7c83a37ce&amp;release=v3_0"
+		name="SchemaModel_4" namespace="http://vitria.com/wf/audit/task">
+		<SchemaContent
+			location="mr://com.vitria.modeling.repository?uuid=b254828c-beab-4710-a1e9-c1f7c83a37ce&amp;release=v3_0&amp;content=schema.xsd"
+			name="schema.xsd" timestamp="2008-07-07T10:23:44.288+0800" />
+		<EcoreModelContent
+			location="mr://com.vitria.modeling.repository?uuid=b254828c-beab-4710-a1e9-c1f7c83a37ce&amp;release=v3_0&amp;content=model.ecore"
+			name="model.ecore" timestamp="2008-07-07T10:23:44.288+0800" />
+	</Schemas>
+	<Schemas
+		location="mr://com.vitria.modeling.repository?uuid=6f6e7bfd-d028-47c2-9520-d39601cf298f&amp;release=v3_0"
+		name="SchemaModel_5"
+		namespace="http://vitria.com/wf/audit/activity">
+		<SchemaContent
+			location="mr://com.vitria.modeling.repository?uuid=6f6e7bfd-d028-47c2-9520-d39601cf298f&amp;release=v3_0&amp;content=schema.xsd"
+			name="schema.xsd" timestamp="2008-07-07T10:23:45.069+0800" />
+		<EcoreModelContent
+			location="mr://com.vitria.modeling.repository?uuid=6f6e7bfd-d028-47c2-9520-d39601cf298f&amp;release=v3_0&amp;content=model.ecore"
+			name="model.ecore" timestamp="2008-07-07T10:23:45.069+0800" />
+	</Schemas>
+	<Schemas
+		location="mr://com.vitria.modeling.repository?uuid=976131ed-dd29-448f-ba8a-2bb7243ac70e&amp;release=v3_0"
+		name="SchemaModel_6" namespace="http://schema.vitria.com/model">
+		<SchemaContent
+			location="mr://com.vitria.modeling.repository?uuid=976131ed-dd29-448f-ba8a-2bb7243ac70e&amp;release=v3_0&amp;content=schema.xsd"
+			name="schema.xsd" timestamp="2008-07-07T10:23:58.740+0800" />
+		<StorageSettingContent
+			location="mr://com.vitria.modeling.repository?uuid=976131ed-dd29-448f-ba8a-2bb7243ac70e&amp;release=v3_0&amp;content=setting.stg"
+			name="setting.stg" timestamp="2008-07-07T10:23:58.740+0800" />
+		<EcoreModelContent
+			location="mr://com.vitria.modeling.repository?uuid=976131ed-dd29-448f-ba8a-2bb7243ac70e&amp;release=v3_0&amp;content=model.ecore"
+			name="model.ecore" timestamp="2008-07-07T10:23:58.740+0800" />
+	</Schemas>
+	<Schemas
+		location="mr://com.vitria.modeling.repository?uuid=a8793d6d-c0a3-4044-b386-dd2c16fb9e00&amp;release=v3_0"
+		name="SchemaModel_7" namespace="http://workflow.vitria.com/model">
+		<SchemaContent
+			location="mr://com.vitria.modeling.repository?uuid=a8793d6d-c0a3-4044-b386-dd2c16fb9e00&amp;release=v3_0&amp;content=schema.xsd"
+			name="schema.xsd" timestamp="2008-07-07T10:23:46.475+0800" />
+		<EcoreModelContent
+			location="mr://com.vitria.modeling.repository?uuid=a8793d6d-c0a3-4044-b386-dd2c16fb9e00&amp;release=v3_0&amp;content=model.ecore"
+			name="model.ecore" timestamp="2008-07-07T10:23:46.475+0800" />
+	</Schemas>
+	<Schemas
+		location="mr://com.vitria.modeling.repository?uuid=18f98886-d09d-41e1-a433-c87716f5c6ed&amp;release=v3_0"
+		name="SchemaModel_8" namespace="http://schema.vitria.com/dmstest">
+		<SchemaContent
+			location="mr://com.vitria.modeling.repository?uuid=18f98886-d09d-41e1-a433-c87716f5c6ed&amp;release=v3_0&amp;content=schema.xsd"
+			name="schema.xsd" timestamp="2008-07-07T10:26:12.937+0800" />
+		<StorageSettingContent
+			location="mr://com.vitria.modeling.repository?uuid=18f98886-d09d-41e1-a433-c87716f5c6ed&amp;release=v3_0&amp;content=setting.stg"
+			name="setting.stg" timestamp="2008-07-07T10:26:12.937+0800" />
+		<EcoreModelContent
+			location="mr://com.vitria.modeling.repository?uuid=18f98886-d09d-41e1-a433-c87716f5c6ed&amp;release=v3_0&amp;content=model.ecore"
+			name="model.ecore" timestamp="2008-07-07T10:26:12.937+0800" />
+	</Schemas>
+	<VariableSetDefinitions
+		location="mr://com.vitria.modeling.repository?uuid=53863487-0e7c-4773-aa81-a11d6109e5fd&amp;release=v3_0"
+		name="VariableSetDefModel_2"
+		namespace="http://schema.vitria.com/dms/VariableSet/Schema/Event/Error"
+		varSetId="69de2e78-60e1-407f-a02a-1a273e916357">
+		<DefinitionContent
+			location="mr://com.vitria.modeling.repository?uuid=53863487-0e7c-4773-aa81-a11d6109e5fd&amp;release=v3_0&amp;content=definition.vset"
+			name="definition.vset" />
+	</VariableSetDefinitions>
+	<VariableSetDefinitions
+		location="mr://com.vitria.modeling.repository?uuid=c29e1aa0-17d9-4208-bd42-7e2849029908&amp;release=v3_0"
+		name="VariableSetDefModel_4"
+		namespace="http://schema.vitria.com/dms/VariableSet/Schema/Event/Info"
+		varSetId="9dadd536-49af-42ac-a9d7-80a9dd131787">
+		<DefinitionContent
+			location="mr://com.vitria.modeling.repository?uuid=c29e1aa0-17d9-4208-bd42-7e2849029908&amp;release=v3_0&amp;content=definition.vset"
+			name="definition.vset" />
+	</VariableSetDefinitions>
+	<VariableSetDefinitions
+		location="mr://com.vitria.modeling.repository?uuid=acb9b9af-4fb2-4375-b6f5-0a5f34540fcf&amp;release=v3_0"
+		name="VariableSetDefModel_6"
+		namespace="http://schema.vitria.com/dms/VariableSet/EventPolicy/Error/Default"
+		varSetId="66a4f8d3-1e23-430c-a637-065a844ca8a4">
+		<DefinitionContent
+			location="mr://com.vitria.modeling.repository?uuid=acb9b9af-4fb2-4375-b6f5-0a5f34540fcf&amp;release=v3_0&amp;content=definition.vset"
+			name="definition.vset" />
+	</VariableSetDefinitions>
+	<VariableSetDefinitions
+		location="mr://com.vitria.modeling.repository?uuid=56d8771e-6877-429b-9087-24d5815a8fef&amp;release=v3_0"
+		name="VariableSetDefModel_8"
+		namespace="http://schema.vitria.com/dms/VariableSet/EventPolicy/Info/Default"
+		varSetId="8ee07f34-8375-4b7b-b4a1-be9cedae77a9">
+		<DefinitionContent
+			location="mr://com.vitria.modeling.repository?uuid=56d8771e-6877-429b-9087-24d5815a8fef&amp;release=v3_0&amp;content=definition.vset"
+			name="definition.vset" />
+	</VariableSetDefinitions>
+	<VariableSetDefinitions
+		location="mr://com.vitria.modeling.repository?uuid=d03a42d1-b3a3-4238-a0d6-d4878b67ca13&amp;release=v3_0"
+		name="VariableSetDefModel_3"
+		namespace="http://schema.vitria.com/dms/VariableSet/Schema/Event/Warning"
+		varSetId="e08c4b1e-a587-4a67-87b1-9b211e8a20e3">
+		<DefinitionContent
+			location="mr://com.vitria.modeling.repository?uuid=d03a42d1-b3a3-4238-a0d6-d4878b67ca13&amp;release=v3_0&amp;content=definition.vset"
+			name="definition.vset" />
+	</VariableSetDefinitions>
+	<VariableSetDefinitions
+		location="mr://com.vitria.modeling.repository?uuid=da0ef8e8-28ef-46c2-a1e5-8cdb15a60d58&amp;release=v3_0"
+		name="VariableSetDefModel_5"
+		namespace="http://schema.vitria.com/dms/VariableSet/Schema/Event/Status"
+		varSetId="f6a707a3-8255-485e-90ea-5e36b6d215ea">
+		<DefinitionContent
+			location="mr://com.vitria.modeling.repository?uuid=da0ef8e8-28ef-46c2-a1e5-8cdb15a60d58&amp;release=v3_0&amp;content=definition.vset"
+			name="definition.vset" />
+	</VariableSetDefinitions>
+	<VariableSetDefinitions
+		location="mr://com.vitria.modeling.repository?uuid=3ad6f8d4-cf16-4364-b652-22c3babbb79d&amp;release=v3_0"
+		name="VariableSetDefModel_7"
+		namespace="http://schema.vitria.com/dms/VariableSet/EventPolicy/Warning/Default"
+		varSetId="7ba0f62d-7773-4b0e-b77f-13dc72330ca9">
+		<DefinitionContent
+			location="mr://com.vitria.modeling.repository?uuid=3ad6f8d4-cf16-4364-b652-22c3babbb79d&amp;release=v3_0&amp;content=definition.vset"
+			name="definition.vset" />
+	</VariableSetDefinitions>
+	<VariableSetDefinitions
+		location="mr://com.vitria.modeling.repository?uuid=2113a976-863f-42ca-898e-e6d4e2367888&amp;release=v3_0"
+		name="VariableSetDefModel_9"
+		namespace="http://schema.vitria.com/dms/VariableSet/EventPolicy/Status/Default"
+		varSetId="eb1bb8c5-f968-4cf3-8f61-be83085c80ba">
+		<DefinitionContent
+			location="mr://com.vitria.modeling.repository?uuid=2113a976-863f-42ca-898e-e6d4e2367888&amp;release=v3_0&amp;content=definition.vset"
+			name="definition.vset" />
+	</VariableSetDefinitions>
+	<DBAccessObjects>
+		<HibernateMappings
+			location="mr://com.vitria.modeling.repository?uuid=bce0fc37-5f2d-49d9-a40c-764be978cf0c&amp;release=v3_0"
+			name="HibernateMappingModel_2"
+			namespace="http://schema.vitria.com/dms/data/docinstance">
+			<HibernateMappingContent
+				location="mr://com.vitria.modeling.repository?uuid=bce0fc37-5f2d-49d9-a40c-764be978cf0c&amp;release=v3_0&amp;content=hibernate_mapping.xml"
+				name="hibernate_mapping.xml"
+				timestamp="2008-07-07T10:23:42.772+0800" />
+		</HibernateMappings>
+		<HibernateMappings
+			location="mr://com.vitria.modeling.repository?uuid=d9da6caa-4570-43c6-936d-715a2066ecf6&amp;release=v3_0"
+			name="HibernateMappingModel_3"
+			namespace="http://schema.vitria.com/model">
+			<HibernateMappingContent
+				location="mr://com.vitria.modeling.repository?uuid=d9da6caa-4570-43c6-936d-715a2066ecf6&amp;release=v3_0&amp;content=hibernate_mapping.xml"
+				name="hibernate_mapping.xml"
+				timestamp="2008-07-07T10:23:57.896+0800" />
+		</HibernateMappings>
+		<HibernateMappings
+			location="mr://com.vitria.modeling.repository?uuid=85801488-431b-4414-9e69-ec932a4164de&amp;release=v3_0"
+			name="HibernateMappingModel_4"
+			namespace="http://schema.vitria.com/dmstest">
+			<HibernateMappingContent
+				location="mr://com.vitria.modeling.repository?uuid=85801488-431b-4414-9e69-ec932a4164de&amp;release=v3_0&amp;content=hibernate_mapping.xml"
+				name="hibernate_mapping.xml"
+				timestamp="2008-07-07T10:26:12.375+0800" />
+		</HibernateMappings>
+	</DBAccessObjects>
+</rbom:ResourceBOM>

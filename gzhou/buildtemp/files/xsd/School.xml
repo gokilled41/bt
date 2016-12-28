@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wf:school xmlns:wf="http://www.vitria.com/workflow/smoke">
+	<name>name</name>
+	<location>location</location>
+	<departments>0</departments>
+	<president>
+		<name>name</name>
+		<age>0</age>
+		<sex>sex</sex>
+		<address>
+			<zone>zone</zone>
+			<street>street</street>
+			<houseId>0</houseId>
+		</address>
+	</president>
+</wf:school>

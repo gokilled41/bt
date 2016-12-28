@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<approversInfo xmlns:exp="http://schema.vitria.com/exp">
+	<submitter>submitter</submitter>
+	<approvers>
+		<approver>approver1</approver>
+		<approver>approver2</approver>
+		<approver>approver3</approver>
+	</approvers>
+	<currentApprover>
+		<name>name</name>
+		<index>index</index>
+	</currentApprover>
+</approversInfo>

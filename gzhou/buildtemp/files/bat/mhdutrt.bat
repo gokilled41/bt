@@ -1,0 +1,1 @@
+call grmhdubuild *Test HdfsTargetRolloverTest

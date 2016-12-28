@@ -1,0 +1,1 @@
+call rm credit creditconverter

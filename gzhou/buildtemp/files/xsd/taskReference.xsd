@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wf="http://www.vitria.com/workflow/test"
+	targetNamespace="http://www.vitria.com/workflow/test">
+
+	<element name="taskReference" type="wf:TaskReference" />
+
+	<complexType name="TaskReference">
+		<sequence>
+			<element name="manager" type="string" />
+			<element name="businessEnvironment" type="string" />
+			<element name="processId" type="string" />
+			<element name="note" type="string" />
+		</sequence>
+	</complexType>
+
+</schema>
+

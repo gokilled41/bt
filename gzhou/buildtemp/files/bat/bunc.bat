@@ -1,0 +1,1 @@
+call bu mysample -d -clean %*

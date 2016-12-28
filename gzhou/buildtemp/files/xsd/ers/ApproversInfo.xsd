@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://schema.vitria.com/exp"
+	xmlns:exp="http://schema.vitria.com/exp">
+
+	<element name="approversInfo" type="exp:ApproversInfo" />
+
+	<complexType name="ApproversInfo">
+		<sequence>
+			<element name="submitter" type="string" />
+			<element name="approvers" type="exp:Approvers" />
+			<element name="currentApprover" type="exp:CurrentApprover" />
+		</sequence>
+	</complexType>
+
+	<complexType name="Approvers">
+		<sequence>
+			<element name="approver" type="string" maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
+
+	<complexType name="CurrentApprover">
+		<sequence>
+			<element name="name" type="string" />
+			<element name="index" type="int" />
+		</sequence>
+	</complexType>
+
+</schema>

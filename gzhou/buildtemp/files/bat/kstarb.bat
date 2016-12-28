@@ -1,0 +1,1 @@
+call copy C:\Users\gzhou\Desktop\rename\Config.ini D:\Workflow-G\software\typeandrun\Config.ini

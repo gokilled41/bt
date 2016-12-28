@@ -1,0 +1,19 @@
+<variables xmlns="http://workflow.vitria.com/model" xmlns:common="http://common.vitria.com/model" xmlns:schema="http://schema.vitria.com/model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <variable name="Header" kind="XSDTYPE" type="{http://schema.vitria.com/model}TaskHeader">
+    <field name="id" label="" type="string" visible="true" displayOrder="1" xpath="id"/>
+    <field name="caseID" label="" type="string" visible="true" displayOrder="2" xpath="caseID"/>
+    <field name="activity" label="" type="string" visible="true" displayOrder="3" xpath="activity"/>
+    <field name="performer" label="" type="string" visible="true" displayOrder="4" xpath="performer"/>
+    <field name="description" label="" type="string" visible="true" displayOrder="5" xpath="description"/>
+    <field name="priority" label="" type="int" visible="true" displayOrder="6" xpath="priority"/>
+    <field name="state" label="" type="string" visible="true" displayOrder="7" xpath="state"/>
+    <field name="dueDate" label="" type="dateTime" visible="true" displayOrder="8" xpath="dueDate"/>
+  </variable>
+  <variable name="order" kind="XSDELEMENT" type="{http://samples.schema.vitria.com/OR}order">
+    <field name="orderId" label="" type="string" visible="true" displayOrder="9" xpath="orderId"/>
+    <field name="custId" label="" type="string" visible="true" displayOrder="10" xpath="custId"/>
+    <field name="code" label="" type="string" visible="true" displayOrder="11" xpath="code"/>
+    <field name="notes" label="" type="string" visible="true" displayOrder="12" xpath="notes"/>
+    <field name="item" label="" type="array" visible="true" displayOrder="0" xpath="items/item"/>
+  </variable>
+</variables>

@@ -1,0 +1,6 @@
+<or3:item xmlns:or3="http://arraysupport.schema.vitria.com/OR3">
+	<productName>product0</productName>
+	<quantity>1000</quantity>
+	<price>328</price>
+	<notes>This is a computer.</notes>
+</or3:item>

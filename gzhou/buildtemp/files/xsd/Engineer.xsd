@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://schema.vitria.com/bctest"
+	xmlns:bc="http://schema.vitria.com/bctest">
+
+	<element name="engineer" type="bc:EngineerType" />
+
+	<complexType name="EngineerType">
+		<sequence>
+			<element name="firstName" type="string" />
+			<element name="lastName" type="string" minOccurs="0" />
+			<element name="sex" type="string" minOccurs="0" />
+			<element name="age" type="int" minOccurs="0" />
+			<element name="address" type="string" minOccurs="0" />
+			<element name="skill" type="int" minOccurs="0" />
+		</sequence>
+	</complexType>
+</schema>

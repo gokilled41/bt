@@ -1,0 +1,62 @@
+<complexType name="DocAuditRecord" targetNamespace="http://workflow.vitria.com/audit/doc" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:doc="http://workflow.vitria.com/audit/doc" xmlns:tns="http://workflow.vitria.com/audit/doc">
+  <annotation>
+    <appinfo source="teneo.jpa">@Entity @Table(name="VT_WF_DocAuditRecord")</appinfo>
+  </annotation>
+  <sequence>
+    <element form="qualified" name="eventID">
+      <simpleType>
+        <restriction base="string">
+          <maxLength value="100"/>
+        </restriction>
+      </simpleType>
+    </element>
+    <element form="qualified" name="taskID">
+      <simpleType>
+        <restriction base="string">
+          <maxLength value="100"/>
+        </restriction>
+      </simpleType>
+    </element>
+    <element form="qualified" name="activityID">
+      <simpleType>
+        <restriction base="string">
+          <maxLength value="100"/>
+        </restriction>
+      </simpleType>
+    </element>
+    <element form="qualified" name="activityName">
+      <simpleType>
+        <restriction base="string">
+          <maxLength value="100"/>
+        </restriction>
+      </simpleType>
+    </element>
+    <element form="qualified" name="caseID">
+      <simpleType>
+        <restriction base="string">
+          <maxLength value="100"/>
+        </restriction>
+      </simpleType>
+    </element>
+    <element form="qualified" name="docContextID">
+      <simpleType>
+        <restriction base="string">
+          <maxLength value="100"/>
+        </restriction>
+      </simpleType>
+    </element>
+    <element form="qualified" name="performer">
+      <simpleType>
+        <restriction base="string">
+          <maxLength value="100"/>
+        </restriction>
+      </simpleType>
+    </element>
+    <element form="qualified" minOccurs="0" name="timeOccurred" type="dateTime"/>
+    <element form="qualified" minOccurs="0" name="refDataChanges" type="string">
+      <annotation>
+        <appinfo source="teneo.jpa">@Lob</appinfo>
+      </annotation>
+    </element>
+  </sequence>
+</complexType>

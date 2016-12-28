@@ -1,0 +1,2 @@
+call wpdir
+call ant

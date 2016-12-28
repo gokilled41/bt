@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="util"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF_LIB"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/HBM_LIB"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/VTBA_LIB"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JUNIT_LIB"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/BUILDTEMP_LIB"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/PICO_LIB"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/FELIX_IPOJO_LIB"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/HORNETQ_LIB"/>
+	<classpathentry kind="lib" path="D:/jedi/yoda/export/dist/vtdregistry.jar" sourcepath="/sourcecode"/>
+	<classpathentry kind="lib" path="D:/jedi/soft/jboss/7.1.1/jdf/jboss-jdf-jboss-as-quickstart-8be9797/ejb-remote/server-side/target/jboss-as-ejb-remote-server-side-client.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ANT_LIB"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/PMML_LIB"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JSON_LIB"/>
+	<classpathentry kind="lib" path="D:/jedi/yoda/export/home/jboss/server/vtba/lib/js-1.7.6.jar"/>
+	<classpathentry kind="lib" path="D:/jedi/yoda/export/dist/vtcommon.jar"/>
+	<classpathentry kind="lib" path="D:/jedi/yoda/build/lib/driver/mysql/mysql-connector-java-5.1.38-bin.jar"/>
+	<classpathentry kind="lib" path="D:/jedi/yoda/export/projects/unbundled/dataflow/locale/dist/vtdflocale.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SPARK_HIVE_LIB"/>
+	<classpathentry kind="lib" path="D:/jedi/yoda/export/projects/unbundled/libs/vtdflocale.jar"/>
+	<classpathentry kind="lib" path="D:/jedi/yoda/unbundled/af/java/dataflow/modules/hdfsmodule/libs/slf4j-api-1.7.5.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/UZ_LIB"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
