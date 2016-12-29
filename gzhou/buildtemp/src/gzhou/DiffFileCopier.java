@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 
 public class DiffFileCopier implements Constants {
 
@@ -25,30 +26,17 @@ public class DiffFileCopier implements Constants {
     }
 
     public static void run() throws Exception {
-        String prefix = YODA_DIR;
-        String desktop = desktopDir;
-
         String file = desktopDir + "\\yodast.txt";
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-
-        String line;
-        while ((line = in.readLine()) != null) {
-            if (line == null || line.length() == 0)
-                continue;
-            line = line.substring(1).trim();
-            if (line == null || line.length() == 0)
-                continue;
-
-            String src = prefix + "\\" + line;
-            String dest = desktop + line;
-            try {
-                copy(src, dest);
-            } catch (FileNotFoundException e) {
-                // ignore
+        List<String> list = Util.getLines(file);
+        for (String n : list) {
+            if (n.startsWith("M       ") || n.startsWith("A       ")) {
+                n = Util.cutFirst(n, 1).trim();
+                System.out.println(n);
+                String from = YODA_DIR + FILE_SEPARATOR + n;
+                String to = desktopDir + FILE_SEPARATOR + n;
+                Util.copyFile(from, to);
             }
         }
-        in.close();
     }
 
     public static void copyBackFiles() throws Exception {

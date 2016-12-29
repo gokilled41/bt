@@ -487,6 +487,7 @@ public class FileUtil extends Util implements Constants {
         out.println("@echo off");
         out.println("call yodadir");
         out.println("call svn diff " + folders + " > \"" + desktopDir + "yoda.patch\"");
+        out.println("if \"%mdf%\"==\"\" call explorer \"" + desktopDir + "yoda.patch\"");
         out.close();
 
         // sc
@@ -1462,12 +1463,22 @@ public class FileUtil extends Util implements Constants {
 
     public static String toTARAlias(String p) throws Exception {
         List<String> list = getLines2(TYPEANDRUN_CONFIG);
-        for (String s : list) {
-            if (s.startsWith(p + "|")) {
-                p = cut(s, "|", null);
-                // if (p.contains("|")) {
-                //     p = cut(p, null, "|");
-                // }
+        for (String tarLine : list) {
+            String tarAlias = cut(tarLine, null, "|");
+            String tarPath = cut(tarLine, "|", null);
+            if (tarPath.contains("|"))
+                continue;
+            if (tarPath.contains("://"))
+                continue;
+            if (p.equals(tarAlias)) {
+                return tarPath;
+            } else if (p.startsWith(tarAlias + "/")) {
+                String sub = cutFirst(p, tarAlias.length() + 1);
+                sub = sub.replace("/", FILE_SEPARATOR);
+                return tarPath + FILE_SEPARATOR + sub;
+            } else if (p.startsWith(tarAlias + FILE_SEPARATOR)) {
+                String sub = cutFirst(p, tarAlias.length() + 1);
+                return tarPath + FILE_SEPARATOR + sub;
             }
         }
         return p;
@@ -2348,7 +2359,8 @@ public class FileUtil extends Util implements Constants {
             }
             if (redirectOp != null) {
                 list.remove(0);
-                System.out.println("redirect: " + redirectOp + " " + connectLines(list, " "));
+                if (debug_)
+                    System.out.println("redirect: " + redirectOp + " " + connectLines(list, " "));
                 list.add(0, paOpType(redirectOp));
                 String[] r = list.toArray(new String[list.size()]);
                 return r;
@@ -3138,19 +3150,27 @@ public class FileUtil extends Util implements Constants {
     public static class OutputToFile {
         public static String[] outputToFile(String[] args, String n) throws Exception {
             boolean outputToFile = false;
+            boolean slient = false;
             String last = getLastArg(args);
             if (last.equalsIgnoreCase("o")) {
                 outputToFile = true;
+                args = cutLastArg(args);
+            } else if (last.equalsIgnoreCase("sl")) {
+                outputToFile = true;
+                slient = true;
                 args = cutLastArg(args);
             }
             if (outputToFile) {
                 String dir = "D:\\alogs\\";
                 mkdirs(dir);
                 String file = dir + n + ".log";
-                System.out.println("output to: " + file);
+                if (!slient)
+                    System.out.println("output to: " + file);
                 outputToFile(file);
-                String line = "call e " + file;
-                setLines(batDir + "aoutputtmp.bat", toList(line));
+                if (!slient) {
+                    String line = "call e " + file;
+                    setLines(batDir + "aoutputtmp.bat", toList(line));
+                }
             }
             return args;
         }

@@ -1,155 +1,50 @@
 @echo off
 call yodadir
-cd build\imports
+cd unbundled\apps\spark_pipe
 call svn info
 
 @echo off
 call yodadir
-cd build\properties
+cd unbundled\thirdparty\zeppelin\v0.6.1\dist
 call svn info
 
 @echo off
 call yodadir
-cd build\dtd
+cd unbundled\thirdparty\zeppelin\v0.6.1\bin
 call svn info
 
 @echo off
 call yodadir
-cd build\deploy
+cd unbundled\thirdparty\zeppelin\v0.6.1\spark
 call svn info
 
 @echo off
 call yodadir
-cd bw\installer
+cd unbundled\thirdparty\zeppelin\v0.6.1\zeppelin-interpreter
 call svn info
 
 @echo off
 call yodadir
-cd bw\src
+cd unbundled\thirdparty\zeppelin\v0.6.1\zeppelin-server
 call svn info
 
 @echo off
 call yodadir
-cd m3o\server\installer
+cd unbundled\thirdparty\zeppelin\v0.6.1\zeppelin-vitria
 call svn info
 
 @echo off
 call yodadir
-cd m3o\server\src
+cd unbundled\thirdparty\zeppelin\v0.6.1\zeppelin-zengine
 call svn info
 
 @echo off
 call yodadir
-cd m3o\server\locale
+cd unbundled\spark
 call svn info
 
 @echo off
 call yodadir
-cd m3o\ui\installer
-call svn info
-
-@echo off
-call yodadir
-cd m3o\ui\src
-call svn info
-
-@echo off
-call yodadir
-cd m3o\j2ee\installer
-call svn info
-
-@echo off
-call yodadir
-cd m3o\j2ee\src
-call svn info
-
-@echo off
-call yodadir
-cd m3o\bpa\emf\server\installer
-call svn info
-
-@echo off
-call yodadir
-cd m3o\bpa\emf\server\src
-call svn info
-
-@echo off
-call yodadir
-cd m3o\projectrole\installer
-call svn info
-
-@echo off
-call yodadir
-cd m3o\projectrole\src
-call svn info
-
-@echo off
-call yodadir
-cd m3o\utilities\installer
-call svn info
-
-@echo off
-call yodadir
-cd m3o\utilities\src
-call svn info
-
-@echo off
-call yodadir
-cd m3o\collaboration\installer
-call svn info
-
-@echo off
-call yodadir
-cd m3o\collaboration\src
-call svn info
-
-@echo off
-call yodadir
-cd m3o\workflow\installer
-call svn info
-
-@echo off
-call yodadir
-cd m3o\workflow\src
-call svn info
-
-@echo off
-call yodadir
-cd esms\installer
-call svn info
-
-@echo off
-call yodadir
-cd esms\src
-call svn info
-
-@echo off
-call yodadir
-cd opbook\installer
-call svn info
-
-@echo off
-call yodadir
-cd opbook\src
-call svn info
-
-@echo off
-call yodadir
-cd shared\preconfigured\wildfly
-call svn info
-
-@echo off
-call yodadir
-cd unbundled\af
-call svn info
-
-@echo off
-call yodadir
-cd unbundled\apps
-call svn info
-
-@echo off
-call yodadir
-cd D:\jedi\branches\wildflybrew\trunk\wildfly-core-1.0.2.Final-src\controller\src\main
+cd unbundled\eventstore
 call svn info
 

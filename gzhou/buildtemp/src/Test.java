@@ -1,4 +1,5 @@
 import gzhou.*;
+import gzhou.FileUtil;
 import gzhou.Util;
 import gzhou.PerformanceOperator.*;
 
@@ -86,8 +87,6 @@ public class Test extends gzhou.Util {
     public static void main(String[] args) throws Exception {
         
         
-        
-        
         List<String> tests = new ArrayList<String>();
 //        tests.add("a");
 //        tests.add("/a");
@@ -118,9 +117,13 @@ public class Test extends gzhou.Util {
 //        tests.add("/a/b");
 //        tests.add("/a/b##\\b\\a");
 //        tests.add("/a/b");
-        tests.add("Notification.3.0.zip");
-        tests.add("13693680644");
-        tests.add("a13693680644");
+//        tests.add("Notification.3.0.zip");
+//        tests.add("13693680644");
+//        tests.add("a13693680644");
+        
+        tests.add("rn");
+        tests.add("rn/a");
+        tests.add("rn\\a");
         
         for (String test : tests) {
             
@@ -128,7 +131,8 @@ public class Test extends gzhou.Util {
 //            System.out.println(Arrays.toString(test.split("##")));
             // System.out.println(test.matches(".*Notification\\.\\d+\\.\\d+\\.zip.*"));
             System.out.println(test);
-            System.out.println(test.matches("[1][358][0-9]{9}"));
+//            System.out.println(test.matches("[1][358][0-9]{9}"));
+            System.out.println(FileUtil.toTARAlias(test));
             
 //            System.out.println(test.matches("\\d*-?\\d*"));
 //            if (test.matches("\\d*-\\d*")) {

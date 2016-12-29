@@ -1,6 +1,217 @@
 <dataflows>
   <dataflow>
     <events>
+      <event name="XMLEvent" type="com.vitria.dataflow.framework.event.XMLEventImpl"/>
+      <event name="JSONEvent" type="com.vitria.dataflow.framework.event.JSONEventImpl"/>
+      <event name="AnyEvent" type="com.vitria.dataflow.framework.event.EventImpl"/>
+      <event name="TupleEvent" type="com.vitria.dataflow.framework.event.TupleEventImpl"/>
+      <event name="StringEvent" type="com.vitria.dataflow.framework.event.StringEventImpl"/>
+    </events>
+    <components>
+      <component name="AS_Source_Source" type="FileSource" category="source" label="File Source" class="com.vitria.dataflow.file.source.FileSource" componentName="AS_Source_Source">
+        <implementations>
+          <implementation name="pollable" type="component" class="com.vitria.dataflow.file.source.FilePollable"/>
+        </implementations>
+        <ports>
+          <port name="out" type="output">
+            <properties>
+              <property name="event_type" type="events">
+                <events>
+                  <event type="com.vitria.dataflow.framework.event.StringEventImpl" name="StringEvent"/>
+                </events>
+              </property>
+            </properties>
+          </port>
+        </ports>
+        <properties>
+          <property name="dataflow_eps_limit" value="-1" type="int" label="Max event speed" optional="true" category="component"/>
+          <property name="enable_monitor" value="true" type="boolean" label="Enable monitor" optional="true" hidden="true" category="component"/>
+          <property name="dataflow_throttling_policy" value="slowdown" type="string" label="Throttling policy" optional="true" enums="drop=Drop,slowdown=Slow down" category="component"/>
+          <property name="batch_size" value="1000" type="int" label="Batch size" category="source"/>
+          <property name="batch_time" value="200" type="int" label="Batch time" description="time unit is millisecond" optional="true" category="source"/>
+          <property name="poll_rate" value="1000" type="int" label="Poll rate" description="time unit is millisecond" category="source"/>
+          <property name="file" value="C:\Users\gzhou\Desktop\cqarray.json" type="string" label="File Path"/>
+          <property name="rolloverPattern" value="" type="string" label="Rollover File Pattern" optional="true"/>
+          <property name="ignoreFirstLine" value="false" type="boolean" label="Ignore First Line" optional="true"/>
+          <property name="fileEncoding" value="utf-8" type="string" label="File Encoding" optional="true" constraints="encoding"/>
+          <property name="multiline" value="false" type="boolean" label="Multi Line Event" description="Whether to support Multi Line Event" hidden="false"/>
+          <property name="nesteddel" value="false" type="boolean" label="Nested Delimiter" description="Whether to support Nested Delimiter" contorlValue="true" controlName="multiline"/>
+          <property name="maxCharacterNum" value="1000" type="int" label="Max Event Length" description="Max Number of Characters in Event" optional="true" contorlValue="true" controlName="multiline"/>
+          <property name="caseSensitive" value="true" type="boolean" label="Case Sensitive" description="Case Sensitive of Delimiters" contorlValue="true" controlName="multiline"/>
+          <property name="keepcrlf" value="false" type="boolean" label="Keep CRLF" optional="true" contorlValue="true" controlName="multiline"/>
+          <property name="specialLiteral" type="xmldom" label="Special Literal" description="The Special Literal Pair" optional="true" contorlValue="true" controlName="multiline" constraints="xmlMap(columnlabel1:Start, columnlabel2:End)"/>
+          <property name="startComment" value="" type="string" label="Start Comment" description="The start Comment String" optional="true" contorlValue="true" controlName="multiline"/>
+          <property name="endComment" value="" type="string" label="End Comment" description="The end Comment String" optional="true" contorlValue="true" controlName="multiline"/>
+          <property name="escapedCharacter" value="" type="string" label="Escaped Character" optional="true" contorlValue="true" controlName="multiline"/>
+          <property name="hasStartdel" value="true" type="boolean" label="Start Delimiter" contorlValue="true" controlName="multiline"/>
+          <property name="startdel" value="" type="string" label="Delimiter String" optional="true" contorlValue="true" controlName="hasStartdel"/>
+          <property name="startdelInclude" value="true" type="boolean" label="Include" description="Include Start Delimiter in Event" contorlValue="true" controlName="hasStartdel"/>
+          <property name="startdelReg" value="false" type="boolean" label="Regular Expression" description="Support regular expression as Start Delimiter" contorlValue="true" controlName="hasStartdel"/>
+          <property name="hasEnddel" value="true" type="boolean" label="End Delimiter" contorlValue="true" controlName="multiline"/>
+          <property name="enddel" value="" type="string" label="Delimiter String" optional="true" contorlValue="true" controlName="hasEnddel"/>
+          <property name="enddelInclude" value="true" type="boolean" label="Include" description="Include End Delimiter in Event" contorlValue="true" controlName="hasEnddel"/>
+          <property name="enddelReg" value="false" type="boolean" label="Regular Expression" description="Support regular expression as End Delimiter" contorlValue="true" controlName="hasEnddel"/>
+        </properties>
+        <exceptionhandler>
+          <exceptions>
+            <exception name="*">
+              <action retry="5" delay="5" timeunit="second" act="stop"/>
+            </exception>
+          </exceptions>
+          <properties>
+            <property name="log_exception" value="true" type="boolean"/>
+            <property name="log_dropped_event" value="true" type="boolean"/>
+          </properties>
+        </exceptionhandler>
+        <mix/>
+      </component>
+      <component name="AS_Views_Default_Targets_Target1_Converter" type="JSONToParquetConverter" category="converter" class="com.vitria.dataflow.framework.component.Converter" componentName="AS_Views_Default_Targets_Target1_Converter">
+        <implementations>
+          <implementation name="converterRule" type="component" class="com.vitria.dataflow.module.xml.JSONToParquetConverterRule"/>
+        </implementations>
+        <parallelism policy="shuffling" sorted="true" buffer_size="1000"/>
+        <ports>
+          <port name="in" type="input">
+            <properties>
+              <property name="event_type" type="events">
+                <events>
+                  <event type="com.vitria.dataflow.framework.event.StringEventImpl" name="StringEvent"/>
+                  <event type="com.vitria.dataflow.framework.event.JSONEventImpl" name="JSONEvent"/>
+                </events>
+              </property>
+            </properties>
+          </port>
+          <port name="out" type="output">
+            <properties>
+              <property name="event_type" type="events">
+                <events>
+                  <event type="com.vitria.dataflow.framework.event.ParquetEventImpl" name="ParquetEvent"/>
+                </events>
+              </property>
+            </properties>
+          </port>
+        </ports>
+        <properties>
+          <property name="dataflow_eps_limit" value="-1" type="int" label="Max event speed" optional="true" category="component"/>
+          <property name="enable_monitor" value="true" type="boolean" label="Enable monitor" optional="true" hidden="true" category="component"/>
+          <property name="dataflow_throttling_policy" value="slowdown" type="string" label="Throttling policy" optional="true" enums="drop=Drop,slowdown=Slow down" category="component"/>
+          <property name="mapping" type="xmldom">
+            <mapping>
+              <template><![CDATA[message root {
+  optional binary id;
+  optional binary name;
+  optional group Order {
+    optional int64 NO;
+    optional int32 price;
+    optional int32 count;
+  }
+}
+]]></template>
+              <delete>
+                <field path="declare namespace n=&quot;http://as&quot;; /n:root/Order/price"/>
+                <field path="declare namespace n=&quot;http://as&quot;; /n:root/Order/count"/>
+                <field path="declare namespace n=&quot;http://as&quot;; /n:root/address"/>
+              </delete>
+            </mapping>
+          </property>
+        </properties>
+        <exceptionhandler>
+          <exceptions>
+            <exception name="*">
+              <action retry="0" delay="0" timeunit="second" act="skip"/>
+            </exception>
+          </exceptions>
+          <properties>
+            <property name="log_exception" value="true" type="boolean"/>
+            <property name="log_dropped_event" value="true" type="boolean"/>
+          </properties>
+        </exceptionhandler>
+        <mix/>
+      </component>
+      <component name="AS_Views_Default_Targets_Target1_Target" type="HDFSTarget" category="target" label="HDFS Target" class="com.vitria.dataflow.hdfs.target.HDFSTarget" componentName="AS_Views_Default_Targets_Target1_Target">
+        <implementations>
+          <implementation name="publisher" type="component" class="com.vitria.dataflow.hdfs.target.HDFSTargetPublisher"/>
+        </implementations>
+        <ports>
+          <port name="in" type="input">
+            <properties>
+              <property name="event_type" type="events">
+                <events>
+                  <event type="com.vitria.dataflow.framework.event.StringEventImpl" name="StringEvent"/>
+                  <event type="com.vitria.dataflow.framework.event.ParquetEventImpl" name="ParquetEvent"/>
+                </events>
+              </property>
+            </properties>
+          </port>
+        </ports>
+        <properties>
+          <property name="dataflow_eps_limit" value="-1" type="int" label="Max event speed" optional="true" category="component"/>
+          <property name="enable_monitor" value="true" type="boolean" label="Enable monitor" optional="true" hidden="true" category="component"/>
+          <property name="dataflow_throttling_policy" value="slowdown" type="string" label="Throttling policy" optional="true" enums="drop=Drop,slowdown=Slow down" category="component"/>
+          <property name="batch_size" value="-1" type="int" label="Batch size" description="-1 means use source&apos;s batch setting" optional="true" category="target"/>
+          <property name="batch_time" value="-1" type="int" label="Batch time" description="time unit is millisecond" optional="true" category="target"/>
+          <property name="buffer_size" value="1000" type="int" label="Buffer size" description="capacity of the buffer" optional="true" category="target"/>
+          <property name="serverInfo" value="url" type="string" label="HDFS Server Info" description="The type of the HDFS server information" enums="props=HDFS Server Properties,url=HDFS Server URL,resource=HDFS Resource"/>
+          <property name="server" value="" type="string" label="HDFS Server" description="The host name of the HDFS server" optional="true" contorlValue="props" controlName="serverInfo"/>
+          <property name="port" value="" type="string" label="Port" description="The port of the HDFS server" optional="true" contorlValue="props" controlName="serverInfo"/>
+          <property name="url" value="hdfs://zhihuitest:8020" type="string" label="HDFS File URL" description="The URL of the HDFS file. Like: hdfs://server:port" optional="true" contorlValue="url" controlName="serverInfo"/>
+          <property name="resource" value="" type="string" label="HDFS Resource" description="The HDFS resource name" optional="true" contorlValue="resource" controlName="serverInfo" enumSource="rest:/app/event_store/pub/resource?op=listResourceRecords"/>
+          <property name="file" value="/user/gzhou/parquet/test/7001" type="string" label="HDFS File" description="The file/folder full path to write to" optional="true"/>
+          <property name="format" value="parquet" type="string" label="HDFS File Format" description="The file format" enums="map.timestamp=Map Archive File-Timestamp,map.id=Map Archive File-Event ID,text=Text,parquet=Parquet"/>
+          <property name="compress" value="BLOCK" type="string" label="Compression" description="The compression type of the map file" contorlValue="map.timestamp,map.id" enums="NONE=None,BLOCK=Block,RECORD=Record" controlName="format"/>
+          <property name="delimiter" value="line" type="string" label="Event Delimiter" description="Event Delimiter" optional="true" contorlValue="text" enums="line=Append Line delimiter after event,length=Append Length before event" controlName="format"/>
+          <property name="fileEncoding" value="UTF-8" type="string" label="File Encoding" description="File Encoding" optional="true" contorlValue="line" controlName="delimiter" constraints="encoding"/>
+          <property name="parquetTableName" value="ParquetJson912" type="string" label="Parquet Table Name" description="Parquet Table Name" optional="true" contorlValue="parquet" controlName="format"/>
+          <property name="parquetSchema" type="string" label="Parquet Schema" description="Parquet Schema" optional="true" contorlValue="parquet" hidden="true" controlName="format"><![CDATA[message root {
+  optional binary id;
+  optional binary name;
+  optional group Order {
+    optional int64 NO;
+    optional int32 price;
+    optional int32 count;
+  }
+}
+]]></property>
+          <property name="parquetPartitionKeys" value="{&quot;keys&quot;:[{&quot;type&quot;:&quot;systemTime&quot;,&quot;value&quot;:&quot;&quot;,&quot;bucket&quot;:&quot;1;S&quot;},{&quot;type&quot;:&quot;field&quot;,&quot;value&quot;:&quot;id&quot;},{&quot;type&quot;:&quot;field&quot;,&quot;value&quot;:&quot;name&quot;}]}" type="string" label="Partition Keys" description="Partition Keys" optional="true" contorlValue="parquet" controlName="format" constraints="parquetPartitionKeysPicker"/>
+          <property name="parquetCompression" value="GZIP" type="string" label="Parquet Compression" description="Parquet Compression" optional="true" contorlValue="parquet" enums="UNCOMPRESSED=UNCOMPRESSED,SNAPPY=SNAPPY,GZIP=GZIP,LZO=LZO" controlName="format"/>
+          <property name="parquetMaxEvents" value="100000" type="long" label="Max Events" description="Max Events" optional="true" contorlValue="parquet" controlName="format" constraints="min=1000,max=10000000"/>
+          <property name="parquetMaxPartitions" value="1000" type="long" label="Max Partitions" description="Max Partitions" optional="true" contorlValue="parquet" controlName="format" constraints="min=1,max=100000"/>
+          <property name="supportBoundary" value="false" type="boolean" label="Support Boundary Events" description="Whether support boundary events or not" optional="true" contorlValue="line" hidden="true" controlName="delimiter"/>
+          <property name="inheritDelimiter" value="false" type="boolean" label="Inherit Delimiter" description="Inherit delimiter from boundary event" optional="true" contorlValue="true" hidden="true" controlName="supportBoundary"/>
+          <property name="inheritEncoding" value="false" type="boolean" label="Inherit Encoding" description="Inherit encoding from boundary event" optional="true" contorlValue="true" hidden="true" controlName="supportBoundary"/>
+          <property name="move" value="true" type="boolean" label="Move File" description="Whether write files to temp folder and move after finished" optional="true" contorlValue="true" hidden="true" controlName="supportBoundary"/>
+          <property name="tempFolder" value=".tmp" type="string" label="Temp Folder" description="The temporary folder to write files to" optional="true" contorlValue="true" hidden="true" controlName="move"/>
+          <property name="zipType" value="none" type="string" label="Zip Type" description="Choose whether to zip the output files and which zip type to use" optional="true" contorlValue="true" enums="none=None,gzip=GZip" hidden="true" controlName="supportBoundary"/>
+          <property name="dataOperation" value="none" type="string" label="Data Operation" description="Choose whether to backup or clean the existing folder" optional="true" contorlValue="true" enums="none=None,backup=Backup,clean=Clean" hidden="true" controlName="supportBoundary"/>
+          <property name="rollover" value="{&quot;rollover&quot;:{&quot;size&quot;:&quot;1;mb&quot;}}" type="string" label="Rollover" description="The rollover policy" constraints="fileRolloverPicker"/>
+        </properties>
+        <exceptionhandler>
+          <exceptions>
+            <exception name="*">
+              <action retry="5" delay="5" timeunit="second" act="stop"/>
+            </exception>
+          </exceptions>
+          <properties>
+            <property name="log_exception" value="true" type="boolean"/>
+            <property name="log_dropped_event" value="true" type="boolean"/>
+          </properties>
+        </exceptionhandler>
+        <mix/>
+      </component>
+    </components>
+    <wires>
+      <wire from="AS_Source_Source::out" to="AS_Views_Default_Targets_Target1_Converter::in" event="StringEvent"/>
+      <wire from="AS_Views_Default_Targets_Target1_Converter::out" to="AS_Views_Default_Targets_Target1_Target::in" event="ParquetEvent"/>
+    </wires>
+    <properties>
+      <property name="dataflow_qos" value="0" type="int"/>
+    </properties>
+  </dataflow>
+</dataflows>
+
+<dataflows>
+  <dataflow>
+    <events>
       <event type="com.vitria.dataflow.framework.event.XMLEventImpl" name="XMLEvent"/>
       <event type="com.vitria.dataflow.framework.event.JSONEventImpl" name="JSONEvent"/>
       <event type="com.vitria.dataflow.framework.event.EventImpl" name="AnyEvent"/>
@@ -30,7 +241,7 @@
           <property value="1000" category="source" label="Batch size" type="int" name="batch_size"/>
           <property value="200" category="source" optional="true" description="time unit is millisecond" label="Batch time" type="int" name="batch_time"/>
           <property value="1000" category="source" description="time unit is millisecond" label="Poll rate" type="int" name="poll_rate"/>
-          <property value="D:\data\cq\cq100000.csv" name="file" type="string" label="File Path"/>
+          <property value="C:\Users\gzhou\Desktop\cqarray.json" name="file" type="string" label="File Path"/>
           <property value="" name="rolloverPattern" type="string" label="Rollover File Pattern" optional="true"/>
           <property value="false" name="ignoreFirstLine" type="boolean" label="Ignore First Line" optional="true"/>
           <property value="utf-8" name="fileEncoding" type="string" label="File Encoding" optional="true" constraints="encoding"/>
@@ -65,73 +276,9 @@
           </properties>
         </exceptionhandler>
       </component>
-      <component class="com.vitria.dataflow.framework.component.Converter" label="Delimited" category="converter" type="DelimittedStringToXMLConverter" name="AS_Source_Converter">
+      <component class="com.vitria.dataflow.framework.component.Converter" category="converter" type="JSONToParquetConverter" name="AS_Views_Default_Targets_Target1_Converter">
         <implementations>
-          <implementation class="com.vitria.dataflow.module.commonevent.DelimittedStringToXMLConverterRule" type="component" name="converterRule"/>
-        </implementations>
-        <ports>
-          <port type="input" name="in">
-            <properties>
-              <property type="events" name="event_type">
-                <events>
-                  <event name="StringEvent" description="delimitted string"/>
-                </events>
-              </property>
-            </properties>
-          </port>
-          <port type="output" name="out">
-            <properties>
-              <property type="events" name="event_type">
-                <events>
-                  <event name="XMLEvent" description="xml string"/>
-                </events>
-              </property>
-            </properties>
-          </port>
-        </ports>
-        <properties>
-          <property value="-1" category="component" optional="true" label="Max event speed" type="int" name="dataflow_eps_limit"/>
-          <property value="true" category="component" hidden="true" optional="true" label="Enable monitor" type="boolean" name="enable_monitor"/>
-          <property value="slowdown" enums="drop=Drop,slowdown=Slow down" category="component" optional="true" label="Throttling policy" type="string" name="dataflow_throttling_policy"/>
-          <property value="false" name="daylight" type="boolean" label="Daylight savings" optional="true" desc="Specify whether to adjust the Datetime if daylight savings time is in effect"/>
-          <property value="Asia/Krasnoyarsk" name="timezone" type="string" label="Timezone" optional="true" desc="Timezone setting for the Datetime field"/>
-          <property value="true" name="headerRow" type="boolean" label="Header Row" desc="Specify whether to consider the first row as a header"/>
-          <property value="comma" name="delimiter" type="string" label="Delimiter" enums="comma=Comma Separated,tab=Tab Delimited" enumDyn="true" desc="The delimiter used to split strings into fields"/>
-          <property value="id,a_Software,a_Component,Show_Stopper,Severity,Headline,Submitter_FN,Submit_Date,a_VersionFound,a_BuildFound,Disposition,Owner" name="fieldNames" type="string" label="Field Names" optional="true" desc="Optional comma-separated list of field names."/>
-          <property value="default" name="mapping" type="xmldom" hidden="true" desc="The mapping to define field and output XML">
-            <mapping root="root" arraynodename="e" namespace="http://as" prefix="n">
-              <field type="string" path="declare namespace n=&quot;http://as&quot;; /n:root/id" name="id"/>
-              <field type="string" path="declare namespace n=&quot;http://as&quot;; /n:root/a_Software" name="a_Software"/>
-              <field type="string" path="declare namespace n=&quot;http://as&quot;; /n:root/a_Component" name="a_Component"/>
-              <field type="integer" path="declare namespace n=&quot;http://as&quot;; /n:root/Show_Stopper" name="Show_Stopper"/>
-              <field type="string" path="declare namespace n=&quot;http://as&quot;; /n:root/Severity" name="Severity"/>
-              <field type="string" path="declare namespace n=&quot;http://as&quot;; /n:root/Headline" name="Headline"/>
-              <field type="string" path="declare namespace n=&quot;http://as&quot;; /n:root/Submitter_FN" name="Submitter_FN"/>
-              <field type="string" path="declare namespace n=&quot;http://as&quot;; /n:root/Submit_Date" name="Submit_Date"/>
-              <field type="string" path="declare namespace n=&quot;http://as&quot;; /n:root/a_VersionFound" name="a_VersionFound"/>
-              <field type="string" path="declare namespace n=&quot;http://as&quot;; /n:root/a_BuildFound" name="a_BuildFound"/>
-              <field type="string" path="declare namespace n=&quot;http://as&quot;; /n:root/Disposition" name="Disposition"/>
-              <field type="string" path="declare namespace n=&quot;http://as&quot;; /n:root/Owner" name="Owner"/>
-            </mapping>
-          </property>
-        </properties>
-        <mix/>
-        <parallelism concurrency="0" buffer_size="1000" policy="shuffling" sorted="true"/>
-        <exceptionhandler>
-          <exceptions>
-            <exception name="*">
-              <action retry="0" delay="0" timeunit="second" act="skip"/>
-            </exception>
-          </exceptions>
-          <properties>
-            <property name="log_exception" type="boolean" value="true"/>
-            <property name="log_dropped_event" type="boolean" value="true"/>
-          </properties>
-        </exceptionhandler>
-      </component>
-      <component class="com.vitria.dataflow.framework.component.Converter" category="converter" type="XMLToParquetConverter" name="AS_Views_Default_Targets_Target1_Converter">
-        <implementations>
-          <implementation class="com.vitria.dataflow.module.xml.XMLToParquetConverterRule" type="component" name="converterRule"/>
+          <implementation class="com.vitria.dataflow.module.xml.JSONToParquetConverterRule" type="component" name="converterRule"/>
         </implementations>
         <ports>
           <port type="input" name="in">
@@ -139,7 +286,7 @@
               <property type="events" name="event_type">
                 <events>
                   <event name="StringEvent" type="com.vitria.dataflow.framework.event.StringEventImpl"/>
-                  <event name="XMLEvent" type="com.vitria.dataflow.framework.event.XMLEventImpl"/>
+                  <event name="JSONEvent" type="com.vitria.dataflow.framework.event.JSONEventImpl"/>
                 </events>
               </property>
             </properties>
@@ -162,20 +309,19 @@
             <mapping>
               <template><![CDATA[message root {
   optional binary id;
-  optional binary a_Software;
-  optional binary a_Component;
-  optional int32 Show_Stopper;
-  optional binary Severity;
-  optional binary Headline;
-  optional binary Submitter_FN;
-  optional binary Submit_Date;
-  optional binary a_VersionFound;
-  optional binary a_BuildFound;
-  optional binary Disposition;
-  optional binary Owner;
+  optional binary name;
+  optional group Order {
+    optional int64 NO;
+    optional int32 price;
+    optional int32 count;
+  }
 }
 ]]></template>
-              <delete/>
+              <delete>
+                <field path="declare namespace n=&quot;http://as&quot;; /n:root/Order/price"/>
+                <field path="declare namespace n=&quot;http://as&quot;; /n:root/Order/count"/>
+                <field path="declare namespace n=&quot;http://as&quot;; /n:root/address"/>
+              </delete>
             </mapping>
           </property>
         </properties>
@@ -221,29 +367,24 @@
           <property value="" name="port" type="string" label="Port" description="The port of the HDFS server" optional="true" contorlValue="props" controlName="serverInfo"/>
           <property value="hdfs://zhihuitest:8020" name="url" type="string" label="HDFS File URL" description="The URL of the HDFS file. Like: hdfs://server:port" optional="true" contorlValue="url" controlName="serverInfo"/>
           <property value="" name="resource" type="string" label="HDFS Resource" description="The HDFS resource name" optional="true" contorlValue="resource" controlName="serverInfo" enumSource="rest:/app/event_store/pub/resource?op=listResourceRecords"/>
-          <property value="/user/gzhou/parquet/test/5001" name="file" type="string" label="HDFS File" description="The file/folder full path to write to" optional="true"/>
+          <property value="/user/gzhou/parquet/test/7001" name="file" type="string" label="HDFS File" description="The file/folder full path to write to" optional="true"/>
           <property value="parquet" name="format" type="string" label="HDFS File Format" description="The file format" enums="map.timestamp=Map Archive File-Timestamp,map.id=Map Archive File-Event ID,text=Text,parquet=Parquet"/>
           <property value="BLOCK" name="compress" type="string" label="Compression" description="The compression type of the map file" enums="NONE=None,BLOCK=Block,RECORD=Record" contorlValue="map.timestamp,map.id" controlName="format"/>
           <property value="line" name="delimiter" type="string" label="Event Delimiter" description="Event Delimiter" optional="true" enums="line=Append Line delimiter after event,length=Append Length before event" contorlValue="text" controlName="format"/>
           <property value="UTF-8" name="fileEncoding" type="string" label="File Encoding" description="File Encoding" optional="true" contorlValue="line" controlName="delimiter" constraints="encoding"/>
-          <property value="vtbaadmin_pq_Default_Target1" name="parquetTableName" type="string" label="Parquet Table Name" description="Parquet Table Name" optional="true" contorlValue="parquet" controlName="format"/>
+          <property value="ParquetJson912" name="parquetTableName" type="string" label="Parquet Table Name" description="Parquet Table Name" optional="true" contorlValue="parquet" controlName="format"/>
           <property name="parquetSchema" type="string" label="Parquet Schema" description="Parquet Schema" optional="true" contorlValue="parquet" hidden="true" controlName="format"><![CDATA[message root {
   optional binary id;
-  optional binary a_Software;
-  optional binary a_Component;
-  optional int32 Show_Stopper;
-  optional binary Severity;
-  optional binary Headline;
-  optional binary Submitter_FN;
-  optional binary Submit_Date;
-  optional binary a_VersionFound;
-  optional binary a_BuildFound;
-  optional binary Disposition;
-  optional binary Owner;
+  optional binary name;
+  optional group Order {
+    optional int64 NO;
+    optional int32 price;
+    optional int32 count;
+  }
 }
 ]]></property>
-          <property value="" name="parquetPartitionKeys" type="string" label="Partition Keys" description="Partition Keys" optional="true" contorlValue="parquet" controlName="format" constraints="parquetPartitionKeysPicker"/>
-          <property value="UNCOMPRESSED" name="parquetCompression" type="string" label="Parquet Compression" description="Parquet Compression" optional="true" enums="UNCOMPRESSED=UNCOMPRESSED,SNAPPY=SNAPPY,GZIP=GZIP,LZO=LZO" contorlValue="parquet" controlName="format"/>
+          <property value="{&quot;keys&quot;:[{&quot;type&quot;:&quot;systemTime&quot;,&quot;value&quot;:&quot;&quot;,&quot;bucket&quot;:&quot;1;S&quot;},{&quot;type&quot;:&quot;field&quot;,&quot;value&quot;:&quot;id&quot;},{&quot;type&quot;:&quot;field&quot;,&quot;value&quot;:&quot;name&quot;}]}" name="parquetPartitionKeys" type="string" label="Partition Keys" description="Partition Keys" optional="true" contorlValue="parquet" controlName="format" constraints="parquetPartitionKeysPicker"/>
+          <property value="GZIP" name="parquetCompression" type="string" label="Parquet Compression" description="Parquet Compression" optional="true" enums="UNCOMPRESSED=UNCOMPRESSED,SNAPPY=SNAPPY,GZIP=GZIP,LZO=LZO" contorlValue="parquet" controlName="format"/>
           <property value="100000" name="parquetMaxEvents" type="long" label="Max Events" description="Max Events" optional="true" contorlValue="parquet" controlName="format" constraints="min=1000,max=10000000"/>
           <property value="1000" name="parquetMaxPartitions" type="long" label="Max Partitions" description="Max Partitions" optional="true" contorlValue="parquet" controlName="format" constraints="min=1,max=100000"/>
           <property value="false" name="supportBoundary" type="boolean" label="Support Boundary Events" description="Whether support boundary events or not" optional="true" contorlValue="line" hidden="true" controlName="delimiter"/>
@@ -253,146 +394,7 @@
           <property value=".tmp" name="tempFolder" type="string" label="Temp Folder" description="The temporary folder to write files to" optional="true" contorlValue="true" hidden="true" controlName="move"/>
           <property value="none" name="zipType" type="string" label="Zip Type" description="Choose whether to zip the output files and which zip type to use" optional="true" enums="none=None,gzip=GZip" contorlValue="true" hidden="true" controlName="supportBoundary"/>
           <property value="none" name="dataOperation" type="string" label="Data Operation" description="Choose whether to backup or clean the existing folder" optional="true" enums="none=None,backup=Backup,clean=Clean" contorlValue="true" hidden="true" controlName="supportBoundary"/>
-          <property value="{&quot;rollover&quot;:{&quot;count&quot;:&quot;1;k&quot;}}" name="rollover" type="string" label="Rollover" description="The rollover policy" constraints="fileRolloverPicker"/>
-        </properties>
-        <mix/>
-        <exceptionhandler>
-          <exceptions>
-            <exception name="*">
-              <action retry="5" delay="5" timeunit="second" act="stop"/>
-            </exception>
-          </exceptions>
-          <properties>
-            <property name="log_exception" type="boolean" value="true"/>
-            <property name="log_dropped_event" type="boolean" value="true"/>
-          </properties>
-        </exceptionhandler>
-      </component>
-      <component class="com.vitria.dataflow.framework.component.Converter" category="converter" type="XMLToParquetConverter" name="AS_Views_Default_Targets_Target2_Converter">
-        <implementations>
-          <implementation class="com.vitria.dataflow.module.xml.XMLToParquetConverterRule" type="component" name="converterRule"/>
-        </implementations>
-        <ports>
-          <port type="input" name="in">
-            <properties>
-              <property type="events" name="event_type">
-                <events>
-                  <event name="StringEvent" type="com.vitria.dataflow.framework.event.StringEventImpl"/>
-                  <event name="XMLEvent" type="com.vitria.dataflow.framework.event.XMLEventImpl"/>
-                </events>
-              </property>
-            </properties>
-          </port>
-          <port type="output" name="out">
-            <properties>
-              <property type="events" name="event_type">
-                <events>
-                  <event name="ParquetEvent" type="com.vitria.dataflow.framework.event.ParquetEventImpl"/>
-                </events>
-              </property>
-            </properties>
-          </port>
-        </ports>
-        <properties>
-          <property value="-1" category="component" optional="true" label="Max event speed" type="int" name="dataflow_eps_limit"/>
-          <property value="true" category="component" hidden="true" optional="true" label="Enable monitor" type="boolean" name="enable_monitor"/>
-          <property value="slowdown" enums="drop=Drop,slowdown=Slow down" category="component" optional="true" label="Throttling policy" type="string" name="dataflow_throttling_policy"/>
-          <property name="mapping" type="xmldom">
-            <mapping>
-              <template><![CDATA[message root {
-  optional binary id;
-  optional binary a_Software;
-  optional binary a_Component;
-  optional int32 Show_Stopper;
-  optional binary Severity;
-  optional binary Headline;
-  optional binary Submitter_FN;
-  optional binary Submit_Date;
-  optional binary a_VersionFound;
-  optional binary a_BuildFound;
-  optional binary Disposition;
-  optional binary Owner;
-}
-]]></template>
-              <delete/>
-            </mapping>
-          </property>
-        </properties>
-        <mix/>
-        <parallelism concurrency="0" buffer_size="1000" policy="shuffling" sorted="true"/>
-        <exceptionhandler>
-          <exceptions>
-            <exception name="*">
-              <action retry="0" delay="0" timeunit="second" act="skip"/>
-            </exception>
-          </exceptions>
-          <properties>
-            <property name="log_exception" type="boolean" value="true"/>
-            <property name="log_dropped_event" type="boolean" value="true"/>
-          </properties>
-        </exceptionhandler>
-      </component>
-      <component class="com.vitria.dataflow.hdfs.target.HDFSTarget" label="HDFS Target" category="target" type="HDFSTarget" name="AS_Views_Default_Targets_Target2_Target">
-        <implementations>
-          <implementation class="com.vitria.dataflow.hdfs.target.HDFSTargetPublisher" type="component" name="publisher"/>
-        </implementations>
-        <ports>
-          <port type="input" name="in">
-            <properties>
-              <property type="events" name="event_type">
-                <events>
-                  <event name="StringEvent" type="com.vitria.dataflow.framework.event.StringEventImpl"/>
-                  <event name="ParquetEvent" type="com.vitria.dataflow.framework.event.ParquetEventImpl"/>
-                </events>
-              </property>
-            </properties>
-          </port>
-        </ports>
-        <properties>
-          <property value="-1" category="component" optional="true" label="Max event speed" type="int" name="dataflow_eps_limit"/>
-          <property value="true" category="component" hidden="true" optional="true" label="Enable monitor" type="boolean" name="enable_monitor"/>
-          <property value="slowdown" enums="drop=Drop,slowdown=Slow down" category="component" optional="true" label="Throttling policy" type="string" name="dataflow_throttling_policy"/>
-          <property value="-1" category="target" optional="true" description="-1 means use source&apos;s batch setting" label="Batch size" type="int" name="batch_size"/>
-          <property value="-1" category="target" optional="true" description="time unit is millisecond" label="Batch time" type="int" name="batch_time"/>
-          <property value="1000" category="target" optional="true" description="capacity of the buffer" label="Buffer size" type="int" name="buffer_size"/>
-          <property value="url" name="serverInfo" type="string" label="HDFS Server Info" description="The type of the HDFS server information" enums="props=HDFS Server Properties,url=HDFS Server URL,resource=HDFS Resource"/>
-          <property value="" name="server" type="string" label="HDFS Server" description="The host name of the HDFS server" optional="true" contorlValue="props" controlName="serverInfo"/>
-          <property value="" name="port" type="string" label="Port" description="The port of the HDFS server" optional="true" contorlValue="props" controlName="serverInfo"/>
-          <property value="hdfs://zhihuitest:8020" name="url" type="string" label="HDFS File URL" description="The URL of the HDFS file. Like: hdfs://server:port" optional="true" contorlValue="url" controlName="serverInfo"/>
-          <property value="" name="resource" type="string" label="HDFS Resource" description="The HDFS resource name" optional="true" contorlValue="resource" controlName="serverInfo" enumSource="rest:/app/event_store/pub/resource?op=listResourceRecords"/>
-          <property value="/user/gzhou/parquet/test/5002" name="file" type="string" label="HDFS File" description="The file/folder full path to write to" optional="true"/>
-          <property value="parquet" name="format" type="string" label="HDFS File Format" description="The file format" enums="map.timestamp=Map Archive File-Timestamp,map.id=Map Archive File-Event ID,text=Text,parquet=Parquet"/>
-          <property value="BLOCK" name="compress" type="string" label="Compression" description="The compression type of the map file" enums="NONE=None,BLOCK=Block,RECORD=Record" contorlValue="map.timestamp,map.id" controlName="format"/>
-          <property value="line" name="delimiter" type="string" label="Event Delimiter" description="Event Delimiter" optional="true" enums="line=Append Line delimiter after event,length=Append Length before event" contorlValue="text" controlName="format"/>
-          <property value="UTF-8" name="fileEncoding" type="string" label="File Encoding" description="File Encoding" optional="true" contorlValue="line" controlName="delimiter" constraints="encoding"/>
-          <property value="vtbaadmin_pq_Default_Target2" name="parquetTableName" type="string" label="Parquet Table Name" description="Parquet Table Name" optional="true" contorlValue="parquet" controlName="format"/>
-          <property name="parquetSchema" type="string" label="Parquet Schema" description="Parquet Schema" optional="true" contorlValue="parquet" hidden="true" controlName="format"><![CDATA[message root {
-  optional binary id;
-  optional binary a_Software;
-  optional binary a_Component;
-  optional int32 Show_Stopper;
-  optional binary Severity;
-  optional binary Headline;
-  optional binary Submitter_FN;
-  optional binary Submit_Date;
-  optional binary a_VersionFound;
-  optional binary a_BuildFound;
-  optional binary Disposition;
-  optional binary Owner;
-}
-]]></property>
-          <property value="" name="parquetPartitionKeys" type="string" label="Partition Keys" description="Partition Keys" optional="true" contorlValue="parquet" controlName="format" constraints="parquetPartitionKeysPicker"/>
-          <property value="UNCOMPRESSED" name="parquetCompression" type="string" label="Parquet Compression" description="Parquet Compression" optional="true" enums="UNCOMPRESSED=UNCOMPRESSED,SNAPPY=SNAPPY,GZIP=GZIP,LZO=LZO" contorlValue="parquet" controlName="format"/>
-          <property value="100000" name="parquetMaxEvents" type="long" label="Max Events" description="Max Events" optional="true" contorlValue="parquet" controlName="format" constraints="min=1000,max=10000000"/>
-          <property value="1000" name="parquetMaxPartitions" type="long" label="Max Partitions" description="Max Partitions" optional="true" contorlValue="parquet" controlName="format" constraints="min=1,max=100000"/>
-          <property value="false" name="supportBoundary" type="boolean" label="Support Boundary Events" description="Whether support boundary events or not" optional="true" contorlValue="line" hidden="true" controlName="delimiter"/>
-          <property value="false" name="inheritDelimiter" type="boolean" label="Inherit Delimiter" description="Inherit delimiter from boundary event" optional="true" contorlValue="true" hidden="true" controlName="supportBoundary"/>
-          <property value="false" name="inheritEncoding" type="boolean" label="Inherit Encoding" description="Inherit encoding from boundary event" optional="true" contorlValue="true" hidden="true" controlName="supportBoundary"/>
-          <property value="true" name="move" type="boolean" label="Move File" description="Whether write files to temp folder and move after finished" optional="true" contorlValue="true" hidden="true" controlName="supportBoundary"/>
-          <property value=".tmp" name="tempFolder" type="string" label="Temp Folder" description="The temporary folder to write files to" optional="true" contorlValue="true" hidden="true" controlName="move"/>
-          <property value="none" name="zipType" type="string" label="Zip Type" description="Choose whether to zip the output files and which zip type to use" optional="true" enums="none=None,gzip=GZip" contorlValue="true" hidden="true" controlName="supportBoundary"/>
-          <property value="none" name="dataOperation" type="string" label="Data Operation" description="Choose whether to backup or clean the existing folder" optional="true" enums="none=None,backup=Backup,clean=Clean" contorlValue="true" hidden="true" controlName="supportBoundary"/>
-          <property value="{&quot;rollover&quot;:{&quot;count&quot;:&quot;1;k&quot;}}" name="rollover" type="string" label="Rollover" description="The rollover policy" constraints="fileRolloverPicker"/>
+          <property value="{&quot;rollover&quot;:{&quot;size&quot;:&quot;1;mb&quot;}}" name="rollover" type="string" label="Rollover" description="The rollover policy" constraints="fileRolloverPicker"/>
         </properties>
         <mix/>
         <exceptionhandler>
@@ -409,11 +411,8 @@
       </component>
     </components>
     <wires>
-      <wire from="AS_Source_Source::out" to="AS_Source_Converter::in" event="StringEvent"/>
-      <wire from="AS_Source_Converter::out" to="AS_Views_Default_Targets_Target1_Converter::in" event="XMLEvent"/>
+      <wire from="AS_Source_Source::out" to="AS_Views_Default_Targets_Target1_Converter::in" event="StringEvent"/>
       <wire from="AS_Views_Default_Targets_Target1_Converter::out" to="AS_Views_Default_Targets_Target1_Target::in" event="ParquetEvent"/>
-      <wire from="AS_Source_Converter::out" to="AS_Views_Default_Targets_Target2_Converter::in" event="XMLEvent"/>
-      <wire from="AS_Views_Default_Targets_Target2_Converter::out" to="AS_Views_Default_Targets_Target2_Target::in" event="ParquetEvent"/>
     </wires>
     <properties>
       <property name="dataflow_qos" type="int" value="0"/>
