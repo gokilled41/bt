@@ -1,6 +1,7 @@
 import gzhou.*;
 import gzhou.FileUtil;
 import gzhou.Util;
+import gzhou.FileUtil.Params;
 import gzhou.PerformanceOperator.*;
 
 import java.io.*;
@@ -85,144 +86,423 @@ import com.vitria.xquery.*;
 public class Test extends gzhou.Util {
 
     public static void main(String[] args) throws Exception {
-        
-        
-        List<String> tests = new ArrayList<String>();
-//        tests.add("a");
-//        tests.add("/a");
-//        tests.add("\\a");
-//        tests.add("a/b");
-//        tests.add("a\\b");
-//        tests.add("\\a\\b");
-//        tests.add("a/b\\c");
-//        tests.add("a\\b/c");
-//        tests.add("\\a/b/c\\d/e");
-//        tests.add("\\*a/*b./c*.jar\\*d*.zip/e");
-//        tests.add("l100");
-//        tests.add("l-100");
-//        tests.add("l100-");
-//        tests.add("l100-200");
-//        tests.add("l-100a");
-//        tests.add("a100-");
-//        tests.add("a100-200a");
-//        tests.add("r0");
-//        tests.add("r1");
-//        tests.add("r10");
-//        tests.add("r20");
-//        tests.add("abc");
-//        tests.add("r");
-//        tests.add("a");
-//        tests.add("b");
-//        tests.add("a##b");
-//        tests.add("/a/b");
-//        tests.add("/a/b##\\b\\a");
-//        tests.add("/a/b");
-//        tests.add("Notification.3.0.zip");
-//        tests.add("13693680644");
-//        tests.add("a13693680644");
-        
-        tests.add("rn");
-        tests.add("rn/a");
-        tests.add("rn\\a");
-        
-        for (String test : tests) {
-            
-            String s = test;
-//            System.out.println(Arrays.toString(test.split("##")));
-            // System.out.println(test.matches(".*Notification\\.\\d+\\.\\d+\\.zip.*"));
-            System.out.println(test);
-//            System.out.println(test.matches("[1][358][0-9]{9}"));
-            System.out.println(FileUtil.toTARAlias(test));
-            
-//            System.out.println(test.matches("\\d*-?\\d*"));
-//            if (test.matches("\\d*-\\d*")) {
-//                int i = test.indexOf("-");
-//                String from = test.substring(0, i);
-//                String to = test.substring(i+1, test.length());
-//                System.out.println(from);
-//                System.out.println(to);
-//            }
-            
-//            if (!s.startsWith("/") && !s.startsWith("\\")) s = "/" + s;
-//            
-//            List<String> matches = new ArrayList<String>();
-//            List<String> excludes = new ArrayList<String>();
-//            
-//            List<String> list = null;
-//            StringBuilder sb = new StringBuilder();
-//            for (int i = 0; i < s.length(); i++) {
-//                char c = s.charAt(i);
-//                if (c == '/') {
-//                    if (list != null) {
-//                        list.add(sb.toString());
-//                        sb = new StringBuilder();
-//                    }
-//                    list = matches;
-//                } else if (c == '\\') {
-//                    if (list != null) {
-//                        list.add(sb.toString());
-//                        sb = new StringBuilder();
-//                    }
-//                    list = excludes;
-//                } else {
-//                    sb.append(c);
-//                }
-//            }
-//            list.add(sb.toString());
-//            sb = new StringBuilder();
-//            
-//            System.out.println(format("{0} {1} {2}", s, matches, excludes));
-        }
-        
 
-        
-//        File f = new File(rndir + "\\a");
-//        String[] arr = f.list();
-//        System.out.println(arr);
-//        for (String s : arr) {
-//            System.out.println(s);
-//        }
-        
-//        String s = "jdbc:mysql://PEK-WKST67766:3306/60ga";
-//        System.out.println(cut(s, "//", null));
-        
-//        List<String> lines = Util.getLines("k");
-//        String start = Util.getLines("kline").get(0);
-//        int starti = 0;
-//        for (String s : lines) {
-//            if (s.startsWith(start)) {
-//                break;
-//            } else {
-//                starti++;
-//            }
-//        }
-//        long iccost = 0;
-//        long ircost = 0;
-//        long times = 0;
-//        for (int i = starti + 1; i < lines.size(); i++) {
-//            String line = lines.get(i);
-//            if (line.contains("INFO  [SparkInterpreter] - interpret code [")) {
-//                String cost = cut(line, "][ ", " ms ]").trim();
-//                iccost += (Long.valueOf(cost));
-//            }
-//            if (line.contains("INFO  [SparkInterpreter] - scala> t2-t1:")) {
-//                String cost = cut(line, "scala> t2-t1:", null).trim();
-//                ircost += (Long.valueOf(cost));
-//            }
-//            if (line.contains("INFO  [SparkInterpreter] - interpret code [1]")) {
-//                times++;
-//            }
-//        }
-//        System.out.println("times: " + times);
-//        if (times > 0) {
-//            System.out.println("iccost: " + iccost / times);
-//            System.out.println("ircost: " + ircost / times);
-//            long compile = iccost - ircost;
-//            System.out.println("compile: " + compile / times);
-//        } else {
-//            System.out.println("No Result");
-//        }
-        
+        List<String> tests = new ArrayList<String>();
+        tests.add("a");
+        tests.add("/a");
+        tests.add("\\a");
+        tests.add("a/b");
+        tests.add("a\\b");
+        tests.add("\\a\\b");
+        tests.add("a/b\\c");
+        tests.add("a\\b/c");
+        tests.add("\\a/b/c\\d/e");
+        tests.add("Ser/Man/l100");
+        tests.add("'Ser/Man'/l100");
+        tests.add("'Ser/Man'/'[]()+'");
+        tests.add("@abc.*@/l100");
+        //        tests.add("\\*a/*b./c*.jar\\*d*.zip/e");
+        //        tests.add("l100");
+        //        tests.add("l-100");
+        //        tests.add("l100-");
+        //        tests.add("l100-200");
+        //        tests.add("l-100a");
+        //        tests.add("a100-");
+        //        tests.add("a100-200a");
+        //        tests.add("r0");
+        //        tests.add("r1");
+        //        tests.add("r10");
+        //        tests.add("r20");
+        //        tests.add("abc");
+        //        tests.add("r");
+        //        tests.add("a");
+        //        tests.add("b");
+        //        tests.add("a##b");
+        //        tests.add("/a/b");
+        //        tests.add("/a/b##\\b\\a");
+        //        tests.add("/a/b");
+        //        tests.add("Notification.3.0.zip");
+        //        tests.add("13693680644");
+        //        tests.add("a13693680644");
+
+        for (String test : tests) {
+
+            String s = test;
+
+            FiltersPattern fp = new FiltersPattern();
+            fp.p = test;
+
+            Filters f = new Filters(fp, null);
+
+            if (!Filters.appendFirstLeftIfNecessary(test).equals(f.print())) {
+                System.out.println("fail: " + test);
+            } else {
+                System.out.println("succ: " + test);
+            }
+
+        }
+
     }
 
+    public static class Filters {
+
+        private List<Filters> filters = new ArrayList<Filters>();
+        private List<FiltersPattern> subList;
+
+        public Filters(FiltersPattern p, Params params) {
+            init(p);
+        }
+
+        private void init(FiltersPattern p) {
+            p.p = appendFirstLeftIfNecessary(p.p);
+            subList = splitIntoSubList(p);
+        }
+
+        private String print() {
+            StringBuilder sb = new StringBuilder();
+            for (FiltersPattern p : subList) {
+                sb.append(p.toString());
+            }
+            return sb.toString();
+        }
+
+        private List<FiltersPattern> splitIntoSubList(FiltersPattern p) {
+            String s = p.p;
+            boolean first = true;
+            FiltersPattern item;
+            List<FiltersPattern> list = null;
+            StringBuilder sb = new StringBuilder();
+            boolean quote = false;
+            boolean regular = false;
+            boolean sub = false;
+            boolean include = false;
+            for (int i = 0; i < s.length(); i++) {
+                char c = s.charAt(i);
+                if (c == '\'') {
+                    if (quote == false) {
+                        quote = true;
+                    } else {
+                        quote = false;
+                    }
+                    sb.append(c);
+                } else if (c == '@') {
+                    if (regular == false) {
+                        regular = true;
+                    } else {
+                        regular = false;
+                    }
+                    sb.append(c);
+                } else if (c == '$') {
+                    if (sub == false) {
+                        sub = true;
+                    } else {
+                        sub = false;
+                    }
+                    sb.append(c);
+                } else {
+                    if (quote) {
+                        sb.append(c);
+                        continue;
+                    }
+                    if (regular) {
+                        sb.append(c);
+                        continue;
+                    }
+                    if (c == '/' || c == '\\') {
+                        if (list != null) {
+                            item = new FiltersPattern();
+                            item.p = sb.toString();
+                            item.include = include;
+                            item.init();
+                            list.add(item);
+                            sb = new StringBuilder();
+                            include = (c == '/');
+                        } else {
+                            list = new ArrayList<FiltersPattern>();
+                            include = (c == '/');
+                        }
+                    } else {
+                        sb.append(c);
+                    }
+                }
+            }
+            item = new FiltersPattern();
+            item.p = sb.toString();
+            item.include = include;
+            item.init();
+            list.add(item);
+            sb = new StringBuilder();
+            return list;
+        }
+
+        private static String appendFirstLeftIfNecessary(String p) {
+            if (!p.startsWith("/") && !p.startsWith("\\"))
+                p = "/" + p;
+            return p;
+        }
+
+        public boolean accept(File dir, String name) {
+            for (Filters filter : filters) {
+                if (filter.accept(dir, name))
+                    return true;
+            }
+            return false;
+        }
+
+        public boolean accept(String line, int pos) {
+            for (Filters filter : filters) {
+                if (filter.accept(line, pos))
+                    return true;
+            }
+            return false;
+        }
+
+    }
+
+    public static class FiltersPattern {
+        public String p;
+        public boolean include = true;
+        public boolean quote = false;
+        public boolean group = false;
+        public boolean regular = false;
+
+        public String toString() {
+
+            StringBuilder sb = new StringBuilder();
+            if (include)
+                sb.append("/");
+            else
+                sb.append("\\");
+            if (quote)
+                sb.append("'" + p + "'");
+            else if (group)
+                sb.append("(" + p + ")");
+            else if (regular)
+                sb.append("@" + p + "@");
+            else
+                sb.append(p);
+            return sb.toString();
+        }
+
+        public void init() {
+            if (p.startsWith("'") && p.endsWith("'")) {
+                quote = true;
+                p = cutFirst(p, 1);
+                p = cutLast(p, 1);
+            } else if (p.startsWith("@") && p.endsWith("@")) {
+                regular = true;
+                p = cutFirst(p, 1);
+                p = cutLast(p, 1);
+            } else if (p.startsWith("(") && p.endsWith(")")) {
+                group = true;
+                p = cutFirst(p, 1);
+                p = cutLast(p, 1);
+            }
+        }
+
+    }
+
+    public static class Filter {
+
+        private List<String> matches = new ArrayList<String>();
+        private List<String> excludes = new ArrayList<String>();
+        private boolean ignoreFirst = false;
+        private String firstKey;
+        private Params params;
+
+        // *a*/*b*\*c*
+        public Filter(String ps) {
+            this(ps, false);
+        }
+
+        public Filter(String ps, Params params) {
+            this.params = params;
+            init(ps);
+        }
+
+        public Filter(String ps, boolean ignoreFirst) {
+            this.ignoreFirst = ignoreFirst;
+            init(ps);
+        }
+
+        private void init(String s) {
+            if (!s.startsWith("/") && !s.startsWith("\\"))
+                s = "/" + s;
+
+            boolean first = true;
+            String item;
+            List<String> list = null;
+            StringBuilder sb0 = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
+            boolean quote = false;
+            boolean regular = false;
+            boolean sub = false;
+            for (int i = 0; i < s.length(); i++) {
+                char c = s.charAt(i);
+                if (c == '\'') {
+                    if (quote == false) {
+                        quote = true;
+                    } else {
+                        quote = false;
+                    }
+                } else if (c == '@') {
+                    if (regular == false) {
+                        regular = true;
+                    } else {
+                        regular = false;
+                    }
+                } else if (c == '$') {
+                    if (sub == false) {
+                        sub = true;
+                    } else {
+                        sub = false;
+                    }
+                } else {
+                    if (quote) {
+                        sb0.append(c);
+                        if (c == '\\') {
+                            sb.append("\\\\");
+                        } else if (c == '*') {
+                            sb.append("\\#star#");
+                        } else if (c == '+') {
+                            sb.append("\\+");
+                        } else if (c == '?') {
+                            sb.append("\\?");
+                        } else if (c == '$') {
+                            sb.append("\\$");
+                        } else if (c == '(') {
+                            sb.append("\\(");
+                        } else if (c == ')') {
+                            sb.append("\\)");
+                        } else if (c == '|') {
+                            sb.append("\\|");
+                        } else {
+                            sb.append(c);
+                        }
+                        continue;
+                    }
+                    if (regular) {
+                        sb0.append(c);
+                        sb.append(c);
+                        continue;
+                    }
+                    if (sub) {
+                        sb0.append(c);
+                        sb.append(c);
+                        // TODO
+                        continue;
+                    }
+                    if (c == '/') {
+                        if (list != null) {
+                            item = sb.toString();
+                            if (first) {
+                                firstKey = sb0.toString();
+                                if (!ignoreFirst) {
+                                    item = fixPattern(item, first);
+                                }
+                                first = false;
+                            } else {
+                                item = fixPattern(item, first);
+                            }
+                            list.add(item);
+                            sb0 = new StringBuilder();
+                            sb = new StringBuilder();
+                        }
+                        list = matches;
+                    } else if (c == '\\') {
+                        if (list != null) {
+                            item = sb.toString();
+                            if (first) {
+                                firstKey = sb0.toString();
+                                if (!ignoreFirst) {
+                                    item = fixPattern(item, first);
+                                }
+                                first = false;
+                            } else {
+                                item = fixPattern(item, first);
+                            }
+                            list.add(item);
+                            sb0 = new StringBuilder();
+                            sb = new StringBuilder();
+                        }
+                        list = excludes;
+                    } else {
+                        sb0.append(c);
+                        sb.append(c);
+                    }
+                }
+            }
+            item = sb.toString();
+            if (first) {
+                firstKey = sb0.toString();
+                if (!ignoreFirst) {
+                    item = fixPattern(item, first);
+                }
+            } else {
+                item = fixPattern(item, first);
+            }
+            first = false;
+            list.add(item);
+            sb0 = new StringBuilder();
+            sb = new StringBuilder();
+
+            Params.log("Filter", format("{0} {1} {2}", s, matches, excludes));
+        }
+
+        public boolean accept(File dir, String name) {
+            if (!params.noPath)
+                name = dir.getAbsolutePath() + FILE_SEPARATOR + name;
+            for (String m : matches) {
+                if (!name.matches(m)) {
+                    return false;
+                }
+            }
+            for (String m : excludes) {
+                if (name.matches(m)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public boolean accept(String line, int pos) {
+            for (String m : matches) {
+                if (!matches(line, m, pos, params)) {
+                    return false;
+                }
+            }
+            for (String m : excludes) {
+                if (matches(line, m, pos, params)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private static String fixPattern(String filefrom, boolean first) {
+            filefrom = filefrom.replace("`", "*").replace("~", "*");
+            if (isContainsPatternNecessary(filefrom, first)) {
+                // wrap * begins and ends like "*abc*". it means contains.
+                if (!filefrom.startsWith("*"))
+                    filefrom = "*" + filefrom;
+                if (!filefrom.endsWith("*"))
+                    filefrom = filefrom + "*";
+            }
+            // fix regular expression
+            String result = filefrom.replace(".", "\\.").replace("*", ".*").replace("#star#", "*");
+            return result;
+        }
+
+        private static boolean isContainsPatternNecessary(String filefrom, boolean first) {
+            if (filefrom.startsWith("*")) // *abc
+                return false;
+            if (filefrom.endsWith("*")) // abc*
+                return false;
+            if (filefrom.matches("l\\d*-?\\d*")) // l100, l100-, l-200, l100-200, not first (first is search key)
+                return false;
+            if (filefrom.contains("##")) // a##b, it means a or b
+                return false;
+            return true;
+        }
+    }
 }

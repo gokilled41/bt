@@ -1,4 +1,4 @@
-call kst
-call ksadd
-call ksc ""
-call ksup
+call btbak
+call go btg
+call git commit -a -m update
+call git push

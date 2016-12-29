@@ -438,8 +438,18 @@ public class Util implements Constants {
         } else {
             list = listFiles(folder, recursion, filter, params.recursiveLevel, 0);
         }
-        Collections.sort(list, new FileTimestampSorter());
+        sortFiles(list, params);
         return list;
+    }
+
+    private static void sortFiles(List<File> list, Params params) {
+        if (params.sortType != null) {
+            if (params.sortType.equals("t")) { // time
+                Collections.sort(list, new FileTimestampSorter());
+                return;
+            }
+        }
+        Collections.sort(list);
     }
 
     private static List<File> listFiles(File folder, boolean recursion, FilenameFilter filter, int recursiveLevel,
@@ -993,8 +1003,15 @@ public class Util implements Constants {
     }
 
     public static String formatstr(String s, int n) {
+        return formatstr(s, n, true);
+    }
+
+    public static String formatstr(String s, int n, boolean right) {
         if (n > s.length()) {
-            return s + getIndent(n - s.length());
+            if (right)
+                return s + getIndent(n - s.length());
+            else
+                return getIndent(n - s.length()) + s;
         }
         return s;
     }

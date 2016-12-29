@@ -1,6 +1,7 @@
 package gzhou;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
 public interface Constants {
@@ -48,6 +49,8 @@ public interface Constants {
     public static final SimpleDateFormat sdfDay = new SimpleDateFormat("yyyy-MM-dd");
     public static final SimpleDateFormat sdfMonth = new SimpleDateFormat("yyyyMM");
     public static final SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm:ss");
+
+    public static final DecimalFormat df = new DecimalFormat("#,###");
 
     public static final String[] msBatArray = new String[] { "mscl", "msc", "mse", "msvs", "msds", "msl", "mja" };
     public static final String[] msBatLocArray = new String[] { "m3o\\server\\src\\client", "m3o\\server\\src\\core",

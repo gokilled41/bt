@@ -1,50 +1,30 @@
 @echo off
 call yodadir
-cd unbundled\apps\spark_pipe
+cd m3o\server\src\client
 call svn info
 
 @echo off
 call yodadir
-cd unbundled\thirdparty\zeppelin\v0.6.1\dist
+cd m3o\server\src\core
 call svn info
 
 @echo off
 call yodadir
-cd unbundled\thirdparty\zeppelin\v0.6.1\bin
+cd m3o\server\src\virtualserver
 call svn info
 
 @echo off
 call yodadir
-cd unbundled\thirdparty\zeppelin\v0.6.1\spark
+cd m3o\server\src\domainservice
 call svn info
 
 @echo off
 call yodadir
-cd unbundled\thirdparty\zeppelin\v0.6.1\zeppelin-interpreter
+cd m3o\j2ee\src\application
 call svn info
 
 @echo off
 call yodadir
-cd unbundled\thirdparty\zeppelin\v0.6.1\zeppelin-server
-call svn info
-
-@echo off
-call yodadir
-cd unbundled\thirdparty\zeppelin\v0.6.1\zeppelin-vitria
-call svn info
-
-@echo off
-call yodadir
-cd unbundled\thirdparty\zeppelin\v0.6.1\zeppelin-zengine
-call svn info
-
-@echo off
-call yodadir
-cd unbundled\spark
-call svn info
-
-@echo off
-call yodadir
-cd unbundled\eventstore
+cd m3o\server\locale\en_US
 call svn info
 

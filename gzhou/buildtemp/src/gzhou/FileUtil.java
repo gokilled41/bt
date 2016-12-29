@@ -1823,6 +1823,7 @@ public class FileUtil extends Util implements Constants {
                 String type = "all";
                 if (args.length > 0)
                     type = args[0];
+                filefrom = fixFileFrom(filefrom, params);
                 printFiles(fromdir, filefrom, type, params);
             }
         }
@@ -1894,6 +1895,7 @@ public class FileUtil extends Util implements Constants {
                 return;
             }
 
+            fromfile = fixFileFrom(fromfile, params);
             copyFiles(from, fromfile, to, tofile, params);
         }
 
@@ -1906,6 +1908,7 @@ public class FileUtil extends Util implements Constants {
             if (args.length > 1) {
                 filefrom = args[1];
             }
+            filefrom = fixFileFrom(filefrom, params);
             if (isFile(fromdir)) {
                 params.recursive = false;
                 deleteFiles(getParent(fromdir), getFileName(fromdir), params);
@@ -1923,6 +1926,7 @@ public class FileUtil extends Util implements Constants {
             if (args.length > 1) {
                 filefrom = args[1];
             }
+            filefrom = fixFileFrom(filefrom, params);
             if (isFile(fromdir)) {
                 params.recursive = false;
                 listFiles(getParent(fromdir), getFileName(fromdir), params);
@@ -1944,6 +1948,7 @@ public class FileUtil extends Util implements Constants {
             }
             String from = args[0];
             String to = args[1];
+            filefrom = fixFileFrom(filefrom, params);
             if (isFile(fromdir)) {
                 params.recursive = false;
                 renameFiles(getParent(fromdir), getFileName(fromdir), from, to, params);
@@ -1968,6 +1973,7 @@ public class FileUtil extends Util implements Constants {
                 filefrom = args[1];
                 from = args[2];
             }
+            filefrom = fixFileFrom(filefrom, params);
             if (isFile(fromdir)) {
                 params.recursive = false;
                 findInFiles(getParent(fromdir), getFileName(fromdir), from, params);
@@ -1985,6 +1991,7 @@ public class FileUtil extends Util implements Constants {
             if (args.length > 1) {
                 filefrom = args[1];
             }
+            filefrom = fixFileFrom(filefrom, params);
             if (isFile(fromdir)) {
                 params.recursive = false;
                 openFiles(getParent(fromdir), getFileName(fromdir), params);
@@ -2022,6 +2029,7 @@ public class FileUtil extends Util implements Constants {
                 from = args[3] + "/" + args[2];
                 to = args[4];
             }
+            filefrom = fixFileFrom(filefrom, params);
             if (isFile(fromdir)) {
                 params.recursive = false;
                 replaceFiles(getParent(fromdir), getFileName(fromdir), from, to, params);
@@ -2075,28 +2083,6 @@ public class FileUtil extends Util implements Constants {
             } else {
                 System.out.println(tab(2) + "from files not found: " + fromfile);
             }
-        }
-
-        private static List<File> toCopyFromFiles(List<File> fromFiles) {
-            if (!fromFiles.isEmpty()) {
-                boolean hasActucalFiles = hasActucalFiles(fromFiles);
-                if (!hasActucalFiles) {
-                    List<File> list = new ArrayList<File>();
-                    for (File dir : fromFiles) {
-                        list.addAll(Util.listFiles(dir, true));
-                    }
-                    return list;
-                }
-            }
-            return fromFiles;
-        }
-
-        private static boolean hasActucalFiles(List<File> fromFiles) {
-            for (File file : fromFiles) {
-                if (file.isFile())
-                    return true;
-            }
-            return false;
         }
 
         protected static void deleteFiles(String from, String filefrom, Params params) throws Exception {
@@ -2161,7 +2147,10 @@ public class FileUtil extends Util implements Constants {
             if (!files.isEmpty()) {
                 List<String> dirs = new ArrayList<String>();
                 int dirsSize = 0;
+                int nameIndent = getNameIndent(from, files);
                 for (File file : files) {
+                    if (file.isHidden())
+                        continue;
                     if (file.isDirectory())
                         dirsSize++;
                     String p = file.getAbsolutePath();
@@ -2173,31 +2162,13 @@ public class FileUtil extends Util implements Constants {
                         if (relativePath.endsWith(".class"))
                             relativePath = cutLast(relativePath, 6);
                     }
-                    System.out.println(tab(2) + relativePath);
+                    System.out.println(tab(2) + listFileDetail(file, relativePath, nameIndent));
                     addWithoutDup(dirs, p);
                 }
                 OpenDirResult.OpenDirs(params, dirs);
                 System.out.println(tab(2) + format("dirs: {0}, files: {1}", dirsSize, files.size() - dirsSize));
             } else {
                 System.out.println(tab(2) + "no matched files: " + filefrom);
-            }
-        }
-
-        private static List<File> getFromFiles(String from, String filefrom, Params params) throws Exception {
-            FilenameFilter filter = new PAFilenameFilters(filefrom, params);
-            List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
-            return files;
-        }
-
-        private static List<File> getToFiles(String from, String filefrom, Params params) throws Exception {
-            List<File> files = new ArrayList<File>();
-            if (filefrom.equals("*")) {
-                files.add(new File(from));
-                return files;
-            } else {
-                FilenameFilter filter = new PAFilenameFilters(filefrom, params);
-                files = Util.listFiles(new File(from), params.recursive, filter, params);
-                return files;
             }
         }
 
@@ -2398,6 +2369,75 @@ public class FileUtil extends Util implements Constants {
 
         private static String toRelativePath(String from, String p) {
             return p.substring(from.length() + 1).replace(FILE_SEPARATOR, "/");
+        }
+
+        private static List<File> toCopyFromFiles(List<File> fromFiles) {
+            if (!fromFiles.isEmpty()) {
+                boolean hasActucalFiles = hasActucalFiles(fromFiles);
+                if (!hasActucalFiles) {
+                    List<File> list = new ArrayList<File>();
+                    for (File dir : fromFiles) {
+                        list.addAll(Util.listFiles(dir, true));
+                    }
+                    return list;
+                }
+            }
+            return fromFiles;
+        }
+
+        private static boolean hasActucalFiles(List<File> fromFiles) {
+            for (File file : fromFiles) {
+                if (file.isFile())
+                    return true;
+            }
+            return false;
+        }
+
+        private static int getNameIndent(String from, List<File> files) {
+            int i = 0;
+            for (File file : files) {
+                String p = file.getAbsolutePath();
+                String rp = toRelativePath(from, p);
+                i = Math.max(i, rp.length());
+            }
+            return i;
+        }
+
+        private static String listFileDetail(File file, String relativePath, int nameIndent) {
+            int sizeIndent = 13;
+            int dirIndent = 10;
+            int timeIndent = 30;
+            String n = formatstr(relativePath, nameIndent + 1);
+            String size = file.isDirectory() ? formatstr("", sizeIndent) : formatstr(df.format(file.length()),
+                    sizeIndent, false);
+            String dir = file.isDirectory() ? formatstr("<DIR>", dirIndent) : formatstr("", dirIndent);
+            String time = formatstr(sdf4.format(new Date(file.lastModified())), timeIndent);
+            return format("{0} {1}     {2} {3}", n, size, dir, time);
+        }
+
+        private static List<File> getFromFiles(String from, String filefrom, Params params) throws Exception {
+            FilenameFilter filter = new PAFilenameFilters(filefrom, params);
+            List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
+            return files;
+        }
+
+        private static List<File> getToFiles(String from, String filefrom, Params params) throws Exception {
+            List<File> files = new ArrayList<File>();
+            if (filefrom.equals("*")) {
+                files.add(new File(from));
+                return files;
+            } else {
+                FilenameFilter filter = new PAFilenameFilters(filefrom, params);
+                files = Util.listFiles(new File(from), params.recursive, filter, params);
+                return files;
+            }
+        }
+
+        private static String fixFileFrom(String filefrom, Params params) {
+            if (!filefrom.startsWith("*") && filefrom.endsWith("*")) {
+                params.noPath = true;
+            }
+            return filefrom;
         }
     }
 
@@ -2939,6 +2979,30 @@ public class FileUtil extends Util implements Constants {
         }
     }
 
+    public static class SortTypeResult {
+        public String[] args;
+        public String sortType;
+
+        public static SortTypeResult sortType(String[] args) {
+            SortTypeResult r = new SortTypeResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.sortType = cutFirst(last, 1);
+                r.args = cutLastArg(args);
+                if (debug_)
+                    System.out.println(tab(2) + "Sort Type: " + r.sortType);
+            } else {
+                r.sortType = null;
+                r.args = args;
+            }
+            return r;
+        }
+
+        public static boolean isParam(String last) {
+            return last.matches("s[t]");
+        }
+    }
+
     public static class Params {
 
         public String[] args;
@@ -2956,6 +3020,7 @@ public class FileUtil extends Util implements Constants {
         public String newFileName = null;
         public boolean noPath = false;
         public boolean useDot = false;
+        public String sortType = null;
 
         public int getExpandLines() {
             if (expandLines == null) {
@@ -2966,6 +3031,17 @@ public class FileUtil extends Util implements Constants {
                 }
                 return expandLines.from;
             }
+        }
+
+        public boolean listCurrentDir() {
+            return recursiveLevel == 0;
+        }
+
+        public boolean sortByTime() {
+            if (sortType != null) {
+                return sortType.equals("t");
+            }
+            return false;
         }
 
         public String getEncoding() {
@@ -3066,6 +3142,13 @@ public class FileUtil extends Util implements Constants {
                     args = udr.args;
                     if (params.useDot == false)
                         params.useDot = udr.useDot;
+                }
+                // sort type
+                SortTypeResult str = SortTypeResult.sortType(args);
+                if (args.length > str.args.length) {
+                    args = str.args;
+                    if (params.sortType == null)
+                        params.sortType = str.sortType;
                 }
             } while (args.length < n);
             params.args = args;
