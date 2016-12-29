@@ -2087,7 +2087,7 @@ public class FileUtil extends Util implements Constants {
 
         protected static void deleteFiles(String from, String filefrom, Params params) throws Exception {
             System.out.println("delete from: " + from);
-            FilenameFilter filter = new PAFilenameFilters(filefrom, params);
+            FilenameFilter filter = Filters.getFilters(filefrom, params);
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
             if (!files.isEmpty()) {
                 List<String> dirs = new ArrayList<String>();
@@ -2106,7 +2106,7 @@ public class FileUtil extends Util implements Constants {
 
         protected static void printFiles(String from, String filefrom, String type, Params params) throws Exception {
             boolean one = type.equals("one");
-            FilenameFilter filter = new PAFilenameFilters(filefrom, params);
+            FilenameFilter filter = Filters.getFilters(filefrom, params);
             if (!one)
                 System.out.println("print from: " + from);
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
@@ -2141,7 +2141,7 @@ public class FileUtil extends Util implements Constants {
         }
 
         protected static void listFiles(String from, String filefrom, Params params) throws Exception {
-            FilenameFilter filter = new PAFilenameFilters(filefrom, params);
+            FilenameFilter filter = Filters.getFilters(filefrom, params);
             System.out.println("list from: " + from);
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
             if (!files.isEmpty()) {
@@ -2175,7 +2175,7 @@ public class FileUtil extends Util implements Constants {
         protected static void renameFiles(String dir, String filefrom, String from, String to, Params params)
                 throws Exception {
             System.out.println("rename from: " + dir);
-            FilenameFilter filter = new PAFilenameFilters(filefrom, params);
+            FilenameFilter filter = Filters.getFilters(filefrom, params);
             List<File> files = Util.listFiles(new File(dir), params.recursive, filter, params);
             if (!files.isEmpty()) {
                 List<String> dirs = new ArrayList<String>();
@@ -2195,7 +2195,7 @@ public class FileUtil extends Util implements Constants {
 
         protected static void findInFiles(String dir, String filefrom, String from, Params params) throws Exception {
             System.out.println("find from: " + dir);
-            FilenameFilter filter = new PAFilenameFilters(filefrom, params);
+            FilenameFilter filter = Filters.getFilters(filefrom, params);
             List<File> files = Util.listFiles(new File(dir), params.recursive, filter, params);
             boolean hasResult = false;
             if (!files.isEmpty()) {
@@ -2206,8 +2206,8 @@ public class FileUtil extends Util implements Constants {
                         List<Line> foundLines = findInFile(p, from, params);
                         if (!foundLines.isEmpty()) {
                             String n1 = toRelativePath(dir, p);
-                            System.out.println(tab(2)
-                                    + format("found \"{0}\" places in \"{1}\":", foundLines.size(), n1));
+                            System.out.println(
+                                    tab(2) + format("found \"{0}\" places in \"{1}\":", foundLines.size(), n1));
                             System.out.println();
                             for (Line line : foundLines) {
                                 line.print(6, 7);
@@ -2226,7 +2226,7 @@ public class FileUtil extends Util implements Constants {
         }
 
         protected static void openFiles(String from, String filefrom, Params params) throws Exception {
-            FilenameFilter filter = new PAFilenameFilters(filefrom, params);
+            FilenameFilter filter = Filters.getFilters(filefrom, params);
             System.out.println("open files from: " + from);
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
             List<String> lines = new ArrayList<String>();
@@ -2250,10 +2250,11 @@ public class FileUtil extends Util implements Constants {
         protected static void replaceFiles(String dir, String filefrom, String from, String to, Params params)
                 throws Exception {
             System.out.println(format("replace from \"{0}\" to \"{1}\" in dir: {2}", from, to, dir));
-            FilenameFilter filter = new PAFilenameFilters(filefrom, params);
+            FilenameFilter filter = Filters.getFilters(filefrom, params);
             List<File> files = Util.listFiles(new File(dir), params.recursive, filter, params);
             boolean replaced = false;
             if (!files.isEmpty()) {
+                // TODO: use filters
                 PAFilenameFilter fromFilter = new PAFilenameFilter(from);
                 List<String> includes = fromFilter.matches;
                 List<String> excludes = fromFilter.excludes;
@@ -2408,15 +2409,15 @@ public class FileUtil extends Util implements Constants {
             int dirIndent = 10;
             int timeIndent = 30;
             String n = formatstr(relativePath, nameIndent + 1);
-            String size = file.isDirectory() ? formatstr("", sizeIndent) : formatstr(df.format(file.length()),
-                    sizeIndent, false);
+            String size = file.isDirectory() ? formatstr("", sizeIndent)
+                    : formatstr(df.format(file.length()), sizeIndent, false);
             String dir = file.isDirectory() ? formatstr("<DIR>", dirIndent) : formatstr("", dirIndent);
             String time = formatstr(sdf4.format(new Date(file.lastModified())), timeIndent);
             return format("{0} {1}     {2} {3}", n, size, dir, time);
         }
 
         private static List<File> getFromFiles(String from, String filefrom, Params params) throws Exception {
-            FilenameFilter filter = new PAFilenameFilters(filefrom, params);
+            FilenameFilter filter = Filters.getFilters(filefrom, params);
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
             return files;
         }
@@ -2427,7 +2428,7 @@ public class FileUtil extends Util implements Constants {
                 files.add(new File(from));
                 return files;
             } else {
-                FilenameFilter filter = new PAFilenameFilters(filefrom, params);
+                FilenameFilter filter = Filters.getFilters(filefrom, params);
                 files = Util.listFiles(new File(from), params.recursive, filter, params);
                 return files;
             }
@@ -2439,6 +2440,398 @@ public class FileUtil extends Util implements Constants {
             }
             return filefrom;
         }
+    }
+
+    public static class Filters implements FilenameFilter {
+
+        private FiltersPattern p;
+        private Params params;
+        private List<Filters> filters = new ArrayList<Filters>();
+        private List<FiltersPattern> subList;
+        private Filter filter;
+        private boolean and = true;
+
+        public Filters(FiltersPattern p, Params params) {
+            this.p = p;
+            this.params = params;
+            init(p);
+        }
+
+        public static Filters getFilters(String filefrom, Params params2) {
+            FiltersPattern fp = new FiltersPattern();
+            fp.p = filefrom;
+            Filters f = new Filters(fp, params2);
+            return f;
+        }
+
+        private void init(FiltersPattern p) {
+            subList = splitIntoSubList(p);
+            if (subList.size() > 1) {
+                for (FiltersPattern sub : subList) {
+                    filters.add(new Filters(sub, params));
+                }
+            } else {
+                filter = new Filter(p, params);
+            }
+        }
+
+        public boolean isFilters() {
+            return filters.size() > 0;
+        }
+
+        public boolean isFilter() {
+            return filter != null;
+        }
+
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            if (isFilters()) {
+                for (Filters f : filters) {
+                    if (and) {
+                        if (f.p.include)
+                            sb.append("/");
+                        else
+                            sb.append("\\");
+                    } else {
+                        sb.append("##");
+                    }
+                    sb.append(f.toString());
+                }
+                System.out.println(sb.toString());
+            } else {
+                sb.append(filter.toString());
+                System.out.println(sb.toString());
+            }
+            String p = sb.toString();
+            String s = fix(p);
+            return s;
+        }
+
+        private String fix(String p) {
+            String p0 = this.p.p;
+            this.p.setP(p);
+            String s = this.p.toString();
+            this.p.setP(p0);
+            ;
+            if (!p0.startsWith("/"))
+                s = cutFirst(s, 1);
+            return s;
+        }
+
+        private List<FiltersPattern> splitIntoSubList(FiltersPattern p) {
+            String s = p.p;
+            s = appendFirstLeftIfNecessary(s);
+            boolean first = true;
+            FiltersPattern item;
+            List<FiltersPattern> list = null;
+            StringBuilder sb = new StringBuilder();
+            boolean quote = false;
+            boolean regular = false;
+            int sub = 0;
+            boolean include = false;
+            boolean or = false;
+            for (int i = 0; i < s.length(); i++) {
+                char c = s.charAt(i);
+                if (c == '\'') {
+                    if (quote == false) {
+                        quote = true;
+                    } else {
+                        quote = false;
+                    }
+                    sb.append(c);
+                } else if (c == '@') {
+                    if (regular == false) {
+                        regular = true;
+                    } else {
+                        regular = false;
+                    }
+                    sb.append(c);
+                } else if (c == '(') {
+                    sub++;
+                    sb.append(c);
+                } else if (c == ')') {
+                    sub--;
+                    sb.append(c);
+                } else {
+                    if (quote) {
+                        sb.append(c);
+                        continue;
+                    }
+                    if (regular) {
+                        sb.append(c);
+                        continue;
+                    }
+                    if (sub > 0) {
+                        sb.append(c);
+                        continue;
+                    }
+                    if (c == '/' || c == '\\') {
+                        if (list != null) {
+                            item = new FiltersPattern();
+                            item.p = sb.toString();
+                            item.include = include;
+                            item.init();
+                            list.add(item);
+                            sb = new StringBuilder();
+                            include = (c == '/');
+                        } else {
+                            list = new ArrayList<FiltersPattern>();
+                            include = (c == '/');
+                        }
+                    } else if (c == '#') {
+                        if (i < s.length() - 1) {
+                            char next = s.charAt(i + 1);
+                            if (next == '#') {
+                                and = false;
+
+                                item = new FiltersPattern();
+                                item.p = sb.toString();
+                                item.include = include;
+                                item.init();
+                                list.add(item);
+                                sb = new StringBuilder();
+                                include = true;
+                                i++;
+                            } else {
+                                sb.append(c);
+                            }
+                        }
+                    } else {
+                        sb.append(c);
+                    }
+                }
+            }
+            item = new FiltersPattern();
+            item.p = sb.toString();
+            item.include = include;
+            item.init();
+            list.add(item);
+            sb = new StringBuilder();
+            return list;
+        }
+
+        private static String appendFirstLeftIfNecessary(String p) {
+            if (!p.startsWith("/") && !p.startsWith("\\"))
+                p = "/" + p;
+            return p;
+        }
+
+        public boolean accept(File dir, String name) {
+            if (and) {
+                if (isFilters()) {
+                    for (Filters filter : filters) {
+                        if (!filter.accept(dir, name))
+                            return false;
+                    }
+                    return true;
+                } else {
+                    return filter.accept(dir, name);
+                }
+            } else {
+                if (isFilters()) {
+                    for (Filters filter : filters) {
+                        if (filter.accept(dir, name))
+                            return true;
+                    }
+                    return false;
+                } else {
+                    return filter.accept(dir, name);
+                }
+            }
+        }
+
+        public boolean accept(String line, int pos) {
+            if (and) {
+                if (isFilters()) {
+                    for (Filters filter : filters) {
+                        if (!filter.accept(line, pos))
+                            return false;
+                    }
+                    return true;
+                } else {
+                    return filter.accept(line, pos);
+                }
+            } else {
+                if (isFilters()) {
+                    for (Filters filter : filters) {
+                        if (filter.accept(line, pos))
+                            return true;
+                    }
+                    return false;
+                } else {
+                    return filter.accept(line, pos);
+                }
+            }
+        }
+
+    }
+
+    public static class Filter {
+
+        private FiltersPattern p;
+        private Params params;
+
+        public Filter(FiltersPattern p, Params params) {
+            this.p = p;
+            this.params = params;
+        }
+
+        public boolean accept(File dir, String name) {
+            if (!params.noPath)
+                name = dir.getAbsolutePath() + FILE_SEPARATOR + name;
+            return p.accept(name);
+        }
+
+        public boolean accept(String line, int pos) {
+            return p.accept(line, pos);
+        }
+
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append(p.toString());
+            return sb.toString();
+        }
+    }
+
+    public static class FiltersPattern {
+        public String p;
+        public boolean include = true;
+        public boolean quote = false;
+        public boolean group = false;
+        public boolean regular = false;
+        public boolean lineNumber = false;
+
+        public void init() {
+            if (p.startsWith("'") && p.endsWith("'")) {
+                quote = true;
+                p = cutFirst(p, 1);
+                p = cutLast(p, 1);
+            } else if (p.startsWith("@") && p.endsWith("@")) {
+                regular = true;
+                p = cutFirst(p, 1);
+                p = cutLast(p, 1);
+            } else if (p.startsWith("(") && p.endsWith(")")) {
+                group = true;
+                p = cutFirst(p, 1);
+                p = cutLast(p, 1);
+            } else if (p.matches("l\\d*-?\\d*")) {
+                lineNumber = true;
+            }
+        }
+
+        public void setP(String p2) {
+            if (p2.startsWith("/") || p2.startsWith("\\")) {
+                p2 = cutFirst(p2, 1);
+            }
+            if (p2.startsWith("##")) {
+                p2 = cutFirst(p2, 2);
+            } else {
+                if (p2.startsWith("@") && p2.endsWith("@")) {
+                    p2 = cutFirst(p2, 1);
+                    p2 = cutLast(p2, 1);
+                } else if (p2.startsWith("'") && p2.endsWith("'")) {
+                    p2 = cutFirst(p2, 1);
+                    p2 = cutLast(p2, 1);
+                } else if (p2.startsWith("(") && p2.endsWith(")")) {
+                    if (isWrapped(p2)) {
+                        p2 = cutFirst(p2, 1);
+                        p2 = cutLast(p2, 1);
+                    }
+                }
+            }
+            p = p2;
+        }
+
+        private boolean isWrapped(String p2) {
+            int k = 0;
+            int pos = 0;
+            for (int i = 0; i < p2.length(); i++) {
+                char c = p2.charAt(i);
+                if (c == '(')
+                    k++;
+                else if (c == ')')
+                    k--;
+                if (k == 0) {
+                    pos = i;
+                    break;
+                }
+            }
+            return pos == p2.length() - 1;
+        }
+
+        public boolean accept(String line) {
+            boolean b;
+            if (regular)
+                b = line.matches(p);
+            else if (quote)
+                b = line.contains(p);
+            else
+                b = line.matches(fixPattern(p));
+            if (include)
+                return b;
+            else
+                return !b;
+        }
+
+        public boolean accept(String line, int pos) {
+            boolean b;
+            if (regular)
+                b = line.matches(p);
+            else if (quote)
+                b = line.contains(p);
+            else if (lineNumber)
+                b = matchesLineNumber(line, pos);
+            else
+                b = line.matches(fixPattern(p));
+            if (include)
+                return b;
+            else
+                return !b;
+        }
+
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            if (include)
+                sb.append("/");
+            else
+                sb.append("\\");
+            if (quote)
+                sb.append("'" + p + "'");
+            else if (group)
+                sb.append("(" + p + ")");
+            else if (regular)
+                sb.append("@" + p + "@");
+            else
+                sb.append(p);
+            return sb.toString();
+        }
+
+        private static String fixPattern(String filefrom) {
+            filefrom = filefrom.replace("`", "*").replace("~", "*");
+            if (isContainsPatternNecessary(filefrom)) {
+                // wrap * begins and ends like "*abc*". it means contains.
+                if (!filefrom.startsWith("*"))
+                    filefrom = "*" + filefrom;
+                if (!filefrom.endsWith("*"))
+                    filefrom = filefrom + "*";
+            }
+            // fix regular expression
+            String result = filefrom.replace(".", "\\.").replace("*", ".*");
+            return result;
+        }
+
+        private static boolean isContainsPatternNecessary(String filefrom) {
+            if (filefrom.startsWith("*")) // *abc
+                return false;
+            if (filefrom.endsWith("*")) // abc*
+                return false;
+            if (filefrom.matches("l\\d*-?\\d*")) // l100, l100-, l-200, l100-200, not first (first is search key)
+                return false;
+            if (filefrom.contains("##")) // a##b, it means a or b
+                return false;
+            return true;
+        }
+
     }
 
     public static class PAFilenameFilters implements FilenameFilter {
