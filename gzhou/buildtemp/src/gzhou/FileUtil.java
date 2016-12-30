@@ -1467,8 +1467,12 @@ public class FileUtil extends Util implements Constants {
         for (String tarLine : list) {
             String tarAlias = cut(tarLine, null, "|");
             String tarPath = cut(tarLine, "|", null);
-            if (tarPath.contains("|"))
-                continue;
+            if (tarPath.contains("|")) {
+                tarPath = cutBack(tarPath, null, "|");
+                if (!isTextFile(tarPath)) {
+                    continue;
+                }
+            }
             if (tarPath.contains("://"))
                 continue;
             if (p.equals(tarAlias)) {
@@ -1813,8 +1817,8 @@ public class FileUtil extends Util implements Constants {
             String fromdir = toTARAlias(args[0]);
             args = cutFirstArg(args);
             if (isFile(fromdir)) {
-                params.recursive = false;
-                printFiles(getParent(fromdir), getFileName(fromdir), "one", params);
+                onlyOneFile(params);
+                printFiles(getParent(fromdir), getFileName(fromdir) + "*", "one", params);
             } else {
                 String filefrom = "*";
                 if (args.length > 0) {
@@ -1911,8 +1915,8 @@ public class FileUtil extends Util implements Constants {
             }
             filefrom = fixFileFrom(filefrom, params);
             if (isFile(fromdir)) {
-                params.recursive = false;
-                deleteFiles(getParent(fromdir), getFileName(fromdir), params);
+                onlyOneFile(params);
+                deleteFiles(getParent(fromdir), getFileName(fromdir) + "*", params);
             } else {
                 deleteFiles(fromdir, filefrom, params);
             }
@@ -1929,8 +1933,8 @@ public class FileUtil extends Util implements Constants {
             }
             filefrom = fixFileFrom(filefrom, params);
             if (isFile(fromdir)) {
-                params.recursive = false;
-                listFiles(getParent(fromdir), getFileName(fromdir), params);
+                onlyOneFile(params);
+                listFiles(getParent(fromdir), getFileName(fromdir) + "*", params);
             } else {
                 listFiles(fromdir, filefrom, params);
             }
@@ -1951,8 +1955,8 @@ public class FileUtil extends Util implements Constants {
             String to = args[1];
             filefrom = fixFileFrom(filefrom, params);
             if (isFile(fromdir)) {
-                params.recursive = false;
-                renameFiles(getParent(fromdir), getFileName(fromdir), from, to, params);
+                onlyOneFile(params);
+                renameFiles(getParent(fromdir), getFileName(fromdir) + "*", from, to, params);
             } else {
                 renameFiles(fromdir, filefrom, from, to, params);
             }
@@ -1976,8 +1980,8 @@ public class FileUtil extends Util implements Constants {
             }
             filefrom = fixFileFrom(filefrom, params);
             if (isFile(fromdir)) {
-                params.recursive = false;
-                findInFiles(getParent(fromdir), getFileName(fromdir), from, params);
+                onlyOneFile(params);
+                findInFiles(getParent(fromdir), getFileName(fromdir) + "*", from, params);
             } else {
                 findInFiles(fromdir, filefrom, from, params);
             }
@@ -1994,8 +1998,8 @@ public class FileUtil extends Util implements Constants {
             }
             filefrom = fixFileFrom(filefrom, params);
             if (isFile(fromdir)) {
-                params.recursive = false;
-                openFiles(getParent(fromdir), getFileName(fromdir), params);
+                onlyOneFile(params);
+                openFiles(getParent(fromdir), getFileName(fromdir) + "*", params);
             } else {
                 openFiles(fromdir, filefrom, params);
             }
@@ -2032,8 +2036,8 @@ public class FileUtil extends Util implements Constants {
             }
             filefrom = fixFileFrom(filefrom, params);
             if (isFile(fromdir)) {
-                params.recursive = false;
-                replaceFiles(getParent(fromdir), getFileName(fromdir), from, to, params);
+                onlyOneFile(params);
+                replaceFiles(getParent(fromdir), getFileName(fromdir) + "*", from, to, params);
             } else {
                 params.recursive = true;
                 replaceFiles(fromdir, filefrom, from, to, params);
@@ -2436,6 +2440,12 @@ public class FileUtil extends Util implements Constants {
                 params.noPath = true;
             }
             return filefrom;
+        }
+
+        private static void onlyOneFile(Params params) {
+            params.recursive = false;
+            params.recursiveLevel = 0;
+            params.noPath = true;
         }
     }
 
@@ -3498,7 +3508,7 @@ public class FileUtil extends Util implements Constants {
                 if (params.expandLines == null) {
                     ExpandLines el = new ExpandLines();
                     el.from = 1;
-                    el.to = 21;
+                    el.to = 1001;
                     params.expandLines = el;
                 }
             }
