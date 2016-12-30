@@ -1,6 +1,6 @@
 package gzhou;
 
-import gzhou.FileUtil.PAFilenameFilters;
+import gzhou.FileUtil.Filters;
 import gzhou.FileUtil.Params;
 
 import java.io.BufferedReader;
@@ -701,8 +701,8 @@ public class Util implements Constants {
         return filePath;
     }
 
-    public static ReplaceResult replaceFile(String filePath, String from, String to, Params params,
-            List<String> includes, List<String> excludes) throws Exception {
+    public static ReplaceResult replaceFile(String filePath, Filters fromFilter, String from, String to, Params params)
+            throws Exception {
         List<String> lines = getLines(filePath, params.getEncoding());
         List<String> list = new ArrayList<String>();
         List<Line> affected = new ArrayList<Line>();
@@ -710,7 +710,7 @@ public class Util implements Constants {
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
             int pos = i + 1;
-            if (containsInLine(line, from, params.caseSensitive, includes, excludes, pos, params)) {
+            if (containsInLine(line, fromFilter, from, params.caseSensitive, pos, params)) {
                 changed = true;
                 String replaced = replaceInLine(line, from, to, params.caseSensitive);
                 list.add(replaced);
@@ -730,46 +730,20 @@ public class Util implements Constants {
         return r;
     }
 
-    private static boolean containsInLine(String line, String from, boolean caseSensitive, List<String> includes,
-            List<String> excludes, int pos, Params params) {
+    private static boolean containsInLine(String line, Filters fromFilter, String from, boolean caseSensitive, int pos,
+            Params params) {
         if (caseSensitive)
-            return lineConstains(line, from, includes, excludes, pos, params);
+            return lineConstains(line, fromFilter, from, pos, params);
         else
-            return lineConstains(line, toLowerCase(from), includes, excludes, pos, params)
-                    || lineConstains(line, toUpperCase(from), includes, excludes, pos, params)
-                    || lineConstains(line, toCamelCase(from), includes, excludes, pos, params);
+            return lineConstains(line, fromFilter, toLowerCase(from), pos, params)
+                    || lineConstains(line, fromFilter, toUpperCase(from), pos, params)
+                    || lineConstains(line, fromFilter, toCamelCase(from), pos, params);
     }
 
-    private static boolean lineConstains(String line, String from, List<String> includes, List<String> excludes,
-            int pos, Params params) {
+    private static boolean lineConstains(String line, Filters fromFilter, String from, int pos, Params params) {
         if (!line.contains(from))
             return false;
-        List<String> fromNotHasList = excludes;
-        if (fromNotHasList != null) {
-            for (String fromNotHasString : fromNotHasList) {
-                if (matches(line, fromNotHasString, pos, params))
-                    return false;
-            }
-        }
-        List<String> fromHasList = includes;
-        if (fromHasList != null) {
-            for (String fromHasString : fromHasList) {
-                if (!matches(line, fromHasString, pos, params))
-                    return false;
-            }
-        }
-        return true;
-    }
-
-    public static boolean matches(String line, String pattern, int pos, Params params) {
-        if (pattern.matches("l\\d*-?\\d*")) {
-            return matchesLineNumber(pattern, pos);
-        } else if (pattern.contains("##")) {
-            PAFilenameFilters filters = new PAFilenameFilters(pattern, params);
-            return filters.accept(line, pos);
-        } else {
-            return line.matches(pattern);
-        }
+        return fromFilter.accept(line, pos);
     }
 
     public static boolean matchesLineNumber(String pattern, int pos) {
@@ -875,7 +849,7 @@ public class Util implements Constants {
     public static List<Line> findInFile(String p, String from, Params params) throws Exception {
         List<Line> list = new ArrayList<Line>();
         LinesResult lr = new LinesResult();
-        PAFilenameFilters f = new PAFilenameFilters(from, params);
+        Filters f = Filters.getFilters(from, params);
         while (lr.hasMore) {
             lr = getLinesFromStream(p, params.getEncoding(), ABATCH, lr);
             List<String> lines = lr.lines;
