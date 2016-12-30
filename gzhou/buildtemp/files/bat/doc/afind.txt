@@ -7,6 +7,7 @@ afind is one command to find given search key in files.
                    it is optional. it will be all files "*" if not given.
                    it can be combined like: "a/b\c\d". "/" means includes. "\" means excludes.
                    it can be combined like: "a##b". "##" means or.
+                   it can be combined like: "a/(b\c)". "()" is groups.
                    it can be combined like: "a/l100-200". it means line index is between 100 to 200 ([100,200)).
                    it can be combined like: "a/l100\l200". "/" means >=. "\" means <.
                    it can be ` or ~. it means "*".
@@ -14,6 +15,8 @@ afind is one command to find given search key in files.
                    it can be wrap with "@". it means regular expressions.
     - from       search key.
                    it can be combined like: "a/b\c\d". "/" means includes. "\" means excludes.
+                   it can be combined like: "a##b". "##" means or.
+                   it can be combined like: "a/(b\c)". "()" is groups.
                    if from includes resolved chars in regular expressions, please wrap it with "'", like: "'new PAFilenameFilter(filefrom)'"
                    it can be wrap with "'". it means exactly equals.
                    it can be wrap with "@". it means regular expressions.
