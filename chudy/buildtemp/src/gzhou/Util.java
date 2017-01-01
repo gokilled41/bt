@@ -305,6 +305,20 @@ public class Util implements Constants {
         out.close();
     }
 
+    public static void insertLines(String p, List<String> list, int i, String encoding) throws Exception {
+        List<String> lines = getLines(p, encoding);
+        lines.addAll(i - 1, list);
+        setLines(p, lines, encoding);
+    }
+
+    public static void deleteLines(String p, List<String> list, int i, String encoding) throws Exception {
+        List<String> lines = getLines(p, encoding);
+        for (int j = 0; j < list.size(); j++) {
+            lines.remove(i - 1);
+        }
+        setLines(p, lines, encoding);
+    }
+
     public static void moveFiles(String from, String to) {
         if (exists(from)) {
             mkdirs(to);
@@ -752,46 +766,6 @@ public class Util implements Constants {
         return fromFilter.accept(line, pos);
     }
 
-    public static boolean matchesLineNumber(String pattern, int pos) {
-        ExpandLines el = parseExpandLines(pattern);
-        int fpos = el.from;
-        int tpos = el.to;
-        return pos >= fpos && pos < tpos;
-    }
-
-    public static boolean matchesLineNumber(ExpandLines expandLines, int pos) {
-        ExpandLines el = expandLines;
-        int fpos = el.from;
-        int tpos = el.to;
-        return pos >= fpos && pos < tpos;
-    }
-
-    public static ExpandLines parseExpandLines(String pattern) {
-        if (pattern.matches("l\\d*-?\\d*")) {
-            pattern = cutFirst(pattern, 1);
-            String from, to;
-            if (pattern.contains("-")) {
-                int i = pattern.indexOf("-");
-                from = pattern.substring(0, i);
-                to = pattern.substring(i + 1, pattern.length());
-            } else {
-                from = pattern;
-                to = "";
-            }
-            int fpos = 0;
-            int tpos = Integer.MAX_VALUE;
-            if (from != null && !from.isEmpty())
-                fpos = toInt(from);
-            if (to != null && !to.isEmpty())
-                tpos = toInt(to);
-            ExpandLines el = new ExpandLines();
-            el.from = fpos;
-            el.to = tpos;
-            return el;
-        }
-        return null;
-    }
-
     private static String replaceInLine(String line, String from, String to, boolean caseSensitive) {
         String output = line;
         if (caseSensitive) {
@@ -990,6 +964,16 @@ public class Util implements Constants {
             }
         }
 
+        public List<String> toLines() {
+            List<String> list = new ArrayList<String>();
+            if (prev != null)
+                list.addAll(prev);
+            list.add(line);
+            if (next != null)
+                list.addAll(next);
+            return list;
+        }
+
         private class MultipleLineResult {
             public boolean stop;
             public boolean next;
@@ -1002,16 +986,6 @@ public class Util implements Constants {
         public List<String> lines = new ArrayList<String>();
         public BufferedReader in = null;
         public boolean hasMore = true;
-    }
-
-    public static class ExpandLines {
-        public int from = 0;
-        public int to = 0;
-
-        @Override
-        public String toString() {
-            return format("{0}-{1}", from, to);
-        }
     }
 
     public static class ReplaceResult {

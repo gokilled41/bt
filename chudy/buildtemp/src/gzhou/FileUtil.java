@@ -39,6 +39,10 @@ import org.w3c.dom.Node;
 
 import com.vitria.domainservice.util.DOMUtil;
 
+import gzhou.FileUtil.ExpandLinesResult.ExpandLines;
+import gzhou.FileUtil.OperateLinesResult.OperateLines;
+import gzhou.FileUtil.OperateLinesResult.OperateLinesUtil;
+
 public class FileUtil extends Util implements Constants {
 
     private static List<String> paOps_ = new ArrayList<String>();
@@ -2121,7 +2125,7 @@ public class FileUtil extends Util implements Constants {
                         for (int i = 0; i < lines.size(); i++) {
                             String line = lines.get(i);
                             if (params.expandLines != null) {
-                                if (!matchesLineNumber(params.expandLines, i + 1)) {
+                                if (!ExpandLines.matchesLineNumber(params.expandLines, i + 1)) {
                                     continue;
                                 }
                             }
@@ -2215,6 +2219,7 @@ public class FileUtil extends Util implements Constants {
                             System.out.println();
                             hasResult = true;
                             addWithoutDup(dirs, p);
+                            OperateLinesUtil.operateLines(p, foundLines, params);
                         }
                     }
                     OpenDirResult.OpenDirs(params, dirs);
@@ -2947,7 +2952,7 @@ public class FileUtil extends Util implements Constants {
                 if (debug2_) {
                     System.out.println(format("Pattern: line={2}, p={0}, lineNumber={1}", p, lineNumber, line));
                 }
-                b = matchesLineNumber(p, pos);
+                b = ExpandLines.matchesLineNumber(p, pos);
             } else {
                 String fixPattern = fixPattern(p);
                 if (debug2_) {
@@ -3023,7 +3028,7 @@ public class FileUtil extends Util implements Constants {
             ExpandLinesResult r = new ExpandLinesResult();
             String last = getLastArg(args);
             if (isParam(last)) {
-                r.expandLines = parseExpandLines(last);
+                r.expandLines = ExpandLines.parseExpandLines(last);
                 r.args = cutLastArg(args);
                 if (debug_)
                     System.out.println(tab(2) + "Expand Lines: " + r.expandLines);
@@ -3036,6 +3041,56 @@ public class FileUtil extends Util implements Constants {
 
         public static boolean isParam(String last) {
             return last.matches("l\\d*-?\\d*");
+        }
+
+        public static class ExpandLines {
+            public int from = 0;
+            public int to = 0;
+
+            public static ExpandLines parseExpandLines(String pattern) {
+                if (pattern.matches("l\\d*-?\\d*")) {
+                    pattern = cutFirst(pattern, 1);
+                    String from, to;
+                    if (pattern.contains("-")) {
+                        int i = pattern.indexOf("-");
+                        from = pattern.substring(0, i);
+                        to = pattern.substring(i + 1, pattern.length());
+                    } else {
+                        from = pattern;
+                        to = "";
+                    }
+                    int fpos = 0;
+                    int tpos = Integer.MAX_VALUE;
+                    if (from != null && !from.isEmpty())
+                        fpos = toInt(from);
+                    if (to != null && !to.isEmpty())
+                        tpos = toInt(to);
+                    ExpandLines el = new ExpandLines();
+                    el.from = fpos;
+                    el.to = tpos;
+                    return el;
+                }
+                return null;
+            }
+
+            public static boolean matchesLineNumber(String pattern, int pos) {
+                ExpandLines el = ExpandLines.parseExpandLines(pattern);
+                int fpos = el.from;
+                int tpos = el.to;
+                return pos >= fpos && pos <= tpos;
+            }
+
+            public static boolean matchesLineNumber(ExpandLines expandLines, int pos) {
+                ExpandLines el = expandLines;
+                int fpos = el.from;
+                int tpos = el.to;
+                return pos >= fpos && pos < tpos;
+            }
+
+            @Override
+            public String toString() {
+                return format("{0}-{1}", from, to);
+            }
         }
     }
 
@@ -3391,6 +3446,140 @@ public class FileUtil extends Util implements Constants {
         }
     }
 
+    public static class OperateLinesResult {
+        public String[] args;
+        public OperateLines operateLines;
+
+        public static OperateLinesResult operateLines(String[] args) {
+            OperateLinesResult r = new OperateLinesResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.operateLines = OperateLines.parseOperateLines(last);
+                r.args = cutLastArg(args);
+                if (debug_)
+                    System.out.println(tab(2) + "Operate Lines: " + r.operateLines);
+            } else {
+                r.operateLines = null;
+                r.args = args;
+            }
+            return r;
+        }
+
+        public static boolean isParam(String last) {
+            return OperateLines.isParam(last);
+        }
+
+        public static class OperateLines {
+            public int op = 0;
+            public int to = 0;
+
+            public static OperateLines parseOperateLines(String pattern) {
+                if (isParam(pattern)) {
+                    OperateLines ol = new OperateLines();
+                    ol.op = getOp(pattern);
+                    ol.to = getTo(pattern);
+                    return ol;
+                }
+                return null;
+            }
+
+            public static boolean isParam(String pattern) {
+                return getOp(pattern) > 0;
+            }
+
+            public static int getOp(String pattern) {
+                // duplicate
+                if (pattern.equals("dup"))
+                    return 1;
+                // move
+                if (!pattern.equals("mv") && pattern.matches("mv\\d*"))
+                    return 2;
+                // delete
+                if (pattern.equals("del"))
+                    return 3;
+                return 0;
+            }
+
+            public static int getTo(String pattern) {
+                int op = getOp(pattern);
+                if (op == 2) {
+                    return Integer.valueOf(cutFirst(pattern, 2));
+                }
+                return 0;
+            }
+
+            @Override
+            public String toString() {
+                if (op == 1)
+                    return "dup";
+                if (op == 2)
+                    return "mv" + to;
+                if (op == 3)
+                    return "del";
+                return "";
+            }
+        }
+
+        public static class OperateLinesUtil {
+            public static void operateLines(String p, List<Line> foundLines, Params params) throws Exception {
+                OperateLines ol = params.operateLines;
+                if (ol != null) {
+                    int op = ol.op;
+                    if (op == 1) {
+                        dupLines(p, foundLines, params);
+                    } else if (op == 2) {
+                        mvLines(p, foundLines, params);
+                    } else if (op == 3) {
+                        delLines(p, foundLines, params);
+                    }
+                }
+            }
+
+            private static void dupLines(String p, List<Line> foundLines, Params params) throws Exception {
+                if (foundLines.size() > 0) {
+                    List<String> list = new ArrayList<String>();
+                    for (Line lineObj : foundLines) {
+                        list.addAll(lineObj.toLines());
+                    }
+                    int n = list.size();
+                    int i = foundLines.get(0).i;
+                    insertLines(p, list, i + n, params.getEncoding());
+                }
+            }
+
+            private static void mvLines(String p, List<Line> foundLines, Params params) throws Exception {
+                if (foundLines.size() > 0) {
+                    List<String> list = new ArrayList<String>();
+                    for (Line lineObj : foundLines) {
+                        list.addAll(lineObj.toLines());
+                    }
+                    int i = foundLines.get(0).i;
+                    OperateLines ol = params.operateLines;
+                    int to = ol.to;
+                    if (to > i) {
+                        insertLines(p, list, to, params.getEncoding());
+                        deleteLines(p, list, i, params.getEncoding());
+                    } else {
+                        deleteLines(p, list, i, params.getEncoding());
+                        insertLines(p, list, to, params.getEncoding());
+                    }
+                }
+            }
+
+            private static void delLines(String p, List<Line> foundLines, Params params) throws Exception {
+                if (foundLines.size() > 0) {
+                    List<String> list = new ArrayList<String>();
+                    for (Line lineObj : foundLines) {
+                        list.addAll(lineObj.toLines());
+                    }
+                    int i = foundLines.get(0).i;
+                    deleteLines(p, list, i, params.getEncoding());
+                }
+            }
+        }
+
+    }
+
     public static class Params {
 
         public String[] args;
@@ -3411,6 +3600,7 @@ public class FileUtil extends Util implements Constants {
         public String sortType = null;
         public boolean multipleLines = false;
         public boolean move = false;
+        public OperateLines operateLines = null;
 
         public int getExpandLines() {
             if (expandLines == null) {
@@ -3554,6 +3744,13 @@ public class FileUtil extends Util implements Constants {
                     if (params.move == false)
                         params.move = mvr.move;
                 }
+                // operate lines
+                OperateLinesResult olr = OperateLinesResult.operateLines(args);
+                if (args.length > olr.args.length) {
+                    args = olr.args;
+                    if (params.operateLines == null)
+                        params.operateLines = olr.operateLines;
+                }
             } while (args.length < n);
             params.args = args;
             setDefaultParams(params, op);
@@ -3576,7 +3773,7 @@ public class FileUtil extends Util implements Constants {
                 if (params.expandLines == null) {
                     ExpandLines el = new ExpandLines();
                     el.from = 1;
-                    el.to = 1001;
+                    el.to = 1000;
                     params.expandLines = el;
                 }
             }
@@ -3616,6 +3813,8 @@ public class FileUtil extends Util implements Constants {
             if (MultipleLinesResult.isParam(s))
                 return true;
             if (MoveResult.isParam(s))
+                return true;
+            if (OperateLinesResult.isParam(s))
                 return true;
             return false;
         }

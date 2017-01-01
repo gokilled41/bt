@@ -13,7 +13,7 @@ echo please give one bat name to.
 goto end
 
 : b
-echo rename %~1.bat -> %~2.bat
+echo renaming %~1.bat to %~2.bat
 call al bat %~1.bat* acp bat mv ##%~2.bat sl
 goto end
 
