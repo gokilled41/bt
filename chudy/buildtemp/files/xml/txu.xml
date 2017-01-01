@@ -1,0 +1,288 @@
+<xsd:complexType xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap11-enc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:tns="http://www.txu.poc/mvi"
+    targetNamespace="http://www.txu.poc/mvi" name="MarketType">
+    <xsd:annotation>
+        <xsd:appinfo source="teneo.jpa">@Table(name="VTDM_TXU_MARKET")</xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+        <xsd:element name="SwitchNum" type="xsd:string" nillable="true" minOccurs="0">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="SWITCH_NUM", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element name="MessageType" type="xsd:string" nillable="true" minOccurs="0">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="MESSAGE_TYPE", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element name="Last_Update" type="xsd:dateTime" nillable="true" minOccurs="0">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="LAST_UPDATE", nullable="true")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element name="PollTime" type="xsd:dateTime" nillable="true" minOccurs="0">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="POLL_TIME", nullable="true")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap11-enc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:tns="http://www.txu.poc/mvi"
+    targetNamespace="http://www.txu.poc/mvi" name="MoveInType">
+    <xsd:annotation>
+        <xsd:appinfo source="teneo.jpa">
+            @Table(name="VTDM_TXU_MVI")
+        </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="ProcessType">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="PROCESS_TYPE", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="ServiceId">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="SERVICE_ID", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Category">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="CATEGORY", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:dateTime" name="Created">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="CREATED", nullable="true")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:date" name="MoveInDate">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="MOVE_IN_DATE", nullable="true")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:dateTime" name="Completed">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="COMPLETED", nullable="true")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:dateTime" name="LastUpdate">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="LAST_UPDATE", nullable="true")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Source">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="SOURCE", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="ESID">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="ESID", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="ContractId">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="Contract_Id", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="SwitchDocId">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="SWITCH_DOC_ID", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Priority">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="PRIORITY", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:dateTime" name="MktReleaseDt">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="MKT_RELEASE_DATE", nullable="true")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="ItemGUID">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="ITEM_GUID", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="ContractAcct">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="CONTRACT_ACCT", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Step2">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="STEP2", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:dateTime" name="PollTime">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="POLL_TIME", nullable="true")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap11-enc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:tns="http://www.txu.poc/mvi"
+    targetNamespace="http://www.txu.poc/mvi" name="SwitchType">
+    <xsd:annotation>
+        <xsd:appinfo source="teneo.jpa">
+            @Table(name="VTDM_TXU_SWITCH")
+        </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="SwitchNum">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="SWITCH_NUM", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="SwitchType">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="SERVICE_ID", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:date" name="MoveInDate">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="MOVE_IN_DATE", nullable="true")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Partner">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="PARTNER", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Employee_Resp">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="EMPLOYEE_RESP", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="ServiceProvOld">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="SERVICE_PROV_OLD", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="ServiceProvNew">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="SERVICE_PROV_NEW", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Distributor">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="DISTRIBUTOR", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="EnrollDoc">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="ENROLL_DOC", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Status">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="STATUS", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:dateTime" name="StatusTime">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="STATUS_TIME", nullable="true")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:dateTime" name="Last_update">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="LAST_UPDATE", nullable="true")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Source">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="SOURCE", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Ext_reference">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="EXT_REFERENCE", nullable="true", length="255")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" nillable="true" type="xsd:dateTime" name="PollTime">
+            <xsd:annotation>
+                <xsd:appinfo source="teneo.jpa">
+                    @Column(name="POLL_TIME", nullable="true")
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+    </xsd:sequence>
+</xsd:complexType>

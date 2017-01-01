@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bc:engineer xmlns:bc="http://schema.vitria.com/bctest">
+	<firstName>firstName</firstName>
+	<lastName>lastName</lastName>
+	<sex>sex</sex>
+	<age>0</age>
+	<address>address</address>
+	<skill>0</skill>
+</bc:engineer>

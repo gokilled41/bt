@@ -1,0 +1,2 @@
+call mbmsldir
+call ant

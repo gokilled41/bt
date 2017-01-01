@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ReceiveModel" targetNamespace="http://schema.vitria.com/exp"
+	xmlns:tns="http://schema.vitria.com/exp" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://schema.vitria.com/exp"
+			xmlns="http://www.w3.org/2001/XMLSchema"
+			xmlns:soap11-enc="http://schemas.xmlsoap.org/soap/encoding/"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+			<xsd:element name="expenseEnvelope" type="ExpenseEnvelope" />
+
+			<xsd:complexType name="ExpenseEnvelope">
+				<xsd:sequence>
+					<xsd:element name="expenseHeader" type="ExpenseHeader" />
+					<xsd:element name="expenseLineItems" type="ExpenseLineItems" />
+					<xsd:element name="expenseFooter" type="ExpenseFooter" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:complexType name="ExpenseHeader">
+				<xsd:sequence>
+					<xsd:element name="envelopeId" type="xsd:int" />
+					<xsd:element name="userName" type="xsd:string" />
+					<xsd:element name="department" type="xsd:string" />
+					<xsd:element name="creationDate" type="xsd:date" />
+					<xsd:element name="managerResponsible" type="xsd:string" />
+					<xsd:element name="status" type="xsd:string" />
+					<xsd:element name="expensePeriod" type="xsd:string" />
+					<xsd:element name="description" type="xsd:string" />
+					<xsd:element name="notes" type="xsd:string" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:complexType name="ExpenseFooter">
+				<xsd:sequence>
+					<xsd:element name="total" type="xsd:int" />
+					<xsd:element name="nonReimbursableTotal" type="xsd:int" />
+					<xsd:element name="totalDue" type="xsd:double" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:complexType name="ExpenseLineItems">
+				<xsd:sequence>
+					<xsd:element name="expenseLineItem" type="ExpenseLineItem" minOccurs="1"
+						maxOccurs="unbounded" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:complexType name="ExpenseLineItem">
+				<xsd:sequence>
+					<xsd:element name="referenceId" type="xsd:int" />
+					<xsd:element name="expenseAccount" type="xsd:string" />
+					<xsd:element name="costCenter" type="xsd:string" />
+					<xsd:element name="warningIcon" type="xsd:string" />
+					<xsd:element name="client" type="xsd:string" />
+					<xsd:element name="project" type="xsd:string" />
+					<xsd:element name="expenseItem" type="ExpenseItemCategory" />
+					<xsd:element name="amount" type="xsd:double" />
+					<xsd:element name="payType" type="xsd:string" />
+					<xsd:element name="quantity" type="xsd:double" />
+					<xsd:element name="reimbursable" type="xsd:boolean" />
+					<xsd:element name="currencySymbol" type="xsd:string" />
+					<xsd:element name="foreignCurrencyAmount" type="xsd:double" />
+					<xsd:element name="foreignExchangeRateUsed" type="xsd:double" />
+					<xsd:element name="description" type="xsd:string" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:simpleType name="ExpenseItemCategory">
+				<xsd:restriction base="string">
+					<xsd:enumeration value="Airfare - Employee Paid" />
+					<xsd:enumeration value="Airfare - Vitria Paid" />
+					<xsd:enumeration value="Breakfast Meals - Personal" />
+					<xsd:enumeration value="Bus. Meals and Ent. - Customer" />
+					<xsd:enumeration value="Bus. Meals and Ent. - Emp Only" />
+					<xsd:enumeration value="Car Rental" />
+					<xsd:enumeration value="Cellular Phone" />
+					<xsd:enumeration value="Company Party/Event" />
+					<xsd:enumeration value="Computer Supplies" />
+					<xsd:enumeration value="Currency Exchange" />
+					<xsd:enumeration value="Dinner - Personal Meal" />
+					<xsd:enumeration value="Gas" />
+					<xsd:enumeration value="Hotel Business Services/Faxes" />
+					<xsd:enumeration value="Hotel Expenses" />
+					<xsd:enumeration value="Hotel Other" />
+					<xsd:enumeration value="Hotel Room Rate/Tax" />
+					<xsd:enumeration value="Hotel Telephone Charges" />
+					<xsd:enumeration value="Inoculation Fees" />
+					<xsd:enumeration value="Internet DSL/Modem/Fax" />
+					<xsd:enumeration value="Laundry" />
+					<xsd:enumeration value="Limousine" />
+					<xsd:enumeration value="Lunch - Personal Meal" />
+					<xsd:enumeration value="Mileage [Date varied]" />
+					<xsd:enumeration value="Miscellaneous" />
+					<xsd:enumeration value="Office Supplies" />
+					<xsd:enumeration value="Overnight/Delivery Fees" />
+					<xsd:enumeration value="Passport/Visa Fees" />
+					<xsd:enumeration value="Per Diem>14 hrs (Germany only)" />
+					<xsd:enumeration value="Per Diem>24 hrs (Germany only)" />
+					<xsd:enumeration value="Per Diem>8 hrs (Germany only)" />
+					<xsd:enumeration value="Phone/Long Distance" />
+					<xsd:enumeration value="Postage" />
+					<xsd:enumeration value="Professional Dues" />
+					<xsd:enumeration value="Rail/Bus/Public Transit" />
+					<xsd:enumeration value="Recruiting - Entertainment" />
+					<xsd:enumeration value="Recruiting Travel" />
+					<xsd:enumeration value="Subscription/Books etc" />
+					<xsd:enumeration value="Taxi/Tolls/Parking" />
+					<xsd:enumeration value="Training/Seminars" />
+				</xsd:restriction>
+			</xsd:simpleType>
+
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="expensereportticket_expensereport">
+		<wsdl:part name="parameters" element="tns:expenseEnvelope"></wsdl:part>
+	</wsdl:message>
+
+	<wsdl:portType name="expensereportticket">
+		<wsdl:operation name="expensereport">
+			<wsdl:input message="tns:expensereportticket_expensereport"></wsdl:input>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="expensereportbind" type="tns:expensereportticket">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsaw:UsingAddressing wsdl:required="true" />
+		<wsdl:operation name="expensereport">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="Process_1199949610200_expensereport">
+		<wsdl:port name="expensereportport" binding="tns:expensereportbind">
+			<soap:address
+				location="http://localhost:8080/vtservices/services/Process_1199949610200_expensereport" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

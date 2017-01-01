@@ -1,0 +1,3 @@
+com.vitria.workflow.test.dms.VariableSetUtil.moveAttachmentsTo(variableSet, "_userTaskResult", "request");
+
+com.vitria.workflow.test.dms.VariableSetUtil.moveAttachmentsFrom(variableSet, "request", "_userTaskResult");

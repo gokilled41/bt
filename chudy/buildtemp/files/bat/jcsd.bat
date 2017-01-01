@@ -1,0 +1,1 @@
+call gf jc "<security-domain name"

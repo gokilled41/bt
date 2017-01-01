@@ -1,0 +1,2 @@
+call rusenv
+call rj

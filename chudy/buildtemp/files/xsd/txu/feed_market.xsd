@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.txu.poc/mvi" xmlns="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap11-enc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:poctype="http://www.txu.poc/mvi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xsd:element name="eventMarketType" type="poctype:eventMarketType" />
+    <xsd:complexType name="eventMarketType">
+        <xsd:sequence>
+            <xsd:element ref="poctype:SwitchNum" />
+            <xsd:element ref="poctype:MessageType" />
+            <xsd:element ref="poctype:Last_Update" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="SwitchNum" type="xsd:string" />
+    <xsd:element name="MessageType" type="xsd:string" />
+    <xsd:element name="Last_Update" type="xsd:dateTime" />
+    <xsd:element name="outmsg">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="message" type="xsd:string" />
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

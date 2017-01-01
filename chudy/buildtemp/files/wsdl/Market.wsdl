@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ReceiveModel" targetNamespace="http://www.txu.poc/mvi/markettype" xmlns:poctype="http://www.txu.poc/mvi" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:markettype="http://www.txu.poc/mvi/markettype">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.txu.poc/mvi" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:soap11-enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:poctype="http://www.txu.poc/mvi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <xsd:element name="eventMarketType" type="poctype:eventMarketType" />
+      <xsd:complexType name="eventMarketType">
+        <xsd:sequence>
+          <xsd:element ref="poctype:SwitchNum"/>
+          <xsd:element ref="poctype:MessageType"/>
+          <xsd:element ref="poctype:Last_Update"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="SwitchNum" type="xsd:string"/>
+      <xsd:element name="MessageType" type="xsd:string"/>
+      <xsd:element name="Last_Update" type="xsd:dateTime"/>
+      <xsd:element name="outmsg">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="message" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="markettype_transition">
+    <wsdl:part name="parameters" element="poctype:eventMarketType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="outMessage">
+    <wsdl:part name="output" element="poctype:outmsg">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="marketTransition">
+    <wsdl:operation name="createMarketType">
+      <wsdl:input message="markettype:markettype_transition">
+      </wsdl:input>
+      <wsdl:output message="markettype:outMessage">
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+   <wsdl:binding name="marketTypebinding" type="markettype:marketTransition">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsaw:UsingAddressing wsdl:required="true"/>
+    <wsdl:operation name="createMarketType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="marketTypeEvent">
+    <wsdl:port name="createMarketTypeport" binding="markettype:marketTypebinding">
+      <soap:address location="http://localhost:8080/vtservices/services/createMarketType"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

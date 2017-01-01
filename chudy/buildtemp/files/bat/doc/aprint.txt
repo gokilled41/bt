@@ -1,0 +1,22 @@
+aprint is one command to print files under given dir.
+  aprint <dir> [<pattern>] [nl] [ln] [rn] [np] [o] [d] [f]
+    - dir        one dir or one tar alias
+    - pattern    files to print
+                   file name like "a.jar" or file pattern like "*Manager*" or "*.zip"
+                   begin and end will automatically add "*"
+                   it can be combined like: "a/b\c\d". "/" means includes. "\" means excludes.
+                   it can be combined like: "a##b". "##" means or.
+                   it can be ` or ~. it means "*".
+                   it can be wrap with "'". it means exactly equals.
+                   it can be wrap with "@". it means regular expressions.
+    - nl         no line number
+    - ln         the count of print lines
+                 it is 10 by default
+                 use -1 as unlimited
+    - rn         set recursive level. like: r0
+    - np         no path: the pattern of files not include path string
+    - o          output to file
+    - d          open dir
+                   d3 to open 3 dirs
+    - f          open file
+                   f3 to open 3 files

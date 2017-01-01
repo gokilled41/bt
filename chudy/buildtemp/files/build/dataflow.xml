@@ -1,0 +1,832 @@
+<project name="dataflow" basedir=".">
+    <import file="../../properties.xml" />
+    <import file="${files.dir}/build/oracle.xml" />
+
+    <!-- dataflow properties ========================================================================== -->
+    <property name="df.dir" value="${yoda.home}\unbundled\af\java\dataflow" />
+    <property name="dfsm.dir" value="${df.dir}\model" />
+    <property name="dfsf.dir" value="${df.dir}\framework" />
+    <property name="dfsl.dir" value="${df.dir}\lifecycle" />
+    <property name="dfsr.dir" value="${df.dir}\runner" />
+    <property name="dfsf.xml.dir" value="${dfsf.dir}\xml" />
+    <property name="df.modules.dir" value="${df.dir}\modules" />
+
+    <property name="dfd.dir" value="${df.dir}\devtests" />
+    <property name="dfd.emma.dir" value="${dfd.dir}\emma" />
+
+    <property name="uas.name" value="StreamBuilder.${env.app_version}.zip" />
+    <property name="udfa.name" value="DataIntegration.${env.app_version}.zip" />
+    <property name="udc.name" value="AppFramework.${env.app_version}.zip" />
+    <property name="uwb.name" value="WorkbenchViewer.3.0.zip" />
+    <property name="upi.name" value="Predictive_Analytics_Installer_${env.pa_zip_version}" />
+    <property name="upi.zip.name" value="${upi.name}.zip" />
+    <property name="upi.patch.name" value="Predictive_Patch_${env.pa_version}" />
+    <property name="upi.patch.zip.name" value="${upi.patch.name}.zip" />
+    <property name="upi.pmmlmodule.name" value="DataIntegration_Predictive_Module_${env.pa_zip_version}" />
+    <property name="upi.pmmlmodule.zip.name" value="${upi.pmmlmodule.name}.zip" />
+    
+    <property name="eu.dir" value="${yoda.home}\export\projects\unbundled" />
+    <property name="eul.dir" value="${eu.dir}\libs" />
+    <property name="euapps.dir" value="${eu.dir}\apps" />
+    <property name="eudf.dir" value="${eu.dir}\dataflow" />
+    <property name="eudf.modules.dir" value="${eudf.dir}\modules" />
+    <property name="mhd.dir" value="${eudf.modules.dir}\hdfsmodule" />
+    <property name="msf.dir" value="${eudf.modules.dir}\sftpmodule" />
+    <property name="dfe.dir" value="${eu.dir}\dataflow" />
+    <property name="dfes.dir" value="${dfe.dir}\DFF_HOME" />
+    <property name="dfes.bin.dir" value="${dfes.dir}\bin" />
+    <property name="dfes.doc.dir" value="${dfes.dir}\doc" />
+    <property name="dfes.lib.dir" value="${dfes.dir}\lib" />
+    <property name="dfes.models.dir" value="${dfes.dir}\models" />
+    <property name="dfes.modules.dir" value="${dfes.dir}\modules" />
+
+    <property name="esdk.dir" value="${eudf.dir}\tools\dmsdk\sdk\dist" />
+    <property name="esdk.zip" value="${eudf.dir}\tools\dmsdk\sdk\vtdf-dmsdk.${env.app_version}.zip" />
+    <property name="esdk.log.dir" value="${esdk.dir}\log" />
+    <property name="esdk.state.dir" value="${esdk.dir}\state" />
+    <property name="esdk.lib.dir" value="${esdk.dir}\lib" />
+
+    <property name="df.export.dir" location="${projects.dir}/unbundled/dataflow" />
+    <property name="df.export.modules.dir" location="${df.export.dir}/modules" />
+    <property name="df.export.tools.dir" location="${df.export.dir}/tools" />
+    <property name="df.export.mp.dir" location="${df.export.tools.dir}/module-packager/dist" />
+
+    <property name="df.locale.jar" location="${df.export.dir}/locale/dist/vtdflocale.jar" />
+    <property name="df.client.jar" location="${df.export.dir}/client/dist/vtdfclient.jar" />
+    <property name="df.model.jar" location="${df.export.dir}/model/dist/vtdfmodel.jar" />
+    <property name="df.framework.jar" location="${df.export.dir}/framework/dist/vtdfframework.jar" />
+    <property name="df.lifecycle.jar" location="${df.export.dir}/lifecycle/dist/vtdflifecycle.jar" />
+    <property name="df.runner.jar" location="${df.export.dir}/runner/dist/vtdfrunner.jar" />
+    <property name="df.standalone.jar" location="${df.export.dir}/standalone/dist/vtdfstandalone.jar" />
+    <property name="df.voi.jar" location="${df.export.dir}/voi/dist/vtdfvoi.jar" />
+
+    <property name="dfs.dir" value="${dfes.dir}" />
+    <property name="dfs.modules.dir" value="${dfs.dir}\modules" />
+    <property name="dfm.dir" value="${dfs.dir}\models\${df.model.name}" />
+    <property name="dfm.log.dir" value="${dfm.dir}\log" />
+    <property name="dfm.states.dir" value="${dfm.dir}\states" />
+    <property name="dfm.runtime.xml" value="${dfm.dir}\runtime.xml" />
+    <property name="dfp.dir" value="${dfs.dir}\models\${dfp.model.name}" />
+    <property name="dfp.log.dir" value="${dfp.dir}\log" />
+    <property name="dfp.states.dir" value="${dfp.dir}\states" />
+    <property name="dfp.runtime.xml" value="${dfp.dir}\runtime.xml" />
+
+    <property name="lc.dir" value="${yoda.home}\export\projects\unbundled\common\locale" />
+    <property name="ld.dir" value="${yoda.home}\export\projects\unbundled\common\loader" />
+
+    <property name="emp.dir" value="${eudf.dir}\tools\module-packager\dist" />
+    <property name="emp.export.dir" value="${emp.dir}\export\modules" />
+
+    <property name="dff.dir" value="${dfes.dir}" />
+    <property name="dffms.dir" value="${dff.dir}\models\test_simple_01" />
+
+    <property name="dk.dir" value="${df.dir}\tools\dmsdk" />
+    <property name="dkt.dir" value="${dk.dir}\sdk\src\doc\tutorial" />
+    <property name="cdk.dir" value="C:\dmsdk" />
+    <property name="ddk.dir" value="D:\dmsdk" />
+    <property name="ddk.modules.dir" value="${ddk.dir}\modules" />
+    <property name="ck.dir" value="C:\dmsdk_tutorial" />
+    <property name="ckm.dir" value="${ck.dir}\modules" />
+    <property name="dkt.credit.dir" value="${dkt.dir}\credit" />
+    <property name="dkt.creditlib.dir" value="${dkt.dir}\creditlib" />
+
+    <property name="eup.dir" value="${eu.dir}\predictive" />
+    <property name="eupd.dir" value="${eup.dir}\predictive-data" />
+    <property name="eupd.jar" value="${eupd.dir}\dist\vtpredictive-data.jar" />
+    <property name="eupf.dir" value="${eup.dir}\predictive-framework" />
+    <property name="eupf.jar" value="${eupf.dir}\dist\vtpredictive-framework.jar" />
+    <property name="eulp.dir" value="${eul.dir}\pmml" />
+    
+    <property name="sai.dir" value="D:\gzhou\sa" />
+    <property name="sa1.dir" value="${sai.dir}\OI_1" />
+    <property name="sa2.dir" value="${sai.dir}\OI_2" />
+    <property name="sa3.dir" value="${sai.dir}\OI_3" />
+    
+    <property name="euapps.dir" value="${eu.dir}\apps" />
+    <property name="eusp.dir" value="${eu.dir}\spark" />
+    <property name="euspa.dir" value="${euapps.dir}\spark" />
+    <property name="usp.name" value="SparkPipe.2.2.zip" />
+    <property name="usp.zip.name" value="${usp.name}.zip" />
+    <property name="euspa.zip" value="${euapps.dir}\${usp.zip.name}" />
+
+    <property name="eims.dir" value="D:\Workflow-G\doc_svn\M3O\M3O_Projects\Fiji\Apps\3_Design\IoT Solution\prototype\MeterSimulator" />
+    <property name="eims.zip" value="${eims.dir}\IoTSimulator.zip" />
+    <property name="cims.dir" value="C:\IoTSimulator" />
+    <property name="cims.data.dir" value="${cims.dir}\data" />
+    <property name="cims.conf.dir" value="${cims.dir}\conf" />
+    <property name="cims.conf.sm.dir" value="${cims.conf.dir}\smartmeter" />
+    <property name="cims.conf.cs.dir" value="${cims.conf.dir}\cellsite" />
+    <property name="cims.conf.up.dir" value="${cims.conf.dir}\uploader" />
+
+    <property name="cht.dir" value="C:\HDFSTool" />
+
+    <path id="esdk.lib.classpath">
+        <fileset dir="C:\workspace\buildtemp\files\lib\sdk">
+            <include name="*.jar" />
+        </fileset>
+    </path>
+    <!--
+    <taskdef name="dfcprop" classname="gzhou.DataflowComponentPropertyTask" classpath="${bin.dir}" classpathref="esdk.lib.classpath" />
+    <taskdef name="dfsdkls" classname="gzhou.DataflowDMSDKLocaleSyncTask" classpath="${bin.dir}" classpathref="esdk.lib.classpath" />
+    -->
+    <!-- dataflow properties ========================================================================== -->
+
+    <target name="dataflow-removelog">
+        <echo message="remove logs and states for model: ${df.model.name}" />
+        <delete dir="${dfm.log.dir}" />
+        <delete dir="${dfm.states.dir}" />
+    </target>
+
+    <target name="dataflow-removelog-parallel">
+        <echo message="remove logs and states for model: ${dfp.model.name}" />
+        <delete dir="${dfp.log.dir}" />
+        <delete dir="${dfp.states.dir}" />
+    </target>
+
+    <target name="dataflow-removemodules">
+        <echo message="remove modules under standalone folder" />
+        <delete dir="${dfs.modules.dir}" />
+        <mkdir dir="${dfs.modules.dir}" />
+    </target>
+
+    <target name="dataflow-cleanexport">
+        <echo message="clean export of dataflow" />
+        <delete dir="${lc.dir}" />
+        <delete dir="${ld.dir}" />
+        <delete dir="${dfe.dir}" />
+    </target>
+
+    <target name="dataflow-updatexml">
+        <replaceStr file="${dfm.runtime.xml}" from="com.vitria.test" to="com.vitria.dataflow.test" />
+    </target>
+
+    <target name="dataflow-changemodel">
+        <replaceStr file="${bat.dir}" from="test_simple_02" to="test_simple_01" />
+        <replaceStr file="D:\jedi\soft\typeandrun\Config.ini" from="test_simple_02" to="test_simple_01" />
+    </target>
+
+    <target name="dataflow-renamemodule">
+        <replaceStr conf="${desktop.dir}\replacestr.txt" />
+    </target>
+
+    <target name="dataflow-unit-r-rt">
+        <replaceStr conf="${replacestr.dir}\dfu-r-rt.txt" />
+    </target>
+
+    <target name="dataflow-unit-r">
+        <replaceStr conf="${replacestr.dir}\dfu-r.txt" />
+    </target>
+
+    <target name="dataflow-unit-f-st">
+        <replaceStr conf="${replacestr.dir}\dfu-f-st.txt" />
+    </target>
+
+    <target name="dataflow-unit-f-mt">
+        <replaceStr conf="${replacestr.dir}\dfu-f-mt.txt" />
+    </target>
+
+    <target name="dataflow-unit-f-ut">
+        <replaceStr conf="${replacestr.dir}\dfu-f-ut.txt" />
+    </target>
+
+    <target name="dataflow-unit-f-iet">
+        <replaceStr conf="${replacestr.dir}\dfu-f-iet.txt" />
+    </target>
+
+    <target name="dataflow-unit-f-bt">
+        <replaceStr conf="${replacestr.dir}\dfu-f-bt.txt" />
+    </target>
+
+    <target name="dataflow-unit-f-bot">
+        <replaceStr conf="${replacestr.dir}\dfu-f-bot.txt" />
+    </target>
+
+    <target name="dataflow-unit-f-ct">
+        <replaceStr conf="${replacestr.dir}\dfu-f-ct.txt" />
+    </target>
+
+    <target name="dataflow-unit-f-spt">
+        <replaceStr conf="${replacestr.dir}\dfu-f-spt.txt" />
+    </target>
+
+    <target name="dataflow-unit-f">
+        <replaceStr conf="${replacestr.dir}\dfu-f.txt" />
+    </target>
+
+    <target name="dataflow-i18n">
+        <replaceStr conf="${replacestr.dir}\df-i18n.txt" />
+        <antcall target="dataflow-i18n-remove" />
+    </target>
+
+    <target name="dataflow-i18n-search">
+        <replaceStr conf="${replacestr.dir}\df-i18n-search.txt" />
+    </target>
+
+    <target name="dataflow-i18n-loader">
+        <replaceStr conf="${replacestr.dir}\df-i18n-loader.txt" />
+        <antcall target="dataflow-i18n-remove" />
+    </target>
+
+    <target name="dataflow-i18n-sdk">
+        <replaceStr conf="${replacestr.dir}\df-i18n-sdk.txt" />
+        <antcall target="dataflow-i18n-remove" />
+    </target>
+
+    <target name="dataflow-i18n-dmsdk">
+        <replaceStr conf="${replacestr.dir}\df-i18n-dmsdk.txt" />
+        <antcall target="dataflow-i18n-remove" />
+    </target>
+
+    <target name="dataflow-i18n-search-loader">
+        <replaceStr conf="${replacestr.dir}\df-i18n-search-loader.txt" />
+    </target>
+
+    <target name="dataflow-i18n-search-sdk">
+        <replaceStr conf="${replacestr.dir}\df-i18n-search-sdk.txt" />
+    </target>
+
+    <target name="dataflow-i18n-search-dmsdk">
+        <replaceStr conf="${replacestr.dir}\df-i18n-search-dmsdk.txt" />
+    </target>
+
+    <target name="dataflow-i18n-dataflowclient">
+        <replaceStr conf="${replacestr.dir}\df-i18n-dataflowclient.txt" />
+        <antcall target="dataflow-i18n-remove" />
+    </target>
+
+    <target name="dataflow-i18n-search-dataflowclient">
+        <replaceStr conf="${replacestr.dir}\df-i18n-search-dataflowclient.txt" />
+    </target>
+
+    <target name="dataflow-i18n-errorcode">
+        <replaceStr conf="${replacestr.dir}\df-i18n-errorcode.txt" />
+    </target>
+
+    <target name="dataflow-i18n-errorcode-dataflowclient">
+        <replaceStr conf="${replacestr.dir}\df-i18n-errorcode-dataflowclient.txt" />
+    </target>
+
+    <target name="dataflow-i18n-errorcode-loader">
+        <replaceStr conf="${replacestr.dir}\df-i18n-errorcode-loader.txt" />
+    </target>
+
+    <target name="dataflow-i18n-errorcode-sdk">
+        <replaceStr conf="${replacestr.dir}\df-i18n-errorcode-sdk.txt" />
+    </target>
+
+    <target name="dataflow-i18n-errorcode-dmsdk">
+        <replaceStr conf="${replacestr.dir}\df-i18n-errorcode-dmsdk.txt" />
+    </target>
+
+    <target name="dataflow-i18n-predictive">
+        <replaceStr conf="${replacestr.dir}\df-i18n-predictive.txt" />
+        <antcall target="dataflow-i18n-remove" />
+    </target>
+
+    <target name="dataflow-i18n-search-predictive">
+        <replaceStr conf="${replacestr.dir}\df-i18n-search-predictive.txt" />
+    </target>
+
+    <target name="dataflow-i18n-errorcode-predictive">
+        <replaceStr conf="${replacestr.dir}\df-i18n-errorcode-predictive.txt" />
+    </target>
+
+    <target name="dataflow-i18n-pmml">
+        <replaceStr conf="${replacestr.dir}\df-i18n-pmml.txt" />
+        <antcall target="dataflow-i18n-remove" />
+    </target>
+
+    <target name="dataflow-i18n-search-pmml">
+        <replaceStr conf="${replacestr.dir}\df-i18n-search-pmml.txt" />
+    </target>
+
+    <target name="dataflow-i18n-errorcode-pmml">
+        <replaceStr conf="${replacestr.dir}\df-i18n-errorcode-pmml.txt" />
+    </target>
+
+    <target name="dataflow-i18n-r">
+        <replaceStr conf="${replacestr.dir}\df-i18n-r.txt" />
+        <antcall target="dataflow-i18n-remove" />
+    </target>
+
+    <target name="dataflow-i18n-search-r">
+        <replaceStr conf="${replacestr.dir}\df-i18n-search-r.txt" />
+    </target>
+
+    <target name="dataflow-i18n-errorcode-r">
+        <replaceStr conf="${replacestr.dir}\df-i18n-errorcode-r.txt" />
+    </target>
+
+    <target name="dataflow-search">
+        <replaceStr conf="${replacestr.dir}\df-search.txt" />
+    </target>
+
+    <target name="dataflow-replace">
+        <replaceStr conf="${replacestr.dir}\df-replace.txt" />
+    </target>
+
+    <target name="dataflow-i18n-remove">
+        <delete file="${desktop.dir}\mc.txt" />
+        <delete file="${desktop.dir}\msg.txt" />
+    </target>
+
+    <target name="dataflow-copyright">
+        <replaceStr conf="${replacestr.dir}\df-copyright.txt" />
+    </target>
+
+    <target name="dataflow-gettersetter">
+        <replaceStr conf="${replacestr.dir}\df-gettersetter.txt" />
+    </target>
+
+    <target name="dataflow-dmsdk-dev">
+        <replaceStr conf="${replacestr.dir}\df-dmsdk-dev.txt" />
+    </target>
+
+    <target name="dataflow-dmsdk-nodev">
+        <replaceStr conf="${replacestr.dir}\df-dmsdk-nodev.txt" />
+    </target>
+    
+    <target name="dataflow-copysetupenv">
+        <copy todir="${dfes.bin.dir}" overwrite="true">
+            <fileset dir="D:\Workflow-G\workflow bug fixing\2013-11-11 Big Data Connector\dev">
+                <include name="setupEnv.bat" />
+            </fileset>
+        </copy>
+        <delete file="${df.dir}\modules\restclientmodule\libs\vtdfscriptengine.jar" />
+    </target>
+
+    <target name="dataflow-copyrunner">
+        <copy todir="${dfes.bin.dir}">
+            <fileset dir="${eul.dir}">
+                <include name="vtdfrunner.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="dataflow-copyfoolib">
+        <copy todir="${eudf.modules.dir}">
+            <fileset dir="${emp.export.dir}">
+                <include name="**" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="dataflow-copyamqc">
+        <copy todir="C:\Documents and Settings\gzhou\Desktop\SB integration\activemqclient\lib">
+            <fileset dir="C:\Documents and Settings\gzhou\Desktop\SB integration\module_packager_amqc\export\modules\activemqclientmodule\dist\server\libs">
+                <include name="vtdfactivemqclient-activemqclient.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="dataflow-flog">
+        <property name="timer.dir" value="E:" />
+        <property name="jbosslog.dir" value="${jboss.log.dir}" />
+        <property name="jboss.log.file" value="${jbosslog.dir}\server.log" />
+        <mkdir dir="${jbosslog.dir}\result" />
+
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\df.log" pattern="[as][asm][vtbaadmin][sb1]" />
+
+    </target>
+
+    <target name="dataflow-repackage-as">
+        <property name="as.zip.file" value="${eu.dir}\apps\${uas.name}" />
+        <property name="as.zip.dir" value="C:\as" />
+        <property name="as1.zip.file" value="${as.zip.dir}\ui\services\com.vitria.app.as.service.jar" />
+        <property name="as1.zip.dir" value="C:\as1" />
+
+        <delete dir="${as.zip.dir}" />
+        <delete dir="${as1.zip.dir}" />
+        <unzip src="${as.zip.file}" dest="${as.zip.dir}" />
+        <unzip src="${as1.zip.file}" dest="${as1.zip.dir}" />
+
+        <copy todir="${as1.zip.dir}\lib" overwrite="true">
+            <fileset dir="${eul.dir}">
+                <include name="vtlocale.jar" />
+                <include name="vtloader.jar" />
+                <include name="vtdflocale.jar" />
+                <include name="vtdfclient.jar" />
+            </fileset>
+        </copy>
+
+        <zip destfile="${as1.zip.file}" basedir="${as1.zip.dir}" />
+        <zip destfile="${as.zip.file}" basedir="${as.zip.dir}" />
+        <delete dir="${as.zip.dir}" />
+        <delete dir="${as1.zip.dir}" />
+    </target>
+
+    <target name="dataflow-repackage-df">
+        <property name="df.zip.file" value="${eu.dir}\apps\${udfa.name}" />
+        <property name="df.zip.dir" value="C:\df" />
+
+        <delete dir="${df.zip.dir}" />
+        <unzip src="${df.zip.file}" dest="${df.zip.dir}" />
+
+        <copy todir="${df.zip.dir}\server\libs" overwrite="true">
+            <fileset dir="${eul.dir}">
+                <include name="vtlocale.jar" />
+                <include name="vtloader.jar" />
+                <include name="vtdflocale.jar" />
+                <include name="vtdfclient.jar" />
+                <include name="vtdfmodel.jar" />
+                <include name="vtdfframework.jar" />
+                <include name="vtdflifecycle.jar" />
+                <include name="vtdfvoi.jar" />
+            </fileset>
+        </copy>
+
+        <zip destfile="${df.zip.file}" basedir="${df.zip.dir}" />
+        <delete dir="${df.zip.dir}" />
+    </target>
+
+    <target name="dataflow-dffms-clean">
+        <delete dir="${dffms.dir}\log" />
+        <delete dir="${dffms.dir}\states" />
+    </target>
+
+    <target name="dataflow-apps-clean">
+        <delete dir="${euapps.dir}\as" />
+        <delete dir="${euapps.dir}\dojoclient" />
+        <delete dir="${euapps.dir}\flow" />
+        <delete file="${euapps.dir}\${uas.name}" />
+        <delete file="${euapps.dir}\${udfa.name}" />
+        <delete file="${euapps.dir}\${udc.name}" />
+    </target>
+
+    <target name="dataflow-apps-update-haha">
+        <property name="haha.dir" value="${vtba.home}\applications\home\apps" />
+        <delete dir="${haha.dir}" />
+        <mkdir dir="${haha.dir}" />
+        <copy todir="${haha.dir}" overwrite="true">
+            <fileset dir="${euapps.dir}">
+                <include name="${udc.name}" />
+                <include name="${uwb.name}" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="dataflow-threaddump-runner">
+        <threaddump name="Runner" output="${jboss.log.dir}\jboss1.txt" />
+    </target>
+
+    <target name="dataflow-threaddump-command-runner">
+        <threaddump name="CommandRunner" output="${jboss.log.dir}\jboss1.txt" />
+    </target>
+
+    <target name="dataflow-threaddump-iot-simulator">
+        <threaddump name="MeterSimulator" output="${jboss.log.dir}\jboss1.txt" />
+    </target>
+
+    <target name="dataflow-emma-prepare">
+        <property name="build.emma.dir" value="${yoda.home}\build\panopticode\supplements\emma\lib" />
+        <copy todir="${build.emma.dir}" overwrite="true">
+            <fileset dir="${dfd.emma.dir}">
+                <include name="emma.jar" />
+                <include name="emma_ant.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="dataflow-smoke-emma-prepare">
+        <property name="eudfds.dir" value="${eu.dir}\dataflow\devtests\smoke" />
+        <property name="desktop.emma.dir" value="${desktop.dir}\dataflow-framework-all\emma" />
+        <copy todir="${eudfds.dir}\emma" overwrite="true">
+            <fileset dir="${desktop.emma.dir}">
+                <include name="*-coverage.emma" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="dataflow-smoke-cleanup">
+        <property name="eudfds.dir" value="${eu.dir}\dataflow\devtests\smoke" />
+        <delete dir="${eudfds.dir}" />
+    </target>
+
+    <target name="dataflow-libs-cleanup">
+        <property name="eudfds.dir" value="${eu.dir}\dataflow\devtests\smoke" />
+        <delete>
+            <fileset dir="${eul.dir}">
+                <include name="vtlocale.jar" />
+                <include name="vtloader.jar" />
+                <include name="vtdflocale.jar" />
+                <include name="vtdfclient.jar" />
+                <include name="vtdfmodel.jar" />
+                <include name="vtdfframework.jar" />
+                <include name="vtdflifecycle.jar" />
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="dataflow-dist-libs-cleanup">
+        <property name="eudfds.dir" value="${eu.dir}\dataflow\devtests\smoke" />
+        <delete file="${df.locale.jar}" />
+        <delete file="${df.model.jar}" />
+        <delete file="${df.client.jar}" />
+        <delete file="${df.framework.jar}" />
+        <delete file="${df.lifecycle.jar}" />
+    </target>
+
+    <target name="ddk-cleanup">
+        <delete dir="${ddk.modules.dir}" />
+        <delete dir="${ckm.dir}" />
+        <delete dir="${esdk.state.dir}" />
+        <delete dir="${esdk.log.dir}" />
+        <delete dir="${df.modules.dir}\mysamplemodule" />
+        <delete dir="${df.modules.dir}\mysamplelibmodule" />
+        <delete dir="${eudf.modules.dir}\mysamplemodule" />
+        <delete dir="${eudf.modules.dir}\mysamplelibmodule" />
+        <delete dir="${df.modules.dir}\creditmodule" />
+        <delete dir="${df.modules.dir}\creditlibmodule" />
+        <delete dir="${eudf.modules.dir}\creditmodule" />
+        <delete dir="${eudf.modules.dir}\creditlibmodule" />
+        <delete dir="${cdk.dir}\log" />
+        <delete dir="${cdk.dir}\state" />
+    </target>
+
+    <target name="cdk-update">
+        <delete dir="${cdk.dir}" />
+        <unzip src="${esdk.zip}" dest="${cdk.dir}" />
+    </target>
+
+    <target name="credit-backup">
+        <copy file="${ckm.dir}\creditmodule\components\common\com\vitria\dataflow\dmsdk\tutorial\credit\common\MessageCode.java" 
+              tofile="${dkt.credit.dir}\MessageCode.java" overwrite="true" />
+        <copy file="${ckm.dir}\creditmodule\components\common\locale\en_US\creditmodule.properties" 
+              tofile="${dkt.credit.dir}\creditmodule.properties" overwrite="true" />
+        <copy file="${ckm.dir}\creditmodule\components\creditsource\com\vitria\dataflow\dmsdk\tutorial\credit\source\CreditSourceHelper.java" 
+              tofile="${dkt.credit.dir}\CreditSourceHelper.java" overwrite="true" />
+        <copy file="${ckm.dir}\creditmodule\components\creditsource\com\vitria\dataflow\dmsdk\tutorial\credit\source\CreditSourcePollable.java" 
+              tofile="${dkt.credit.dir}\CreditSourcePollable.java" overwrite="true" />
+        <copy file="${ckm.dir}\creditmodule\components\creditsource\com\vitria\dataflow\dmsdk\tutorial\credit\source\FileUtil.java" 
+              tofile="${dkt.credit.dir}\FileUtil.java" overwrite="true" />
+        <copy file="${ckm.dir}\creditmodule\components\creditconverter\com\vitria\dataflow\dmsdk\tutorial\credit\converter\CreditConverterRule.java" 
+              tofile="${dkt.credit.dir}\CreditConverterRule.java" overwrite="true" />
+        <copy file="${ckm.dir}\creditmodule\components\credittarget\com\vitria\dataflow\dmsdk\tutorial\credit\target\CreditTargetHelper.java" 
+              tofile="${dkt.credit.dir}\CreditTargetHelper.java" overwrite="true" />
+        <copy file="${ckm.dir}\creditmodule\components\credittarget\com\vitria\dataflow\dmsdk\tutorial\credit\target\CreditTargetPublisher.java" 
+              tofile="${dkt.credit.dir}\CreditTargetPublisher.java" overwrite="true" />
+        <copy file="${ckm.dir}\creditmodule\components\credittarget\com\vitria\dataflow\dmsdk\tutorial\credit\target\TargetConstants.java" 
+              tofile="${dkt.credit.dir}\TargetConstants.java" overwrite="true" />
+    </target>
+
+    <target name="credit-update">
+        <copy tofile="${ckm.dir}\creditmodule\components\common\com\vitria\dataflow\dmsdk\tutorial\credit\common\MessageCode.java" 
+              file="${dkt.credit.dir}\MessageCode.java" overwrite="true" />
+        <copy tofile="${ckm.dir}\creditmodule\components\common\locale\en_US\creditmodule.properties" 
+              file="${dkt.credit.dir}\creditmodule.properties" overwrite="true" />
+        <copy tofile="${ckm.dir}\creditmodule\components\creditsource\com\vitria\dataflow\dmsdk\tutorial\credit\source\CreditSourceHelper.java" 
+              file="${dkt.credit.dir}\CreditSourceHelper.java" overwrite="true" />
+        <copy tofile="${ckm.dir}\creditmodule\components\creditsource\com\vitria\dataflow\dmsdk\tutorial\credit\source\CreditSourcePollable.java" 
+              file="${dkt.credit.dir}\CreditSourcePollable.java" overwrite="true" />
+        <copy tofile="${ckm.dir}\creditmodule\components\creditsource\com\vitria\dataflow\dmsdk\tutorial\credit\source\FileUtil.java" 
+              file="${dkt.credit.dir}\FileUtil.java" overwrite="true" />
+        <copy tofile="${ckm.dir}\creditmodule\components\creditconverter\com\vitria\dataflow\dmsdk\tutorial\credit\converter\CreditConverterRule.java" 
+              file="${dkt.credit.dir}\CreditConverterRule.java" overwrite="true" />
+        <copy tofile="${ckm.dir}\creditmodule\components\credittarget\com\vitria\dataflow\dmsdk\tutorial\credit\target\CreditTargetHelper.java" 
+              file="${dkt.credit.dir}\CreditTargetHelper.java" overwrite="true" />
+        <copy tofile="${ckm.dir}\creditmodule\components\credittarget\com\vitria\dataflow\dmsdk\tutorial\credit\target\CreditTargetPublisher.java" 
+              file="${dkt.credit.dir}\CreditTargetPublisher.java" overwrite="true" />
+        <copy tofile="${ckm.dir}\creditmodule\components\credittarget\com\vitria\dataflow\dmsdk\tutorial\credit\target\TargetConstants.java" 
+              file="${dkt.credit.dir}\TargetConstants.java" overwrite="true" />
+        <copy tofile="${ckm.dir}\creditlibmodule\components\common\com\vitria\dataflow\dmsdk\tutorial\creditlib\CreditLib.java" 
+              file="${dkt.creditlib.dir}\CreditLib.java" overwrite="true" />
+    </target>
+
+    <target name="credit-sql">
+        <sql driver="${oracle_driver}" url="${oracle_url}" userid="${oracle_user}" password="${oracle_password}" onerror="continue">
+            <fileset dir="${sql.dir}">
+                <include name="drop_credits.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${oracle_ojdbc.jar}" />
+            </classpath>
+        </sql>
+        <sql driver="${oracle_driver}" url="${oracle_url}" userid="${oracle_user}" password="${oracle_password}" onerror="continue">
+            <fileset dir="${dkt.dir}">
+                <include name="user_credits.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${oracle_ojdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="dataflow-ant-emma-udfmlfi">
+        <copy file="D:\jedi\yoda\unbundled\af\java\dataflow\modules\filemodule\coverage.ec" tofile="C:\Documents and Settings\gzhou\Desktop\dataflow-framework-all\emma\ant-modulebuild-coverage.emma" overwrite="true" failonerror="false" />
+        <delete file="D:\jedi\yoda\unbundled\af\java\dataflow\modules\filemodule\coverage.ec" />
+    </target>
+
+    <target name="dataflow-ant-emma-udfmlt">
+        <copy file="D:\jedi\yoda\unbundled\af\java\dataflow\modules\template\coverage.ec" tofile="C:\Documents and Settings\gzhou\Desktop\dataflow-framework-all\emma\ant-moduletemplate-coverage.emma" overwrite="true" failonerror="false" />
+        <delete file="D:\jedi\yoda\unbundled\af\java\dataflow\modules\template\coverage.ec" />
+    </target>
+
+    <target name="dfcprop-target">
+        <dfcprop componentXML="D:\jedi\yoda\unbundled\af\java\dataflow\modules\filemodule\components\filetarget\component.xml" />
+    </target>
+    
+    <target name="dfsdkls-target">
+        <dfsdkls />
+    </target>
+
+    <target name="pi-unzip">
+        <property name="pi.zip.file" value="${eu.dir}\apps\${upi.zip.name}" />
+        <property name="pi.zip.dir" value="${eu.dir}\apps\${upi.name}" />
+        <delete dir="${pi.zip.dir}" />
+        <unzip src="${pi.zip.file}" dest="${pi.zip.dir}" />
+        
+        <property name="pi.patch.zip.file" value="${pi.zip.dir}\${upi.patch.zip.name}" />
+        <property name="pi.patch.zip.dir" value="${pi.zip.dir}\${upi.patch.name}" />
+        <delete dir="${pi.patch.zip.dir}" />
+        <unzip src="${pi.patch.zip.file}" dest="${pi.patch.zip.dir}" />
+        
+        <property name="pi.pmmlmodule.zip.file" value="${pi.zip.dir}\${upi.pmmlmodule.zip.name}" />
+        <property name="pi.pmmlmodule.zip.dir" value="${pi.zip.dir}\${upi.pmmlmodule.name}" />
+        <delete dir="${pi.pmmlmodule.zip.dir}" />
+        <unzip src="${pi.pmmlmodule.zip.file}" dest="${pi.pmmlmodule.zip.dir}" />
+    </target>
+
+    <target name="pl-up">
+				<copy file="${eupd.jar}" todir="${jboss.lib.dir}" />
+				<copy file="${eupf.jar}" todir="${jboss.lib.dir}" />
+    </target>
+
+    <target name="p-clean">
+				<delete dir="${eup.dir}" />
+				<delete dir="${eudf.modules.dir}\pmmlmodule" />
+				<delete dir="${eudf.modules.dir}\rmodule" />
+				<delete dir="${euapps.dir}\predictive" />
+				<delete dir="${euapps.dir}\${upi.name}" />
+				<delete file="${euapps.dir}\${upi.zip.name}" />
+				<delete dir="${eulp.dir}" />
+    </target>
+
+    <target name="p-clean-vtba">
+			  <delete file="${bundles.server.dir}\com.vitria.m3o.server.pmmlservice.jar" />
+			  <delete file="${bundles.server.dir}\com.vitria.m3o.server.rservice.jar" />
+			  
+			  <delete file="${bundles.server.conf.dir}\config_pmml.properties" />
+			  <delete file="${bundles.server.conf.dir}\config_r.properties" />
+			  
+			  <delete file="${locale.dir}\predictive.properties" />
+			  <delete file="${locale.dir}\r.properties" />
+			  
+        <delete file="${jboss.lib.dir}\arpack_combined_all-0.1.jar" />
+        <delete file="${jboss.lib.dir}\com.vitria.pmml.memory.jar" />
+        <delete file="${jboss.lib.dir}\commons-math3-${env.app_version}.jar" />
+        <delete file="${jboss.lib.dir}\commons-pool2-2.3.jar" />
+        <delete file="${jboss.lib.dir}\core-1.1.2.jar" />
+        <delete file="${jboss.lib.dir}\guava-17.0.jar" />
+        <delete file="${jboss.lib.dir}\jackson-annotations-2.1.1.jar" />
+        <delete file="${jboss.lib.dir}\jackson-core-2.1.1.jar" />
+        <delete file="${jboss.lib.dir}\jackson-databind-2.1.1.jar" />
+        <delete file="${jboss.lib.dir}\jaxb-api-2.2.7.jar" />
+        <delete file="${jboss.lib.dir}\jaxb-core-2.2.7.jar" />
+        <delete file="${jboss.lib.dir}\jaxb-impl-2.2.7.jar" />
+        <delete file="${jboss.lib.dir}\jniloader-1.1.jar" />
+        <delete file="${jboss.lib.dir}\joda-time-2.4.jar" />
+        <delete file="${jboss.lib.dir}\native_ref-java-1.1.jar" />
+        <delete file="${jboss.lib.dir}\native_system-java-1.1.jar" />
+        <delete file="${jboss.lib.dir}\netlib-native_ref-linux-armhf-1.1-natives.jar" />
+        <delete file="${jboss.lib.dir}\netlib-native_ref-linux-i686-1.1-natives.jar" />
+        <delete file="${jboss.lib.dir}\netlib-native_ref-linux-x86_64-1.1-natives.jar" />
+        <delete file="${jboss.lib.dir}\netlib-native_ref-osx-x86_64-1.1-natives.jar" />
+        <delete file="${jboss.lib.dir}\netlib-native_ref-win-i686-1.1-natives.jar" />
+        <delete file="${jboss.lib.dir}\netlib-native_ref-win-x86_64-1.1-natives.jar" />
+        <delete file="${jboss.lib.dir}\netlib-native_system-linux-armhf-1.1-natives.jar" />
+        <delete file="${jboss.lib.dir}\netlib-native_system-linux-i686-1.1-natives.jar" />
+        <delete file="${jboss.lib.dir}\netlib-native_system-linux-x86_64-1.1-natives.jar" />
+        <delete file="${jboss.lib.dir}\netlib-native_system-osx-x86_64-1.1-natives.jar" />
+        <delete file="${jboss.lib.dir}\netlib-native_system-win-i686-1.1-natives.jar" />
+        <delete file="${jboss.lib.dir}\netlib-native_system-win-x86_64-1.1-natives.jar" />
+        <delete file="${jboss.lib.dir}\pmml-model-1.1.7.jar" />
+        <delete file="${jboss.lib.dir}\pmml-schema-1.1.7.jar" />
+        <delete file="${jboss.lib.dir}\vjr.jar" />
+        <delete file="${jboss.lib.dir}\vpl-core.jar" />
+        <delete file="${jboss.lib.dir}\vpl-memory.jar" />
+        <delete file="${jboss.lib.dir}\vtpredictive-data.jar" />
+        <delete file="${jboss.lib.dir}\vtpredictive-framework.jar" />
+        <delete file="${jboss.lib.dir}\vtrframework.jar" />
+			  
+			  <delete dir="${vtba.home}\applications\home\rservice_attachments" />
+    </target>
+
+    <target name="sa-licenses">
+        <copy todir="${sa1.dir}\VTLicenses" overwrite="true">
+            <fileset dir="${vtba.home}\VTLicenses">
+                <include name="*" />
+            </fileset>
+        </copy>
+        <copy todir="${sa2.dir}\VTLicenses" overwrite="true">
+            <fileset dir="${vtba.home}\VTLicenses">
+                <include name="*" />
+            </fileset>
+        </copy>
+        <copy todir="${sa3.dir}\VTLicenses" overwrite="true">
+            <fileset dir="${vtba.home}\VTLicenses">
+                <include name="*" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="sp-clean">
+				<delete dir="${eusp.dir}" />
+				<delete dir="${euspa.dir}" />
+				<delete file="${euapps.dir}\${sp.zip.name}" />
+    </target>
+
+    <target name="cims-update">
+        <delete dir="${cims.dir}" />
+        <copy todir="${cims.dir}">
+            <fileset dir="D:\Workflow-G\doc_svn\M3O\M3O_Projects\Fiji\Apps\3_Design\IoT Solution\prototype\MeterSimulator\IoTSimulator">
+                <include name="**" />
+                <exclude name="*svn\**" />
+            </fileset>
+        </copy>
+        <copy file="${files.dir}/properties/conf_ims.properties" tofile="${cims.dir}/conf/conf.properties" overwrite="true" />
+    </target>
+
+    <target name="cims2-update">
+    	  <property name="cims2.myconf.dir" value="D:\Workflow-G\workflow bug fixing\2015-03-30 IoT Solution\simulator" />
+        <delete dir="${cims.dir}" />
+        <copy todir="${cims.dir}">
+            <fileset dir="D:\jedi\yoda\unbundled\devtests\tools\IoTSimulator\IoTSimulator">
+                <include name="**" />
+                <exclude name="*svn\**" />
+            </fileset>
+        </copy>
+        <!--
+        <copy file="${cims2.myconf.dir}\smartmeter.xml" tofile="${cims.dir}/conf/smartmeter/smartmeter.xml" overwrite="true" />
+        <copy file="${cims2.myconf.dir}\cellsite.xml" tofile="${cims.dir}/conf/cellsite/cellsite.xml" overwrite="true" />
+        -->
+    </target>
+
+    <target name="cims2-clean">
+        <delete dir="${cims.data.dir}" />
+        <mkdir dir="${cims.data.dir}" />
+    </target>
+
+    <target name="cims2-sm-file">
+        <imsus file="${cims.conf.sm.dir}\smartmeter.xml" type="file" />
+    </target>
+
+    <target name="cims2-sm-hdfs">
+        <imsus file="${cims.conf.sm.dir}\smartmeter.xml" type="hdfs" />
+    </target>
+
+    <target name="cims2-sm-sftp">
+        <imsus file="${cims.conf.sm.dir}\smartmeter.xml" type="sftp" />
+    </target>
+
+    <target name="cims2-sm-model">
+        <imsus file="${cims.conf.sm.dir}\smartmeter.xml" type="model" />
+    </target>
+
+    <target name="cims2-cs-file">
+        <imsus file="${cims.conf.cs.dir}\cellsite.xml" type="file" />
+    </target>
+
+    <target name="cims2-cs-hdfs">
+        <imsus file="${cims.conf.cs.dir}\cellsite.xml" type="hdfs" />
+    </target>
+
+    <target name="cims2-cs-sftp">
+        <imsus file="${cims.conf.cs.dir}\cellsite.xml" type="sftp" />
+    </target>
+
+    <target name="cims2-cs-model">
+        <imsus file="${cims.conf.cs.dir}\cellsite.xml" type="model" />
+    </target>
+    
+    <target name="cims2-up-file">
+        <imsus file="${cims.conf.up.dir}\uploader_smartmeter.xml" type="file" />
+        <imsus file="${cims.conf.up.dir}\uploader_cellsite.xml" type="file" />
+    </target>
+
+    <target name="cims2-up-hdfs">
+        <imsus file="${cims.conf.up.dir}\uploader_smartmeter.xml" type="hdfs" />
+        <imsus file="${cims.conf.up.dir}\uploader_cellsite.xml" type="hdfs" />
+    </target>
+
+    <target name="cims2-up-sftp">
+        <imsus file="${cims.conf.up.dir}\uploader_smartmeter.xml" type="sftp" />
+        <imsus file="${cims.conf.up.dir}\uploader_cellsite.xml" type="sftp" />
+    </target>
+
+    <target name="cims2-up-model">
+        <imsus file="${cims.conf.up.dir}\uploader_smartmeter.xml" type="model" />
+        <imsus file="${cims.conf.up.dir}\uploader_cellsite.xml" type="model" />
+    </target>
+
+    <target name="cht-update">
+        <!--<delete dir="${cht.dir}" />-->
+        <copy todir="${cht.dir}" overwrite="true">
+            <fileset dir="D:\jedi\yoda\unbundled\af\java\dataflow\devtests\junit\hdfsmodule\hdfstool\tool">
+                <include name="**" />
+                <exclude name="*svn\**" />
+                <exclude name="**\*.properties" />
+            </fileset>
+        </copy>
+    </target>
+
+</project>

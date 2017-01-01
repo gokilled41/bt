@@ -1,0 +1,2 @@
+call mbmtdir
+cd generic

@@ -1,0 +1,82 @@
+<resources xmlns="http://schema.vitria.com/vs/resource">
+    <!-- The resources in legacy model -->
+    <resource CMLClassName="com.vitria.connectors.line.LineCMLib" resourcetype="File" value=""
+        name="New File 1">
+        <properties>
+            <property javatype="STRING" name="fileName"
+                value="C:\software\PositionExceptions\Source.txt" />
+            <property javatype="STRING" name="encodingValue" value="UTF8" />
+            <property javatype="STRING" name="delimiters" value="\r\n" />
+            <property javatype="INT" name="batchSize" value="5" />
+            <property javatype="INT" name="concurrencyLevel" value="3" />
+            <property javatype="LONG" name="pollRate" value="30" />
+            <property javatype="STRING" name="exceptionHandlerClass"
+                value="com.vitria.component.server.M3OExceptionHandlerImpl" />
+        </properties>
+        <models>
+            <model name="EventSource/File/file" value="File/file" direction="INBOUND">
+                <events>
+                    <event name="Error">
+                        <feed name="TestBE/Feed/Feed/feed" value="Feed/feed" />
+                    </event>
+                </events>
+            </model>
+        </models>
+    </resource>
+    <resource CMLClassName="com.vitria.connectors.db.DBCMLib" resourcetype="Database" value=""
+        name="New Database 1">
+        <properties>
+            <property javatype="INT" name="batchSize" value="5" />
+            <property javatype="INT" name="concurrencyLevel" value="3" />
+            <property javatype="LONG" name="pollRate" value="10" />
+            <property javatype="STRING" name="dataSourceType" value="URL" />
+            <property javatype="STRING" name="dataSourceJNDIName" value="" />
+            <property javatype="STRING" name="server" value="" />
+            <property javatype="STRING" name="jndiUserName" value="" />
+            <property javatype="STRING" name="jndiPassword" value="" />
+            <property javatype="STRING" name="jndiProviderURL" value="" />
+            <property javatype="STRING" name="jndiContextFactoryName" value="" />
+            <property javatype="STRING" name="driverClass" value="oracle.jdbc.driver.OracleDriver" />
+            <property javatype="STRING" name="driverLabel" value="Oracle" />
+            <property javatype="STRING" name="url" value="jdbc:oracle:thin:@localhost:1521:orcl" />
+            <property javatype="STRING" name="user" value="zgf2" />
+            <property javatype="STRING" name="password" value="&lt;XMY@1GvMX3xgtlJQNSA0>" />
+            <property javatype="STRING" name="m3oDataSource" value="" />
+            <property javatype="STRING" name="schedulerSetting"
+                value="&lt;scheduler recurrence=&quot;daily&quot;>&#xA;  &lt;times>&#xA;    &lt;time startTime=&quot;00:00&quot; endTime=&quot;23:30&quot; every=&quot;5min&quot;/>&#xA;  &lt;/times>&#xA;  &lt;daily every=&quot;1&quot; weekday=&quot;false&quot;/>&#xA;  &lt;range startDate=&quot;Tue Oct 13 00:00:00 GMT+0800 2009&quot;/>&#xA;&lt;/scheduler>" />
+            <property javatype="STRING" name="exceptionHandlerClass"
+                value="com.vitria.component.server.M3OExceptionHandlerImpl" />
+        </properties>
+        <models>
+            <model name="EventSource/Database/db" value="Database/db" direction="INBOUND">
+                <events>
+                    <event name="Error">
+                        <feed name="TestBE/Feed/Feed/feed" value="Feed/feed" />
+                    </event>
+                </events>
+            </model>
+        </models>
+    </resource>
+
+    <!-- The resources in EPN models -->
+    <resource resourcetype="Feed" value="" name="actual_feed1">
+        <properties>
+            <property javatype="STRING" name="feedModel" value="/feed/feed1" />
+        </properties>
+    </resource>
+    <resource resourcetype="Feed" value="" name="actual_feed2">
+        <properties>
+            <property javatype="STRING" name="feedModel" value="/feed/a/b/feed2" />
+        </properties>
+    </resource>
+    <resource resourcetype="Feed" value="" name="actual_feed3">
+        <properties>
+            <property javatype="STRING" name="feedModel" value="/feed/c/feed3" />
+        </properties>
+    </resource>
+    <resource resourcetype="Feed" value="" name="actual_feed4">
+        <properties>
+            <property javatype="STRING" name="feedModel" value="/feed/feed4" />
+        </properties>
+    </resource>
+</resources>

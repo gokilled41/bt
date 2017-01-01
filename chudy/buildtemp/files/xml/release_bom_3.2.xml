@@ -1,0 +1,21 @@
+<project name="TXUProject" uuid="62759687-c9ad-4321-bdcf-5bd54411ccaf" xmlns:vtui="http://m3oui.vitria.com" product_version="3.1.0.0">
+    <folder name="Process" vtui:hidden="false" releasable="true" hasLifecycle="true" vtui:flags="31">
+        <model uuid="1c10b3e0-5873-49d7-9d0f-1e1edadc0365" name="Enrollment" version="1.21" modifiedby="vtbaadmin" modifiedon="1277196379048" modelstatus="Validated" type="process"/>
+        <model uuid="a24c9909-f691-4dfa-a1ad-a3d3d3ca20b4" name="SwitchDocForward" version="1.8" modifiedby="vtbaadmin" modifiedon="1277196379063" modelstatus="Validated" type="process"/>
+    </folder>
+    <folder name="Schema" vtui:hidden="false" releasable="true" vtui:BE="62759687-c9ad-4321-bdcf-5bd54411ccaf" hasLifecycle="true" vtui:flags="31">
+        <folder name="Constraint" vtui:KS="Schema" vtui:BE="62759687-c9ad-4321-bdcf-5bd54411ccaf" vtui:flags="48">
+            <folder name="Field Dependency" vtui:category="Constraint" vtui:KS="Schema" vtui:BE="62759687-c9ad-4321-bdcf-5bd54411ccaf" vtui:flags="48">
+            </folder>
+        </folder>
+        <folder name="Document" vtui:KS="Schema" vtui:BE="62759687-c9ad-4321-bdcf-5bd54411ccaf" vtui:flags="48">
+            <model uuid="187d7cc4-5585-45c2-8671-4a8014b75ca7" name="EmailInfo" version="1.1" modifiedby="vtbaadmin" modifiedon="1277196371517" modelstatus="Validated" type="schema.document"/>
+        </folder>
+        <folder name="Event" vtui:KS="Schema" vtui:BE="62759687-c9ad-4321-bdcf-5bd54411ccaf" vtui:flags="48">
+            <model uuid="96c21187-6e4b-420b-8e67-6b585995280d" name="EnrollReq" version="1.0" modifiedby="vtbaadmin" modifiedon="1277196343486" modelstatus="Validated" type="schema.event"/>
+        </folder>
+        <folder name="Task" vtui:KS="Schema" vtui:BE="62759687-c9ad-4321-bdcf-5bd54411ccaf" vtui:flags="48">
+        </folder>
+    </folder>
+    <model uuid="a24c9909-f691-4dfa-a1ad-a3d3d3ca20b3" name="SwitchDocForward" version="1.8" modifiedby="vtbaadmin" modifiedon="1277196379063" modelstatus="Validated" type="process"/>
+</project>

@@ -1,0 +1,2 @@
+call msldir
+call st

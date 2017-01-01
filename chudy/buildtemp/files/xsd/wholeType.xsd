@@ -1,0 +1,177 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://test.vitria.com/ct2" targetNamespace="http://test.vitria.com/ct2">
+  <xsd:complexType name="allTypes">
+    <xsd:sequence>
+      <xsd:element name="varString" type="xsd:string" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varNormalizedString" type="xsd:normalizedString" nillable="true">
+        <xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varToken" type="xsd:token" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varBoolean" type="xsd:boolean" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varInt" type="xsd:int" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varByte" type="xsd:byte" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varShort" type="xsd:short" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varLong" type="xsd:long" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varFloat" type="xsd:float" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varDouble" type="xsd:double" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varDate" type="xsd:date" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varDateTime" type="xsd:dateTime" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varInteger" type="xsd:integer" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varPositiveInteger" type="xsd:positiveInteger" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varNegativeInteger" type="xsd:negativeInteger" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varNonNegativeInteger" type="xsd:nonNegativeInteger" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varNonPositiveInteger" type="xsd:nonPositiveInteger" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varUnsignedLong" type="xsd:unsignedLong" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varUnsignedInt" type="xsd:unsignedInt" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varUnsignedShort" type="xsd:unsignedShort" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varUnsignedByte" type="xsd:unsignedByte" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varDecimal" type="xsd:decimal" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varTime" type="xsd:time" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="vargYear" type="xsd:gYear" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="vargYearMonth" type="xsd:gYearMonth" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="vargMonth" type="xsd:gMonth" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="vargMonthDay" type="xsd:gMonthDay" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="vargDay" type="xsd:gDay" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varanyURI" type="xsd:anyURI" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varlanguage" type="xsd:language" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varName" type="xsd:Name" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="varNCName" type="xsd:NCName" nillable="true">
+      	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+				</xsd:annotation>
+			</xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="varNMTOKEN" type="xsd:NMTOKEN" use="optional">
+    	<xsd:annotation>
+					<xsd:appinfo source="vt.dms">@Encrypt</xsd:appinfo>				
+			</xsd:annotation>
+		</xsd:attribute>
+  </xsd:complexType>
+  <xsd:complexType name="wholeType">
+    <xsd:sequence>
+      <xsd:element name="varGroup" type="allTypes" nillable="true"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="wholeType" type="wholeType" nillable="true"/>
+</xsd:schema>

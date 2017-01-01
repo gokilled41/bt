@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ServerConfiguration xmlns="http://schema.vitria.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schema.vitria.com ../schema/ServerConfiguration.xsd ">
+  <serverSettings>
+    <serverName>serverName</serverName>
+    <serverProviderUrl>serverProviderUrl</serverProviderUrl>
+    <serverContextFactory>serverContextFactory</serverContextFactory>
+    <traceLevel>0</traceLevel>
+    <auditLevel>auditLevel</auditLevel>
+    <retryCount>0</retryCount>
+  </serverSettings>
+  <releaseConfiguration type="LabeledRelease">
+    <release>release</release>
+    <patch>patch</patch>
+  </releaseConfiguration>
+  <connectorSettings>
+    <batchSize>0</batchSize>
+    <concurrency>0</concurrency>
+    <pollrate>0</pollrate>
+  </connectorSettings>
+  <fileSourceGroup>
+    <fileGroup>http://tempuri.org</fileGroup>
+    <fileSourceInstance>
+      <filename>http://tempuri.org</filename>
+      <encoding>encoding</encoding>
+      <delimiter>delimiter</delimiter>
+    </fileSourceInstance>
+  </fileSourceGroup>
+  <serviceClientSettings>
+    <serviceURI>http://tempuri.org</serviceURI>
+    <localAddress>http://tempuri.org</localAddress>
+  </serviceClientSettings>
+  <calendarSettings>
+    <calendarResourceId>calendarResourceId</calendarResourceId>
+  </calendarSettings>
+</ServerConfiguration>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:or="http://schema.vitria.com/dmstest" xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://schema.vitria.com/dmstest" elementFormDefault="unqualified"
+	attributeFormDefault="unqualified">
+
+	<element name="bookOrder" type="or:BookOrderType" />
+
+	<complexType name="BookOrderType">
+		<sequence>
+			<element name="orderId" type="string" />
+			<element name="custId" type="string" />
+			<element name="code" type="or:CCode" />
+			<element name="item" type="or:BookItemType">
+				<xsd:annotation>
+					<xsd:appinfo source="teneo.jpa">@Embedded</xsd:appinfo>
+				</xsd:annotation>
+			</element>
+			<element name="notes" type="string" />
+		</sequence>
+	</complexType>
+
+	<complexType name="BookItemType">
+		<sequence>
+			<element name="productName" type="string" />
+			<element name="quantity" type="integer" />
+			<element name="price" type="decimal" />
+			<element minOccurs="0" name="notes" type="string" />
+		</sequence>
+	</complexType>
+
+	<simpleType name="CCode">
+		<restriction base="string">
+			<pattern value="\d{3}-[A-Z]{2}" />
+		</restriction>
+	</simpleType>
+</schema>

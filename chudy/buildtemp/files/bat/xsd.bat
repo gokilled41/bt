@@ -1,0 +1,1 @@
+call java -jar D:\jedi\src\trang\trang.jar %1 %2

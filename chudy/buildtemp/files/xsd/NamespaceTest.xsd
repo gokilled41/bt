@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:or="http://qualified.schema.vitria.com" xmlns:or1="http://qualified1.schema.vitria.com" targetNamespace="http://qualified.schema.vitria.com" elementFormDefault="unqualified">
+  <import namespace="http://qualified1.schema.vitria.com"  schemaLocation="NamespaceTest1.xsd"/>
+  <element name="elementA" type="or:ComplexTypeA"/>
+  <element name="elementA1" type="or1:ComplexTypeA"/>
+  <element name="elementB" type="or:ComplexTypeB"/>
+  <element name="elementC" type="or:ComplexTypeC"/>
+  <complexType name="ComplexTypeA">
+    <sequence>
+      <element name="productName" type="string" minOccurs="0" form="qualified"/>
+      <element name="quantity" type="integer" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="ComplexTypeB">
+    <sequence>
+        <element name="product" type="or:ComplexTypeA" minOccurs="0"/>
+        <element name="product1" type="or1:ComplexTypeA" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="ComplexTypeC">
+    <sequence>
+        <element ref="or:elementA" minOccurs="0"/>
+        <element ref="or1:elementA" minOccurs="0"/>
+    </sequence>
+  </complexType>
+</schema>

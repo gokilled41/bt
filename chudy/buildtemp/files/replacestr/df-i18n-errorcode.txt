@@ -1,0 +1,10 @@
+dir: D:\jedi\yoda\unbundled\af\java\dataflow\locale
+
+from: LocaleSortMSG
+to:   a
+
+sortByErrorCode: true
+printErrorCode: true
+
+mcFile:  D:\jedi\yoda\unbundled\af\java\dataflow\model\com\vitria\dataflow\MessageCode.java
+msgFile: D:\jedi\yoda\unbundled\af\java\dataflow\locale\en_US\dataflow.properties

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ServerConfiguration xmlns="http://schema.vitria.com">
+  <serverSettings>
+    <serverName>kirkwood</serverName>
+    <serverProviderUrl>jnp://localhost:1099</serverProviderUrl>
+    <serverContextFactory>org.jnp.interfaces.NamingContextFactory</serverContextFactory>
+    <traceLevel>5</traceLevel>
+    <auditLevel>normal</auditLevel>
+    <retryCount>3</retryCount>
+  </serverSettings>
+  <connectorSettings>
+    <batchSize>5</batchSize>
+    <concurrency>3</concurrency>
+    <pollrate>30</pollrate>
+  </connectorSettings>
+  <serviceClientSettings>
+    <serviceURI>kirkwoodLoanApproverService</serviceURI>
+    <localAddress>http://kirkwood:8080</localAddress>
+  </serviceClientSettings>
+  <releaseConfiguration type="LatestRelease"/>
+</ServerConfiguration>

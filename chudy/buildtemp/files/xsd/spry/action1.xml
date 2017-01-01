@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:Action xmlns:tns="http://www.spry.com/m3o" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.spry.com/m3o spry.xsd ">
+  <ID>ID</ID>
+  <DiscussionID>DiscussionID</DiscussionID>
+  <OperationName>OperationName</OperationName>
+  <OperatorID>OperatorID</OperatorID>
+  <OperatorType>OperatorType</OperatorType>
+  <Status>Status</Status>
+  <Started>2001-12-31T12:00:00</Started>
+  <Ended>2001-12-31T12:00:00</Ended>
+  <OperationParameter>
+    <Key>Key</Key>
+    <Value>Value</Value>
+  </OperationParameter>
+  <OperationParameter>
+    <Key>Discussion</Key>
+    <Value>DiscussionValue</Value>
+  </OperationParameter>
+</tns:Action>

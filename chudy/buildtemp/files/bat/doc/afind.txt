@@ -1,0 +1,31 @@
+afind is one command to find given search key in files.
+  afind <fromdir> [<fromfile>] <from> [ln] [rn] [mp] [np] [o] [d] [f]
+    - fromdir    one dir or one tar alias find from
+    - fromfile   files to find in
+                   file name like "a.jar" or file pattern like "*Manager*" or "*.zip"
+                   begin and end will automatically add "*"
+                   it is optional. it will be all files "*" if not given.
+                   it can be combined like: "a/b\c\d". "/" means includes. "\" means excludes.
+                   it can be combined like: "a##b". "##" means or.
+                   it can be combined like: "a/(b\c)". "()" is groups.
+                   it can be combined like: "a/l100-200". it means line index is between 100 to 200 ([100,200)).
+                   it can be combined like: "a/l100\l200". "/" means >=. "\" means <.
+                   it can be ` or ~. it means "*".
+                   it can be wrap with "'". it means exactly equals.
+                   it can be wrap with "@". it means regular expressions.
+    - from       search key.
+                   it can be combined like: "a/b\c\d". "/" means includes. "\" means excludes.
+                   it can be combined like: "a##b". "##" means or.
+                   it can be combined like: "a/(b\c)". "()" is groups.
+                   if from includes resolved chars in regular expressions, please wrap it with "'", like: "'new PAFilenameFilter(filefrom)'"
+                   it can be wrap with "'". it means exactly equals.
+                   it can be wrap with "@". it means regular expressions.
+    - ln         print expanded lines. like: l100
+    - rn         set recursive level. like: r0
+    - np         no path: the pattern of files not include path string
+    - mp         multiple lines: print the stack trace of exception in log, print whole target defininition in build.xml...
+    - o          output to file
+    - d          open dir
+                   d3 to open 3 dirs
+    - f          open file
+                   f3 to open 3 files

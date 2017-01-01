@@ -1,0 +1,187 @@
+<?xml version="1.0"?>
+
+<project name="mssql" basedir="../..">
+    <import file="../../properties.xml" />
+    <import file="${files.dir}/build/common.xml" />
+
+    <property name="mssql_driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+    <property name="mssql_vt_ds_connection_ip" value="10.101.3.83" />
+    <property name="mssql_vt_ds_connection_port" value="1433" />
+    <property name="mssql_vt_ds_database" value="gzhou" />
+    <property name="mssql_vt_ds_username" value="gzhou" />
+    <property name="mssql_vt_ds_password" value="gzhou" />
+
+    <property name="mssql_vt_ds_connection_url" value="${mssql_vt_ds_connection_ip}:${mssql_vt_ds_connection_port};databasename=${mssql_vt_ds_database}" />
+    <property name="mssql_url" value="jdbc:sqlserver://${mssql_vt_ds_connection_url}" />
+    <property name="mssql_user" value="${mssql_vt_ds_username}" />
+    <property name="mssql_password" value="${mssql_vt_ds_password}" />
+
+    <property name="mssql.dialect" value="org.hibernate.dialect.SQLServerDialect" />
+
+    <property name="mssql_sqljdbc.dir" value="${files.lib.dir}" />
+    <property name="mssql_sqljdbc.version" value="4.0" />
+    <property name="mssql_sqljdbc.jar" value="${mssql_sqljdbc.dir}\sqljdbc-${mssql_sqljdbc.version}.jar" />
+
+    <taskdef name="mssqldrop" classname="gzhou.MssqlTablesDropperTask" classpath="${bin.dir};${mssql_sqljdbc.jar}" />
+
+    <target name="mssql" depends="
+        clean-drivers,
+        mssql-copy-drivers, 
+        mssql-set-dialect,
+        mssql-deploy-repository, 
+        mssql-copy-datasources,
+        mssql-set-ejb-jar-xml,
+        mssql-drop-db,
+        mssql-drop-all-tables,
+        mssql-create-db,
+        mssql-addusers" />
+
+    <target name="mssql-no-db" depends="
+        clean-drivers,
+        mssql-copy-drivers,
+        mssql-set-dialect,
+        mssql-deploy-repository,
+        mssql-copy-datasources,
+        mssql-set-ejb-jar-xml" />
+
+    <target name="mssql-copy-drivers">
+        <copy todir="${jboss.lib.dir}" file="${files.lib.dir}\sqljdbc-4.0.jar" overwrite="true" />
+    </target>
+
+    <target name="mssql-set-dialect">
+        <append value="${mssql.dialect}" dest="${vtba.home}\data\m3o\server.xml" xpath="//dialect" type="text" replace="true" />
+        <append value="${mssql.dialect}" dest="${vtba.home}\data\m3o\server_analytic.xml" xpath="//dialect" type="text" replace="true" />
+        <append value="${mssql.dialect}" dest="${vtba.home}\data\m3o\server_feed.xml" xpath="//dialect" type="text" replace="true" />
+
+        <echo message="VT_HIBERNATE_DUALECT_VALUE: ${mssql.dialect}" />
+        <filter token="VT_HIBERNATE_DUALECT_VALUE" value="${mssql.dialect}" />
+        <copy todir="${jboss.conf.dir}" filtering="true" overwrite="true">
+            <fileset dir="${runtime.jboss.conf.dir}">
+                <include name="vtsecurity.properties" />
+                <include name="vtusermgr.properties" />
+            </fileset>
+        </copy>
+        <copy todir="${vtba.home}/data" filtering="true" overwrite="true">
+            <fileset dir="${yoda.home}\bw\src\bc\main">
+                <include name="vt-bc.properties" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="mssql-deploy-repository" depends="clean-repository">
+        <echo message="modify and deploy repository-mssql.xml for mssql" />
+        <echo message="url: ${mssql_url}" />
+        <echo message="user: ${mssql_user}" />
+        <echo message="password: ${mssql_password}" />
+        <filter token="URL" value="${mssql_url}" />
+        <filter token="USER" value="${mssql_user}" />
+        <filter token="PASSWORD" value="${mssql_password}" />
+        <copy todir="${vtba.home}\data\repository" filtering="true" overwrite="true">
+            <fileset dir="${vtba.home}\data\repository\template">
+                <include name="repository-mssql.xml" />
+            </fileset>
+        </copy>
+
+        <append value="${vtba.home}/data/repository/repository-mssql.xml" dest="${jboss.deploy.dir}\jcr-ds.xml" xpath="//config-property[@name='configFile']" type="text" replace="true" />
+
+    </target>
+
+    <target name="mssql-copy-datasources" depends="clean-datasources">
+        <echo message="modify and deploy vt-oracle-emf-ds.xml and vt-oracle-system-ds.xml" />
+        <echo message="url: ${mssql_url}" />
+        <echo message="user: ${mssql_user}" />
+        <echo message="password: ${mssql_password}" />
+        <filter token="VT_DS_CONNECTION_URL" value="${mssql_vt_ds_connection_url}" />
+        <filter token="VT_DS_USERNAME" value="${mssql_vt_ds_username}" />
+        <filter token="VT_DS_PASSWORD" value="${mssql_vt_ds_password}" />
+        <copy todir="${jboss.deploy.dir}" filtering="true" overwrite="true">
+            <fileset dir="${runtime.jboss.deploy.dir}">
+                <include name="vt-mssql-system-ds.xml" />
+                <include name="vt-mssql-emf-ds.xml" />
+                <include name="vt-mssql-feedserver-ds.xml" />
+                <include name="vt-mssql-vs-ds.xml" />
+            </fileset>
+        </copy>
+        <copy todir="${vtba.home}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${vtba.home}\data\m3o\template">
+                <include name="default_ds_mssql.properties" />
+            </fileset>
+        </copy>
+        <move file="${vtba.home}\data\m3o\default_ds_mssql.properties" tofile="${vtba.home}\data\m3o\default_ds.properties" />
+    </target>
+
+    <target name="mssql-set-ejb-jar-xml">
+        <property name="M3OServerApplication.ejb.name" value="M3OServerApplication-ejb.jar" />
+        <property name="M3OServerApplication.ejb.dir" value="${java.io.tmpdir}/${M3OServerApplication.ejb.name}" />
+
+        <echo message="update m3oserver.ear with new jars" />
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${m3o.ear.file}" dest="${m3o.ear.dir}" />
+
+        <mkdir dir="${M3OServerApplication.ejb.dir}" />
+        <property name="M3OServerApplication.ejb.file" value="${m3o.ear.dir}/${M3OServerApplication.ejb.name}" />
+        <unzip src="${M3OServerApplication.ejb.file}" dest="${M3OServerApplication.ejb.dir}" />
+
+        <append value="${mssql.dialect}" dest="${M3OServerApplication.ejb.dir}/META-INF/ejb-jar.xml" xpath="//*[text()='vtapplication/PersistenceDatabaseDialect']/../env-entry-value" type="cdata" replace="true" allnodes="true" />
+
+        <zip destfile="${M3OServerApplication.ejb.file}" basedir="${M3OServerApplication.ejb.dir}" />
+        <zip destfile="${m3o.ear.file}" basedir="${m3o.ear.dir}" />
+    </target>
+
+    <target name="mssql-create-db">
+        <sql driver="${mssql_driver}" url="${mssql_url}" userid="${mssql_user}" password="${mssql_password}" onerror="continue">
+            <fileset dir="${vtba.home}\runtime\sqlscripts">
+                <include name="create*mssql.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${mssql_sqljdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="mssql-drop-db">
+        <sql driver="${mssql_driver}" url="${mssql_url}" userid="${mssql_user}" password="${mssql_password}" onerror="continue">
+            <fileset dir="${vtba.home}\runtime\sqlscripts">
+                <include name="drop*mssql.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${mssql_sqljdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="mssql-addusers">
+        <wfsql datasource="${jboss.deploy.dir}/vt-mssql-system-ds.xml" src="${sql.dir}/mssql_user2.sql" classpath="${mssql_sqljdbc.jar};" onerror="continue" />
+        <echo message="users and role types are added successfully." />
+    </target>
+
+    <target name="mssql-drop-all-tables">
+        <mssqldrop driver="${mssql_driver}" url="${mssql_url}" userid="${mssql_user}" password="${mssql_password}" />
+    </target>
+
+    <target name="mssql-create-db2-mssql2008">
+        <sql driver="${mssql_driver}" url="${mssql_url}" userid="${mssql_user}" password="${mssql_password}" onerror="continue">
+            <fileset dir="${vtba.home}\runtime\sqlscripts">
+                <include name="create-m3oengine-mssql.sql" />
+                <include name="create-m3oenginetimer-mssql.sql" />
+                <exclude name="*runtime*.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${mssql_sqljdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="mssql-drop-db2-mssql2008">
+        <sql driver="${mssql_driver}" url="${mssql_url}" userid="${mssql_user}" password="${mssql_password}" onerror="continue">
+            <fileset dir="${vtba.home}\runtime\sqlscripts">
+                <include name="drop-m3oengine-mssql.sql" />
+                <include name="drop-m3oenginetimer-mssql.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${mssql_sqljdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+</project>

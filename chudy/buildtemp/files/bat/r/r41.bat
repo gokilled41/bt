@@ -1,0 +1,1 @@
+java -cp %JMSTESTCLIENT_PATH% gzhou.JMSTestClient -t Error -d primitiveTypesInEvent=primitiveTypes.xml -d stringTypesInEvent=stringTypes.xml -d integerTypesInEvent=integerTypes.xml -d OAGOrderInEvent=OAGOrder.xml

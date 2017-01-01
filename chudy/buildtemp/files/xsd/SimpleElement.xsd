@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wf="http://www.vitria.com/workflow/smoke" targetNamespace="http://www.vitria.com/workflow/smoke">
+    
+    <element name="simpleElement" type="string"/>
+
+</schema>
+

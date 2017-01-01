@@ -1,0 +1,9 @@
+# WORKFLOW CACHE REGION
+jcs.region.workflowCache=LTCP
+jcs.region.workflowCache.cacheattributes=org.apache.jcs.engine.CompositeCacheAttributes
+jcs.region.workflowCache.cacheattributes.MaxObjects=1000
+jcs.region.workflowCache.cacheattributes.MemoryCacheName=org.apache.jcs.engine.memory.lru.LRUMemoryCache
+
+jcs.auxiliary.LTCP=org.apache.jcs.auxiliary.lateral.socket.tcp.LateralTCPCacheFactory
+jcs.auxiliary.LTCP.attributes=org.apache.jcs.auxiliary.lateral.socket.tcp.TCPLateralCacheAttributes
+jcs.auxiliary.LTCP.attributes.TcpListenerPort=9110

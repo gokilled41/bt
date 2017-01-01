@@ -1,0 +1,2 @@
+call yd
+call svn revert m3o/server/src/virtualserver/com/vitria/domain/VirtualServerKeeper.java m3o/server/src/virtualserver/com/vitria/virtualserver/ProjectContainer.java m3o/server/src/virtualserver/com/vitria/virtualserver/VirtualServer.java m3o/j2ee/src/application/java/com/vitria/component/server/ApplicationBootstrap.java m3o/j2ee/src/application/java/com/vitria/component/server/beans/VirtualServerBean.java

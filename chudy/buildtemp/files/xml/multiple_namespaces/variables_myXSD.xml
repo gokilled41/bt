@@ -1,0 +1,39 @@
+<variables xmlns="http://workflow.vitria.com/model" xmlns:common="http://common.vitria.com/model" xmlns:schema="http://schema.vitria.com/model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <variable name="Header" kind="XSDTYPE" type="{http://schema.vitria.com/model}TaskHeader">
+    <field name="id" label="" type="string" visible="true" displayOrder="1" xpath="id"/>
+    <field name="businessEnvironment" label="" type="string" visible="true" displayOrder="2" xpath="businessEnvironment"/>
+    <field name="caseID" label="" type="string" visible="true" displayOrder="3" xpath="caseID"/>
+    <field name="activity" label="" type="string" visible="true" displayOrder="4" xpath="activity"/>
+    <field name="performer" label="" type="string" visible="true" displayOrder="5" xpath="performer"/>
+    <field name="description" label="" type="string" visible="true" displayOrder="6" xpath="description"/>
+    <field name="priority" label="" type="int" visible="true" displayOrder="7" xpath="priority"/>
+    <field name="state" label="" type="string" visible="true" displayOrder="8" xpath="state"/>
+    <field name="endReason" label="" type="string" visible="true" displayOrder="9" xpath="endReason"/>
+    <field name="dueDate" label="" type="dateTime" visible="true" displayOrder="10" xpath="dueDate"/>
+    <field name="createTime" label="" type="dateTime" visible="true" displayOrder="11" xpath="createTime"/>
+  </variable>
+  <variable name="OAGOrder" kind="XSDVIEW">
+    <schema:modelRef content="structure" valid="false" name="_mr__variables__OAGOrder_1"/>
+    <field name="oid" label="" type="string" visible="true" displayOrder="12" xpath="group/oid"/>
+    <field name="cid" label="" type="string" visible="true" displayOrder="13" xpath="group/cid"/>
+    <field name="notes" label="" type="string" visible="true" displayOrder="14" xpath="group/notes"/>
+  </variable>
+  <variable name="primitiveTypes" kind="XSDELEMENT" type="{http://www.vitria.com/workflow/smoke}primitiveTypes">
+    <field name="dateTimeType" label="" type="dateTime" visible="true" displayOrder="15" xpath="declare namespace tns=&quot;http://www.vitria.com/workflow/smoke&quot;;/tns:primitiveTypes/tns:dateTimeType"/>
+    <field name="dateType" label="" type="date" visible="true" displayOrder="16" xpath="declare namespace tns=&quot;http://www.vitria.com/workflow/smoke&quot;;/tns:primitiveTypes/tns:dateType"/>
+    <field name="booleanType" label="" type="boolean" visible="true" displayOrder="17" xpath="declare namespace tns=&quot;http://www.vitria.com/workflow/smoke&quot;;/tns:primitiveTypes/tns:booleanType"/>
+    <field name="floatType" label="" type="float" visible="true" displayOrder="18" xpath="declare namespace tns=&quot;http://www.vitria.com/workflow/smoke&quot;;/tns:primitiveTypes/tns:floatType"/>
+    <field name="decimalType" label="" type="decimal" visible="true" displayOrder="19" xpath="declare namespace tns=&quot;http://www.vitria.com/workflow/smoke&quot;;/tns:primitiveTypes/tns:decimalType"/>
+    <field name="doubleType" label="" type="double" visible="true" displayOrder="20" xpath="declare namespace tns=&quot;http://www.vitria.com/workflow/smoke&quot;;/tns:primitiveTypes/tns:doubleType"/>
+    <field name="anyURIType" label="" type="anyURI" visible="true" displayOrder="21" xpath="declare namespace tns=&quot;http://www.vitria.com/workflow/smoke&quot;;/tns:primitiveTypes/tns:anyURIType"/>
+    <field name="stringType" label="" type="string" visible="true" displayOrder="22" xpath="declare namespace tns=&quot;http://www.vitria.com/workflow/smoke&quot;;/tns:primitiveTypes/tns:stringType"/>
+  </variable>
+  <variable name="order" kind="XSDELEMENT" type="{http://arraysupport.schema.vitria.com/OR3}order">
+    <field name="orderId" label="" type="string" visible="true" displayOrder="23" xpath="declare namespace tns=&quot;http://arraysupport.schema.vitria.com/OR3&quot;;/tns:order/tns:orderId"/>
+    <field name="custId" label="" type="string" visible="true" displayOrder="24" xpath="declare namespace tns=&quot;http://arraysupport.schema.vitria.com/OR3&quot;;/tns:order/tns:custId"/>
+    <field name="code" label="" type="string" visible="true" displayOrder="25" xpath="declare namespace tns=&quot;http://arraysupport.schema.vitria.com/OR3&quot;;/tns:order/tns:code"/>
+    <field name="item" label="" type="array" visible="true" displayOrder="0" xpath="declare namespace tns=&quot;http://arraysupport.schema.vitria.com/OR3&quot;;/tns:order/tns:items/tns:item"/>
+    <field name="notes" label="" type="string" visible="true" displayOrder="26" xpath="declare namespace tns=&quot;http://arraysupport.schema.vitria.com/OR3&quot;;/tns:order/tns:notes"/>
+  </variable>
+  <variable name="_userTaskResult" kind="XSDTYPE" type="{http://workflow.vitria.com/model}userTaskResult"/>
+</variables>

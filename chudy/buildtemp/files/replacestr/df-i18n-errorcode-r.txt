@@ -1,0 +1,10 @@
+dir: D:\jedi\yoda\unbundled\apps\predictive_analytics\plugins\unifiedservice\rservice\src
+dir: D:\jedi\yoda\unbundled\apps\predictive_analytics\installer\stage\locale\en_US
+
+from: LocaleSortMSG
+to:   a
+
+sortByErrorCode: true
+
+mcFile:  D:\jedi\yoda\unbundled\apps\predictive_analytics\plugins\unifiedservice\rservice\src\com\vitria\r\service\RServiceMessageCode.java
+msgFile: D:\jedi\yoda\unbundled\apps\predictive_analytics\installer\stage\locale\en_US\r.properties

@@ -1,0 +1,2 @@
+call mbmdir
+cd target

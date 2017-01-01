@@ -1,0 +1,11 @@
+call sj7
+call mscl
+call msts
+call msc
+call mscomm
+call mse
+call msvs
+call msds
+call msfs
+call mja
+call mjs

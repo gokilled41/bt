@@ -1,0 +1,38 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/hb?autoReconnect=true</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">qilinsoft</property>
+        <property name="show_sql">true</property>
+        <property name="hbm2ddl.auto">create</property>
+        <!--<property name="hibernate.connection.characterEncoding">utf8</property> -->
+
+        <mapping file="C:\workspace\buildtemp\src\hibernate\Student.hbm.xml" />
+        <!--<mapping resource="com/vitria/bpmn/persistence/vt_bpmn_correlation.hbm.xml"/>
+        <mapping resource="com/vitria/bpmn/persistence/vt_bpmn_gateway.hbm.xml"/>
+        <mapping resource="com/vitria/bpmn/persistence/vt_bpmn_process.hbm.xml"/>
+        <mapping resource="com/vitria/bpmn/persistence/vt_bpmn_activity.hbm.xml"/>-->
+
+        <!-- 
+            <mapping file="C:\workspace\buildtemp\src\hibernate\TaskStorage.hbm.xml" />
+            <mapping file="C:\workspace\buildtemp\src\hibernate\UserTaskMapping.hbm.xml" />
+            <mapping file="C:\workspace\buildtemp\src\hibernate\dms.mappings.xml" />
+            
+            
+            <mapping file="C:\workspace\buildtemp\src\hibernate\test.mappings.xml" />
+        -->
+        <!-- 
+            <mapping resource="com/vitria/workflow/internal/TaskStorage.hbm.xml" />
+            <mapping resource="com/vitria/workflow/internal/TaskDataStorage.hbm.xml" />
+            <mapping resource="com/vitria/workflow/internal/ActivityStorage.hbm.xml" />
+            <mapping resource="com/vitria/workflow/internal/ActivityDataStorage.hbm.xml" />
+            <mapping resource="com/vitria/workflow/internal/NextTask.hbm.xml" />
+        -->
+    </session-factory>
+</hibernate-configuration>

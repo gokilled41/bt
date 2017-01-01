@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://workflow.vitria.com/rest"
+	targetNamespace="http://workflow.vitria.com/rest" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+
+	<xsd:include schemaLocation="activityinfo.xsd" />
+
+	<xsd:element name="activity" type="Activity" />
+	<xsd:complexType name="Activity">
+		<xsd:sequence>
+			<xsd:element name="id" type="xsd:string" />
+			<xsd:element name="info" type="ActivityInfo" />
+			<xsd:element name="performerString" type="xsd:string" />
+			<xsd:element name="supervisorString" type="xsd:string" />
+			<xsd:element name="observerString" type="xsd:string" />
+			<xsd:element name="startTime" type="xsd:dateTime" />
+			<xsd:element name="policy" type="xsd:string" />
+			<xsd:element name="be" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>

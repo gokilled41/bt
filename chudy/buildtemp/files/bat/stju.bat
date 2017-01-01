@@ -1,0 +1,1 @@
+call fusast jbossupgrade false

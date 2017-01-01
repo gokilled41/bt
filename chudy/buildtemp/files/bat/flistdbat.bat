@@ -1,0 +1,1 @@
+call flist C:\Users\Chudy\Desktop\buildtemp > C:\Users\Chudy\Desktop\buildtemp.files.txt

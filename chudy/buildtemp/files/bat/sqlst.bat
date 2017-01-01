@@ -1,0 +1,1 @@
+sqlsita "SELECT table_name as name FROM information_schema.tables where table_schema = 'sita'"

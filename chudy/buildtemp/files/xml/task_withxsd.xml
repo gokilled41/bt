@@ -1,0 +1,30 @@
+<variables xmlns="http://workflow.vitria.com/model"
+	xmlns:common="http://common.vitria.com/model"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<variable name="Header">
+		<common:modelRef name="mr.TaskHeader_1201158279514"
+			content="structure" />
+		<field name="id" type="string" visible="true" displayOrder="0"
+			xpath="" />
+		<field name="activity" type="string" visible="true"
+			displayOrder="0" xpath="" />
+		<field name="performer" type="string" visible="true"
+			displayOrder="0" xpath="" />
+		<field name="description" type="string" visible="true"
+			displayOrder="0" xpath="" />
+		<field name="priority" type="int" visible="true"
+			displayOrder="0" xpath="" />
+		<field name="state" type="string" visible="true"
+			displayOrder="0" xpath="" />
+		<field name="dueDate" type="dateTime" visible="true"
+			displayOrder="0" xpath="" />
+	</variable>
+
+	<variable name="TaskLog"
+		type="{http://schema.vitria.com/bc}myAuditLog">
+		<field name="lifecycleId" visible="true" displayOrder="0"
+			type="string" xpath="TaskLog/lifecycleId" />
+		<field name="processInstanceId" visible="true" displayOrder="0" type="string"
+			xpath="TaskLog/processInstanceId" />
+	</variable>
+</variables>

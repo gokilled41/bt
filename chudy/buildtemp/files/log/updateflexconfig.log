@@ -1,0 +1,1955 @@
+Used to compile Main.swf when extending flex configuration files(Add more java services based on m3oui).
+Buildfile: D:\jedi\yoda\export\home\applications\m3o\ui\frameworks\build_framework.xml
+
+update-main-flexconfig:
+
+extract-flexconfig:
+     [java] Resource List: null
+     [java] Output Folder: D:\jedi\yoda\export\home\applications\m3o\ui\bin
+     [java] 2009-4-1 20:35:07 com.vitria.flex.OSGiWebBridge <init>
+     [java] 信息: HostApplication(profileLocation=D:\jedi\yoda\export\home\bundles\m3o\ui\design.cache, pluginDirectory=D:\jedi\yoda\export\home\bundles\m3o\ui)
+     [java] 2009-4-1 20:35:07 com.vitria.flex.OSGiWebBridge start
+     [java] 信息: ----->> cleanup all cache...
+     [java] 2009-4-1 20:35:07 com.vitria.flex.OSGiWebBridge start
+     [java] 信息: ----->> Initialize OSGi framework...
+     [java] 2009-4-1 20:35:07 com.vitria.flex.OSGiWebBridge getExtendedConfig
+     [java] 信息: [getExtendedConfig] properties: D:\jedi\yoda\export\home\bundles\m3o\ui\conf\config_cache.properties
+     [java] 2009-4-1 20:35:07 com.vitria.flex.OSGiWebBridge getExtendedConfig
+     [java] 信息: [getExtendedConfig] properties: D:\jedi\yoda\export\home\bundles\m3o\ui\conf\config_opbook.properties
+     [java] 2009-4-1 20:35:07 com.vitria.flex.flexui.EmbeddedActivator start
+     [java] 信息: Service Activator starting.
+     [java] DEBUG: WIRE: 1.0 -> com.vitria.m3oui.osgi -> 1.0
+     [java] 2009-4-1 20:35:08 com.vitria.m3oui.osgi.M3OExtensionActivator start
+     [java] 信息: Register M3O Extension Framework Service.
+     [java] DEBUG: WIRE: 2.0 -> com.vitria.m3oui.role.rbac.extension -> 2.0
+     [java] 2009-4-1 20:35:08 com.vitria.widget.WidgetActivator start
+     [java] 信息: Register Opbook Widget Service.
+     [java] 2009-4-1 20:35:08 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: load all jars under D:\jedi\yoda\export\home\bundles\m3o\ui\bundle
+     [java] 2009-4-1 20:35:27 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle bpm.help.bundle
+     [java] 2009-4-1 20:35:27 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.dbschema.service
+     [java] DEBUG: WIRE: 6.0 -> com.vitria.m3oui.model.exception -> 76.0
+     [java] DEBUG: WIRE: 6.0 -> com.vitria.m3oui.core -> 76.0
+     [java] DEBUG: WIRE: 6.0 -> com.vitria.m3oui.sum -> 76.0
+     [java] DEBUG: WIRE: 6.0 -> com.vitria.m3oui.model -> 76.0
+     [java] 2009-4-1 20:35:27 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.flex.sdk.rsls
+     [java] 2009-4-1 20:35:27 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.layout.service
+     [java] DEBUG: WIRE: 8.0 -> com.vitria.opbook.service -> 145.0
+     [java] DEBUG: WIRE: 8.0 -> com.vitria.opbook.ks -> 145.0
+     [java] DEBUG: WIRE: 8.0 -> com.vitria.m3oui.model.exception -> 76.0
+     [java] DEBUG: WIRE: 8.0 -> com.vitria.m3oui.core -> 76.0
+     [java] DEBUG: WIRE: 8.0 -> com.vitria.m3oui.model.syn.impl -> 76.0
+     [java] DEBUG: WIRE: 8.0 -> com.vitria.m3oui.sum -> 76.0
+     [java] DEBUG: WIRE: 8.0 -> com.vitria.m3oui.model -> 76.0
+     [java] DEBUG: WIRE: 145.0 -> com.vitria.m3oui.model.exception -> 76.0
+     [java] DEBUG: WIRE: 145.0 -> com.vitria.m3oui.core -> 76.0
+     [java] DEBUG: WIRE: 145.0 -> com.vitria.m3oui.cache -> 76.0
+     [java] DEBUG: WIRE: 145.0 -> com.vitria.m3oui.model.syn.impl -> 76.0
+     [java] DEBUG: WIRE: 145.0 -> com.vitria.m3oui.sum -> 76.0
+     [java] DEBUG: WIRE: 145.0 -> com.vitria.m3oui.dataservice.assembler -> 76.0
+     [java] DEBUG: WIRE: 145.0 -> com.vitria.m3oui.model -> 76.0
+     [java] DEBUG: WIRE: 145.0 -> com.vitria.m3oui.dataservice.querygen -> 76.0
+     [java] WARNING: servlet.xml (org.apache.felix.moduleloader.ResourceNotFoundException: servlet.xml)
+     [java] 2009-4-1 20:35:28 com.vitria.m3oui.model.syn.impl.SynModelHandler <init>
+     [java] 信息: Start to listen all model changes...
+     [java] 2009-4-1 20:35:28 org.apache.jcs.engine.control.CompositeCacheManager getUnconfiguredInstance
+     [java] 信息: Instance is null, creating with provided config
+     [java] 2009-4-1 20:35:28 com.vitria.m3oui.model.syn.VersionManager getInstance
+     [java] 严重: java.lang.NoClassDefFoundError: EDU/oswego/cs/dl/util/concurrent/Channel
+     [java] 2009-4-1 20:35:28 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.m3o.release.build.eventpolicy
+     [java] DEBUG: WIRE: 9.0 -> com.vitria.m3o.release.build.processmodel -> 11.0
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.m3o.release.build.eventschema
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.m3o.release.build.processmodel
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.m3o.release.build.taskschema
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.m3o.release.build.usertask
+     [java] DEBUG: WIRE: 13.0 -> com.vitria.m3o.release.build.processmodel -> 11.0
+     [java] DEBUG: WIRE: 13.0 -> com.vitria.m3o.release.build.eventpolicy -> 9.0
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle AccessTag
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle bpmn.theme
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle Calendar.theme
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle EMCalendar
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle opbookface.theme
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle DynamicToolbar.icon.theme
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.esms.service
+     [java] DEBUG: WIRE: 20.0 -> com.vitria.m3oui.model.exception -> 76.0
+     [java] DEBUG: WIRE: 20.0 -> com.vitria.m3oui.core -> 76.0
+     [java] DEBUG: WIRE: 20.0 -> com.vitria.m3oui.sum -> 76.0
+     [java] DEBUG: WIRE: 20.0 -> com.vitria.m3oui.model -> 76.0
+     [java] DEBUG: WIRE: 20.0 -> com.vitria.esms.uibase.esms -> 20.0
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle ExportPage
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle form.theme
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle graph.theme
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle homepage.theme
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle HomePage
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.m3oui.impexp.service
+     [java] DEBUG: WIRE: 26.0 -> com.vitria.m3oui.model.exception -> 76.0
+     [java] DEBUG: WIRE: 26.0 -> com.vitria.m3oui.core -> 76.0
+     [java] DEBUG: WIRE: 26.0 -> com.vitria.m3oui.sum -> 76.0
+     [java] DEBUG: WIRE: 26.0 -> com.vitria.m3oui.util -> 76.0
+     [java] DEBUG: WIRE: 26.0 -> com.vitria.m3oui.impexp -> 26.0
+     [java] DEBUG: WIRE: 26.0 -> com.vitria.m3oui.model -> 76.0
+     [java] DEBUG: WIRE: 26.0 -> com.vitria.m3oui.role -> 76.0
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle impexpStyle
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle ImportPage
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle m3o_bpmn library
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle m3o_calendar library
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle degrafa and flexbook library
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle m3o_core library
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle m3o_home library
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle m3o_editingfw library
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle m3o_form library
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle m3o_graph library
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle m3o_impexp library
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle m3o_role library
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle m3o_simulation library
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle m3o_summary library
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle m3o_ws_management library
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle m3o_ws_modeling library
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle m3o_ws_monitoring library
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle m3o_ws_resource library
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle m3o_ws_schema library
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle m3o_ws_workflow library
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.m3oui.locale.en_US
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.m3oui.locale.zh_CN
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle M3O User Manager Service
+     [java] DEBUG: WIRE: 49.0 -> com.vitria.m3oui.core -> 76.0
+     [java] DEBUG: WIRE: 49.0 -> com.vitria.m3oui.sum.complexlogin -> 49.0
+     [java] DEBUG: WIRE: 49.0 -> com.vitria.m3oui.workflow -> 76.0
+     [java] DEBUG: WIRE: 49.0 -> com.vitria.m3oui.sum -> 76.0
+     [java] DEBUG: WIRE: 49.0 -> com.vitria.m3oui.util -> 76.0
+     [java] DEBUG: WIRE: 49.0 -> com.vitria.m3oui.sum.service -> 76.0
+     [java] DEBUG: WIRE: 49.0 -> com.vitria.m3oui.model -> 76.0
+     [java] 2009-4-1 20:35:29 com.vitria.m3oui.sum.complexlogin.UMLoginActivator start
+     [java] 信息: Register User Manager Service.
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge startBundle
+     [java] 警告: Fail to start file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.login.sum_2.1.1.jar it will be ignored
+     [java] org.osgi.framework.BundleException: Activator start error.
+     [java] 	at org.apache.felix.framework.Felix._startBundle(Felix.java:1651)
+     [java] 	at org.apache.felix.framework.Felix.startBundle(Felix.java:1541)
+     [java] 	at org.apache.felix.framework.BundleImpl.start(BundleImpl.java:371)
+     [java] 	at com.vitria.flex.OSGiWebBridge.startBundle(OSGiWebBridge.java:547)
+     [java] 	at com.vitria.flex.OSGiWebBridge.loadPlugins(OSGiWebBridge.java:481)
+     [java] 	at com.vitria.flex.OSGiWebBridge.start(OSGiWebBridge.java:440)
+     [java] 	at com.vitria.flex.OSGiWebBridge.initialize(OSGiWebBridge.java:97)
+     [java] 	at com.vitria.flex.OSGiClientLib.extractFlexConfig(OSGiClientLib.java:61)
+     [java] 	at com.vitria.flex.OSGiClientLib.main(OSGiClientLib.java:154)
+     [java] Caused by: java.lang.NoClassDefFoundError: com/vitria/engine/client/ApplicationLib
+     [java] 	at com.vitria.m3oui.sum.complexlogin.UMLoginService.<init>(UMLoginService.java:41)
+     [java] 	at com.vitria.m3oui.sum.complexlogin.UMLoginActivator.start(UMLoginActivator.java:20)
+     [java] 	at org.apache.felix.framework.util.SecureAction.startActivator(SecureAction.java:591)
+     [java] 	at org.apache.felix.framework.Felix._startBundle(Felix.java:1607)
+     [java] 	... 8 more
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle M3O User Manager Service
+     [java] DEBUG: WIRE: 50.0 -> com.vitria.m3oui.model.exception -> 76.0
+     [java] DEBUG: WIRE: 50.0 -> com.vitria.m3oui.core -> 76.0
+     [java] DEBUG: WIRE: 50.0 -> com.vitria.m3oui.workflow -> 76.0
+     [java] DEBUG: WIRE: 50.0 -> com.vitria.m3oui.sum -> 76.0
+     [java] DEBUG: WIRE: 50.0 -> com.vitria.m3oui.util -> 76.0
+     [java] DEBUG: WIRE: 50.0 -> com.vitria.m3oui.sum.service -> 76.0
+     [java] DEBUG: WIRE: 50.0 -> com.vitria.m3oui.model -> 76.0
+     [java] DEBUG: WIRE: 50.0 -> com.vitria.m3oui.sum.workflowlogin -> 50.0
+     [java] 2009-4-1 20:35:29 com.vitria.m3oui.sum.workflowlogin.WorkflowLoginActivator start
+     [java] 信息: Register User Manager Service.
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle vitria
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle MainBundle
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle filterResource
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle imagesResource
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle bpm.online.config
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle em.online.config
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle opbook.online.config
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle QueryBuilder.theme
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle databaseResource
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle feedDatabaseResource
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle feedFileResource
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle feedJmsResource
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle feedRestResource
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle feedResource
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle fileResource
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle jmsResource
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle restResource
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.m3oui.rest.extension.framework
+     [java] DEBUG: WIRE: 68.0 -> com.vitria.m3oui.rest.extension -> 68.0
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.m3oui.rest.model.service
+     [java] DEBUG: WIRE: 69.0 -> com.vitria.m3oui.model.exception -> 76.0
+     [java] DEBUG: WIRE: 69.0 -> com.vitria.m3oui.core -> 76.0
+     [java] DEBUG: WIRE: 69.0 -> com.vitria.m3oui.sum.complexlogin -> 49.0
+     [java] DEBUG: WIRE: 69.0 -> com.vitria.m3oui.role.security -> 72.0
+     [java] DEBUG: WIRE: 69.0 -> com.vitria.m3oui.model.impl -> 76.0
+     [java] DEBUG: WIRE: 69.0 -> com.vitria.m3oui.sum -> 76.0
+     [java] DEBUG: WIRE: 69.0 -> com.vitria.m3oui.model -> 76.0
+     [java] DEBUG: WIRE: 69.0 -> com.vitria.m3oui.schema -> 76.0
+     [java] DEBUG: WIRE: 72.0 -> com.vitria.m3oui.model.exception -> 76.0
+     [java] DEBUG: WIRE: 72.0 -> com.vitria.m3oui.core -> 76.0
+     [java] DEBUG: WIRE: 72.0 -> com.vitria.m3oui.role.security -> 72.0
+     [java] DEBUG: WIRE: 72.0 -> com.vitria.m3oui.sum -> 76.0
+     [java] DEBUG: WIRE: 72.0 -> com.vitria.m3oui.sum.service -> 76.0
+     [java] DEBUG: WIRE: 72.0 -> com.vitria.m3oui.model -> 76.0
+     [java] DEBUG: WIRE: 72.0 -> com.vitria.m3oui.role -> 76.0
+     [java] DEBUG: WIRE: 72.0 -> com.vitria.m3oui.role.vo -> 76.0
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle rest.uri.config
+     [java] DEBUG: WIRE: 70.0 -> com.vitria.m3oui.rest.extension.configuration -> 70.0
+     [java] WARNING:  (org.apache.felix.moduleloader.ResourceNotFoundException: )
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle role.privilege.config
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.m3oui.role.security.services
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle role.roles.config
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.m3oui.role.rbac.service
+     [java] DEBUG: WIRE: 74.0 -> com.vitria.m3oui.model.exception -> 76.0
+     [java] DEBUG: WIRE: 74.0 -> com.vitria.m3oui.core -> 76.0
+     [java] DEBUG: WIRE: 74.0 -> com.vitria.m3oui.role.exception -> 76.0
+     [java] DEBUG: WIRE: 74.0 -> com.vitria.m3oui.role.rbac -> 74.0
+     [java] DEBUG: WIRE: 74.0 -> com.vitria.m3oui.model.syn.impl -> 76.0
+     [java] DEBUG: WIRE: 74.0 -> com.vitria.m3oui.sum -> 76.0
+     [java] DEBUG: WIRE: 74.0 -> com.vitria.m3oui.role -> 76.0
+     [java] DEBUG: WIRE: 74.0 -> com.vitria.m3oui.model -> 76.0
+     [java] DEBUG: WIRE: 74.0 -> com.vitria.m3oui.role.vo -> 76.0
+     [java] 2009-4-1 20:35:29 com.vitria.m3oui.role.rbac.RoleActivator start
+     [java] 信息: Start security services...
+     [java] WARNING: remoting-config.xml (org.apache.felix.moduleloader.ResourceNotFoundException: remoting-config.xml)
+     [java] 2009-4-1 20:35:29 com.vitria.m3oui.model.syn.impl.SynModelHandler <init>
+     [java] 信息: Start to listen all model changes...
+     [java] 2009-4-1 20:35:29 com.vitria.m3oui.model.syn.VersionManager getInstance
+     [java] 严重: java.lang.NoClassDefFoundError: EDU/oswego/cs/dl/util/concurrent/Channel
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle security.service
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.m3o.ui.data.service
+     [java] WARNING: com/vitria/m3oui/dataservice/entity/Activity.hbm.xml (org.apache.felix.moduleloader.ResourceNotFoundException: com/vitria/m3oui/dataservice/entity/Activity.hbm.xml)
+     [java] WARNING: com/vitria/m3oui/dataservice/entity/Instance.hbm.xml (org.apache.felix.moduleloader.ResourceNotFoundException: com/vitria/m3oui/dataservice/entity/Instance.hbm.xml)
+     [java] WARNING: com/vitria/m3oui/dataservice/entity/Process.hbm.xml (org.apache.felix.moduleloader.ResourceNotFoundException: com/vitria/m3oui/dataservice/entity/Process.hbm.xml)
+     [java] WARNING: com/vitria/m3oui/dataservice/entity/Task.hbm.xml (org.apache.felix.moduleloader.ResourceNotFoundException: com/vitria/m3oui/dataservice/entity/Task.hbm.xml)
+     [java] WARNING: conf/validators/eventpolicy-rule.xml (org.apache.felix.moduleloader.ResourceNotFoundException: conf/validators/eventpolicy-rule.xml)
+     [java] WARNING: conf/validators/eventsource-rule.xml (org.apache.felix.moduleloader.ResourceNotFoundException: conf/validators/eventsource-rule.xml)
+     [java] WARNING: conf/validators/mornitoring-rule.xml (org.apache.felix.moduleloader.ResourceNotFoundException: conf/validators/mornitoring-rule.xml)
+     [java] WARNING: conf/validators/process-rule.xml (org.apache.felix.moduleloader.ResourceNotFoundException: conf/validators/process-rule.xml)
+     [java] WARNING: conf/validators/release-rule.xml (org.apache.felix.moduleloader.ResourceNotFoundException: conf/validators/release-rule.xml)
+     [java] WARNING: conf/validators/resource.properties (org.apache.felix.moduleloader.ResourceNotFoundException: conf/validators/resource.properties)
+     [java] WARNING: conf/validators/schema-rule.xml (org.apache.felix.moduleloader.ResourceNotFoundException: conf/validators/schema-rule.xml)
+     [java] WARNING: conf/validators/server-rule.xml (org.apache.felix.moduleloader.ResourceNotFoundException: conf/validators/server-rule.xml)
+     [java] WARNING: conf/validators/services-rule.xml (org.apache.felix.moduleloader.ResourceNotFoundException: conf/validators/services-rule.xml)
+     [java] WARNING: conf/validators/validator-config.xml (org.apache.felix.moduleloader.ResourceNotFoundException: conf/validators/validator-config.xml)
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle tagAttachment
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.m3oui.ws.eventsource.appgrade.service
+     [java] DEBUG: WIRE: 78.0 -> com.vitria.m3oui.model.exception -> 76.0
+     [java] DEBUG: WIRE: 78.0 -> com.vitria.m3oui.core -> 76.0
+     [java] DEBUG: WIRE: 78.0 -> com.vitria.m3oui.sum -> 76.0
+     [java] DEBUG: WIRE: 78.0 -> com.vitria.m3oui.util -> 76.0
+     [java] DEBUG: WIRE: 78.0 -> com.vitria.m3oui.model -> 76.0
+     [java] 2009-4-1 20:35:29 com.vitria.m3oui.upgrade.eventsource.EventSourceUpgradeActivitor start
+     [java] 信息: Register Event Source upgrade Service.
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.m3oui.ws.release.appgrade.service
+     [java] DEBUG: WIRE: 79.0 -> com.vitria.m3oui.model.exception -> 76.0
+     [java] DEBUG: WIRE: 79.0 -> com.vitria.m3oui.core -> 76.0
+     [java] DEBUG: WIRE: 79.0 -> com.vitria.m3oui.sum -> 76.0
+     [java] DEBUG: WIRE: 79.0 -> com.vitria.m3oui.util -> 76.0
+     [java] DEBUG: WIRE: 79.0 -> com.vitria.m3oui.model -> 76.0
+     [java] 2009-4-1 20:35:29 com.vitria.m3oui.upgrade.release.ReleaseUpgradeActivitor start
+     [java] 信息: Register Release upgrade Service.
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.m3oui.ws.server.appgrade.service
+     [java] DEBUG: WIRE: 80.0 -> com.vitria.m3oui.model.exception -> 76.0
+     [java] DEBUG: WIRE: 80.0 -> com.vitria.m3oui.core -> 76.0
+     [java] DEBUG: WIRE: 80.0 -> com.vitria.m3oui.sum -> 76.0
+     [java] DEBUG: WIRE: 80.0 -> com.vitria.m3oui.util -> 76.0
+     [java] DEBUG: WIRE: 80.0 -> com.vitria.m3oui.model -> 76.0
+     [java] 2009-4-1 20:35:29 com.vitria.m3oui.upgrade.server.ServerUpgradeActivitor start
+     [java] 信息: Register Server upgrade Service.
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.m3oui.ws.service.appgrade.service
+     [java] DEBUG: WIRE: 81.0 -> com.vitria.m3oui.model.exception -> 76.0
+     [java] DEBUG: WIRE: 81.0 -> com.vitria.m3oui.core -> 76.0
+     [java] DEBUG: WIRE: 81.0 -> com.vitria.m3oui.sum -> 76.0
+     [java] DEBUG: WIRE: 81.0 -> com.vitria.m3oui.util -> 76.0
+     [java] DEBUG: WIRE: 81.0 -> com.vitria.m3oui.model -> 76.0
+     [java] 2009-4-1 20:35:29 com.vitria.m3oui.upgrade.service.ServiceUpgradeActivitor start
+     [java] 信息: Service upgrade Service.
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle M3O UI Validation framework
+     [java] DEBUG: WIRE: 82.0 -> com.vitria.m3oui.model.exception -> 76.0
+     [java] DEBUG: WIRE: 82.0 -> com.vitria.m3oui.workgroup -> 76.0
+     [java] DEBUG: WIRE: 82.0 -> com.vitria.m3oui.core -> 76.0
+     [java] DEBUG: WIRE: 82.0 -> com.vitria.m3oui.validator -> 82.0
+     [java] DEBUG: WIRE: 82.0 -> com.vitria.m3oui.sum -> 76.0
+     [java] DEBUG: WIRE: 82.0 -> com.vitria.m3oui.util -> 76.0
+     [java] DEBUG: WIRE: 82.0 -> com.vitria.m3oui.model -> 76.0
+     [java] DEBUG: WIRE: 82.0 -> com.vitria.m3oui.schema -> 76.0
+     [java] DEBUG: WIRE: 82.0 -> com.vitria.m3oui.service -> 76.0
+     [java] 2009-4-1 20:35:29 com.vitria.m3oui.validator.service.dms.AbstractDMSValidatorService <init>
+     [java] 信息: Got DMS ValidationFactory
+     [java] 2009-4-1 20:35:29 com.vitria.m3oui.validator.service.dms.AbstractDMSValidatorService <init>
+     [java] 信息: Initialized the properties of this DMS validation service. [SchemaValidatorService provided by DMS]
+     [java] 2009-4-1 20:35:29 com.vitria.m3oui.validator.service.dms.SchemaValidatorService <init>
+     [java] 信息: Got SchemaValidator from ValidationFactory.
+     [java] 2009-4-1 20:35:29 com.vitria.m3oui.validator.service.dms.AbstractDMSValidatorService <init>
+     [java] 信息: Got DMS ValidationFactory
+     [java] 2009-4-1 20:35:29 com.vitria.m3oui.validator.service.dms.AbstractDMSValidatorService <init>
+     [java] 信息: Initialized the properties of this DMS validation service. [ViewValidatorService provided by DMS]
+     [java] 2009-4-1 20:35:29 com.vitria.m3oui.validator.service.dms.ViewValidatorService <init>
+     [java] 信息: Got ViewValidator from ValidationFactory.
+     [java] 2009-4-1 20:35:29 com.vitria.m3oui.validator.service.dms.AbstractDMSValidatorService <init>
+     [java] 信息: Got DMS ValidationFactory
+     [java] 2009-4-1 20:35:29 com.vitria.m3oui.validator.service.dms.AbstractDMSValidatorService <init>
+     [java] 信息: Initialized the properties of this DMS validation service. [JarFileValidator provided by DMS]
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle environment.default.extension
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle EnvironmentPage.theme
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle EnvironmentPage
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle eventpolicy.default.extension
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle EventPolicyPage.theme
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle EventPolicyPage
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle eventsource.default.extension
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle EventSourcePage.theme
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle EventSourcePage
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle feed.default.extension
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle FeedPage.theme
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle FeedPage
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle MonitoringPage.theme
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle MonitoringPage
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.m3oui.ws.opbook.en_US
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle remoting-config
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle rest_widget
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle OpBook.theme
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle OpBook.theme
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle data-management-config
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.m3oui.ws.opbook.zh_CN
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle process.default.extension
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle ProcessPage.theme
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle ProcessPage
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle release.default.extension
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle ReleasePage.theme
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle ReleasePage
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle resource.default.extension
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle ResourcePage.theme
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle ResourcePage
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle role.extension
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle role.theme
+     [java] 2009-4-1 20:35:29 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle RolePage
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle RuntimePage.theme
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle RuntimePage
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle schema.default.extension
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle dbschema
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle $dbschema.theme
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle SchemaPage.theme
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle schema.xsd.extension
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle SchemaPage
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle server.default.extension
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle ServerPage.theme
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle ServerPage
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle service.default.extension
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle ServicePage.theme
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle ServicePage
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.m3oui.ws.sso.service
+     [java] DEBUG: WIRE: 130.0 -> com.vitria.m3oui.util -> 76.0
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle WorkflowPage.theme
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle WorkflowPage
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle workgroup.default.extension
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle WorkgroupPage.theme
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle WorkgroupPage
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle opbook.help.bundle
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle opbook.images.bundle1
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle opbook.images.bundle2
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle opbook.images.bundle3
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle opbook.images.bundle4
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle opbook_core library
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle query_builder library
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle db schema extension library
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle OpbookSecurity
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.opbook.service
+     [java] 2009-4-1 20:35:30 com.vitria.m3oui.model.syn.impl.SynModelHandler <init>
+     [java] 信息: Start to listen all model changes...
+     [java] 2009-4-1 20:35:30 com.vitria.m3oui.model.syn.VersionManager getInstance
+     [java] 严重: java.lang.NoClassDefFoundError: EDU/oswego/cs/dl/util/concurrent/Channel
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle analytic_server extension
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.query.service
+     [java] DEBUG: WIRE: 147.0 -> com.vitria.opbook.service -> 145.0
+     [java] DEBUG: WIRE: 147.0 -> com.vitria.opbook.ks -> 145.0
+     [java] DEBUG: WIRE: 147.0 -> com.vitria.m3oui.model.exception -> 76.0
+     [java] DEBUG: WIRE: 147.0 -> com.vitria.m3oui.core -> 76.0
+     [java] DEBUG: WIRE: 147.0 -> com.vitria.m3oui.model.syn.impl -> 76.0
+     [java] DEBUG: WIRE: 147.0 -> com.vitria.m3oui.sum -> 76.0
+     [java] DEBUG: WIRE: 147.0 -> com.vitria.m3oui.model -> 76.0
+     [java] WARNING: servlet.xml (org.apache.felix.moduleloader.ResourceNotFoundException: servlet.xml)
+     [java] 2009-4-1 20:35:30 com.vitria.m3oui.model.syn.impl.SynModelHandler <init>
+     [java] 信息: Start to listen all model changes...
+     [java] 2009-4-1 20:35:30 com.vitria.m3oui.model.syn.VersionManager getInstance
+     [java] 严重: java.lang.NoClassDefFoundError: EDU/oswego/cs/dl/util/concurrent/Channel
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle BusinessProcessWidget
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle ControlWidget
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle DisplayWidget
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle FunctionWidget
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle HelloWorld
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle OdinWidget
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle flex-data-service-configuration
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle tm-flex-data-service-configuration
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle messaging-config
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle m3o_messenger library
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle com.vitria.m3oui.ws.tm.service
+     [java] DEBUG: WIRE: 158.0 -> com.vitria.m3oui.util -> 76.0
+     [java] WARNING: messaging-config.xml (org.apache.felix.moduleloader.ResourceNotFoundException: messaging-config.xml)
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle tm.theme
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle MessagePage
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle iGoogle.gadget
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle JBoss.Portlet
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle Yahoo.Widget
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle m3o.database.hibernate.oracle
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge loadPlugins
+     [java] 信息: Starting: bundle tm.database.hibernate.oracle
+     [java] 2009-4-1 20:35:30 com.vitria.flex.OSGiWebBridge start
+     [java] 信息: ----<< Start UI components successfully.
+     [java] Can't load data from OSGi bundles.
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/ext/database/Oracle/com.vitria.m3oui.tm.database.config_2.1.1.jar
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove tm.hibernate.cfg.xml cache of bundle://165.0:1/tm.hibernate.cfg.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/ext/database/Oracle/com.vitria.m3oui.database.config_2.1.1.jar
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove hibernate.cfg.xml cache of bundle://164.0:1/hibernate.cfg.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/ext/federation/com.vitria.federation.yahoo.widget_2.1.1.jar
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove M3O Dashboard.widget cache of bundle://163.0:1/M3O Dashboard.widget
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/ext/federation/com.vitria.federation.jboss.portlet_2.1.1.jar
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove m3oportlet.war cache of bundle://162.0:1/m3oportlet.war
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/ext/federation/com.vitria.federation.google.gadget_2.1.1.jar
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove M3OGadget.xml cache of bundle://161.0:1/M3OGadget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/ext/fds/BlazeDS/com.vitria.m3oui.ws.tm_2.1.1.jar
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove toolbar.xml cache of bundle://160.0:1/toolbar.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/ext/fds/BlazeDS/com.vitria.m3oui.ws.tm.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/ext/fds/BlazeDS/com.vitria.m3oui.ws.tm.service_2.1.1.jar
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/m3oui/ws/tm/message/Message.hbm.xml cache of bundle://158.0:1/com/vitria/m3oui/ws/tm/message/Message.hbm.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/m3oui/ws/tm/message/Topic.hbm.xml cache of bundle://158.0:1/com/vitria/m3oui/ws/tm/message/Topic.hbm.xml
+     [java] WARNING: messaging-config.xml (org.apache.felix.moduleloader.ResourceNotFoundException: messaging-config.xml)
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove servlet.xml cache of bundle://158.0:1/servlet.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/ext/fds/BlazeDS/com.vitria.m3oui.lib.messenger_2.1.1.jar
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/ext/fds/BlazeDS/noncluster/com.vitria.m3oui.ws.opbook.messaging-config_2.2.jar
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove messaging-config.xml cache of bundle://156.0:1/messaging-config.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/ext/fds/BlazeDS/noncluster/com.vitria.m3oui.tm.flex.configuration_2.1.1.jar
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove messaging-config.xml cache of bundle://155.0:1/messaging-config.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/ext/fds/BlazeDS/noncluster/com.vitria.m3oui.flex.configuration_2.1.1.jar
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove messaging-config.xml cache of bundle://154.0:1/messaging-config.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove proxy-config.xml cache of bundle://154.0:1/proxy-config.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove remoting-config.xml cache of bundle://154.0:1/remoting-config.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove services-config.xml cache of bundle://154.0:1/services-config.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.widget.OdinWidget_2.2.jar
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove assets/comic.ttf cache of bundle://153.0:1/assets/comic.ttf
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/Button-widget.xml cache of bundle://153.0:1/com/vitria/opbook/widgets/Button-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/dataexport-widget.xml cache of bundle://153.0:1/com/vitria/opbook/widgets/dataexport-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/join-record-widget.xml cache of bundle://153.0:1/com/vitria/opbook/widgets/join-record-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/json-to-xml-function-widget.xml cache of bundle://153.0:1/com/vitria/opbook/widgets/json-to-xml-function-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/orgchart/samples/animal-kingdom.xml cache of bundle://153.0:1/com/vitria/opbook/widgets/orgchart/samples/animal-kingdom.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/OrgChart-widget.xml cache of bundle://153.0:1/com/vitria/opbook/widgets/OrgChart-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/PivotTable-widget.xml cache of bundle://153.0:1/com/vitria/opbook/widgets/PivotTable-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/radioknob-widget.xml cache of bundle://153.0:1/com/vitria/opbook/widgets/radioknob-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/RSSReader-widget.xml cache of bundle://153.0:1/com/vitria/opbook/widgets/RSSReader-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/vumeter-widget.xml cache of bundle://153.0:1/com/vitria/opbook/widgets/vumeter-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove component.xml cache of bundle://153.0:1/component.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove conf/locale/en_US/OdinWidget.properties cache of bundle://153.0:1/conf/locale/en_US/OdinWidget.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove conf/locale/zh_CN/OdinWidget.properties cache of bundle://153.0:1/conf/locale/zh_CN/OdinWidget.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove images/back.png cache of bundle://153.0:1/images/back.png
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove images/next-item.png cache of bundle://153.0:1/images/next-item.png
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove images/prev-item.png cache of bundle://153.0:1/images/prev-item.png
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove library.xml cache of bundle://153.0:1/library.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove OdinWidget/catalog.xml cache of bundle://153.0:1/OdinWidget/catalog.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove OdinWidget/locale/en_US/OdinWidget.properties cache of bundle://153.0:1/OdinWidget/locale/en_US/OdinWidget.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove OdinWidget/locale/en_US/OpbookCore.properties cache of bundle://153.0:1/OdinWidget/locale/en_US/OpbookCore.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove OdinWidget/locale/en_US/OpbookModels.properties cache of bundle://153.0:1/OdinWidget/locale/en_US/OpbookModels.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove OdinWidget/locale/en_US/OpbookPage.properties cache of bundle://153.0:1/OdinWidget/locale/en_US/OpbookPage.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove widget.xml cache of bundle://153.0:1/widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.widget.HelloWorld_2.2.jar
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/widget/data-view-widget.xml cache of bundle://152.0:1/com/vitria/widget/data-view-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/widget/hello-world-widget.xml cache of bundle://152.0:1/com/vitria/widget/hello-world-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove component.xml cache of bundle://152.0:1/component.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove conf/locale/en_US/HelloWorldWidget.properties cache of bundle://152.0:1/conf/locale/en_US/HelloWorldWidget.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove conf/locale/zh_CN/HelloWorldWidget.properties cache of bundle://152.0:1/conf/locale/zh_CN/HelloWorldWidget.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove HelloWorld/catalog.xml cache of bundle://152.0:1/HelloWorld/catalog.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove HelloWorld/locale/en_US/HelloWorldWidget.properties cache of bundle://152.0:1/HelloWorld/locale/en_US/HelloWorldWidget.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove HelloWorld/locale/en_US/OpbookCore.properties cache of bundle://152.0:1/HelloWorld/locale/en_US/OpbookCore.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove HelloWorld/locale/en_US/OpbookModels.properties cache of bundle://152.0:1/HelloWorld/locale/en_US/OpbookModels.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove HelloWorld/locale/en_US/OpbookPage.properties cache of bundle://152.0:1/HelloWorld/locale/en_US/OpbookPage.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove library.xml cache of bundle://152.0:1/library.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove widget.xml cache of bundle://152.0:1/widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.widget.FunctionWidget_2.2.jar
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/binary-logical-function-widget.xml cache of bundle://151.0:1/com/vitria/opbook/widgets/binary-logical-function-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/binary-math-function-widget.xml cache of bundle://151.0:1/com/vitria/opbook/widgets/binary-math-function-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/complex-collection-function-widget.xml cache of bundle://151.0:1/com/vitria/opbook/widgets/complex-collection-function-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/concatenate-function-widget.xml cache of bundle://151.0:1/com/vitria/opbook/widgets/concatenate-function-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/get-value-function-widget.xml cache of bundle://151.0:1/com/vitria/opbook/widgets/get-value-function-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/get-xml-function-widget.xml cache of bundle://151.0:1/com/vitria/opbook/widgets/get-xml-function-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/if-null-function-widget.xml cache of bundle://151.0:1/com/vitria/opbook/widgets/if-null-function-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/item-at-function-widget.xml cache of bundle://151.0:1/com/vitria/opbook/widgets/item-at-function-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/not-function-widget.xml cache of bundle://151.0:1/com/vitria/opbook/widgets/not-function-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/range-map-function-widget.xml cache of bundle://151.0:1/com/vitria/opbook/widgets/range-map-function-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/results-filter-function-widget.xml cache of bundle://151.0:1/com/vitria/opbook/widgets/results-filter-function-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/results-sort-function-widget.xml cache of bundle://151.0:1/com/vitria/opbook/widgets/results-sort-function-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/simple-collection-function-widget.xml cache of bundle://151.0:1/com/vitria/opbook/widgets/simple-collection-function-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/string-map-function-widget.xml cache of bundle://151.0:1/com/vitria/opbook/widgets/string-map-function-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/substring-function-widget.xml cache of bundle://151.0:1/com/vitria/opbook/widgets/substring-function-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/to-record-function-widget.xml cache of bundle://151.0:1/com/vitria/opbook/widgets/to-record-function-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/to-xml-function-widget.xml cache of bundle://151.0:1/com/vitria/opbook/widgets/to-xml-function-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/tokenize-function-widget.xml cache of bundle://151.0:1/com/vitria/opbook/widgets/tokenize-function-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/unary-date-function-widget.xml cache of bundle://151.0:1/com/vitria/opbook/widgets/unary-date-function-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/unary-math-function-widget.xml cache of bundle://151.0:1/com/vitria/opbook/widgets/unary-math-function-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove component.xml cache of bundle://151.0:1/component.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove conf/locale/en_US/FunctionWidget.properties cache of bundle://151.0:1/conf/locale/en_US/FunctionWidget.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove conf/locale/zh_CN/FunctionWidget.properties cache of bundle://151.0:1/conf/locale/zh_CN/FunctionWidget.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove FunctionWidget/catalog.xml cache of bundle://151.0:1/FunctionWidget/catalog.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove FunctionWidget/locale/en_US/FunctionWidget.properties cache of bundle://151.0:1/FunctionWidget/locale/en_US/FunctionWidget.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove FunctionWidget/locale/en_US/OpbookCore.properties cache of bundle://151.0:1/FunctionWidget/locale/en_US/OpbookCore.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove FunctionWidget/locale/en_US/OpbookModels.properties cache of bundle://151.0:1/FunctionWidget/locale/en_US/OpbookModels.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove FunctionWidget/locale/en_US/OpbookPage.properties cache of bundle://151.0:1/FunctionWidget/locale/en_US/OpbookPage.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove library.xml cache of bundle://151.0:1/library.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove widget.xml cache of bundle://151.0:1/widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.widget.DisplayWidget_2.2.jar
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/forms/items/images/add.png cache of bundle://150.0:1/com/vitria/opbook/forms/items/images/add.png
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/forms/items/images/delete.png cache of bundle://150.0:1/com/vitria/opbook/forms/items/images/delete.png
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/forms/items/images/down.png cache of bundle://150.0:1/com/vitria/opbook/forms/items/images/down.png
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/forms/items/images/up.png cache of bundle://150.0:1/com/vitria/opbook/forms/items/images/up.png
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/chart/area-chart-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/chart/area-chart-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/chart/bar-chart-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/chart/bar-chart-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/chart/candlestick-chart-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/chart/candlestick-chart-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/chart/column-chart-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/chart/column-chart-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/chart/combo-chart-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/chart/combo-chart-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/chart/datetime-combo-chart-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/chart/datetime-combo-chart-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/chart/hloc-chart-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/chart/hloc-chart-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/chart/images/areachart-widget.png cache of bundle://150.0:1/com/vitria/opbook/widgets/chart/images/areachart-widget.png
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/chart/images/barchart-widget.png cache of bundle://150.0:1/com/vitria/opbook/widgets/chart/images/barchart-widget.png
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/chart/images/candlestickchart-widget.png cache of bundle://150.0:1/com/vitria/opbook/widgets/chart/images/candlestickchart-widget.png
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/chart/images/columnchart-widget.png cache of bundle://150.0:1/com/vitria/opbook/widgets/chart/images/columnchart-widget.png
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/chart/images/combochart-widget.png cache of bundle://150.0:1/com/vitria/opbook/widgets/chart/images/combochart-widget.png
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/chart/images/hlocchart-widget.png cache of bundle://150.0:1/com/vitria/opbook/widgets/chart/images/hlocchart-widget.png
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/chart/images/linechart-widget.png cache of bundle://150.0:1/com/vitria/opbook/widgets/chart/images/linechart-widget.png
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/chart/images/piechart-widget.png cache of bundle://150.0:1/com/vitria/opbook/widgets/chart/images/piechart-widget.png
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/chart/images/plotchart-widget.png cache of bundle://150.0:1/com/vitria/opbook/widgets/chart/images/plotchart-widget.png
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/chart/line-chart-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/chart/line-chart-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/chart/numeric-combo-chart-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/chart/numeric-combo-chart-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/chart/pie-chart-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/chart/pie-chart-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/chart/plot-chart-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/chart/plot-chart-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/data-grid-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/data-grid-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/enhancedDataGrid-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/enhancedDataGrid-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/gauge/analogmeter-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/gauge/analogmeter-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/gauge/horizontalmeter-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/gauge/horizontalmeter-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/gauge/icon-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/gauge/icon-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/gauge/line-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/gauge/line-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/gauge/shape-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/gauge/shape-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/gauge/verticalmeter-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/gauge/verticalmeter-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/images/datagrid-widget.png cache of bundle://150.0:1/com/vitria/opbook/widgets/images/datagrid-widget.png
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/inspector-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/inspector-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/object-grid-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/object-grid-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/scrollingtext-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/scrollingtext-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/text-display-widget.xml cache of bundle://150.0:1/com/vitria/opbook/widgets/text-display-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove component.xml cache of bundle://150.0:1/component.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove conf/locale/en_US/DisplayWidget.properties cache of bundle://150.0:1/conf/locale/en_US/DisplayWidget.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove conf/locale/zh_CN/DisplayWidget.properties cache of bundle://150.0:1/conf/locale/zh_CN/DisplayWidget.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove DisplayWidget/catalog.xml cache of bundle://150.0:1/DisplayWidget/catalog.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove DisplayWidget/locale/en_US/DisplayWidget.properties cache of bundle://150.0:1/DisplayWidget/locale/en_US/DisplayWidget.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove DisplayWidget/locale/en_US/OpbookCore.properties cache of bundle://150.0:1/DisplayWidget/locale/en_US/OpbookCore.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove DisplayWidget/locale/en_US/OpbookModels.properties cache of bundle://150.0:1/DisplayWidget/locale/en_US/OpbookModels.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove DisplayWidget/locale/en_US/OpbookPage.properties cache of bundle://150.0:1/DisplayWidget/locale/en_US/OpbookPage.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove library.xml cache of bundle://150.0:1/library.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove widget.xml cache of bundle://150.0:1/widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.widget.ControlWidget_2.2.jar
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/calendar-widget.xml cache of bundle://149.0:1/com/vitria/opbook/widgets/calendar-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/date-range-widget.xml cache of bundle://149.0:1/com/vitria/opbook/widgets/date-range-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/horizontal-slider-widget.xml cache of bundle://149.0:1/com/vitria/opbook/widgets/horizontal-slider-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/page-linkButton-widget.xml cache of bundle://149.0:1/com/vitria/opbook/widgets/page-linkButton-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/relative-date-range-widget.xml cache of bundle://149.0:1/com/vitria/opbook/widgets/relative-date-range-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/text-input-widget.xml cache of bundle://149.0:1/com/vitria/opbook/widgets/text-input-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/vertical-slider-widget.xml cache of bundle://149.0:1/com/vitria/opbook/widgets/vertical-slider-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove component.xml cache of bundle://149.0:1/component.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove conf/locale/en_US/ControlWidget.properties cache of bundle://149.0:1/conf/locale/en_US/ControlWidget.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove conf/locale/zh_CN/ControlWidget.properties cache of bundle://149.0:1/conf/locale/zh_CN/ControlWidget.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove ControlWidget/catalog.xml cache of bundle://149.0:1/ControlWidget/catalog.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove ControlWidget/locale/en_US/ControlWidget.properties cache of bundle://149.0:1/ControlWidget/locale/en_US/ControlWidget.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove ControlWidget/locale/en_US/OpbookCore.properties cache of bundle://149.0:1/ControlWidget/locale/en_US/OpbookCore.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove ControlWidget/locale/en_US/OpbookModels.properties cache of bundle://149.0:1/ControlWidget/locale/en_US/OpbookModels.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove ControlWidget/locale/en_US/OpbookPage.properties cache of bundle://149.0:1/ControlWidget/locale/en_US/OpbookPage.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove library.xml cache of bundle://149.0:1/library.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove widget.xml cache of bundle://149.0:1/widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.widget.BusinessProcessWidget_2.2.jar
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove BusinessProcessWidget/catalog.xml cache of bundle://148.0:1/BusinessProcessWidget/catalog.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove BusinessProcessWidget/locale/en_US/BusinessProcessWidget.properties cache of bundle://148.0:1/BusinessProcessWidget/locale/en_US/BusinessProcessWidget.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove BusinessProcessWidget/locale/en_US/OpbookCore.properties cache of bundle://148.0:1/BusinessProcessWidget/locale/en_US/OpbookCore.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove BusinessProcessWidget/locale/en_US/OpbookModels.properties cache of bundle://148.0:1/BusinessProcessWidget/locale/en_US/OpbookModels.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove BusinessProcessWidget/locale/en_US/OpbookPage.properties cache of bundle://148.0:1/BusinessProcessWidget/locale/en_US/OpbookPage.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/images/count.png cache of bundle://148.0:1/com/vitria/opbook/widgets/images/count.png
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/images/duration.png cache of bundle://148.0:1/com/vitria/opbook/widgets/images/duration.png
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/images/funnel.png cache of bundle://148.0:1/com/vitria/opbook/widgets/images/funnel.png
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/images/funnel_over.png cache of bundle://148.0:1/com/vitria/opbook/widgets/images/funnel_over.png
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/images/jeopardy.png cache of bundle://148.0:1/com/vitria/opbook/widgets/images/jeopardy.png
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/images/process-viewer-thumbnail.jpg cache of bundle://148.0:1/com/vitria/opbook/widgets/images/process-viewer-thumbnail.jpg
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/images/transactionlist-viewer-thumbnail.jpg cache of bundle://148.0:1/com/vitria/opbook/widgets/images/transactionlist-viewer-thumbnail.jpg
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/process-viewer-ext-widget.xml cache of bundle://148.0:1/com/vitria/opbook/widgets/process-viewer-ext-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/process-viewer-widget.xml cache of bundle://148.0:1/com/vitria/opbook/widgets/process-viewer-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/widgets/transactionList-viewer-widget.xml cache of bundle://148.0:1/com/vitria/opbook/widgets/transactionList-viewer-widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove component.xml cache of bundle://148.0:1/component.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove conf/locale/en_US/BusinessProcessWidget.properties cache of bundle://148.0:1/conf/locale/en_US/BusinessProcessWidget.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove conf/locale/zh_CN/BusinessProcessWidget.properties cache of bundle://148.0:1/conf/locale/zh_CN/BusinessProcessWidget.properties
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove library.xml cache of bundle://148.0:1/library.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove widget.xml cache of bundle://148.0:1/widget.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.query.service_2.2.jar
+     [java] WARNING: servlet.xml (org.apache.felix.moduleloader.ResourceNotFoundException: servlet.xml)
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.opbook.ws.server.extension_2.1.1.jar
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove analytic_server/catalog.xml cache of bundle://146.0:1/analytic_server/catalog.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove extension.xml cache of bundle://146.0:1/extension.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove privilege.xml cache of bundle://146.0:1/privilege.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.opbook.service_2.2.jar
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove servlet.xml cache of bundle://145.0:1/servlet.xml
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.opbook.security_2.2.jar
+     [java] 2009-4-1 20:35:30 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove extension.xml cache of bundle://144.0:1/extension.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove privilege.xml cache of bundle://144.0:1/privilege.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove roles.xml cache of bundle://144.0:1/roles.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove tagExtension.xml cache of bundle://144.0:1/tagExtension.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.opbook.lib.schema_2.2.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.opbook.lib.query_2.2.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.opbook.lib.core_2.2.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove component.xml cache of bundle://141.0:1/component.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove library.xml cache of bundle://141.0:1/library.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove opbook_core/catalog.xml cache of bundle://141.0:1/opbook_core/catalog.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.opbook.images4_2.2.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/000.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/000.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/001.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/001.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/002.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/002.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/003.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/003.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/004.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/004.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/005.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/005.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/006.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/006.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/007.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/007.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/008.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/008.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/009.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/009.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/010.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/010.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/011.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/011.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/012.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/012.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/013.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/013.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/014.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/014.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/015.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/015.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/016.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/016.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/017.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/017.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/018.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/018.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/019.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/019.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/020.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/020.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/021.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/021.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/022.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/022.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/023.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/023.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/024.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/024.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/025.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/025.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/026.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/026.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/027.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/027.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/028.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/028.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/029.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/029.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/030.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/030.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/031.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/031.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/032.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/032.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/033.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/033.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/034.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/034.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/035.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/035.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/036.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/036.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/037.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/037.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/038.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/038.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/039.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/039.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/040.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/040.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/041.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/041.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/042.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/042.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/043.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/043.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/044.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/044.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/045.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/045.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/046.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/046.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/047.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/047.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/048.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/048.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/049.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/049.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/050.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/050.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/051.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/051.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/052.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/052.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/053.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/053.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/054.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/054.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/055.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/055.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/056.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/056.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/057.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/057.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/058.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/058.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/059.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/059.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/060.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/060.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/061.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/061.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/062.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/062.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/063.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/063.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/064.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/064.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/065.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/065.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/066.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/066.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/067.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/067.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/068.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/068.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/069.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/069.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/070.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/070.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/071.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/071.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/072.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/072.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/073.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/073.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/074.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/074.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/075.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/075.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/076.png cache of bundle://140.0:1/com/vitria/opbook/images/icons/076.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/icons/index.txt cache of bundle://140.0:1/com/vitria/opbook/images/icons/index.txt
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.opbook.images3_2.2.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/2Balls_1Pie_3BarCharts.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/2Balls_1Pie_3BarCharts.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/3VBars.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/3VBars.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/4_Dials.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/4_Dials.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/6Widgets.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/6Widgets.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/8LineCharts.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/8LineCharts.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/Ball_Ball_Pie_VBar.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/Ball_Ball_Pie_VBar.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/California.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/California.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/Dial_VBar_HBar_Table.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/Dial_VBar_HBar_Table.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/HBar_Table_3VBars.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/HBar_Table_3VBars.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/HBar_VBar_Table.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/HBar_VBar_Table.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/index.txt cache of bundle://139.0:1/com/vitria/opbook/images/page/index.txt
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/LineBar_Pie_Model.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/LineBar_Pie_Model.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/LineBar_Table_Model.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/LineBar_Table_Model.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/LineGraph.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/LineGraph.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/Model.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/Model.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/Model_PieChart_VBar.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/Model_PieChart_VBar.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/Model_VBar_PieChart.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/Model_VBar_PieChart.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/Pie_Chart.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/Pie_Chart.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/Pie_HorizBar_Table.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/Pie_HorizBar_Table.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/Pie_VBar_HBar_Line_Dials.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/Pie_VBar_HBar_Line_Dials.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/Pie_VBar_HBar_Pie.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/Pie_VBar_HBar_Pie.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/USA_Dials.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/USA_Dials.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/USMap_BarCharts.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/USMap_BarCharts.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/VBar_Globe_Balls.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/VBar_Globe_Balls.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/VBar_Line_Table_Model.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/VBar_Line_Table_Model.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/VBar_Model_LineChart.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/VBar_Model_LineChart.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/VBar_PieChart_Model.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/VBar_PieChart_Model.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/VBar_Table_Model.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/VBar_Table_Model.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/VertBar_HBar_Pie_Table.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/VertBar_HBar_Pie_Table.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/Vertical_Bar.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/Vertical_Bar.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/page/Widget_Pie_VBar.jpg cache of bundle://139.0:1/com/vitria/opbook/images/page/Widget_Pie_VBar.jpg
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.opbook.images2_2.2.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/BarLine_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/BarLine_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/City_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/City_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/DNA_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/DNA_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Equities_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/Equities_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/ESB_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/ESB_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/FlagBlue_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/FlagBlue_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/FlagGreen_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/FlagGreen_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/FlagLtBlue_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/FlagLtBlue_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/FlagOrange_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/FlagOrange_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/FlagPurple_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/FlagPurple_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/FlagRed_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/FlagRed_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/FlagYellow_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/FlagYellow_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/FolderBlue_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/FolderBlue_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/FolderGreen_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/FolderGreen_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/FolderManila_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/FolderManila_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/FolderPurple_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/FolderPurple_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/FolderRed_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/FolderRed_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/FolderYellow_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/FolderYellow_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Gauges_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/Gauges_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Gear_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/Gear_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/GlobalTracking_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/GlobalTracking_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Globe_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/Globe_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Info_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/Info_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Laptop_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/Laptop_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Layout_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/Layout_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/LightBulb_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/LightBulb_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/LineChart_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/LineChart_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Medical_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/Medical_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Molecule_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/Molecule_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Money_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/Money_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Palette_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/Palette_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/PieBar_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/PieBar_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/PieChart_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/PieChart_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Plane_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/Plane_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Podium_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/Podium_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Process_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/Process_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Role_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/Role_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Security_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/Security_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Server_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/Server_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/StarBlue_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/StarBlue_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/StarGold_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/StarGold_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/StarGreen_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/StarGreen_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/StarOrange_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/StarOrange_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/StarPurple_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/StarPurple_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/StarRed_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/StarRed_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/StarViolet_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/StarViolet_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/StarYellow_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/StarYellow_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Telephone_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/Telephone_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Television_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/Television_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/ToDo_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/ToDo_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Truck_400x400.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/400x400/Truck_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/BarLine_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/BarLine_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/City_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/City_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/DNA_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/DNA_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Equities_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/Equities_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/ESB_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/ESB_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/FlagBlue_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/FlagBlue_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/FlagGreen_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/FlagGreen_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/FlagLtBlue_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/FlagLtBlue_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/FlagOrange_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/FlagOrange_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/FlagPurple_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/FlagPurple_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/FlagRed_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/FlagRed_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/FlagYellow_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/FlagYellow_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/FolderBlue_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/FolderBlue_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/FolderGreen_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/FolderGreen_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/FolderManila_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/FolderManila_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/FolderPurple_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/FolderPurple_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/FolderRed_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/FolderRed_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/FolderYellow_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/FolderYellow_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Gauges_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/Gauges_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Gear_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/Gear_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/GlobalTracking_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/GlobalTracking_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Globe_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/Globe_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Info_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/Info_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Laptop_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/Laptop_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Layout_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/Layout_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/LightBulb_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/LightBulb_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/LineChart_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/LineChart_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Medical_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/Medical_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Molecule_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/Molecule_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Money_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/Money_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Palette_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/Palette_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/PieBar_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/PieBar_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/PieChart_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/PieChart_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Plane_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/Plane_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Podium_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/Podium_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Process_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/Process_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Role_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/Role_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Security_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/Security_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Server_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/Server_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/StarBlue_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/StarBlue_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/StarGold_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/StarGold_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/StarGreen_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/StarGreen_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/StarOrange_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/StarOrange_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/StarPurple_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/StarPurple_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/StarRed_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/StarRed_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/StarViolet_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/StarViolet_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/StarYellow_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/StarYellow_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Telephone_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/Telephone_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Television_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/Television_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/ToDo_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/ToDo_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Truck_48x48.gif cache of bundle://138.0:1/com/vitria/opbook/images/book/48x48/Truck_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/index.txt cache of bundle://138.0:1/com/vitria/opbook/images/book/index.txt
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.opbook.images1_2.2.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/BallBlue2_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/BallBlue2_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/BallBlue_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/BallBlue_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/BallCream_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/BallCream_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/BallGreen_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/BallGreen_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/BallRed_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/BallRed_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/BallViolet_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/BallViolet_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/BallWhite_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/BallWhite_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/BallYellow_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/BallYellow_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Bar_Chart_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/Bar_Chart_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Briefcase_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/Briefcase_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Camera_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/Camera_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Compass_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/Compass_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Cube_Blue_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/Cube_Blue_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Cube_Brown_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/Cube_Brown_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Cube_Green_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/Cube_Green_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Cube_Orange_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/Cube_Orange_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Cube_Purple_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/Cube_Purple_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Cube_Red_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/Cube_Red_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Cube_Violet_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/Cube_Violet_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Cube_Yellow_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/Cube_Yellow_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Datebook_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/Datebook_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Federal_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/Federal_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Filter_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/Filter_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/400x400/Financial_400x400.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/400x400/Financial_400x400.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/BallBlue2_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/BallBlue2_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/BallBlue_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/BallBlue_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/BallCream_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/BallCream_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/BallGreen_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/BallGreen_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/BallRed_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/BallRed_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/BallViolet_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/BallViolet_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/BallWhite_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/BallWhite_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/BallYellow_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/BallYellow_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Bar_Chart_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/Bar_Chart_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Briefcase_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/Briefcase_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Camera_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/Camera_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Compass_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/Compass_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Cube_Blue_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/Cube_Blue_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Cube_Brown_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/Cube_Brown_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Cube_Green_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/Cube_Green_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Cube_Orange_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/Cube_Orange_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Cube_Purple_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/Cube_Purple_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Cube_Red_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/Cube_Red_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Cube_Violet_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/Cube_Violet_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Cube_Yellow_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/Cube_Yellow_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Datebook_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/Datebook_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Federal_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/Federal_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Filter_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/Filter_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/48x48/Financial_48x48.gif cache of bundle://137.0:1/com/vitria/opbook/images/book/48x48/Financial_48x48.gif
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/bookcase.png cache of bundle://137.0:1/com/vitria/opbook/images/book/bookcase.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/favorite.png cache of bundle://137.0:1/com/vitria/opbook/images/book/favorite.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/opbook/images/book/index.txt cache of bundle://137.0:1/com/vitria/opbook/images/book/index.txt
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.opbook.help_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.workgroup_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove m3o.xml cache of bundle://135.0:1/m3o.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.workgroup.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.workgroup.base.extension_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove extension.xml cache of bundle://133.0:1/extension.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.workflow_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove m3o.xml cache of bundle://132.0:1/m3o.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.workflow.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.sso.service_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove servlet.xml cache of bundle://130.0:1/servlet.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.service_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove m3o.xml cache of bundle://129.0:1/m3o.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.service.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.service.base.extension_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove extension.xml cache of bundle://127.0:1/extension.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.server_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove m3o.xml cache of bundle://126.0:1/m3o.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.server.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.server.base.extension_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove extension.xml cache of bundle://124.0:1/extension.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.schema_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove m3o.xml cache of bundle://123.0:1/m3o.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.schema.xsd.extension_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove extension.xml cache of bundle://122.0:1/extension.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.schema.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.schema.dbschema.theme_2.2.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.schema.dbschema-config_2.2.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove extension.xml cache of bundle://119.0:1/extension.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.schema.base.extension_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove editor.xml cache of bundle://118.0:1/editor.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove extension.xml cache of bundle://118.0:1/extension.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.runtime_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove m3o.xml cache of bundle://117.0:1/m3o.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.runtime.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.role_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove m3o.xml cache of bundle://115.0:1/m3o.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.role.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.role.ext_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove extension.xml cache of bundle://113.0:1/extension.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.resource_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove m3o.xml cache of bundle://112.0:1/m3o.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.resource.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.resource.base.extension_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove extension.xml cache of bundle://110.0:1/extension.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.release_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove m3o.xml cache of bundle://109.0:1/m3o.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.release.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.release.base.extension_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove extension.xml cache of bundle://107.0:1/extension.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.process_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove m3o.xml cache of bundle://106.0:1/m3o.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.process.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.process.base.extension_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove extension.xml cache of bundle://104.0:1/extension.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.opbook.zh_CN_2.2.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove locale.xml cache of bundle://103.0:1/locale.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.opbook.workspace-config_2.2.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove m3o.xml cache of bundle://102.0:1/m3o.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.opbook.theme_2.2.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.opbook.theme_1.0.0.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.opbook.rest_widget_2.2.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove param_def.xml cache of bundle://99.0:1/param_def.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.opbook.remoting-config_2.2.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove remoting-config.xml cache of bundle://98.0:1/remoting-config.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.opbook.en_US_2.2.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove locale.xml cache of bundle://97.0:1/locale.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.monitoring_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove m3o.xml cache of bundle://96.0:1/m3o.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.monitoring.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.feed_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove m3o.xml cache of bundle://94.0:1/m3o.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.feed.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.feed.base.extension_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove extension.xml cache of bundle://92.0:1/extension.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.eventsource_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove m3o.xml cache of bundle://91.0:1/m3o.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.eventsource.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.eventsource.base.extension_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove extension.xml cache of bundle://89.0:1/extension.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.eventpolicy_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove m3o.xml cache of bundle://88.0:1/m3o.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.eventpolicy.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.eventpolicy.base.extension_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove extension.xml cache of bundle://86.0:1/extension.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.environment_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove m3o.xml cache of bundle://85.0:1/m3o.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.environment.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.ws.environment.base.extension_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove extension.xml cache of bundle://83.0:1/extension.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.tag_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove extension.xml cache of bundle://77.0:1/extension.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.service_2.1.1.jar
+     [java] WARNING: com/vitria/m3oui/dataservice/entity/Activity.hbm.xml (org.apache.felix.moduleloader.ResourceNotFoundException: com/vitria/m3oui/dataservice/entity/Activity.hbm.xml)
+     [java] WARNING: com/vitria/m3oui/dataservice/entity/Instance.hbm.xml (org.apache.felix.moduleloader.ResourceNotFoundException: com/vitria/m3oui/dataservice/entity/Instance.hbm.xml)
+     [java] WARNING: com/vitria/m3oui/dataservice/entity/Process.hbm.xml (org.apache.felix.moduleloader.ResourceNotFoundException: com/vitria/m3oui/dataservice/entity/Process.hbm.xml)
+     [java] WARNING: com/vitria/m3oui/dataservice/entity/Task.hbm.xml (org.apache.felix.moduleloader.ResourceNotFoundException: com/vitria/m3oui/dataservice/entity/Task.hbm.xml)
+     [java] WARNING: conf/validators/eventpolicy-rule.xml (org.apache.felix.moduleloader.ResourceNotFoundException: conf/validators/eventpolicy-rule.xml)
+     [java] WARNING: conf/validators/eventsource-rule.xml (org.apache.felix.moduleloader.ResourceNotFoundException: conf/validators/eventsource-rule.xml)
+     [java] WARNING: conf/validators/mornitoring-rule.xml (org.apache.felix.moduleloader.ResourceNotFoundException: conf/validators/mornitoring-rule.xml)
+     [java] WARNING: conf/validators/process-rule.xml (org.apache.felix.moduleloader.ResourceNotFoundException: conf/validators/process-rule.xml)
+     [java] WARNING: conf/validators/release-rule.xml (org.apache.felix.moduleloader.ResourceNotFoundException: conf/validators/release-rule.xml)
+     [java] WARNING: conf/validators/resource.properties (org.apache.felix.moduleloader.ResourceNotFoundException: conf/validators/resource.properties)
+     [java] WARNING: conf/validators/schema-rule.xml (org.apache.felix.moduleloader.ResourceNotFoundException: conf/validators/schema-rule.xml)
+     [java] WARNING: conf/validators/server-rule.xml (org.apache.felix.moduleloader.ResourceNotFoundException: conf/validators/server-rule.xml)
+     [java] WARNING: conf/validators/services-rule.xml (org.apache.felix.moduleloader.ResourceNotFoundException: conf/validators/services-rule.xml)
+     [java] WARNING: conf/validators/validator-config.xml (org.apache.felix.moduleloader.ResourceNotFoundException: conf/validators/validator-config.xml)
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove conf/simulation/configure.properties cache of bundle://76.0:1/conf/simulation/configure.properties
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove conf/simulation/comparision.xsl cache of bundle://76.0:1/conf/simulation/comparision.xsl
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove conf/simulation/export.xsl cache of bundle://76.0:1/conf/simulation/export.xsl
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove servlet.xml cache of bundle://76.0:1/servlet.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.security.bootstrap_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove extension.xml cache of bundle://75.0:1/extension.xml
+     [java] 2009-4-1 20:35:31 com.vitria.m3oui.role.rbac.RoleActivator stop
+     [java] 信息: Stop security services...
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.role.service_2.1.1.jar
+     [java] WARNING: remoting-config.xml (org.apache.felix.moduleloader.ResourceNotFoundException: remoting-config.xml)
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.role.roles-config_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove roles.xml cache of bundle://73.0:1/roles.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.role.privilege-config_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove privilege.xml cache of bundle://71.0:1/privilege.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.rest.uri.config.loader_2.1.1.jar
+     [java] WARNING:  (org.apache.felix.moduleloader.ResourceNotFoundException: )
+     [java] 2009-4-1 20:35:31 com.vitria.flex.osgi.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.rest.model.service_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove uri.xml cache of bundle://69.0:1/uri.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.resource.rest_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove Resource.xml cache of bundle://67.0:1/Resource.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove ResourceDefinitions.xml cache of bundle://67.0:1/ResourceDefinitions.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove ResourceProperties.xml cache of bundle://67.0:1/ResourceProperties.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.resource.jms_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove Resource.xml cache of bundle://66.0:1/Resource.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove ResourceDefinitions.xml cache of bundle://66.0:1/ResourceDefinitions.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove ResourceProperties.xml cache of bundle://66.0:1/ResourceProperties.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.resource.file_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove Resource.xml cache of bundle://65.0:1/Resource.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove ResourceDefinitions.xml cache of bundle://65.0:1/ResourceDefinitions.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove ResourceProperties.xml cache of bundle://65.0:1/ResourceProperties.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.resource.feed_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove Resource.xml cache of bundle://64.0:1/Resource.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.resource.feedRest_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove Resource.xml cache of bundle://63.0:1/Resource.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.resource.feedJms_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove Resource.xml cache of bundle://62.0:1/Resource.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.resource.feedFile_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove Resource.xml cache of bundle://61.0:1/Resource.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.resource.feedDatabase_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove Resource.xml cache of bundle://60.0:1/Resource.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.resource.database_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove Resource.xml cache of bundle://59.0:1/Resource.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove ResourceDefinitions.xml cache of bundle://59.0:1/ResourceDefinitions.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove ResourceProperties.xml cache of bundle://59.0:1/ResourceProperties.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.query.querybuilder.theme_2.2.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.onlinehelp.opbook_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove onlineHelp.xml cache of bundle://57.0:1/onlineHelp.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.onlinehelp.em_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove onlineHelp.xml cache of bundle://56.0:1/onlineHelp.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.onlinehelp.bpm_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove onlineHelp.xml cache of bundle://55.0:1/onlineHelp.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.monitoring.resource.images_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/m3oui/ws/monitoring/image/event_db_source.png cache of bundle://54.0:1/com/vitria/m3oui/ws/monitoring/image/event_db_source.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/m3oui/ws/monitoring/image/event_file_source.png cache of bundle://54.0:1/com/vitria/m3oui/ws/monitoring/image/event_file_source.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/m3oui/ws/monitoring/image/event_jms_source.png cache of bundle://54.0:1/com/vitria/m3oui/ws/monitoring/image/event_jms_source.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/m3oui/ws/monitoring/image/event_policy.png cache of bundle://54.0:1/com/vitria/m3oui/ws/monitoring/image/event_policy.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/m3oui/ws/monitoring/image/event_source.png cache of bundle://54.0:1/com/vitria/m3oui/ws/monitoring/image/event_source.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/m3oui/ws/monitoring/image/feed.png cache of bundle://54.0:1/com/vitria/m3oui/ws/monitoring/image/feed.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/m3oui/ws/monitoring/image/feed_query.png cache of bundle://54.0:1/com/vitria/m3oui/ws/monitoring/image/feed_query.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/m3oui/ws/monitoring/image/process.png cache of bundle://54.0:1/com/vitria/m3oui/ws/monitoring/image/process.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove com/vitria/m3oui/ws/monitoring/image/schema.png cache of bundle://54.0:1/com/vitria/m3oui/ws/monitoring/image/schema.png
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.monitoring.resource.filter_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove monitoring-filter.xml cache of bundle://53.0:1/monitoring-filter.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.main_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.main.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.locale.zh_CN_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove locale.xml cache of bundle://48.0:1/locale.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.locale.en_US_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove locale.xml cache of bundle://47.0:1/locale.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.lib.ws.workflow_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.lib.ws.schema_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.lib.ws.resource_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.lib.ws.monitoring_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.lib.ws.modeling_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.lib.ws.management_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.lib.summary_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.lib.simulation_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.lib.role_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.lib.impexp_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.lib.graph_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.lib.form_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.lib.editingfw_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.lib.cube_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.lib.core_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.lib.common_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.lib.calendar_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.lib.bpmn_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.import_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove toolbar.xml cache of bundle://28.0:1/toolbar.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.impexp.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.impexp.service_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove remoting-config.xml cache of bundle://26.0:1/remoting-config.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.homepage_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove m3o.xml cache of bundle://25.0:1/m3o.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.homepage.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.graph.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.form.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.export_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove toolbar.xml cache of bundle://21.0:1/toolbar.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.dynamic.toolbar.icon.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.cube.opbook.face_2.2.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.calendar_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.calendar.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.bpmn.theme_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.m3oui.accesstag_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove extension.xml cache of bundle://14.0:1/extension.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove tagExtension.xml cache of bundle://14.0:1/tagExtension.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.layout.service_2.2.jar
+     [java] WARNING: servlet.xml (org.apache.felix.moduleloader.ResourceNotFoundException: servlet.xml)
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.flex.sdk.rsls_3.0.0.477.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:/D:/jedi/yoda/export/home/bundles/m3o/ui/bundle/com.vitria.bpm.help_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.FlexActivator stop
+     [java] 信息: Stop bundle file:///D:\jedi\yoda\export\home/bundles/m3o/ui/bundle/com.vitria.m3oui.configuration_2.1.1.jar
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove component.xml cache of bundle://3.0:1/component.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove extension.xml cache of bundle://3.0:1/extension.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove layout.xml cache of bundle://3.0:1/layout.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove library.xml cache of bundle://3.0:1/library.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove messaging-config.xml cache of bundle://3.0:1/messaging-config.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove proxy-config.xml cache of bundle://3.0:1/proxy-config.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove remoting-config.xml cache of bundle://3.0:1/remoting-config.xml
+     [java] 2009-4-1 20:35:31 com.vitria.flex.flexui.ModuleConfiguration removeModuleDocument
+     [java] 信息: Remove toolbar.xml cache of bundle://3.0:1/toolbar.xml
+
+main:
+     [echo] Debug flag : false
+     [echo] Locale flag: en_US
+     [java] Loading configuration file D:\jedi\yoda\export\home\build\flex-dataservices\flex_sdk_3\frameworks\flex-config.xml
+     [java] Warning: A signed RSL was specified for library D:\jedi\yoda\export\home\build\flex-dataservices\flex_sdk_3\frameworks\libs\framework.swc without an unsigned RSL as a failover. To avoid runtime errors, either require player version 9.0.60 in your HTML wrapper or add an unsigned RSL as a failover for the signed RSL. Use -target-player=9.0.60 if you choose to require player version 9.0.60.
+     [java] 
+     [java] Warning: A signed RSL was specified for library D:\jedi\yoda\export\home\build\flex-dataservices\flex_sdk_3\frameworks\libs\rpc.swc without an unsigned RSL as a failover. To avoid runtime errors, either require player version 9.0.60 in your HTML wrapper or add an unsigned RSL as a failover for the signed RSL. Use -target-player=9.0.60 if you choose to require player version 9.0.60.
+     [java] 
+     [java] D:\jedi\yoda\export\home\applications\m3o\ui\frameworks/source/Main.swf (603163 bytes)
+    [mkdir] Created dir: D:\jedi\yoda\export\home\applications\m3o\ui\frameworks\temp\bin
+    [mkdir] Created dir: D:\jedi\yoda\export\home\applications\m3o\ui\frameworks\temp\META-INF
+     [copy] Copying 1 file to D:\jedi\yoda\export\home\applications\m3o\ui\frameworks\temp\META-INF
+      [jar] Building jar: D:\jedi\yoda\export\home\bundles\m3o\ui\bundle\com.vitria.m3oui.main_2.1.1.jar
+
+BUILD SUCCESSFUL
+Total time: 36 seconds
+Call extensions build
+Buildfile: D:\jedi\yoda\export\home\applications\m3o\ui\extensions\esms\build.xml
+
+update-main-flexconfig:
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+Buildfile: D:\jedi\yoda\export\home\applications\m3o\ui\extensions\opbook\build.xml
+
+update-main-flexconfig:
+
+BUILD SUCCESSFUL
+Total time: 0 seconds

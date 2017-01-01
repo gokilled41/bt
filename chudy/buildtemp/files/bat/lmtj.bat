@@ -1,0 +1,2 @@
+call lmtjdir
+call mp

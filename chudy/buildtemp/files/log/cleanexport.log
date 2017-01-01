@@ -1,0 +1,8 @@
+Buildfile: C:\workspace\buildtemp\build.xml
+
+cleanexport:
+   [delete] Deleting directory D:\jedi\exportbak
+    [mkdir] Created dir: D:\jedi\exportbak
+
+BUILD SUCCESSFUL
+Total time: 8 minutes 18 seconds

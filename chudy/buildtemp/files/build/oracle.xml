@@ -1,0 +1,340 @@
+<?xml version="1.0"?>
+
+<project name="oracle" basedir="../..">
+    <import file="../../properties.xml" />
+    <import file="${files.dir}/build/common.xml" />
+
+    <property name="oracle_driver" value="oracle.jdbc.driver.OracleDriver" />
+    <property name="oracle_vt_ds_connection_ip" value="${vt_ds_server}" />
+    <property name="oracle_vt_ds_connection_port" value="${vt_ds_port}" />
+    <property name="oracle_vt_ds_database" value="${vt_ds_sid}" />
+    <property name="oracle_vt_ds_username" value="${vt_ds_username}" />
+    <property name="oracle_vt_ds_password" value="${vt_ds_password}" />
+
+    
+    <!-- Oracle -->
+    
+    <property name="oracle_vt_ds_connection_url" value="${oracle_vt_ds_connection_ip}:${oracle_vt_ds_connection_port}:${oracle_vt_ds_database}" />
+    <property name="oracle_url" value="jdbc:oracle:thin:@${oracle_vt_ds_connection_url}" />
+    <property name="oracle_user" value="${oracle_vt_ds_username}" />
+    <property name="oracle_password" value="${oracle_vt_ds_password}" />
+    
+    
+    <!-- Oralce Data Guard -->
+    <!--
+    <property name="oracle_vt_ds_connection_url" value="(DESCRIPTION=(LOAD_BALANCE=OFF)(FAILOVER=ON)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=10.101.7.152)(PORT=1521))(ADDRESS=(PROTOCOL=TCP)(HOST=10.101.7.113)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=orcl_one.qilinsoftcorp.qilinsoft.com)(SERVER=DEDICATED)))" />
+    <property name="oracle_url" value="jdbc:oracle:thin:@${oracle_vt_ds_connection_url}" />
+    <property name="oracle_user" value="gzhou" />
+    <property name="oracle_password" value="gzhou" />
+    -->
+
+    <!-- Oralce RAC -->
+    <!--
+    <property name="oracle_vt_ds_connection_url" value="(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=10.101.7.194)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=orcl.qilinsoft.com)(SERVER=DEDICATED)))" />
+    <property name="oracle_url" value="jdbc:oracle:thin:@${oracle_vt_ds_connection_url}" />
+    <property name="oracle_user" value="zgf_domainds" />
+    <property name="oracle_password" value="zgf_domainds" />
+    -->
+
+    <property name="oracle.dialect" value="org.hibernate.dialect.Oracle10gDialect" />
+
+    <property name="oracle_ojdbc.dir" value="${yoda.home}\build\lib\driver\ojdbc" />
+    <property name="oracle_ojdbc.version" value="11.1.0.6" />
+    <property name="oracle_xdb.version" value="10.2.0.3.0" />
+    <property name="oracle_ojdbc.jar" value="${ojdbc.dir}\ojdbc-${oracle_ojdbc.version}.jar" />
+    <property name="oracle_xdb.jar" value="${ojdbc.dir}\xdb-${xdb.version}.jar" />
+    <property name="oracle_xmlparserv2.jar" value="${ojdbc.dir}\xmlparserv2-${xdb.version}.jar" />
+
+    <taskdef name="oracledrop" classname="gzhou.OracleTablesDropperTask" classpath="${bin.dir};${oracle_ojdbc.jar}" />
+
+    <target name="oracle" depends="
+        oracle-config,
+        oracle-recreate-db" />
+
+    <target name="oracle-no-db" depends="
+        oracle-config" />
+
+    <target name="oracle-config" depends="
+        clean-drivers,
+        oracle-copy-drivers,
+        oracle-set-dialect,
+        oracle-deploy-repository,
+        oracle-copy-datasources,
+        oracle-fix-xdbconfig-sql" />
+
+    <target name="oracle-recreate-db" depends="
+        oracle-drop-db,
+        oracle-drop-all-tables, 
+        oracle-create-db" />
+
+    <target name="oracle-copy-drivers">
+        <copy todir="${jboss.lib.dir}" file="${oracle_ojdbc.jar}" overwrite="true" />
+        <!--
+        <copy todir="${jboss.lib.dir}" file="${oracle_xdb.jar}" overwrite="true" />
+        <copy todir="${jboss.lib.dir}" file="${oracle_xmlparserv2.jar}" overwrite="true" />
+        -->
+    </target>
+
+
+
+    <target name="oracle-set-dialect">
+        <append value="${oracle.dialect}" dest="${vtba.home}\data\m3o\server.xml" xpath="//dialect" type="text" replace="true" />
+        <append value="${oracle.dialect}" dest="${vtba.home}\data\m3o\server_analytic.xml" xpath="//dialect" type="text" replace="true" />
+        <append value="${oracle.dialect}" dest="${vtba.home}\data\m3o\server_feed.xml" xpath="//dialect" type="text" replace="true" />
+
+        <echo message="VT_HIBERNATE_DUALECT_VALUE: ${oracle.dialect}" />
+        <filter token="VT_HIBERNATE_DUALECT_VALUE" value="${oracle.dialect}" />
+        <copy todir="${jboss.conf.dir}" filtering="true" overwrite="true">
+            <fileset dir="${runtime.jboss.conf.dir}">
+                <include name="vtsecurity.properties" />
+                <include name="vtusermgr.properties" />
+            </fileset>
+        </copy>
+        <copy todir="${vtba.home}/data" filtering="true" overwrite="true">
+            <fileset dir="${yoda.home}\bw\src\bc\main">
+                <include name="vt-bc.properties" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="oracle-deploy-repository" depends="clean-repository">
+        <echo message="modify and deploy repository-oracle.xml for oracle" />
+        <echo message="url: ${oracle_url}" />
+        <echo message="user: ${oracle_user}" />
+        <echo message="password: ${oracle_password}" />
+        <filter token="URL" value="${oracle_url}" />
+        <filter token="USER" value="${oracle_user}" />
+        <filter token="PASSWORD" value="${oracle_password}" />
+        <copy todir="${vtba.home}\data\repository" filtering="true" overwrite="true">
+            <fileset dir="${vtba.home}\data\repository\template">
+                <include name="repository-ora.xml" />
+            </fileset>
+        </copy>
+
+        <append value="${vtba.home}/data/repository/repository-ora.xml" dest="${jboss.deploy.dir}\jcr-ds.xml" xpath="//config-property[@name='configFile']" type="text" replace="true" />
+
+    </target>
+
+    <target name="oracle-copy-datasources" depends="clean-datasources">
+        <echo message="modify and deploy vt-oracle-emf-ds.xml and vt-oracle-system-ds.xml" />
+        <echo message="url: ${oracle_url}" />
+        <echo message="user: ${oracle_user}" />
+        <echo message="password: ${oracle_password}" />
+        <filter token="VT_DS_CONNECTION_URL" value="${oracle_vt_ds_connection_url}" />
+        <filter token="VT_DS_USERNAME" value="${oracle_user}" />
+        <filter token="VT_DS_PASSWORD" value="${oracle_password}" />
+        <copy todir="${jboss.deploy.dir}" filtering="true" overwrite="true">
+            <fileset dir="${runtime.jboss.deploy.dir}">
+                <include name="vt-oracle-system-ds.xml" />
+                <include name="vt-oracle-emf-ds.xml" />
+                <include name="vt-oracle-feedserver-ds.xml" />
+                <include name="vt-oracle-vs-ds.xml" />
+                <include name="vt-oracle-processanalytics-ds.xml" />
+            </fileset>
+        </copy>
+        <copy todir="${vtba.home}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${vtba.home}\data\m3o\template">
+                <include name="default_ds_oracle.properties" />
+            </fileset>
+        </copy>
+        <move file="${vtba.home}\data\m3o\default_ds_oracle.properties" tofile="${vtba.home}\data\m3o\default_ds.properties" />
+    </target>
+
+    <target name="oracle-copy-datasources-performance">
+        <echo message="modify and deploy vt-oracle-emf-ds.xml and vt-oracle-system-ds.xml" />
+        <echo message="url: ${oracle_url}" />
+        <echo message="user: ${oracle_user}" />
+        <echo message="password: ${oracle_password}" />
+        <filter token="VT_DS_CONNECTION_URL" value="${oracle_vt_ds_connection_url}" />
+        <filter token="VT_DS_USERNAME" value="${oracle_user}" />
+        <filter token="VT_DS_PASSWORD" value="${oracle_password}" />
+        <copy todir="${jboss.deploy.dir}" filtering="true" overwrite="true">
+            <fileset dir="${files.dir}\xml\ds">
+                <include name="vt-oracle-system-ds.xml" />
+                <include name="vt-oracle-emf-ds.xml" />
+                <include name="vt-oracle-feedserver-ds.xml" />
+                <include name="vt-oracle-vs-ds.xml" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="oracle-set-ejb-jar-xml">
+        <property name="M3OServerApplication.ejb.name" value="M3OServerApplication-ejb.jar" />
+        <property name="M3OServerApplication.ejb.dir" value="${java.io.tmpdir}/${M3OServerApplication.ejb.name}" />
+
+        <echo message="update m3oserver.ear with new jars" />
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${m3o.ear.file}" dest="${m3o.ear.dir}" />
+
+        <mkdir dir="${M3OServerApplication.ejb.dir}" />
+        <property name="M3OServerApplication.ejb.file" value="${m3o.ear.dir}/${M3OServerApplication.ejb.name}" />
+        <unzip src="${M3OServerApplication.ejb.file}" dest="${M3OServerApplication.ejb.dir}" />
+
+        <append value="${oracle.dialect}" dest="${M3OServerApplication.ejb.dir}/META-INF/ejb-jar.xml" xpath="//*[text()='vtapplication/PersistenceDatabaseDialect']/../env-entry-value" type="cdata" replace="true" allnodes="true" />
+
+        <zip destfile="${M3OServerApplication.ejb.file}" basedir="${M3OServerApplication.ejb.dir}" />
+        <zip destfile="${m3o.ear.file}" basedir="${m3o.ear.dir}" />
+    </target>
+
+    <target name="oracle-create-db">
+        <sql driver="${oracle_driver}" url="${oracle_url}" userid="${oracle_user}" password="${oracle_password}" onerror="continue">
+            <fileset dir="${vtba.home}\runtime\sqlscripts">
+                <include name="create*ora.sql" />
+                <exclude name="*dm*runtime*.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${oracle_ojdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="oracle-drop-db">
+        <echo message="url: ${oracle_url}" />
+        <echo message="user: ${oracle_user}" />
+        <echo message="pass: ${oracle_password}" />
+        <sql driver="${oracle_driver}" url="${oracle_url}" userid="${oracle_user}" password="${oracle_password}" onerror="continue">
+            <fileset dir="${vtba.home}\runtime\sqlscripts">
+                <include name="drop*ora.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${oracle_ojdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="oracle-addusers">
+        <wfsql datasource="${jboss.deploy.dir}/vt-oracle-system-ds.xml" src="${sql.dir}/user2.sql" classpath="${oracle_ojdbc.jar};" onerror="continue" />
+        <echo message="users and role types are added successfully." />
+    </target>
+
+    <target name="oracle-drop-all-tables">
+        <oracledrop driver="${oracle_driver}" url="${oracle_url}" userid="${oracle_user}" password="${oracle_password}" />
+    </target>
+
+    <target name="oracle-fix-xdbconfig-sql">
+        <replace file="${runtime.sqlscripts.dir}/create-xdbconfig-ora.sql" token="/" value="" dir="${runtime.sqlscripts.dir}" />
+    </target>
+
+    <target name="oracle-txu">
+        <sql driver="${oracle_driver}" url="${oracle_url}" userid="${oracle_user}" password="${oracle_password}" onerror="continue">
+            <fileset dir="D:\Workflow-G\documents\M3O\V_3_1\Server\5_Test\4_OtherTest\TXU\sql">
+                <include name="createTable.sql" />
+                <include name="createLatencyTable.sql" />
+                <include name="txu_retry.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${oracle_ojdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="oracle-txu2">
+        <sql driver="${oracle_driver}" url="${oracle_url}" userid="${oracle_user}" password="${oracle_password}" onerror="continue">
+            <fileset dir="D:\Workflow-G\workflow bug fixing\2010-02-24 TXU\NewTXU">
+                <include name="schemaupload.sql" />
+                <include name="TXU_ALERT_SLA.DDL.sql" />
+                <include name="TXU_ALERT_SLA.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${oracle_ojdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="oracle-txu3">
+        <sql driver="${oracle_driver}" url="${oracle_url}" userid="${oracle_user}" password="${oracle_password}" onerror="continue">
+            <fileset dir="D:\Workflow-G\workflow bug fixing\2010-02-24 TXU\NewTXU2">
+                <include name="schemaupload2.sql" />
+                <include name="TXU_ALERT_SLA.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${oracle_ojdbc.jar}" />
+            </classpath>
+        </sql>
+
+        <sql driver="${oracle_driver}" url="${oracle_url}" userid="${oracle_user}" password="${oracle_password}" onerror="continue">
+            <fileset dir="D:\Workflow-G\documents\M3O\V_3_1\Server\5_Test\4_OtherTest\TXU\sql\newtxu">
+                <include name="createLatencyTable.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${oracle_ojdbc.jar}" />
+            </classpath>
+        </sql>
+
+        <sql driver="${oracle_driver}" url="${oracle_url}" userid="${oracle_user}" password="${oracle_password}" onerror="continue">
+            <fileset dir="D:\Workflow-G\documents\M3O\V_3_1\Server\5_Test\4_OtherTest\TXU\sql\newtxu">
+                <include name="latency_indexes.sql" />
+                <include name="sap_data.sql" />
+                <include name="sap_indexes.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${oracle_ojdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="oracle-txu-triggers">
+        <sql driver="${oracle_driver}" url="${oracle_url}" userid="${oracle_user}" password="${oracle_password}" onerror="continue">
+            <fileset dir="D:\Workflow-G\documents\M3O\V_3_1\Server\5_Test\4_OtherTest\TXU\sql\newtxu">
+                <include name="createLatencyTriggers.sql" />
+                <include name="process_status_index.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${oracle_ojdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="oracle-txu-conf">
+        <copy todir="${jboss.conf.dir}" overwrite="true">
+            <fileset dir="D:\Workflow-G\workflow bug fixing\2010-02-24 TXU\jboss conf">
+                <include name="jboss-log4j.xml" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="ora-txu" depends="
+            oracle-txu3" />
+
+    <target name="ora-dcrc">
+        <sql driver="${oracle_driver}" url="${oracle_url}" userid="${oracle_user}" password="${oracle_password}" onerror="continue">
+            <fileset dir="D:\Workflow-G\documents\M3O\V_3_1\Server\5_Test\4_OtherTest\TXU\dcrc\sql">
+                <include name="dcrc-drop-create2.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${oracle_ojdbc.jar}" />
+            </classpath>
+        </sql>
+        <sql driver="${oracle_driver}" url="${oracle_url}" userid="${oracle_user}" password="${oracle_password}" onerror="continue">
+            <fileset dir="D:\Workflow-G\documents\M3O\V_3_1\Server\5_Test\4_OtherTest\TXU\dcrc\sql">
+                <include name="dcrc-insert-sla2.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${oracle_ojdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="oracle-copy-drivers2-mssql2008">
+        <copy todir="${jboss.lib.dir}" file="${oracle_ojdbc.jar}" overwrite="true" />
+        <copy todir="${jboss.lib.dir}" file="${oracle_xdb.jar}" overwrite="true" />
+        <copy todir="${jboss.lib.dir}" file="${oracle_xmlparserv2.jar}" overwrite="true" />
+    </target>
+
+    <target name="oracle-copy-datasources2-mssql2008">
+        <echo message="modify and deploy vt-oracle-emf-ds.xml and vt-oracle-system-ds.xml" />
+        <echo message="url: ${oracle_url}" />
+        <echo message="user: ${oracle_user}" />
+        <echo message="password: ${oracle_password}" />
+        <filter token="VT_DS_CONNECTION_URL" value="${oracle_vt_ds_connection_url}" />
+        <filter token="VT_DS_USERNAME" value="${oracle_user}" />
+        <filter token="VT_DS_PASSWORD" value="${oracle_password}" />
+        <copy todir="${jboss.deploy.dir}" filtering="true" overwrite="true">
+            <fileset dir="${runtime.jboss.deploy.dir}">
+                <include name="vt-oracle-emf-ds.xml" />
+            </fileset>
+        </copy>
+    </target>
+
+</project>

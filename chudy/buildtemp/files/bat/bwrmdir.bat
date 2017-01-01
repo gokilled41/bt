@@ -1,0 +1,2 @@
+call bwrdir
+cd management

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://www.example.org/employee" 
+	xmlns:tns="http://www.example.org/employee">
+	
+    <element name="queryResult" type="tns:employeeArray"></element>
+    <complexType name="employeeArray">
+    	<sequence>
+    		<element name="item" type="tns:employeeInfo" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>    
+    <complexType name="employeeInfo">
+    	<sequence>
+    		<element name="ID" type="string"></element>
+    		<element name="NAME" type="string"></element>
+    		<element name="AGE" type="int"></element>
+    	</sequence>
+    </complexType>
+</schema>

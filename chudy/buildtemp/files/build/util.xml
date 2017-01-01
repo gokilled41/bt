@@ -1,0 +1,1747 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="util" basedir="../..">
+    <import file="../../properties.xml" />
+    <import file="oracle.xml" />
+
+    <target name="quartz-1.6.5">
+        <echo message="update m3oserver.ear with new quartz-all-1.6.5.jar" />
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${export.dir}/home/jboss/server/vtba/deploy/${m3o.ear.name}" dest="${m3o.ear.dir}" />
+        <delete>
+            <fileset dir="${m3o.ear.dir}/lib">
+                <include name="quartz*.jar" />
+            </fileset>
+        </delete>
+        <copy todir="${m3o.ear.dir}/lib">
+            <fileset dir="D:\jedi\src\quartz\1.6.5">
+                <include name="quartz-all-1.6.5.jar" />
+            </fileset>
+        </copy>
+        <zip destfile="${export.dir}/home/jboss/server/vtba/deploy/${m3o.ear.name}" basedir="${m3o.ear.dir}" />
+
+        <delete dir="${m3o.ear.dir}" />
+    </target>
+
+    <target name="quartz-1.6.0">
+        <echo message="update m3oserver.ear with new quartz-all-1.6.0.jar" />
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${export.dir}/home/jboss/server/vtba/deploy/${m3o.ear.name}" dest="${m3o.ear.dir}" />
+        <delete>
+            <fileset dir="${m3o.ear.dir}/lib">
+                <include name="quartz*.jar" />
+            </fileset>
+        </delete>
+        <copy todir="${m3o.ear.dir}/lib">
+            <fileset dir="D:\jedi\yoda\build\lib\runtime\quartz">
+                <include name="quartz-all-1.6.0.jar" />
+            </fileset>
+        </copy>
+        <zip destfile="${export.dir}/home/jboss/server/vtba/deploy/${m3o.ear.name}" basedir="${m3o.ear.dir}" />
+
+        <delete dir="${m3o.ear.dir}" />
+    </target>
+
+    <target name="poc-db">
+        <sql driver="${oracle_driver}" url="${oracle_url}" userid="${oracle_user}" password="${oracle_password}" onerror="continue">
+            <fileset dir="D:\jedi\branches\NexperientPoC\DB Scripts">
+                <include name="*.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${oracle_ojdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="clean-dms-runtime-sqls">
+        <delete>
+            <fileset dir="${vtba.home}\runtime\sqlscripts">
+                <include name="*dm*runtime*.sql" />
+                <include name="*dms*alter*.sql" />
+                <exclude name="*bc*runtime*.sql" />
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="up-wf-tables">
+        <sql driver="${oracle_driver}" url="${oracle_url}" userid="${oracle_user}" password="${oracle_password}" onerror="continue">
+            <fileset dir="${vtba.home}\runtime\sqlscripts">
+                <include name="drop-workflow-ora.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${oracle_ojdbc.jar}" />
+            </classpath>
+        </sql>
+        <sql driver="${oracle_driver}" url="${oracle_url}" userid="${oracle_user}" password="${oracle_password}" onerror="continue">
+            <fileset dir="${vtba.home}\runtime\sqlscripts">
+                <include name="create-workflow-ora.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${oracle_ojdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="up-bc-tables">
+        <sql driver="${oracle_driver}" url="${oracle_url}" userid="${oracle_user}" password="${oracle_password}" onerror="continue">
+            <fileset dir="${vtba.home}\runtime\sqlscripts">
+                <include name="drop-bc-ora.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${oracle_ojdbc.jar}" />
+            </classpath>
+        </sql>
+        <sql driver="${oracle_driver}" url="${oracle_url}" userid="${oracle_user}" password="${oracle_password}" onerror="continue">
+            <fileset dir="${vtba.home}\runtime\sqlscripts">
+                <include name="create-bc-ora.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${oracle_ojdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="cleanexport">
+        <delete dir="${export.bak.dir}" />
+        <mkdir dir="${export.bak.dir}" />
+    </target>
+
+    <target name="cleantodelete">
+        <delete dir="C:\to-delete" />
+        <mkdir dir="C:\to-delete" />
+        <delete dir="D:\to-delete" />
+        <mkdir dir="D:\to-delete" />
+        <delete dir="E:\to-delete" />
+        <mkdir dir="E:\to-delete" />
+    </target>
+
+    <target name="cleanlog">
+        <delete>
+            <fileset dir="${log.dir}">
+                <include name="*.log" />
+                <include name="*.zip" />
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="cleanesms">
+        <delete>
+            <fileset dir="${vtba.home}\esms\data">
+                <include name="*.*" />
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="cleanvtba3102">
+        <delete dir="E:\vtba3102" />
+    </target>
+
+    <target name="cleanvtbacf">
+        <delete dir="C:\vtba" />
+    </target>
+
+    <target name="cleancf">
+        <delete dir="C:\WAS" />
+    </target>
+
+    <target name="wf-clean-classes">
+        <delete>
+            <fileset dir="${export.dir}\m3o\classes">
+                <include name="wf*/**" />
+                <include name="com.vitria.workflow.*/**" />
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="wfnew_jboss">
+        <echo message="update vtwfcommon.jar, vtwfejbclient.jar, vtwfclient.jar and vtwfmodel.jar in home\jboss\server\vtba\lib" />
+        <copy todir="${jboss.lib.dir}">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtwfcommon.jar" />
+                <include name="vtwfejbclient.jar" />
+                <include name="vtwfclient.jar" />
+                <include name="vtwfmodel.jar" />
+            </fileset>
+        </copy>
+
+        <echo message="update com.vitria.workflow.*.jar in home\bundles\m3o\server\bundle" />
+        <copy todir="${bundles.server.dir}">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="com.vitria.workflow.*.jar" />
+            </fileset>
+        </copy>
+
+        <echo message="update *.xml and *.properties from m3o\workflow\src\bundles\data to vtba_home\data\workflow" />
+        <copy todir="${vtba.home}\data\workflow">
+            <fileset dir="${workflow.dir}\src\bundles\data">
+                <include name="*.xml" />
+                <include name="*.properties" />
+                <exclude name="EmailConfiguration.properties" />
+            </fileset>
+        </copy>
+
+        <echo message="update *.properties from m3o\workflow\en_US to vtba_home\locale\en_US" />
+        <copy todir="${vtba.home}\locale\en_US">
+            <fileset dir="${workflow.dir}\locale\en_US">
+                <include name="*.properties" />
+            </fileset>
+            <fileset dir="${yoda.home}\m3o\ui\locale\en_US">
+                <include name="validation.properties" />
+            </fileset>
+        </copy>
+
+        <echo message="update m3oserver.ear with new workflow jars" />
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${export.dir}/home/jboss/server/vtba/deploy/${m3o.ear.name}" dest="${m3o.ear.dir}" />
+        <copy todir="${m3o.ear.dir}/lib">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtse.jar" />
+                <include name="vtwfm3o.jar" />
+                <include name="vtwftaskmanager.jar" />
+            </fileset>
+        </copy>
+        <copy todir="${m3o.ear.dir}/ejb">
+            <fileset dir="${m3o.dist.dir}/JBoss">
+                <include name="Workflow-ejb.jar" />
+            </fileset>
+        </copy>
+        <zip destfile="${export.dir}/home/jboss/server/vtba/deploy/${m3o.ear.name}" basedir="${m3o.ear.dir}" />
+        <delete dir="${m3o.ear.dir}" />
+    </target>
+
+    <target name="bwnew">
+        <echo message="update vtba lib with new bw jar" />
+        <copy todir="${jboss.lib.dir}">
+            <fileset dir="${dist.dir}">
+                <include name="vtdms.jar" />
+                <include name="vtregistry.jar" />
+                <include name="vtdregistry.jar" />
+                <include name="vtrepository-ac.jar" />
+                <include name="vtrepositorysapi.jar" />
+                <include name="vtrepositoryclient.jar" />
+                <include name="vtrepositoryutil.jar" />
+                <include name="vtrepository-management.jar" />
+                <include name="vtsapi-remote-client.jar" />
+                <include name="vtum.jar" />
+                <include name="vtfc.jar" />
+                <include name="vtcf.jar" />
+                <include name="vtconnectors.jar" />
+                <include name="vtcommon.jar" />
+                <include name="vtbc.jar" />
+                <include name="vtcommands.jar" />
+                <include name="vtclusterservice.jar" />
+                <include name="vtresourcecoordinator.jar" />
+            </fileset>
+        </copy>
+        <copy todir="${vtba.home}\build\lib">
+            <fileset dir="${dist.dir}">
+                <include name="vtum.jar" />
+                <include name="vtfc.jar" />
+                <include name="vtcf.jar" />
+                <include name="vtconnectors.jar" />
+                <include name="vtcommon.jar" />
+                <include name="vtbc.jar" />
+            </fileset>
+        </copy>
+        <copy todir="${jboss.deploy.dir}">
+            <fileset dir="${dist.dir}">
+                <include name="vtsapi-remote-server-ejb.jar" />
+                <include name="vtrepository-management.sar" />
+            </fileset>
+        </copy>
+        <copy todir="${vtba.home}/data">
+            <fileset dir="${dist.dir}">
+                <include name="vt-system-security.data" />
+            </fileset>
+        </copy>
+        <copy todir="${vtba.home}/locale/en_US">
+            <fileset dir="${yoda.home}/bw/locale/en_US">
+                <include name="*.properties" />
+            </fileset>
+        </copy>
+        <copy todir="${vtba.home}\runtime\sqlscripts">
+            <fileset dir="${yoda.home}\bw\src\sql">
+                <include name="*.sql" />
+                <exclude name="*db2*.sql" />
+            </fileset>
+        </copy>
+        <copy todir="${vtba.home}\data\package\template">
+            <fileset dir="${yoda.home}\bw\src\me\asdjbosscore\templates\packager\driver">
+                <include name="jboss4-ds-oracle.vm" />
+                <include name="jboss4-ds-mysql.vm" />
+                <include name="jboss4-ds-mssql.vm" />
+            </fileset>
+        </copy>
+        <copy todir="${vtba.home}\bundles\m3o\utilities\bundle">
+            <fileset dir="${dist.dir}">
+                <include name="com.vitria.m3o.vtclusterservice.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="bwdmsnew">
+        <echo message="update vtba lib with new vtdms jar" />
+        <copy todir="${jboss.lib.dir}">
+            <fileset dir="${dist.dir}">
+                <include name="vtdms.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="bwcnew">
+        <echo message="update vtba lib with new vtcommon jar" />
+        <copy todir="${jboss.lib.dir}">
+            <fileset dir="${dist.dir}">
+                <include name="vtcommon.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="bwfcnew">
+        <echo message="update vtba lib with new vtfc jar" />
+        <copy todir="${jboss.lib.dir}">
+            <fileset dir="${dist.dir}">
+                <include name="vtfc.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="bwcfnew">
+        <echo message="update vtba lib with new vtcf jar" />
+        <copy todir="${jboss.lib.dir}">
+            <fileset dir="${dist.dir}">
+                <include name="vtcf.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="bwrepsapinew">
+        <echo message="update vtba lib with new vtregistry jar" />
+        <copy todir="${jboss.lib.dir}">
+            <fileset dir="${dist.dir}">
+                <include name="vtrepositorysapi.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="bwregnew">
+        <echo message="update vtba lib with new vtregistry jar" />
+        <copy todir="${jboss.lib.dir}">
+            <fileset dir="${dist.dir}">
+                <include name="vtregistry.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="msnew">
+        <echo message="update m3o server jars" />
+        
+        <!-- begin of updating m3o server ear -->
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${jboss.deploy.dir}/${m3o.ear.name}" dest="${m3o.ear.dir}" />
+        <copy todir="${m3o.ear.dir}/lib">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtcore.jar" />
+                <include name="vtengine.jar" />
+                <include name="vtfeedserver.jar" />
+                <include name="vtse.jar" />
+                <include name="vtvirtualserver.jar" />
+                <include name="vtdomainservice.jar" />
+                <include name="vtcomponents.jar" />
+                <include name="axis2Config.jar" />
+                <include name="vtdependency.jar" />
+                <include name="vtdiagnostics.jar" />
+            </fileset>
+        </copy>
+        <copy todir="${m3o.ear.dir}/ejb">
+            <fileset dir="${m3o.dist.dir}/JBoss">
+                <include name="*-ejb.jar" />
+                <exclude name="*-cluster-ejb.jar" />
+                <exclude name="LogAccessor-ejb.jar" />
+            </fileset>
+        </copy>
+        <copy todir="${m3o.ear.dir}/war">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="*.war" />
+            </fileset>
+        </copy>
+        <copy todir="${m3o.ear.dir}/sar">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtm3ocommands.sar" />
+            </fileset>
+        </copy>
+        <zip destfile="${jboss.deploy.dir}/${m3o.ear.name}" basedir="${m3o.ear.dir}" />
+        <delete dir="${m3o.ear.dir}" />
+        <!-- end of updating m3o server ear -->
+        
+        <!-- begin of updating m3o utility ear -->
+        <delete dir="${m3o.utility.ear.dir}" />
+        <mkdir dir="${m3o.utility.ear.dir}" />
+        <unzip src="${jboss.deploy.dir}/${m3o.utility.ear.name}" dest="${m3o.utility.ear.dir}" />
+        <copy todir="${m3o.utility.ear.dir}/ejb">
+            <fileset dir="${m3o.dist.dir}/JBoss">
+                <include name="LogAccessor-ejb.jar" />
+            </fileset>
+        </copy>
+        <zip destfile="${jboss.deploy.dir}/${m3o.utility.ear.name}" basedir="${m3o.utility.ear.dir}" />
+        <delete dir="${m3o.utility.ear.dir}" />
+        <!-- end of updating server ear -->
+        
+        <!-- begin of updating stage folders -->
+        <copy todir="${m3o.stage.jboss.m3oserver.dir}/lib">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtcore.jar" />
+                <include name="vtengine.jar" />
+                <include name="vtfeedserver.jar" />
+                <include name="vtse.jar" />
+                <include name="vtvirtualserver.jar" />
+                <include name="vtdomainservice.jar" />
+                <include name="vtcomponents.jar" />
+                <include name="axis2Config.jar" />
+                <include name="vtdependency.jar" />
+            </fileset>
+        </copy>
+        <copy todir="${m3o.stage.jboss.m3oserver.dir}/ejb">
+            <fileset dir="${m3o.dist.dir}/JBoss">
+                <include name="*-ejb.jar" />
+                <exclude name="*-cluster-ejb.jar" />
+            </fileset>
+        </copy>
+        <copy todir="${m3o.stage.jboss.m3oserver.dir}/war">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="*.war" />
+            </fileset>
+        </copy>
+        <copy todir="${m3o.stage.jboss.m3oserver.dir}/sar">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtm3ocommands.sar" />
+            </fileset>
+        </copy>
+        <!-- end of updating stage folders -->
+
+        <copy todir="${jboss.lib.dir}">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtclient.jar" />
+                <include name="vttimerservice.jar" />
+                <include name="vtm3ocommands.jar" />
+                <include name="vt*connector.jar" />
+                <include name="vtimpexputil.jar" />
+                <include name="vtshare.jar" />
+                <include name="vtanalyticsclient.jar" />
+            </fileset>
+        </copy>
+
+        <copy todir="${jboss.deploy.dir}">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vt*connector.rar" />
+                <!--<include name="vtdiagnostics.sar" />-->
+            </fileset>
+        </copy>
+
+        <copy todir="${vtba.home}\locale\en_US">
+            <fileset dir="${yoda.home}\m3o\server\locale\en_US">
+                <include name="*.properties" />
+            </fileset>
+        </copy>
+
+        <copy todir="${vtba.home}\runtime\sqlscripts">
+            <fileset dir="${yoda.home}\m3o\server\src\sql">
+                <include name="*.sql" />
+                <include name="*.lst" />
+            </fileset>
+        </copy>
+
+        <copy todir="${vtba.home}\bundles\m3o\server\conf">
+            <fileset dir="${yoda.home}\m3o\bpa\emf\server\src\modules\resources">
+                <include name="config.properties" />
+            </fileset>
+        </copy>
+        
+    </target>
+
+    <target name="mscnew">
+        <echo message="update m3oserver.ear with new vtcore jar" />
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${jboss.deploy.dir}/${m3o.ear.name}" dest="${m3o.ear.dir}" />
+        <copy todir="${m3o.ear.dir}/lib">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtcore.jar" />
+            </fileset>
+        </copy>
+        <zip destfile="${jboss.deploy.dir}/${m3o.ear.name}" basedir="${m3o.ear.dir}" />
+        <delete dir="${m3o.ear.dir}" />
+    </target>
+
+    <target name="msenew">
+        <echo message="update m3oserver.ear with new vtengine jar" />
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${jboss.deploy.dir}/${m3o.ear.name}" dest="${m3o.ear.dir}" />
+        <copy todir="${m3o.ear.dir}/lib">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtengine.jar" />
+            </fileset>
+        </copy>
+        <zip destfile="${jboss.deploy.dir}/${m3o.ear.name}" basedir="${m3o.ear.dir}" />
+        <delete dir="${m3o.ear.dir}" />
+    </target>
+
+    <target name="msvsnew">
+        <echo message="update m3oserver.ear with new vtvirtualserver jar" />
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${jboss.deploy.dir}/${m3o.ear.name}" dest="${m3o.ear.dir}" />
+        <copy todir="${m3o.ear.dir}/lib">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtvirtualserver.jar" />
+            </fileset>
+        </copy>
+        <zip destfile="${jboss.deploy.dir}/${m3o.ear.name}" basedir="${m3o.ear.dir}" />
+        <delete dir="${m3o.ear.dir}" />
+    </target>
+
+    <target name="msvsdevnew">
+        <echo message="update m3oserver.ear with new virtual server junitee ear" />
+
+        <property name="vs.war.name" value="vtvirtualserver-junitee.war" />
+        <property name="vs.war.file" value="${yoda.home}/export/test/dist/${vs.war.name}" />
+        <property name="vs.war.dir" value="${java.io.tmpdir}/${vs.war.name}" />
+
+        <delete dir="${vs.war.dir}" />
+        <mkdir dir="${vs.war.dir}" />
+        <unzip src="${vs.war.file}" dest="${vs.war.dir}" />
+        <mkdir dir="${vs.war.dir}/WEB-INF/lib" />
+        <copy todir="${vs.war.dir}/WEB-INF/lib">
+            <fileset dir="${files.lib.vs.dir}">
+                <include name="*.jar" />
+            </fileset>
+        </copy>
+        <zip destfile="${vs.war.file}" basedir="${vs.war.dir}" />
+        <delete dir="${vs.war.dir}" />
+
+        <property name="vs.ear.name" value="vtm3oserver.ear" />
+        <property name="vs.ear.file" value="${yoda.home}/export/test/dist/${vs.ear.name}" />
+        <property name="vs.ear.dir" value="${java.io.tmpdir}/${vs.ear.name}" />
+
+        <delete dir="${vs.ear.dir}" />
+        <mkdir dir="${vs.ear.dir}" />
+        <unzip src="${vs.ear.file}" dest="${vs.ear.dir}" />
+        <copy todir="${vs.ear.dir}/war">
+            <fileset dir="${yoda.home}/export/test/dist">
+                <include name="${vs.war.name}" />
+            </fileset>
+        </copy>
+        <copy todir="${vs.ear.dir}/lib">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtcore.jar" />
+                <include name="vtcomponents.jar" />
+                <include name="vtvirtualserver.jar" />
+                <include name="vtengine.jar" />
+            </fileset>
+        </copy>
+        <zip destfile="${vs.ear.file}" basedir="${vs.ear.dir}" />
+        <delete dir="${vs.ear.dir}" />
+
+        <copy todir="${jboss.deploy.dir}">
+            <fileset dir="${export.dir}\test\dist">
+                <include name="${m3o.ear.name}" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="msclnew">
+        <echo message="update m3oserver.ear with new vtclient jar" />
+        <copy todir="${jboss.lib.dir}">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtclient.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="mslnew">
+        <echo message="update m3o server locale files for en_US" />
+        <copy todir="${vtba.home}\locale\en_US">
+            <fileset dir="${yoda.home}\m3o\server\locale\en_US">
+                <include name="*.properties" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="msfsnew">
+        <echo message="update m3oserver.ear with new vtfeedserver jar" />
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${jboss.deploy.dir}/${m3o.ear.name}" dest="${m3o.ear.dir}" />
+        <copy todir="${m3o.ear.dir}/lib">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtfeedserver.jar" />
+            </fileset>
+        </copy>
+        <zip destfile="${jboss.deploy.dir}/${m3o.ear.name}" basedir="${m3o.ear.dir}" />
+        <delete dir="${m3o.ear.dir}" />
+    </target>
+
+    <target name="mbcnew">
+        <echo message="update m3oserver.ear with new vtcomponents jar" />
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${jboss.deploy.dir}/${m3o.ear.name}" dest="${m3o.ear.dir}" />
+        <copy todir="${m3o.ear.dir}/lib">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtcomponents.jar" />
+            </fileset>
+        </copy>
+        <zip destfile="${jboss.deploy.dir}/${m3o.ear.name}" basedir="${m3o.ear.dir}" />
+        <delete dir="${m3o.ear.dir}" />
+    </target>
+
+    <target name="mbmlnew">
+        <echo message="update com.vitria.m3o.server.lifecycle_3.0.jar" />
+        <copy todir="${bundles.server.dir}">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="com.vitria.m3o.server.lifecycle*.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="mbmalnew">
+        <echo message="update com.vitria.analytic.lifecycle_3.0.jar" />
+        <copy todir="${bundles.server.dir}">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="com.vitria.analytic.lifecycle*.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="mbmnew">
+        <echo message="update m3o bpa modules" />
+        <copy todir="${bundles.server.dir}">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="com.vitria.m3o.*.jar" />
+                <include name="com.vitria.feed.*.jar" />
+                <include name="com.vitria.analytic.*.jar" />
+                <exclude name="com.vitria.m3o.server.tracktrace.jar" />
+                <exclude name="com.vitria.m3o.server.processexplorer.jar" />
+                <exclude name="com.vitria.m3o.server.test.jar" />
+            </fileset>
+        </copy>
+        <copy todir="${bundles.server.dir}">
+            <fileset dir="${yoda.home}\export\projects\esms\serverbundles">
+                <include name="com.vitria.analytic.querycomponent.jar" />
+                <include name="com.vitria.cep.pubsub.jar" />
+                <include name="com.vitria.livecollection.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="munew">
+    	  <echo message="update m3o ui jars" />
+        
+        <!-- begin of updating ui ear -->
+        <delete dir="${m3o.ui.ear.dir}" />
+        <mkdir dir="${m3o.ui.ear.dir}" />
+        <unzip src="${jboss.deploy.dir}/${m3o.ui.ear.name}" dest="${m3o.ui.ear.dir}" />
+        <copy todir="${m3o.ui.ear.dir}/ejb">
+            <fileset dir="${m3oui.dist.ejb.dir}">
+                <include name="*-ejb.jar" />
+            </fileset>
+        </copy>
+        <zip destfile="${jboss.deploy.dir}/${m3o.ui.ear.name}" basedir="${m3o.ui.ear.dir}" />
+        <delete dir="${m3o.ui.ear.dir}" />
+        <!-- end of updating ui ear -->
+    	
+        <echo message="update m3o ui bundles" />
+        <copy todir="${bundles.ui.dir}">
+            <fileset dir="${export.dir}\projects\m3o\uibundles\bundle">
+                <include name="*.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="vsutilnew">
+        <echo message="update vtba lib with new vtvsutil jar" />
+        <copy todir="${jboss.lib.dir}">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtvsutil.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="mjunew">
+        <echo message="update m3o server jars with new utility ear" />
+        
+        <!-- begin of updating server ear to remove log ejb -->
+    <!--
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${jboss.deploy.dir}/${m3o.ear.name}" dest="${m3o.ear.dir}" />
+        <delete file="${m3o.ear.dir}/ejb/LogAccessor-ejb.jar" />
+        <delete file="${jboss.deploy.dir}/${m3o.ear.name}" />
+        <copy todir="${m3o.ear.dir}\META-INF" overwrite="true">
+            <fileset dir="D:\Workflow-G\workflow bug fixing\2015-01-14 Server Admin\mjunew">
+                <include name="application.xml" />
+            </fileset>
+        </copy>
+        <zip destfile="${jboss.deploy.dir}/${m3o.ear.name}" basedir="${m3o.ear.dir}" />
+        <delete dir="${m3o.ear.dir}" />
+    -->
+        <!-- end of updating server ear to remove log ejb -->
+        
+        <copy todir="${jboss.lib.dir}">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtclient.jar" />
+            </fileset>
+        </copy>
+        
+    <!--
+        <copy todir="${jboss.deploy.dir}">
+            <fileset dir="${m3o.dist.jboss.dir}">
+                <include name="vtm3outility.ear" />
+            </fileset>
+        </copy>
+    -->
+        <copy todir="${bundles.ui.dir}" overwrite="true">
+            <fileset dir="${desktop.dir}\logview">
+                <include name="*.jar" />
+            </fileset>
+        </copy>
+        
+        <!--copy todir="${vtba.home}\data\vtconfig\m3o">
+            <fileset dir="C:\Users\Chudy\Desktop">
+                <include name="build.xml" />
+            </fileset>
+        </copy-->
+    </target>
+
+    <target name="copy-vtwftest-lib">
+        <echo message="update vtwftest.jar in home\jboss\server\vtba\lib" />
+        <copy todir="${jboss.lib.dir}">
+            <fileset dir="${test.dist.dir}">
+                <include name="vtwftest.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="clean-vtwftest-lib">
+        <delete>
+            <fileset dir="${jboss.lib.dir}">
+                <include name="vtwftest.jar" />
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="copy-jars">
+        <echo message="copy jars for tasks merge and wfsql in buildtemp" />
+        <echo message="vtwftest.jar, dom4j-1.6.1.jar, commons-logging.jar, vtfc.jar, vtum.jar" />
+        <copy todir="${lib.dir}" overwrite="true" failonerror="continue">
+            <fileset dir="${export.dir}/test/dist">
+                <include name="vtwftest.jar" />
+            </fileset>
+            <fileset dir="${jboss.lib.dir}">
+                <include name="dom4j-1.6.1.jar" />
+                <include name="commons-logging.jar" />
+                <include name="vtfc.jar" />
+                <include name="vtum.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="append">
+        <appenddate src="${desktop.dir}\diary.txt" />
+        <appenddate src="${desktop.dir}\notes.txt" />
+        <appenddate src="${desktop.dir}\bugs.txt" />
+    </target>
+
+    <target name="append-tasklist">
+        <appendtasklist src="${desktop.dir}\tasklist.txt" />
+    </target>
+
+    <target name="append2">
+        <appenddate src="${desktop.dir}\diary.txt" continuous="true" />
+        <appenddate src="${desktop.dir}\notes.txt" continuous="true" />
+        <appenddate src="${desktop.dir}\bugs.txt" continuous="true" />
+    </target>
+    
+    <target name="append-copyright">
+        <appendcopyright dir="${desktop.dir}/timer" />
+    </target>
+
+    <target name="debugupdate">
+        <debugupdate testcase="com.vitria.component.util.EventSourceLibTest" />
+    </target>
+
+    <target name="zip">
+        <zip destfile="${log.dir}/wf-m3o-unit.zip" basedir="${test.classes.dir}\wf-m3o-unit\report" />
+        <zip destfile="${log.dir}/wf-query-lib-unit.zip" basedir="${test.classes.dir}\wf-query-lib-unit\report" />
+        <zip destfile="${log.dir}/wf-invoke-service-unit.zip" basedir="${test.classes.dir}\wf-invoke-service-unit\report" />
+        <zip destfile="${log.dir}/wf-audit-m3o.zip" basedir="${test.classes.dir}\wf-audit-m3o\report" />
+        <zip destfile="${log.dir}/wf-timer-unit.zip" basedir="${test.classes.dir}\wf-timer-unit\report" />
+    </target>
+
+    <target name="fsql">
+        <find src="${jboss.log.dir}\server.log" dest="${log.dir}\tmp.log" pattern="[org.hibernate.SQL]" />
+    </target>
+
+    <target name="fReferenceDataLib">
+        <find src="${jboss.log.dir}\server.log" dest="${log.dir}\tmp.log" pattern="[com.vitria.workflow.util.ReferenceDataLib]" />
+    </target>
+
+    <target name="fquery">
+        <find src="${jboss.log.dir}\server.log" dest="${log.dir}\tmp.log" pattern="[com.vitria.workflow.hibernate.criterion.Query]" />
+    </target>
+
+    <target name="fperformancelogger">
+        <find src="${jboss.log.dir}\server.log" dest="${log.dir}\tmp.log" pattern="[com.vitria.workflow.util.WFPerformanceLogger]" />
+    </target>
+
+    <target name="fcl">
+        <find src="${jboss.log.dir}\server.log" dest="${log.dir}\tmp.log" pattern="[com.vitria.component.util.ComponentLogger]" />
+    </target>
+
+    <target name="fdis">
+        <find src="D:\txu\output\server.log" dest="D:\txu\output\fdis_steps2_dis_all.log" pattern="the root process name:Disconnect_1280445536265" />
+    </target>
+
+    <target name="ftimerschedule">
+        <property name="timer.dir" value="E:" />
+        <!--<property name="timer.dir" value="D:\tmp" />-->
+        <!--<find src="${timer.dir}\server_error.log" dest="${timer.dir}\server_error2.log" pattern=" ERROR " />-->
+        <!-- -->
+        <find src="${timer.dir}\server.log" dest="${timer.dir}\timer_fire.log" pattern="timer fired" to="24" frompattern="latency:" cut="true" />
+        <find src="${timer.dir}\server.log" dest="${timer.dir}\timer_fire_ram.log" pattern="timer event created" to="24" frompattern="latency:" cut="true" />
+        <find src="${timer.dir}\server.log" dest="${timer.dir}\timer_schedule.log" pattern="]timer schedule" />
+        <find src="${timer.dir}\server.log" dest="${timer.dir}\timer_queue.log" pattern="timersInQueue" />
+        <find src="${timer.dir}\server.log" dest="${timer.dir}\server_error.log" pattern=" ERROR " />
+        <find src="${timer.dir}\server.log" dest="${timer.dir}\server_warn.log" pattern=" WARN " />
+        <find src="${timer.dir}\server.log" dest="${timer.dir}\timer_execution.log" pattern="timer execution" />
+        <find src="${timer.dir}\server.log" dest="${timer.dir}\timer_schedule_onlytime.log" pattern="]timer schedule" to="24" cut="true" />
+        <find src="${timer.dir}\server.log" dest="${timer.dir}\timer_schedule_time_cost.log" pattern="]timer schedule" to="24" frompattern="timer schedule cost is:" cut="true" />
+        <find src="${timer.dir}\server.log" dest="${timer.dir}\timer_schedule_live.log" pattern="]live timer schedule" />
+        
+        <!-- -->
+    </target>
+
+    <target name="fcon">
+        <property name="jbosslog.dir" value="${jboss.log.dir}\log" />
+        <connect src="${jbosslog.dir}\server.log.2011-03-15" dest="${jbosslog.dir}\server.log" append="false" />
+    </target>
+
+    <target name="fcone">
+        <property name="timer.dir" value="E:" />
+        <connect src="${timer.dir}\server.log.2011-01-20" dest="${timer.dir}\server.log" append="false" />
+    </target>
+
+    <target name="fsplit">
+        <property name="timer.dir" value="E:" />
+        <find src="${timer.dir}\timer_queue.log" dest="${timer.dir}\timer_queue_1.log" pattern="DEBUG" />
+    </target>
+
+    <target name="flog">
+        <property name="timer.dir" value="E:" />
+        <property name="jbosslog.dir" value="${jboss.log.dir}" />
+        <property name="jboss.log.file" value="${jbosslog.dir}\server.log" />
+        <mkdir dir="${jbosslog.dir}\result" />
+        
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\warn.log" pattern="WARN" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\error.log" pattern="ERROR" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\stdout.log" pattern="[STDOUT]" />
+        <!--
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\virtualServerLogger.log" pattern="com.vitria.virtualserver.util.VirtualServerLogger" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\virtualServerDebug.log" pattern="DEBUG [com.vitria.virtualserver" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\DomainManager.log" pattern="com.vitria.domainservice.DomainManager" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\DomainManagerFeed.log" pattern="[com.vitria.domainservice.DomainManager] Feed " />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\DomainManagerDebug.log" pattern="DEBUG [com.vitria.domainservice" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\ApplicationBootstrap.log" pattern="com.vitria.component.server.ApplicationBootstrap" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\AutoStartServlet.log" pattern="com.vitria.servlet.autostart.AutoStartServlet" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\DRRegistry.log" pattern="com.vitria.domainservice.persister.DRRegistry" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\virtualServerProjectContainer.log" pattern="[com.vitria.virtualserver.ProjectContainer]" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\component.log" pattern="com.vitria.component" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\componentLogger.log" pattern="com.vitria.component.util.ComponentLogger" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\feed.log" pattern="[com.vitria.feed" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\admin.log" pattern="com.vitria.admin" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\esms.log" pattern="com.vitria.esms" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\querycomponent.log" pattern="com.vitria.querycomponent" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\hibernateSQL.log" pattern="org.hibernate.SQL" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\UIPerformanceLogger.log" pattern="com.vitria.m3oui.model.PerformanceLogger" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\ext.log" pattern="com.vitria.component.server.ext" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\clusterServiceLogger.log" pattern="com.vitria.cluster.ClusterServiceLogger" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\bc.log" pattern="[com.vitria.calendar" />
+
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\ld.log" pattern="[com.vitria.loader" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\df.log" pattern="[com.vitria.dataflow" />
+        
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\pd.log" pattern="[com.vitria.predictive" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\pr.log" pattern="[com.vitria.r" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\pm.log" pattern="[com.vitria.pmml" />
+        
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\pro.log" pattern="[com.vitria.r.service.impl.OperationImpl" />
+        
+
+        
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\no.log" pattern="[com.vitria.notification" />
+        -->
+        
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\sp.log" pattern="[com.vitria.spark" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\spf.log" pattern="[com.vitria.spark.resource.functions" multiple="true" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\zp.log" pattern="[org.apache.zeppelin" />
+        
+        
+        
+        <!--
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\timer_execution.log" pattern="timer execution" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\timer_insert.log" pattern="simple timer insert cost" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\timer_cancel.log" pattern="timer cancel cost" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\timer_performance_schedule.log" pattern="BeforeTimer" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\timer_performance_fire.log" pattern="TimerTrigger" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\throughput.log" pattern="number of events per second" />
+        
+        <mkdir dir="${jbosslog.dir}\result\perf" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\perf\dispatchEvent.log" pattern="DynamicMDB.send().dispatchEvent()" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\perf\push.log" pattern="PollableSourceConnector.pushToContainerWithoutCommit().push()" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\perf\beginTransaction.log" pattern="ContainerPushManager.pushToContainerWithoutCommit().beginTransaction()" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\perf\doSaveProcess.log" pattern="ProcessPersisterImpl.doSaveProcess()" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\perf\saveVS.log" pattern="ProcessPersisterImpl.saveVS()" />
+        
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\serverStatus.log" pattern="com.vitria.component.server.ServerStatus" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\m3oIdentifierGenerator.log" pattern="com.vitria.client.M3OIdentifierGenerator" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\txu_EndEnrollment.log" pattern="EndEnrollment" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\BPMNProcessListener.log" pattern="BPMNProcessListener" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\EventPolicyListener.log" pattern="EventPolicyListener" />
+
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\nc.log"    pattern="INFO  [com.vitria.nc" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\ncw.log"   pattern="WARN  [com.vitria.nc" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\ncd.log"   pattern="DEBUG [com.vitria.nc" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\ncf.log"   pattern="PublisherManagers.SourcePublishers.os1.FeedPublisher# Consume event speed" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\ncc.log"   pattern="HDFSConvertManager.Converter-0# Consume event speed" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\nch.log"   pattern="HDFSClient# Consume event speed" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\ncuhs.log" pattern="[com.vitria.hadoop.hdfs.source" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\uhsd.log"  pattern="DEBUG [com.vitria.hadoop.hdfs.source.reader.AbstractReader]     " />
+        
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\eps.log"    pattern="[com.vitria.test.util.EPSCounter]" />
+        
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\wmt.log"    pattern="[WorkloadManagementTest]" />
+        
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\bny.log" pattern="INFO  [home.vtbaadmin.BNY_BAMPoC" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\FeedServerHATest.log" pattern="[devtests.domainservice.FeedServerHATest]" />
+        -->
+    </target>
+    
+    <target name="floglog">
+        <property name="timer.dir" value="E:" />
+        <property name="jbosslog.dir" value="${jboss.log.dir}\log" />
+        <property name="jboss.log.file" value="${jbosslog.dir}\server.log" />
+        <mkdir dir="${jbosslog.dir}\result" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\warn.log" pattern="WARN" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\error.log" pattern="ERROR" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\serverStatus.log" pattern="com.vitria.component.server.ServerStatus" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\stdout.log" pattern="[STDOUT]" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\virtualServerLogger.log" pattern="com.vitria.virtualserver.util.VirtualServerLogger" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\componentLogger.log" pattern="com.vitria.component.util.ComponentLogger" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\admin.log" pattern="com.vitria.admin" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\esms.log" pattern="com.vitria.esms" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\querycomponent.log" pattern="com.vitria.querycomponent" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\hibernateSQL.log" pattern="org.hibernate.SQL" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\m3oIdentifierGenerator.log" pattern="com.vitria.client.M3OIdentifierGenerator" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\timer_execution.log" pattern="timer execution" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\timer_insert.log" pattern="simple timer insert cost" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\timer_cancel.log" pattern="timer cancel cost" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\timer_performance_schedule.log" pattern="BeforeTimer" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\timer_performance_fire.log" pattern="TimerTrigger" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\throughput.log" pattern="number of events per second" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\txu_EndEnrollment.log" pattern="EndEnrollment" />
+    </target>
+    
+    <target name="floge">
+        <property name="timer.dir" value="E:" />
+        <property name="jbosslog.dir" value="${timer.dir}" />
+        <property name="jboss.log.file" value="${jbosslog.dir}\server.log" />
+        <mkdir dir="${jbosslog.dir}\result" />
+
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\01.log" pattern="2011-03-21 01" />
+        
+        
+
+        <!--
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\warn.log" pattern="WARN" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\error.log" pattern="ERROR" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\serverStatus.log" pattern="com.vitria.component.server.ServerStatus" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\stdout.log" pattern="[STDOUT]" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\virtualServerLogger.log" pattern="com.vitria.virtualserver.util.VirtualServerLogger" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\componentLogger.log" pattern="com.vitria.component.util.ComponentLogger" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\admin.log" pattern="com.vitria.admin" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\esms.log" pattern="com.vitria.esms" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\querycomponent.log" pattern="com.vitria.querycomponent" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\hibernateSQL.log" pattern="org.hibernate.SQL" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\m3oIdentifierGenerator.log" pattern="com.vitria.client.M3OIdentifierGenerator" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\timer_execution.log" pattern="timer execution" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\timer_insert.log" pattern="simple timer insert cost" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\timer_cancel.log" pattern="timer cancel cost" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\timer_performance_schedule.log" pattern="BeforeTimer" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\timer_performance_fire.log" pattern="TimerTrigger" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\throughput.log" pattern="number of events per second" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\txu_EndEnrollment.log" pattern="EndEnrollment" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\timer_fire.log" pattern="timer fired" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\22.log" pattern="2011-02-04 22" />
+        -->
+
+    </target>
+
+    <target name="flogds">
+        <property name="ds.dir" value="${desktop.dir}\ds" />
+        <mkdir dir="${ds.dir}\result" />
+        
+        <find src="${ds.dir}" dest="${ds.dir}\result\reference_count.log" pattern="[com.vitria.domainservice.DomainManager] Reference count of data source" />
+        <find src="${ds.dir}" dest="${ds.dir}\result\project1.log" pattern="vta03c616c-0ed0-4aa8-97cd-d1facee02d15" filter="Reference count of data source, Update Server" />
+        
+    </target>
+
+    <target name="clog">
+        <property name="jbosslog.dir" value="${jboss.log.dir}" />
+        <delete dir="${jbosslog.dir}\result" />
+    </target>
+
+    <target name="frep">
+        <property name="timer.dir" value="E:" />
+        <replaceStr file="${timer.dir}\timer_fire.log" from="-" to=" " />
+        <replaceStr file="${timer.dir}\timer_fire_ram.log" from="-" to=" " />
+        <replaceStr file="${timer.dir}\timer_schedule.log" from="-" to=" " />
+
+        <replaceStr file="${timer.dir}\timer_fire.log" from=":" to=" " />
+        <replaceStr file="${timer.dir}\timer_fire_ram.log" from=":" to=" " />
+        <replaceStr file="${timer.dir}\timer_schedule.log" from=":" to=" " />
+
+        <replaceStr file="${timer.dir}\timer_fire.log" from="," to=" " />
+        <replaceStr file="${timer.dir}\timer_fire_ram.log" from="," to=" " />
+        <replaceStr file="${timer.dir}\timer_schedule.log" from="," to=" " />
+
+        <replaceStr file="${timer.dir}\timer_fire.log" from="   the thread id is  " to=" " />
+    </target>
+
+    <target name="frep1">
+        <property name="timer.dir" value="E:\\" />
+        <replaceStr file="${timer.dir}\timer_fire.log" from="-" to=" " />
+
+        <replaceStr file="${timer.dir}\timer_fire.log" from=":" to=" " />
+
+        <replaceStr file="${timer.dir}\timer_fire.log" from="," to=" " />
+    </target>
+
+    <target name="ftmp1">
+        <property name="timer.dir" value="E:" />
+        <find src="${timer.dir}\server.log" dest="${timer.dir}\timer_id685_2.log" pattern="ID685" />
+    </target>
+    <target name="ftmp2">
+        <property name="timer.dir" value="E:\\" />
+        <replaceStr file="${timer.dir}\timersInQueue_Size.log" from="-" to=" " />
+        <replaceStr file="${timer.dir}\timersInQueue_Size.log" from=":" to=" " />
+        <replaceStr file="${timer.dir}\timersInQueue_Size.log" from="," to=" " />
+    </target>
+    <target name="ftimerschedule1">
+        <find src="C:\Documents and Settings\gzhou\Desktop\muchtimer\server.log" dest="C:\Documents and Settings\gzhou\Desktop\muchtimer\abort_action_id.log" pattern="Abort of action id" />
+    </target>
+
+    <target name="make-bug-folder">
+        <mkBugFolder bugid="${bug.id}" dir="${bugfixing.dir}" />
+    </target>
+
+    <target name="delete-bug-folder">
+        <mkBugFolder bugid="${bug.id}" dir="${bugfixing.dir}" delete="true" />
+    </target>
+
+    <target name="make-task-folder">
+        <mkBugFolder task="${task.name}" dir="${bugfixing.dir}" />
+    </target>
+
+    <target name="delete-task-folder">
+        <mkBugFolder task="${task.name}" dir="${bugfixing.dir}" delete="true" />
+    </target>
+
+    <target name="prepare-etc">
+        <delete dir="${path.jbossmessaging}/src/etc" />
+        <mkdir dir="${path.jbossmessaging}/src/etc" />
+        <copy todir="${path.jbossmessaging}/src/etc">
+            <fileset dir="${path.jbossmessaging}/output/etc">
+                <include name="**/*" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="ctxu">
+        <sql driver="${oracle_driver}" url="${oracle_url}" userid="${oracle_user}" password="${oracle_password}" onerror="continue">
+            <fileset dir="D:\Workflow-G\documents\M3O\V_3_1\Server\5_Test\4_OtherTest\TXU\sql\newtxu">
+                <include name="sap_clean.sql" />
+                <include name="latency_clean.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${oracle_ojdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <property name="oracle_driver" value="oracle.jdbc.driver.OracleDriver" />
+    <property name="oracle_vt_ds_connection_ip" value="10.101.3.21" />
+    <property name="oracle_vt_ds_connection_port" value="1521" />
+    <property name="oracle_vt_ds_database" value="orcl2" />
+    <property name="oracle_vt_ds_username" value="zgf_migration" />
+    <property name="oracle_vt_ds_password" value="zgf_migration" />
+    <property name="oracle_vt_ds_connection_url" value="${oracle_vt_ds_connection_ip}:${oracle_vt_ds_connection_port}:${oracle_vt_ds_database}" />
+    <property name="oracle_url" value="jdbc:oracle:thin:@${oracle_vt_ds_connection_url}" />
+    <property name="oracle_user" value="${oracle_vt_ds_username}" />
+    <property name="oracle_password" value="${oracle_vt_ds_password}" />
+
+    <target name="query">
+        <sql driver="${oracle_driver}" url="${oracle_url}" userid="${oracle_user}" password="${oracle_password}" onerror="continue" output="result.txt" append="true">
+            <fileset dir="${sql.dir}">
+                <include name="status.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="D:\jedi\yoda\export\home\jboss\server\vtba\lib\ojdbc-10.2.0.4.0.jar" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="jprofiler">
+        <appLines file="${vtba.home}\bundles\m3o\server\conf\config.properties" position="6" line=" com.jprofiler.agent.*, \ " />
+        <appLines file="${vtba.home}\bundles\m3o\ui\conf\config.properties" position="28" line=" com.jprofiler.agent.*, \ " />
+        <appLines file="${vtba.home}\bundles\m3o\utilities\conf\config.properties" position="6" line=" com.jprofiler.agent.*, \ " />
+    </target>
+
+    <target name="apply_hotfix_3101">
+
+        <property name="hotfix.dir" value="C:\Documents and Settings\gzhou\Desktop\zgf\10.13_jiaping_test\hotfix" />
+        <property name="vtba.3101" value="E:\vtba3101" />
+        <property name="vtba.3102" value="E:\vtba3102" />
+        <property name="vtba.3101.deploy" value="E:\vtba3101\jboss\server\vtba\deploy" />
+        <property name="vtba.3102.deploy" value="E:\vtba3102\jboss\server\vtba\deploy" />
+        <property name="vtba.3101.lib" value="E:\vtba3101\jboss\server\vtba\lib" />
+        <property name="vtba.3102.lib" value="E:\vtba3102\jboss\server\vtba\lib" />
+        <property name="vtba.3101.bundle" value="E:\vtba3101\bundles\m3o\server\bundle" />
+        <property name="vtba.3102.bundle" value="E:\vtba3102\bundles\m3o\server\bundle" />
+        <property name="vtba.3101.locale" value="E:\vtba3101\locale\en_US" />
+        <property name="vtba.3102.locale" value="E:\vtba3102\locale\en_US" />
+
+        <copy todir="${vtba.3101.locale}" file="${hotfix.dir}\bpmn.properties" overwrite="true" />
+        <copy todir="${vtba.3101.bundle}" file="${hotfix.dir}\com.vitria.workflow.m3o_3.1.jar" overwrite="true" />
+        <copy todir="${vtba.3101.lib}" file="${hotfix.dir}\vtfc.jar" overwrite="true" />
+        <copy todir="${vtba.3101.deploy}" file="${hotfix.dir}\vtm3oserver.ear" overwrite="true" />
+
+    </target>
+
+    <target name="unapply_hotfix_3101">
+
+        <property name="hotfix.dir" value="\\10.101.0.4\Engineer_Software\support\gzhang\SimpleTimerPorting_hotfix" />
+        <property name="vtba.3101" value="E:\vtba3101" />
+        <property name="vtba.3102" value="E:\vtba3102" />
+        <property name="vtba.3101.deploy" value="E:\vtba3101\jboss\server\vtba\deploy" />
+        <property name="vtba.3102.deploy" value="E:\vtba3102\jboss\server\vtba\deploy" />
+        <property name="vtba.3101.lib" value="E:\vtba3101\jboss\server\vtba\lib" />
+        <property name="vtba.3102.lib" value="E:\vtba3102\jboss\server\vtba\lib" />
+        <property name="vtba.3101.bundle" value="E:\vtba3101\bundles\m3o\server\bundle" />
+        <property name="vtba.3102.bundle" value="E:\vtba3102\bundles\m3o\server\bundle" />
+        <property name="vtba.3101.locale" value="E:\vtba3101\locale\en_US" />
+        <property name="vtba.3102.locale" value="E:\vtba3102\locale\en_US" />
+
+        <copy todir="${vtba.3101.locale}" file="${vtba.3102.locale}\bpmn.properties" overwrite="true" />
+        <copy todir="${vtba.3101.bundle}" file="${vtba.3102.bundle}\com.vitria.workflow.m3o_3.1.jar" overwrite="true" />
+        <copy todir="${vtba.3101.lib}" file="${vtba.3102.lib}\vtfc.jar" overwrite="true" />
+        <copy todir="${vtba.3101.deploy}" file="${vtba.3102.deploy}\vtm3oserver.ear" overwrite="true" />
+
+    </target>
+    
+    <target name="copy_felix">
+        <copy todir="${jboss.lib.dir}" file="D:\jedi\yoda\build\lib\runtime\felix\felix-1.2.1.jar" overwrite="true" />
+    </target>
+
+    <target name="mscl_clean_ds">
+        <delete dir="${yoda.home}\export\m3o\classes\client\com\vitria\domainservice" />
+    </target>
+    
+    <target name="logformat">
+        <logformat src="C:\workspace\buildtemp\files\txt\tmp.txt" />
+    </target>
+    
+    <target name="ulogformat">
+        <logformat src="C:\Documents and Settings\gzhou\Desktop\translate.txt" />
+    </target>
+
+    <target name="create-bug-detail">
+        <createBugDetail text="${text}" />
+    </target>
+
+    <target name="libsnew">
+        <echo message="update libs jars" />
+        
+        <!-- begin of updating server ear -->
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="D:\libs\apps\pd\server\libs\com.vitria.tnt.bpm.tools.jar" dest="${m3o.ear.dir}" />
+        <copy todir="${m3o.ear.dir}/com/vitria/tnt/bpm/util">
+            <fileset dir="C:\workspace\buildtemp\bin\com\vitria\tnt\bpm\util">
+                <include name="*.class" />
+            </fileset>
+        </copy>
+        <zip destfile="D:\libs\apps\pd\server\libs\com.vitria.tnt.bpm.tools.jar" basedir="${m3o.ear.dir}" />
+        <delete dir="${m3o.ear.dir}" />
+        <!-- end of updating server ear -->
+        
+        <!-- begin of updating server ear -->
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="D:\libs\apps\pd\server\services\com.vitria.pd.analyticlogger.jar" dest="${m3o.ear.dir}" />
+        <copy todir="${m3o.ear.dir}/com/vitria/pd/analytics/util">
+            <fileset dir="C:\workspace\buildtemp\bin\com\vitria\pd\analytics\util">
+                <include name="*.class" />
+            </fileset>
+        </copy>
+        <zip destfile="D:\libs\apps\pd\server\services\com.vitria.pd.analyticlogger.jar" basedir="${m3o.ear.dir}" />
+        <delete dir="${m3o.ear.dir}" />
+        <!-- end of updating server ear -->
+        
+        <!-- begin of updating server ear -->
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="D:\libs\project\server\libs\com.vitria.test.lib.jar" dest="${m3o.ear.dir}" />
+        <copy todir="${m3o.ear.dir}/com/vitria/test">
+            <fileset dir="C:\workspace\buildtemp\bin\com\vitria\test">
+                <include name="*Lib*.class" />
+            </fileset>
+        </copy>
+        <zip destfile="D:\libs\project\server\libs\com.vitria.test.lib.jar" basedir="${m3o.ear.dir}" />
+        <delete dir="${m3o.ear.dir}" />
+        <!-- end of updating server ear -->
+        
+        <!-- begin of updating server ear -->
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="D:\libs\project\server\services\com.vitria.test.bundle.jar" dest="${m3o.ear.dir}" />
+        <copy todir="${m3o.ear.dir}/com/vitria/test">
+            <fileset dir="C:\workspace\buildtemp\bin\com\vitria\test">
+                <include name="*Bundle*.class" />
+            </fileset>
+        </copy>
+        <zip destfile="D:\libs\project\server\services\com.vitria.test.bundle.jar" basedir="${m3o.ear.dir}" />
+        <delete dir="${m3o.ear.dir}" />
+        <!-- end of updating server ear -->
+    </target>
+
+    <target name="vtportutil">
+        <echo message="setup vtportutil env" />
+        
+        <property name="ef.vtba001.dir" value="E:\vtba001" />
+        <property name="ef.vtbads001.dir" value="E:\vtbads001" />
+        
+        <copy todir="${ef.vtbads001.dir}/bin">
+            <fileset dir="${ef.vtba001.dir}/bin">
+                <include name="vtportutil.bat" />
+            </fileset>
+        </copy>
+        
+        <mkdir dir="${ef.vtbads001.dir}/data/vtconfig" />
+        <copy todir="${ef.vtbads001.dir}/data/vtconfig">
+            <fileset dir="${ef.vtba001.dir}/data/vtconfig">
+                <include name="**" />
+            </fileset>
+        </copy>
+        
+        <copy todir="${ef.vtbads001.dir}/tools">
+            <fileset dir="${ef.vtba001.dir}/tools">
+                <include name="vtconfig-ant.jar" />
+                <include name="vtinstallerutils.jar" />
+            </fileset>
+        </copy>
+        
+    </target>
+    
+    <target name="remotemr">
+        <echo message="setup remotemr env" />
+        
+        <property name="ef.vtba001.dir" value="E:\vtba001" />
+        <property name="ef.vtbads001.dir" value="E:\vtbads001" />
+        
+        <copy todir="${ef.vtbads001.dir}/jboss/server/vtba/conf" overwrite="true">
+            <fileset dir="E:\">
+                <include name="vtmodelrepos.properties" />
+            </fileset>
+        </copy>
+        
+        <copy todir="${ef.vtbads001.dir}/jboss/server/vtba/deploy" overwrite="true">
+            <fileset dir="E:\">
+                <include name="jcr-ds.xml" />
+            </fileset>
+        </copy>
+        
+    </target>
+    
+    <target name="appjars">
+        <zip destfile="D:\libs\apps\pd0\server\services\com.vitria.pd0.analyticlogger.jar" basedir="D:\libs\apps\pd0\server\services\com.vitria.pd.analyticlogger" />
+        <zip destfile="D:\libs\apps\pd1\server\services\com.vitria.pd1.analyticlogger.jar" basedir="D:\libs\apps\pd1\server\services\com.vitria.pd.analyticlogger" />
+        <zip destfile="D:\libs\apps\pd2\server\services\com.vitria.pd2.analyticlogger.jar" basedir="D:\libs\apps\pd2\server\services\com.vitria.pd.analyticlogger" />
+        <zip destfile="D:\libs\apps\pd3\server\services\com.vitria.pd3.analyticlogger.jar" basedir="D:\libs\apps\pd3\server\services\com.vitria.pd.analyticlogger" />
+        <zip destfile="D:\libs\apps\pd4\server\services\com.vitria.pd4.analyticlogger.jar" basedir="D:\libs\apps\pd4\server\services\com.vitria.pd.analyticlogger" />
+        <zip destfile="D:\libs\apps\pd5\server\services\com.vitria.pd5.analyticlogger.jar" basedir="D:\libs\apps\pd5\server\services\com.vitria.pd.analyticlogger" />
+        <zip destfile="D:\libs\apps\pd6\server\services\com.vitria.pd6.analyticlogger.jar" basedir="D:\libs\apps\pd6\server\services\com.vitria.pd.analyticlogger" />
+        <zip destfile="D:\libs\apps\pd7\server\services\com.vitria.pd7.analyticlogger.jar" basedir="D:\libs\apps\pd7\server\services\com.vitria.pd.analyticlogger" />
+        <zip destfile="D:\libs\apps\pd8\server\services\com.vitria.pd8.analyticlogger.jar" basedir="D:\libs\apps\pd8\server\services\com.vitria.pd.analyticlogger" />
+        <zip destfile="D:\libs\apps\pd9\server\services\com.vitria.pd9.analyticlogger.jar" basedir="D:\libs\apps\pd9\server\services\com.vitria.pd.analyticlogger" />
+        
+        <zip destfile="D:\libs\apps\pd0\server\libs\com.vitria.pd0.util.jar" basedir="D:\libs\apps\pd0\server\libs\com.vitria.pd0.util" />
+        <zip destfile="D:\libs\apps\pd1\server\libs\com.vitria.pd1.util.jar" basedir="D:\libs\apps\pd1\server\libs\com.vitria.pd1.util" />
+        <zip destfile="D:\libs\apps\pd2\server\libs\com.vitria.pd2.util.jar" basedir="D:\libs\apps\pd2\server\libs\com.vitria.pd2.util" />
+        <zip destfile="D:\libs\apps\pd3\server\libs\com.vitria.pd3.util.jar" basedir="D:\libs\apps\pd3\server\libs\com.vitria.pd3.util" />
+        <zip destfile="D:\libs\apps\pd4\server\libs\com.vitria.pd4.util.jar" basedir="D:\libs\apps\pd4\server\libs\com.vitria.pd4.util" />
+        <zip destfile="D:\libs\apps\pd5\server\libs\com.vitria.pd5.util.jar" basedir="D:\libs\apps\pd5\server\libs\com.vitria.pd5.util" />
+        <zip destfile="D:\libs\apps\pd6\server\libs\com.vitria.pd6.util.jar" basedir="D:\libs\apps\pd6\server\libs\com.vitria.pd6.util" />
+        <zip destfile="D:\libs\apps\pd7\server\libs\com.vitria.pd7.util.jar" basedir="D:\libs\apps\pd7\server\libs\com.vitria.pd7.util" />
+        <zip destfile="D:\libs\apps\pd8\server\libs\com.vitria.pd8.util.jar" basedir="D:\libs\apps\pd8\server\libs\com.vitria.pd8.util" />
+        <zip destfile="D:\libs\apps\pd9\server\libs\com.vitria.pd9.util.jar" basedir="D:\libs\apps\pd9\server\libs\com.vitria.pd9.util" />
+        
+        <zip destfile="D:\libs\project\server\libs\com.vitria.test0.lib.jar" basedir="D:\libs\project\server\libs\com.vitria.test0.lib" />
+        <zip destfile="D:\libs\project\server\libs\com.vitria.test1.lib.jar" basedir="D:\libs\project\server\libs\com.vitria.test1.lib" />
+        <zip destfile="D:\libs\project\server\libs\com.vitria.test2.lib.jar" basedir="D:\libs\project\server\libs\com.vitria.test2.lib" />
+        <zip destfile="D:\libs\project\server\libs\com.vitria.test3.lib.jar" basedir="D:\libs\project\server\libs\com.vitria.test3.lib" />
+        <zip destfile="D:\libs\project\server\libs\com.vitria.test4.lib.jar" basedir="D:\libs\project\server\libs\com.vitria.test4.lib" />
+        <zip destfile="D:\libs\project\server\libs\com.vitria.test5.lib.jar" basedir="D:\libs\project\server\libs\com.vitria.test5.lib" />
+        <zip destfile="D:\libs\project\server\libs\com.vitria.test6.lib.jar" basedir="D:\libs\project\server\libs\com.vitria.test6.lib" />
+        <zip destfile="D:\libs\project\server\libs\com.vitria.test7.lib.jar" basedir="D:\libs\project\server\libs\com.vitria.test7.lib" />
+        <zip destfile="D:\libs\project\server\libs\com.vitria.test8.lib.jar" basedir="D:\libs\project\server\libs\com.vitria.test8.lib" />
+        <zip destfile="D:\libs\project\server\libs\com.vitria.test9.lib.jar" basedir="D:\libs\project\server\libs\com.vitria.test9.lib" />
+        
+        <zip destfile="D:\libs\project\server\services\com.vitria.test0.bundle.jar" basedir="D:\libs\project\server\services\com.vitria.test0.bundle" />
+        <zip destfile="D:\libs\project\server\services\com.vitria.test1.bundle.jar" basedir="D:\libs\project\server\services\com.vitria.test1.bundle" />
+        <zip destfile="D:\libs\project\server\services\com.vitria.test2.bundle.jar" basedir="D:\libs\project\server\services\com.vitria.test2.bundle" />
+        <zip destfile="D:\libs\project\server\services\com.vitria.test3.bundle.jar" basedir="D:\libs\project\server\services\com.vitria.test3.bundle" />
+        <zip destfile="D:\libs\project\server\services\com.vitria.test4.bundle.jar" basedir="D:\libs\project\server\services\com.vitria.test4.bundle" />
+        <zip destfile="D:\libs\project\server\services\com.vitria.test5.bundle.jar" basedir="D:\libs\project\server\services\com.vitria.test5.bundle" />
+        <zip destfile="D:\libs\project\server\services\com.vitria.test6.bundle.jar" basedir="D:\libs\project\server\services\com.vitria.test6.bundle" />
+        <zip destfile="D:\libs\project\server\services\com.vitria.test7.bundle.jar" basedir="D:\libs\project\server\services\com.vitria.test7.bundle" />
+        <zip destfile="D:\libs\project\server\services\com.vitria.test8.bundle.jar" basedir="D:\libs\project\server\services\com.vitria.test8.bundle" />
+        <zip destfile="D:\libs\project\server\services\com.vitria.test9.bundle.jar" basedir="D:\libs\project\server\services\com.vitria.test9.bundle" />
+        
+        <zip destfile="D:\libs\apps\pd_big2\server\services\com.vitria.pd_big2.analyticlogger.jar" basedir="D:\libs\apps\pd_big2\server\services\com.vitria.pd_big2.analyticlogger" />
+
+        <zip destfile="D:\libs\apps\pd_big5\server\libs\com.vitria.pd_big5.util.jar" basedir="D:\libs\apps\pd_big5\server\libs\com.vitria.pd_big5.util" />
+        <zip destfile="D:\libs\apps\pd_big5\server\services\com.vitria.pd_big5.analyticlogger.jar" basedir="D:\libs\apps\pd_big5\server\services\com.vitria.pd_big5.analyticlogger" />
+        <zip destfile="D:\libs\project\server\libs\com.vitria.test_big5.lib.jar" basedir="D:\libs\project\server\libs\com.vitria.test_big5.lib" />
+        <zip destfile="D:\libs\project\server\services\com.vitria.test_big5.bundle.jar" basedir="D:\libs\project\server\services\com.vitria.test_big5.bundle" />
+        
+        <zip destfile="D:\libs\apps\pd_big10\server\libs\com.vitria.pd_big10.util.jar" basedir="D:\libs\apps\pd_big10\server\libs\com.vitria.pd_big10.util" />
+        <zip destfile="D:\libs\apps\pd_big10\server\services\com.vitria.pd_big10.analyticlogger.jar" basedir="D:\libs\apps\pd_big10\server\services\com.vitria.pd_big10.analyticlogger" />
+        <zip destfile="D:\libs\project\server\libs\com.vitria.test_big10.lib.jar" basedir="D:\libs\project\server\libs\com.vitria.test_big10.lib" />
+        <zip destfile="D:\libs\project\server\services\com.vitria.test_big10.bundle.jar" basedir="D:\libs\project\server\services\com.vitria.test_big10.bundle" />
+        
+    </target>
+    
+    <target name="migrationnew">
+        <echo message="update migration classes" />
+        
+        <property name="migration.tool.dir" value="D:\Workflow-G\workflow bug fixing\2012-07-25 Runtime Data Migration\CypressMigrationTool" />
+        <property name="migration.tool.jar" value="${migration.tool.dir}\vtmigration.jar" />
+        <property name="migration.tool.client.jar" value="${migration.tool.dir}\vtmigrationclient.jar" />
+        <property name="migration.tool.ejb.jar" value="${migration.tool.dir}\vtmigration-ejb.jar" />
+        
+        <!-- begin of updating vtmigrationclient.jar -->
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${migration.tool.client.jar}" dest="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}\com\vitria\migration" />
+        <copy todir="${m3o.ear.dir}\com\vitria\migration">
+            <fileset dir="D:\jedi\yoda\export\m3o\classes\client\com\vitria\migration">
+                <include name="**\*.class" />
+                <exclude name="**\CypressMigrationTool.class" />
+                <exclude name="**\MyCallbackHandler.class" />
+            </fileset>
+        </copy>
+        <zip destfile="${migration.tool.client.jar}" basedir="${m3o.ear.dir}" />
+        <delete dir="${m3o.ear.dir}" />
+        <!-- end of updating vtmigrationclient.jar -->
+        
+        <!-- begin of updating vtmigration-ejb.jar -->
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${migration.tool.ejb.jar}" dest="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}\com\vitria\migration" />
+        <copy todir="${m3o.ear.dir}\com\vitria\migration">
+            <fileset dir="D:\jedi\yoda\export\m3o\stage\JBoss\application\classes\com\vitria\migration">
+                <include name="**\*.class" />
+                <exclude name="**\*Remote*.class" />
+            </fileset>
+        </copy>
+        <zip destfile="${migration.tool.ejb.jar}" basedir="${m3o.ear.dir}" />
+        <delete dir="${m3o.ear.dir}" />
+        <!-- end of updating vtmigration-ejb.jar -->
+        
+        <!-- begin of updating vtmigration.jar -->
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${migration.tool.jar}" dest="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}\com\vitria\migration" />
+        <copy todir="${m3o.ear.dir}\com\vitria\migration">
+            <fileset dir="D:\jedi\yoda\export\m3o\classes\client\com\vitria\migration">
+                <include name="**\CypressMigrationTool.class" />
+                <include name="**\MyCallbackHandler.class" />
+            </fileset>
+        </copy>
+        <zip destfile="${migration.tool.jar}" basedir="${m3o.ear.dir}" />
+        <delete dir="${m3o.ear.dir}" />
+        <!-- end of updating vtmigration.jar -->
+    </target>
+    
+    <target name="remove-mr-in-deploy">
+        <delete file="${vtba.home}\jboss\server\vtba\deploy\vtsapi-remote-server-ejb.jar" />
+        <delete file="${vtba.home}\jboss\server\vtba\deploy\vtrepository-management.sar" />
+    </target>
+
+    <target name="aspup">
+        <echo message="update asp jars" />
+        
+        <property name="asp.dir" value="D:\Workflow-G\workflow bug fixing\2012-12-11 Hadoop\Activity Stream Builder\test\stax_performance" />
+        <property name="unc.dir" value="D:\jedi\yoda\export\projects\unbundled\libs" />
+        <property name="uas.dir" value="D:\jedi\yoda\export\projects\unbundled\apps\as\server\libs" />
+        <property name="testdist.dir" value="D:\jedi\yoda\export\test\dist" />
+        
+        <copy todir="${asp.dir}" overwrite="true">
+            <fileset dir="${unc.dir}">
+                <include name="vtnc*.jar" />
+            </fileset>
+        </copy>
+        
+        <copy todir="${asp.dir}" overwrite="true">
+            <fileset dir="${uas.dir}">
+                <include name="vtas*.jar" />
+            </fileset>
+        </copy>
+        
+        <copy todir="${asp.dir}" overwrite="true">
+            <fileset dir="${testdist.dir}">
+                <include name="vtas*.jar" />
+            </fileset>
+        </copy>
+    </target>
+    
+    <target name="uasup">
+        <echo message="update uas jars" />
+        
+        <property name="unc.dir" value="D:\jedi\yoda\export\projects\unbundled\libs" />
+        <property name="uas.dir" value="D:\jedi\yoda\export\projects\unbundled\apps\as\server\libs" />
+        
+        <copy todir="${uas.dir}" overwrite="true">
+            <fileset dir="${unc.dir}">
+                <include name="vtnc*.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="replacestr">
+        <property name="replace.dir" value="C:\workspace\buildtemp\files\bat" />
+        <property name="my.desktop.dir" value="C:\Documents and Settings\gzhou\Desktop" />
+        
+        
+        
+        <replaceStr file="${replace.dir}" from="svn/yoda" to="svn/jedi"/>
+
+
+        
+        <!--
+        <replaceStr file="${replace.dir}" from="d:" to="c:"/>
+        <replaceStr file="${replace.dir}" from="Documents and Settings" to="Users"/>
+        <replaceStr file="${replace.dir}" from="d:" to="c:"/>
+        <replaceStr file="${replace.dir}" from="C:\\Documents and Settings\\gzhou" to="C:\\Users\\Chudy"/>
+        
+        <replaceStr file="${replace.dir}" from="&lt;VariableName&gt;View0&lt;/VariableName&gt;" append="${my.desktop.dir}\view0.txt"/>
+        <replaceStr file="${replace.dir}" from="SourceSchema" to="DEFAULTSchema"/>
+        -->
+    </target>
+    
+    <target name="desktop-backup">
+        <echo message="backup desktop txt files" />
+        
+        <property name="desktop.bak.dir" value="E:\周贵芳\desktop" />
+        
+        <copy todir="${desktop.bak.dir}">
+            <fileset dir="${desktop.dir}">
+                <include name="bugs.txt" />
+                <include name="diary.txt" />
+                <include name="notes.txt" />
+                <include name="text.txt" />
+                <include name="todo.txt" />
+            </fileset>
+        </copy>
+    </target>
+    
+    <target name="erun-debug">
+        <property name="run.dir" value="${vtba.home}\jboss\bin" />
+        <property name="run.bat.file" value="${run.dir}\run.bat" />
+        <replaceStr file="${run.bat.file}" from="rem set JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket" to="set JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket" />
+        <replaceStr file="${run.bat.file}" from="suspend=y" to="suspend=n" />
+    </target>
+    
+    <target name="erun-nodebug">
+        <property name="run.dir" value="${vtba.home}\jboss\bin" />
+        <property name="run.bat.file" value="${run.dir}\run.bat" />
+        <replaceStr file="${run.bat.file}" from="set JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket" to="rem set JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket" />
+        <replaceStr file="${run.bat.file}" from="suspend=n" to="suspend=y" />
+    </target>
+    
+    <target name="erun-jrebel-ds">
+        <property name="run.dir" value="${vtba.home}\jboss\bin" />
+        <property name="run.bat.file" value="${run.dir}\run.bat" />
+        <replaceStr file="${run.bat.file}" from="set JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket" append="${txt.dir}\jrebel-ds.txt" />
+    </target>
+    
+    <target name="erun-nojrebel-ds">
+        <property name="run.dir" value="${vtba.home}\jboss\bin" />
+        <property name="run.bat.file" value="${run.dir}\run.bat" />
+        <replaceStr file="${run.bat.file}" from="set JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket" append="${txt.dir}\jrebel-ds.txt" remove="true"/>
+    </target>
+
+    <target name="erun-jrebel-ext">
+        <property name="run.dir" value="${vtba.home}\jboss\bin" />
+        <property name="run.bat.file" value="${run.dir}\run.bat" />
+        <replaceStr file="${run.bat.file}" from="set JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket" append="${txt.dir}\jrebel-ext.txt" />
+    </target>
+    
+    <target name="erun-nojrebel-ext">
+        <property name="run.dir" value="${vtba.home}\jboss\bin" />
+        <property name="run.bat.file" value="${run.dir}\run.bat" />
+        <replaceStr file="${run.bat.file}" from="set JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket" append="${txt.dir}\jrebel-ext.txt" remove="true"/>
+    </target>
+    
+    <target name="erun-emma-ds">
+        <property name="run.dir" value="${vtba.home}\jboss\bin" />
+        <property name="run.bat.file" value="${run.dir}\run.bat" />
+        <replaceStr file="${run.bat.file}" from="set JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket" append="${txt.dir}\emma-ds.txt" />
+    </target>
+    
+    <target name="erun-noemma-ds">
+        <property name="run.dir" value="${vtba.home}\jboss\bin" />
+        <property name="run.bat.file" value="${run.dir}\run.bat" />
+        <replaceStr file="${run.bat.file}" from="set JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket" append="${txt.dir}\emma-ds.txt" remove="true"/>
+    </target>
+
+    <target name="grep-replacestr">
+        <replaceStr conf="${desktop.dir}\replacestr.txt" />
+    </target>
+
+    <target name="grep-replacestr-one-time">
+        <replaceStr file="${desktop.dir}\rename\rename.txt" from="${grep.replacestr.from}" to="${grep.replacestr.to}" case="${grep.replacestr.case}" />
+    </target>
+
+    <target name="grep-replacestr-find-one-time">
+        <replaceStr file="${grep.replacestr.dir}" from="${grep.replacestr.from}" to="a" case="true" onlySearch="true" printSearch="true" />
+    </target>
+
+    <target name="grep-replacestr-find-one-time-onlyname">
+        <replaceStr file="${grep.replacestr.dir}" from="${grep.replacestr.from}" to="a" case="true" onlySearch="true" printSearch="true" onlyName="true" />
+    </target>
+
+    <target name="grep-replacestr-find-one-time-onlyfile">
+        <replaceStr file="${grep.replacestr.dir}" from="${grep.replacestr.from}" to="a" case="true" onlySearch="true" printSearch="true" onlyFile="true" />
+    </target>
+
+    <target name="grep-replacestr-replace-one-time">
+        <replaceStr file="${grep.replacestr.dir}" from="${grep.replacestr.from}" to="${grep.replacestr.to}" case="${grep.replacestr.case}" />
+    </target>
+
+    <target name="grep-replacestr-replace-one-time-onlyname">
+        <replaceStr file="${grep.replacestr.dir}" from="${grep.replacestr.from}" to="${grep.replacestr.to}" case="${grep.replacestr.case}" onlyName="true" />
+    </target>
+
+    <target name="grep-replacestr-replace-one-time-onlyfile">
+        <replaceStr file="${grep.replacestr.dir}" from="${grep.replacestr.from}" to="${grep.replacestr.to}" case="${grep.replacestr.case}" onlyFile="true" />
+    </target>
+
+    <target name="grep-replacestr-find-one-time-contains">
+        <replaceStr file="${grep.replacestr.dir}" from="${grep.replacestr.from}" to="a" case="true" onlySearch="true" printSearch="true" contains="${grep.replacestr.contains}" />
+    </target>
+
+    <target name="grep-replacestr-replace-one-time-contains">
+        <replaceStr file="${grep.replacestr.dir}" from="${grep.replacestr.from}" to="${grep.replacestr.to}" case="${grep.replacestr.case}" contains="${grep.replacestr.contains}" />
+    </target>
+
+    <target name="grep-replacestr-find-one-time-encoding">
+        <replaceStr file="${grep.replacestr.dir}" from="${grep.replacestr.from}" to="a" case="true" onlySearch="true" printSearch="true" encoding="${grep.replacestr.encoding}" />
+    </target>
+
+    <target name="grep-replacestr-replace-one-time-encoding">
+        <replaceStr file="${grep.replacestr.dir}" from="${grep.replacestr.from}" to="${grep.replacestr.to}" case="${grep.replacestr.case}" encoding="${grep.replacestr.encoding}" />
+    </target>
+
+    <target name="dst-remove">
+        <delete file="${desktop.dir}\yodast.txt" />
+    </target>
+
+    <target name="kst-remove">
+        <delete file="${desktop.dir}\kst.txt" />
+    </target>
+
+    <target name="threaddump-jboss">
+        <threaddump name="Main" output="${jboss.log.dir}\jboss1.txt" />
+    </target>
+
+    <target name="threaddump-jboss-1">
+        <threaddump name="Main" output="${jboss.log.dir}\jboss1.txt" />
+    </target>
+    
+    <target name="threaddump-jboss-2">
+        <threaddump name="Main" output="${jboss.log.dir}\jboss2.txt" />
+    </target>
+    
+    <target name="threaddump-jboss-3">
+        <threaddump name="Main" output="${jboss.log.dir}\jboss3.txt" />
+    </target>
+    
+    <target name="threaddump-jboss-4">
+        <threaddump name="Main" output="${jboss.log.dir}\jboss4.txt" />
+    </target>
+    
+    <target name="threaddump-jboss-5">
+        <threaddump name="Main" output="${jboss.log.dir}\jboss5.txt" />
+    </target>
+    
+    <target name="dataflow-threaddump-test">
+        <threaddump name="Test" output="${jboss.log.dir}\jboss1.txt" />
+    </target>
+
+    <target name="iot-threaddump-simulator">
+        <threaddump name="MeterSimulator" output="${jboss.log.dir}\jboss1.txt" />
+    </target>
+
+    <target name="threaddump-wildfly9">
+        <threaddump name="jboss-modules.jar" output="${jboss.log.dir}\jboss1.txt" />
+    </target>
+
+    <target name="jmspub">
+        <jmsclient type="pub" dest="/queue/A" event="${txt.dir}\orders.txt" count="100000" />
+    </target>
+
+    <target name="jmssub">
+        <jmsclient type="sub" dest="/queue/B" count="100000" />
+    </target>
+
+    <target name="model-replace">
+        <modelreplace src="D:\models\from" />
+    </target>
+    
+    <target name="model-replace-pzip">
+        <modelreplace src="D:\models\from" zip="true" />
+    </target>
+    
+    <target name="model-replace-zip">
+        <zip destfile="D:\models\to\hdfs_source1.zip" basedir="D:\models\temp\hdfs_source1.zip" />
+        <zip destfile="D:\models\to\hdfs_source2.zip" basedir="D:\models\temp\hdfs_source2.zip" />
+        <zip destfile="D:\models\to\hdfs_source3.zip" basedir="D:\models\temp\hdfs_source3.zip" />
+        <zip destfile="D:\models\to\hdfs_target.zip" basedir="D:\models\temp\hdfs_target.zip" />
+    </target>
+
+    <target name="model-replace-clean">
+        <delete dir="D:\models" />
+        <mkdir dir="D:\models\from" />
+        <mkdir dir="D:\models\temp" />
+        <mkdir dir="D:\models\to" />
+    </target>
+
+    <target name="verify-proxy">
+        <verifyproxy src="${desktop.dir}\proxy.txt" icbc="true" />
+        <verifyproxy src="${desktop.dir}\proxy.txt" icbc="false" />
+    </target>
+
+    <target name="funds">
+        <fund id="sh000001,sz399001,sz399006,sh000016,sh000300,
+        	150158,150118,150292,150172,150266,150153,
+        	sh601166,sh600048,sz000002,sh601857" />
+    </target>
+
+    <target name="funds-jrb">
+        <fund id="150158" repeat="-1" interval="60" />
+    </target>
+
+    <target name="funds-earn">
+        <fund id="150158,150118" earn="true" />
+    </target>
+
+    <target name="funds-etf">
+        <fund id="510050" />
+    </target>
+
+    <target name="task-list">
+        <tasklist />
+    </target>
+
+    <target name="task-list-all">
+        <tasklist all="true" />
+    </target>
+
+    <target name="xml-format">
+        <xmlformat sample="${desktop.dir}\xml_format\sample.txt" src="${desktop.dir}\xml_format\src.xml" />
+    </target>
+
+    <target name="jdk8-replace-jars">
+        <copy todir="${jboss.deploy.dir}" overwrite="true">
+            <fileset dir="${jdk8.fix.dir}\fixed">
+                <include name="vtm3oui.ear" />
+            </fileset>
+        </copy>
+        <delete>
+            <fileset dir="${jboss.deploy.dir}\jboss-web.deployer">
+                <include name="jasper-jdt.jar" />
+            </fileset>
+        </delete>
+        <copy todir="${jboss.deploy.dir}\jboss-web.deployer" overwrite="true">
+            <fileset dir="${jdk8.fix.dir}\fixed">
+                <include name="ecj-4.3.1.jar" />
+            </fileset>
+        </copy>
+    </target>
+    
+    <target name="jdk8-restore-jars">
+        <copy todir="${jboss.deploy.dir}" overwrite="true">
+            <fileset dir="${jdk8.fix.dir}\backup">
+                <include name="vtm3oui.ear" />
+            </fileset>
+        </copy>
+        <delete>
+            <fileset dir="${jboss.deploy.dir}\jboss-web.deployer">
+                <include name="ecj-4.3.1.jar" />
+            </fileset>
+        </delete>
+        <copy todir="${jboss.deploy.dir}\jboss-web.deployer" overwrite="true">
+            <fileset dir="${jdk8.fix.dir}\backup">
+                <include name="jasper-jdt.jar" />
+            </fileset>
+        </copy>
+    </target>
+    
+    <target name="xjcrjd-iot">
+        <xjcrjd dir="D:\jedi\yoda\unbundled\devtests\tools\IoTSimulator\src\simulator\com\vitria\iot\simulator\conf" />
+    </target>
+
+    <target name="copy-qh">
+        <copy todir="E:\qiaohu\宝宝来过节" overwrite="true">
+            <fileset dir="F:\">
+                <include name="**\**" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="update-uut">
+        <delete file="${desktop.dir}/UpdateURLTool.zip" />
+        <delete dir="${desktop.dir}/UpdateURLTool" />
+        <unzip src="D:\jedi\yoda\unbundled\migration\UpdateURLTool.zip" dest="${desktop.dir}" />
+    </target>
+
+    <target name="test-javac">
+        <path id="srcpath">
+		    <pathelement location="${desktop.dir}/a"/>
+	    </path>
+        <javac destdir="${desktop.dir}/a">
+			<src refid="srcpath"/>
+		</javac>
+    </target>
+
+</project>
+

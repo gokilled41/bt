@@ -1,0 +1,2 @@
+call upasmdir
+call ant

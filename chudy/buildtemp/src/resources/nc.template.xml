@@ -1,0 +1,67 @@
+<Component name="NCServer_@project.simple.name@" class="com.vitria.o2.nc.common.impl.BaseEventComponentImpl">
+    <SubComponents>
+        <Component name="HDFSClient" class="com.vitria.hadoop.hdfs.source.HDFSClient">
+            <ExceptionHandler class="com.vitria.hadoop.hdfs.source.HDFSReconnectHandler" />
+            <EPSCounter class="com.vitria.o2.nc.util.BucketEPSCounter">
+                <Limit>100000</Limit>
+            </EPSCounter>
+            <Monitor>true</Monitor>
+            <Next>HDFSConvertManager</Next>
+            <Uri>@config.uri@</Uri>
+            <Path>@config.path@</Path>
+            <PollRate>@config.pollRate@</PollRate>
+            <State>true</State>
+            <StatesFolder>$VTBA_HOME/applications/home/server/hadoop/states</StatesFolder>
+        </Component>
+
+        <Component name="HDFSConvertManager" class="com.vitria.o2.nc.common.impl.BufferEventSource">
+            <EPSCounter class="com.vitria.o2.nc.util.BucketEPSCounter" />
+            <Monitor>true</Monitor>
+            <Buffer class="com.vitria.o2.nc.queue.NCBlockingQueueImpl">
+                <Limit>10000</Limit>
+            </Buffer>
+            <SubComponents>
+                <Component name="Converter-0" class="com.vitria.o2.nc.converter.XMLToM3OEventConverter">
+                    <EPSCounter class="com.vitria.o2.nc.util.BucketEPSCounter" />
+                    <Monitor>true</Monitor>
+                    <Next>PublisherManagers</Next>
+                </Component>
+            </SubComponents>
+        </Component>
+
+        <Component name="PublisherManagers" class="com.vitria.o2.nc.common.impl.BaseEventComponentImpl">
+            <EPSCounter class="com.vitria.o2.nc.util.BucketEPSCounter" />
+            <Monitor>true</Monitor>
+            <SubComponents>
+                <HandlePolicy class="com.vitria.o2.nc.router.AllPolicy" />
+                <Component name="SourcePublishers" class="com.vitria.o2.nc.common.impl.BaseEventComponentImpl">
+                    <EPSCounter class="com.vitria.o2.nc.util.BucketEPSCounter" />
+                    <Monitor>true</Monitor>
+                    <SubComponents>
+                        <HandlePolicy class="com.vitria.o2.nc.router.RoundRobinPolicy" />
+                        <Component name="os1" class="com.vitria.o2.nc.common.impl.BufferEventSource">
+                            <EPSCounter class="com.vitria.o2.nc.util.BucketEPSCounter">
+                                <Limit>60000</Limit>
+                            </EPSCounter>
+                            <Monitor>true</Monitor>
+                            <Buffer class="com.vitria.o2.nc.queue.NCBlockingQueueImpl">
+                                <Limit>50000</Limit>
+                            </Buffer>
+                            <SubComponents>
+                                <Component name="FeedPublisher"
+                                    class="com.vitria.o2.nc.publisher.FeedPublisher">
+                                    <EPSCounter class="com.vitria.o2.nc.util.BucketEPSCounter" />
+                                    <Monitor>true</Monitor>
+                                    <BatchSize>100</BatchSize>
+                                    <ProjectName>@project.name@</ProjectName>
+                                    <FeedName>@feed.url@</FeedName>
+                                </Component>
+                            </SubComponents>
+                        </Component>
+                    </SubComponents>
+                </Component>
+            </SubComponents>
+        </Component>
+    </SubComponents>
+    <Parameter name="enable_output_eps" value="true" />
+</Component>

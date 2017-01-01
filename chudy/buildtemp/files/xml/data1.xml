@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<application name="M3OServerApplication">
+	<activity id="1" name="act1" priority="0" format="yyyy/MM/dd HH:mm:ss" description="activity 1"
+		assignment-policy="Any" state="process name" start-time="2008/10/10 14:00:00">
+		<!-- customized permissions -->
+		<permission name="VT Perform Task" type="user" user="user1" />
+		<permission name="VT Perform Task" type="role" role="role1" />
+
+		<!-- default permissions -->
+		<permission name="VT Release Task" type="supervisor" />
+		<permission name="VT Reassign Task" type="supervisor" />
+		<permission name="VT Reject Task" type="supervisor" />
+		<permission name="VT Pause Task" type="supervisor" />
+		<permission name="VT Reassign Activity" type="supervisor" />
+		<permission name="VT Terminate Activity" type="supervisor" />
+
+		<permission name="VT Perform Task" type="manager" />
+		<permission name="VT Reassign Task" type="manager" />
+		<permission name="VT Reject Task" type="manager" />
+		<permission name="VT Pause Task" type="manager" />
+		<permission name="VT Release Task" type="manager" />
+		<permission name="VT Supervise Activity" type="manager" />
+
+		<permission name="VT Reject Task" type="owner" />
+		<permission name="VT Perform Task" type="owner" />
+		<permission name="VT Pause Task" type="owner" />
+		<permission name="VT Reassign Task" type="owner" />
+		<permission name="VT Release Task" type="owner" />
+
+		<task />
+	</activity>
+</application>

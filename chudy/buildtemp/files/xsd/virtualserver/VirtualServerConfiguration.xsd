@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:vs="http://schema.vitria.com/vs"
+    targetNamespace="http://schema.vitria.com/vs">
+
+    <element name="virtualServerConfiguration" type="vs:VirtualServerConfiguration" />
+
+    <complexType name="VirtualServerConfiguration">
+        <sequence>
+            <element name="properties" type="vs:Properties" />
+            <element name="containers" type="vs:Containers" />
+            <element name="partitions" type="vs:Partitions" />
+            <element name="deployedProjects" type="vs:DeployedProjects" />
+        </sequence>
+    </complexType>
+
+    <complexType name="Containers">
+        <sequence>
+            <element name="container" type="vs:Container" minOccurs="0" maxOccurs="unbounded" />
+        </sequence>
+    </complexType>
+
+    <complexType name="Container">
+        <sequence>
+            <element name="name" type="string" />
+            <element name="properties" type="vs:Properties" minOccurs="0" />
+        </sequence>
+    </complexType>
+
+    <complexType name="Partitions">
+        <sequence>
+            <element name="partition" type="vs:Partition" minOccurs="0" maxOccurs="unbounded" />
+        </sequence>
+    </complexType>
+
+    <complexType name="Partition">
+        <sequence>
+            <element name="naming-factory" type="string" />
+            <element name="naming-provider-url" type="string" />
+            <element name="cluster-mcast-addr" type="string" minOccurs="0" />
+            <element name="naming-user" type="string" minOccurs="0" />
+            <element name="naming-password" type="string" minOccurs="0" />
+        </sequence>
+        <attribute name="name" type="string" use="required" />
+    </complexType>
+
+    <complexType name="Properties">
+        <sequence>
+            <element name="property" type="vs:Property" minOccurs="0" maxOccurs="unbounded" />
+        </sequence>
+    </complexType>
+
+    <complexType name="Property">
+        <attribute name="name" type="string" use="required" />
+        <attribute name="value" type="string" use="required" />
+        <attribute name="javatype" type="string" use="optional" />
+    </complexType>
+
+    <complexType name="DeployedProjects">
+        <sequence>
+            <element name="deployedProject" type="vs:DeployedProject" minOccurs="0"
+                maxOccurs="unbounded" />
+        </sequence>
+    </complexType>
+
+    <complexType name="DeployedProject">
+        <attribute name="id" type="string" use="required" />
+        <attribute name="release" type="string" use="required" />
+        <attribute name="path" type="string" use="required" />
+        <attribute name="autoStart" type="boolean" use="required" />
+        <attribute name="isStarted" type="boolean" use="optional" />
+    </complexType>
+</schema>

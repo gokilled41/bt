@@ -1,0 +1,5 @@
+<or:order>
+	<orderId>oid</orderId>
+	<custId>cid</custId>
+	<notes>notes</notes>
+</or:order>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:or="http://samples.schema.vitria.com/OR"
+	targetNamespace="http://samples.schema.vitria.com/OR">
+
+	<element name="order" type="or:OrderType" />
+
+	<complexType name="OrderType">
+		<sequence>
+			<element name="orderId" type="string" />
+			<element name="custId" type="string" />
+			<element name="notes" type="string" />
+		</sequence>
+	</complexType>
+
+</schema>

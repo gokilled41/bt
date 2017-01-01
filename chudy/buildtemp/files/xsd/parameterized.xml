@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wf:parameterized xmlns:wf="http://www.vitria.com/workflow/smoke">
+    <description>description</description>
+    <caseID>caseID</caseID>
+    <user>SampleUser</user>
+    <workgroup>wg</workgroup>
+    <index>1</index>
+</wf:parameterized>

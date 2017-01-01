@@ -1,0 +1,5 @@
+<tns:bv xmlns:tns="http://schema.vitria.com/vocabularies">
+    <NewGroup>
+        <NewField>NewField1</NewField>
+    </NewGroup>
+</tns:bv>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:ex="http://samples.schema.vitria.com/EX"
+	targetNamespace="http://samples.schema.vitria.com/EX">
+
+	<element name="exception" type="ex:ExceptionType" />
+
+	<complexType name="ExceptionType">
+		<sequence>
+			<element name="exceptionId" type="string" />
+			<element name="exceptionContent" type="string" />
+		</sequence>
+	</complexType>
+
+</schema>

@@ -1,0 +1,2 @@
+call uatdir
+call ant

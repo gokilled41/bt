@@ -1,0 +1,2 @@
+call setant
+call setantdebug

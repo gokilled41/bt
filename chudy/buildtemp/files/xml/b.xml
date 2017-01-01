@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI"
+	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+	name="com.vitria.workflow.model"
+	nsURI="http://workflow.vitria.com/model" nsPrefix="model">
+	<eClassifiers xmi:type="ecore:EClass" name="ActivityEndedInfo">
+		<eAnnotations
+			source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+			<details key="name" value="activityEndedInfo" />
+			<details key="kind" value="elementOnly" />
+		</eAnnotations>
+		<eStructuralFeatures xmi:type="ecore:EAttribute" name="iD"
+			ordered="true" unique="true" lowerBound="1" upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+			changeable="true" unsettable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="ID" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EAttribute" name="last"
+			ordered="true" unique="true" lowerBound="1" upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
+			changeable="true" unsettable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="last" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EReference" name="task"
+			ordered="true" unique="true" lowerBound="1" upperBound="-1"
+			eType="#//Task" changeable="true" containment="true"
+			resolveProxies="false">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="task" />
+			</eAnnotations>
+		</eStructuralFeatures>
+	</eClassifiers>
+	<eClassifiers xmi:type="ecore:EClass" name="DocumentRoot">
+		<eAnnotations
+			source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+			<details key="name" value="" />
+			<details key="kind" value="mixed" />
+		</eAnnotations>
+		<eStructuralFeatures xmi:type="ecore:EAttribute" name="mixed"
+			ordered="true" unique="false" upperBound="-1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFeatureMapEntry"
+			changeable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="elementWildcard" />
+				<details key="name" value=":mixed" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EReference"
+			name="xMLNSPrefixMap" ordered="true" unique="true" upperBound="-1"
+			eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStringToStringMapEntry"
+			changeable="true" transient="true" containment="true"
+			resolveProxies="false">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="attribute" />
+				<details key="name" value="xmlns:prefix" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EReference"
+			name="xSISchemaLocation" ordered="true" unique="true" upperBound="-1"
+			eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStringToStringMapEntry"
+			changeable="true" transient="true" containment="true"
+			resolveProxies="false">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="attribute" />
+				<details key="name" value="xsi:schemaLocation" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EReference"
+			name="userTaskResult" ordered="true" unique="true" upperBound="-2"
+			eType="#//UserTaskResult" changeable="true" volatile="true"
+			transient="true" derived="true" containment="true"
+			resolveProxies="false">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="userTaskResult" />
+				<details key="namespace" value="##targetNamespace" />
+			</eAnnotations>
+		</eStructuralFeatures>
+	</eClassifiers>
+	<eClassifiers xmi:type="ecore:EClass" name="LastTaskEndedInfo">
+		<eAnnotations
+			source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+			<details key="name" value="lastTaskEndedInfo" />
+			<details key="kind" value="elementOnly" />
+		</eAnnotations>
+		<eStructuralFeatures xmi:type="ecore:EAttribute"
+			name="performer" ordered="true" unique="true" lowerBound="1"
+			upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+			changeable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="performer" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EAttribute"
+			name="reasonEnded" ordered="true" unique="true" lowerBound="1"
+			upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+			changeable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="reasonEnded" />
+			</eAnnotations>
+		</eStructuralFeatures>
+	</eClassifiers>
+	<eClassifiers xmi:type="ecore:EClass" name="Task">
+		<eAnnotations
+			source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+			<details key="name" value="task" />
+			<details key="kind" value="elementOnly" />
+		</eAnnotations>
+		<eStructuralFeatures xmi:type="ecore:EAttribute" name="iD"
+			ordered="true" unique="true" lowerBound="1" upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+			changeable="true" unsettable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="ID" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EAttribute"
+			name="activityID" ordered="true" unique="true" lowerBound="1"
+			upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+			changeable="true" unsettable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="activityID" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EAttribute"
+			name="description" ordered="true" unique="true" lowerBound="1"
+			upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+			changeable="true" unsettable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="description" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EAttribute"
+			name="endUserID" ordered="true" unique="true" lowerBound="1"
+			upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+			changeable="true" unsettable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="endUserID" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EReference" name="info"
+			ordered="true" unique="true" lowerBound="1" upperBound="1"
+			eType="#//TaskInfo" changeable="true" unsettable="true"
+			containment="true" resolveProxies="false">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="info" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EAttribute" name="owner"
+			ordered="true" unique="true" lowerBound="1" upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+			changeable="true" unsettable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="owner" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EAttribute"
+			name="reasonEnded" ordered="true" unique="true" lowerBound="1"
+			upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+			changeable="true" unsettable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="reasonEnded" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EAttribute" name="state"
+			ordered="true" unique="true" lowerBound="1" upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+			changeable="true" unsettable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="state" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EAttribute"
+			name="timeEnded" ordered="true" unique="true" lowerBound="1"
+			upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//DateTime"
+			changeable="true" unsettable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="timeEnded" />
+			</eAnnotations>
+		</eStructuralFeatures>
+	</eClassifiers>
+	<eClassifiers xmi:type="ecore:EClass" name="TaskInfo">
+		<eAnnotations
+			source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+			<details key="name" value="taskInfo" />
+			<details key="kind" value="elementOnly" />
+		</eAnnotations>
+		<eStructuralFeatures xmi:type="ecore:EAttribute"
+			name="activityName" ordered="true" unique="true" lowerBound="1"
+			upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+			changeable="true" unsettable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="activityName" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EAttribute"
+			name="applicationName" ordered="true" unique="true" lowerBound="1"
+			upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+			changeable="true" unsettable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="applicationName" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EAttribute" name="category"
+			ordered="true" unique="true" lowerBound="1" upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+			changeable="true" unsettable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="category" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EAttribute"
+			name="documentContextID" ordered="true" unique="true" lowerBound="1"
+			upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+			changeable="true" unsettable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="documentContextID" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EAttribute"
+			name="loggingThreshold" ordered="true" unique="true" lowerBound="1"
+			upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
+			changeable="true" unsettable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="loggingThreshold" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EAttribute" name="priority"
+			ordered="true" unique="true" lowerBound="1" upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
+			changeable="true" unsettable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="priority" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EAttribute"
+			name="processID" ordered="true" unique="true" lowerBound="1"
+			upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+			changeable="true" unsettable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="processID" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EAttribute"
+			name="processName" ordered="true" unique="true" lowerBound="1"
+			upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+			changeable="true" unsettable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="processName" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EAttribute"
+			name="startTime" ordered="true" unique="true" lowerBound="1"
+			upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//DateTime"
+			changeable="true" unsettable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="startTime" />
+			</eAnnotations>
+		</eStructuralFeatures>
+	</eClassifiers>
+	<eClassifiers xmi:type="ecore:EClass" name="UserTaskFault">
+		<eAnnotations
+			source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+			<details key="name" value="userTaskFault" />
+			<details key="kind" value="elementOnly" />
+		</eAnnotations>
+		<eStructuralFeatures xmi:type="ecore:EAttribute" name="name"
+			ordered="true" unique="true" lowerBound="1" upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+			changeable="true" unsettable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="name" />
+			</eAnnotations>
+		</eStructuralFeatures>
+	</eClassifiers>
+	<eClassifiers xmi:type="ecore:EClass" name="UserTaskResponse">
+		<eAnnotations
+			source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+			<details key="name" value="userTaskResponse" />
+			<details key="kind" value="elementOnly" />
+		</eAnnotations>
+		<eStructuralFeatures xmi:type="ecore:EReference" name="lastTask"
+			ordered="true" unique="true" lowerBound="1" upperBound="1"
+			eType="#//LastTaskEndedInfo" changeable="true" containment="true"
+			resolveProxies="false">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="lastTask" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EReference" name="tasks"
+			ordered="true" unique="true" lowerBound="1" upperBound="1"
+			eType="#//ActivityEndedInfo" changeable="true" containment="true"
+			resolveProxies="false">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="tasks" />
+			</eAnnotations>
+		</eStructuralFeatures>
+	</eClassifiers>
+	<eClassifiers xmi:type="ecore:EClass" name="UserTaskResult">
+		<eAnnotations
+			source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+			<details key="name" value="userTaskResult" />
+			<details key="kind" value="elementOnly" />
+		</eAnnotations>
+		<eStructuralFeatures xmi:type="ecore:EAttribute"
+			name="messageType" ordered="true" unique="true" lowerBound="1"
+			upperBound="1"
+			eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+			changeable="true">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="messageType" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EReference" name="response"
+			ordered="true" unique="true" upperBound="1"
+			eType="#//UserTaskResponse" changeable="true" containment="true"
+			resolveProxies="false">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="response" />
+			</eAnnotations>
+		</eStructuralFeatures>
+		<eStructuralFeatures xmi:type="ecore:EReference" name="fault"
+			ordered="true" unique="true" upperBound="1" eType="#//UserTaskFault"
+			changeable="true" containment="true" resolveProxies="false">
+			<eAnnotations
+				source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<details key="kind" value="element" />
+				<details key="name" value="fault" />
+			</eAnnotations>
+		</eStructuralFeatures>
+	</eClassifiers>
+</ecore:EPackage>

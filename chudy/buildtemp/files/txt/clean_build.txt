@@ -1,0 +1,83 @@
+1. remove export
+2. run build.bat
+3. copy oracle drivers
+4. edit run.bat of jboss
+   -XX:PermSize=64M -XX:MaxPermSize=512M
+   
+5. edit repository-ora.xml
+   @URL@  -->  jdbc:oracle:thin:@test-liligang:1521:orcl
+   @USER@  -->  zgf
+   @PASSWORD@  -->  zgf
+   
+   cmdbuildtemp --> ant deploy-repository
+   
+   localhost --> test-liligang
+   scott --> zgf
+   tiger --> zgf
+   
+   copy vt-oracle-emf-ds.xml
+   edit vt-oracle-um-ds.xml
+
+6. copy ApplicationServerDriverConfigs.xml, rcdata.xml
+7. deploy M3O
+   ant -Djboss_as.deploy.dir=D:\jedi\yoda\export\home\jboss\server\vtba\deploy deploy
+8. copy vt-Oracle001-ds.xml, vt-oraclembean-ds.xml
+9. clean database. create tables.
+	start jboss without deployments
+    call "%VTBA_HOME%\bin\vtutil" createtable database -datasourcejndi /vitria/m3o/app001/ds/testds1
+    vtutil createtable database -datasourcejndi /vitria/m3o/app001/ds/testds1
+    run D:\create.sql
+
+10. Configure JCR Browser
+
+   a. copy D:\Workflow-G\workflow bug fixing\0_yoda internal build\JCRBrowser_0.9.2_StandardEdition\plugins
+      to   D:\jedi\yoda\export\home\eclipse\plugins
+   b. Open eclipse, select "Window"==>"Preferences=>JCR Browser=>local jackrabbit repository"
+      input      Repository config file:  D:\jedi\yoda\export\home\data\repository\repository-ora.xml
+                 Repository home folder:  D:\jedi\yoda\export\home\modelrepository
+   c. select "Window"==>"Preferences=>=>JCR Browser=>Simple Credentials"
+      input      User Name: vtbaadmin
+                 Password:  vitria
+   d. when browsering model repository, jboss should be shut down
+   
+11. Add following config in JBOSS_CONF\log4j.xml
+
+   <category name="com.vitria.engine">
+      <priority value="ERROR"/>
+   </category>
+   <category name="com.vitria.fc">
+      <priority value="ERROR"/>
+   </category>
+   <category name="com.vitria.m3oui">
+      <priority value="ERROR"/>
+   </category>
+
+   
+
+12. update UI
+
+1)       update m3oui code under yoda/m3o/ui/src/m3o;
+
+2)       enter yoda/m3o/ui/src/m3oModule folder in command console;
+
+3)       >ant update-java
+
+4)       >ant update-ear
+
+5)       >ant remove-ear
+
+6)       >ant copy-ear
+
+13. Analyze Schema
+
+EXEC DBMS_STATS.gather_schema_stats('<schema>')
+
+14. workspace
+
+C:\workspace
+
+
+
+
+
+

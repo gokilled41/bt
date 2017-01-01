@@ -1,0 +1,4 @@
+dir: D:\jedi\yoda\export\projects\unbundled\dataflow\tools\dmsdk\sdk\dist\bin
+
+from:   set SDK_WORKSPACE=D:\jedi\yoda\unbundled\af\java\dataflow\modules
+to:     set SDK_WORKSPACE=C:\dmsdk_tutorial\modules

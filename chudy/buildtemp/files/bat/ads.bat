@@ -1,0 +1,1 @@
+call ad mysample samples/mysamplesource.properties

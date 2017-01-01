@@ -1,0 +1,1 @@
+call cr "C:\dmsdk_tutorial\credit-source-n.properties"

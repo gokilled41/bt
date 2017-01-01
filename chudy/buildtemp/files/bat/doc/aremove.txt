@@ -1,0 +1,18 @@
+aremove is one command to remove files under given dir.
+  aremove <dir> [<pattern>] [rn] [np] [o] [d] [f]
+    - dir        one dir or one tar alias
+    - pattern    files to remove
+                   file name like "a.jar" or file pattern like "*Manager*" or "*.zip"
+                   begin and end will automatically add "*"
+                   it can be combined like: "a/b\c\d". "/" means includes. "\" means excludes.
+                   it can be combined like: "a##b". "##" means or.
+                   it can be ` or ~. it means "*".
+                   it can be wrap with "'". it means exactly equals.
+                   it can be wrap with "@". it means regular expressions.
+    - rn         set recursive level. like: r0
+    - np         no path: the pattern of files not include path string
+    - o          output to file
+    - d          open dir
+                   d3 to open 3 dirs
+    - f          open file
+                   f3 to open 3 files

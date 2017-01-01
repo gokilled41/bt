@@ -1,0 +1,26 @@
+Subject:	An event instance.
+
+Start:	2008-5-20 (星期二) 14:00
+End:	2008-5-20 (星期二) 15:00
+
+Recurrence:	(none)
+
+Meeting Status:	Accepted
+
+Owner: Resource-121127160709911
+Type:  appointment
+
+Subject:	EDD review for iCal exp/imp and process control
+Location:	Training room
+
+Start:	2008-5-20 (星期二) 17:30
+End:	2008-5-20 (星期二) 18:30
+Show Time As:	Tentative
+
+Recurrence:	(none)
+
+Meeting Status:	Not yet responded
+
+Required Attendees:	Rui Han; workflow
+
+EDD review for iCal exp/imp and process control. GuiFang, Yansong, pls prepare for it.

@@ -1,0 +1,30 @@
+-dir: D:\jedi\yoda\unbundled\af\java\common
+-dir: D:\jedi\yoda\unbundled\af\java\dataflow
+-dir: D:\jedi\yoda\unbundled\af\java\dataflow\modules
+-dir: D:\jedi\yoda\unbundled\af\java\dataflow\tools\dmsdk
+-dir: D:\jedi\yoda\unbundled\apps\data_flow
+-dir: D:\jedi\yoda\unbundled\apps\predictive_analytics
+-dir: D:\jedi\yoda\unbundled\apps\predictive_analytics\plugins\dataflow\rmodule
+-dir: D:\jedi\yoda\unbundled\apps\predictive_analytics\plugins\dataflow\pmmlmodule
+-dir: D:\jedi\yoda\unbundled\apps\predictive_analytics\installer
+-dir: D:\jedi\yoda\unbundled\apps\predictive_analytics\plugins\unifiedservice\rservice
+-dir: D:\jedi\yoda\unbundled\devtests\predictive_analytics\junitee\unifyservice\rservice
+-dir: D:\jedi\yoda\unbundled\apps\spark_pipe
+-dir: D:\jedi\yoda\unbundled\spark
+-dir: D:\jedi\yoda\unbundled\devtests\spark_pipe
+-dir: D:\jedi\yoda\unbundled\devtests\tools\IoTSimulator
+-dir: C:\Users\Chudy\Desktop\mario
+-dir: D:\jedi\yoda\export\home\locale\en_US
+-dir: D:\jedi\yoda\export\home\runtime\sqlscripts
+-dir: C:\workspace\buildtemp\files\bat\
+dir: D:\huazhi\projects\git\yhm\yhm\src\main\webapp\WEB-INF\views\admin
+-dir: D:\huazhi\projects\git\xybank\src\
+-dir: D:\huazhi\projects\git\jnh\jnh\src
+-dir: D:\huazhi\projects\git\jnh\jnh\src\main\webapp\WEB-INF\views\brand
+-dir: D:\jedi\yoda\export\home\jboss\server\vtba\conf
+
+from: readonly
+to:   com.xy.mapper
+
+onlySearch: true
+printSearch: true

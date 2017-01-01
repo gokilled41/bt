@@ -1,0 +1,27 @@
+<deploymentConfiguration xmlns="http://schema.vitria.com/vs/deployment">
+    <projectSettings>
+        <traceLevel>5</traceLevel>
+        <auditLevel>normal</auditLevel>
+        <retryCount>3</retryCount>
+        <persistLevel>normal</persistLevel>
+    </projectSettings>
+    <resources>
+        <resource name="feed1" value="actual_feed1" />
+        <resource name="feed2" value="actual_feed2" />
+        <resource name="feed3" value="actual_feed3" />
+        <resource name="feed4" value="actual_feed4" />
+
+        <resource name="File1" value="New File 1" />
+        <resource name="DB1" value="New Database 1" />
+    </resources>
+    <serviceClientSettings>
+        <serviceURI>kirkwoodLoanApproverService</serviceURI>
+        <localAddress>http://kirkwood:8080</localAddress>
+    </serviceClientSettings>
+    <calendarSettings>
+        <calendarResourceId>Default</calendarResourceId>
+    </calendarSettings>
+    <autoPurge>false</autoPurge>
+    <runtimeValidation>false</runtimeValidation>
+    <releaseConfiguration type="TipOfTrunk" />
+</deploymentConfiguration>

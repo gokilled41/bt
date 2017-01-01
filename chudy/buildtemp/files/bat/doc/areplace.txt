@@ -1,0 +1,34 @@
+areplace is one command to replace files.
+  areplace <dir> [<files>] [<lines>] <from> <to> [c] [rn] [np] [o] [d] [f]
+    - dir        one dir or one tar alias
+    - files      the files to replace from
+                   file name like "a.jar" or file pattern like "*Manager*" or "*.zip"
+                   begin and end will automatically add "*"
+                   it can be combined like: "a/b\c\d". "/" means includes. "\" means excludes.
+                   it can be combined like: "a##b". "##" means or.
+                   it is optional. it will be all files "*" if not given.
+                   it can be ` or ~. it means "*".
+                   it can be wrap with "'". it means exactly equals.
+                   it can be wrap with "@". it means regular expressions.
+    - lines      the lines to replace
+                   it can be combined like: "a/b\c\d". "/" means includes. "\" means excludes.
+                   it can be combined like: "a##b". "##" means or.
+                   while combined, replace from is the first one. "a" for "a/b\c\d".
+                   if from includes resolved chars in regular expressions, please wrap it with "'", like: "'new PAFilenameFilter(filefrom)'"
+                   it can be wrap with "'". it means exactly equals.
+                   it can be wrap with "@". it means regular expressions.
+    - from       replace from string
+                 use the first item of from, if not given
+    - to         replace to
+                 if to includes resolved chars in regular expressions, no need wrap it with "'", like: "new PAFilenameFilter(filefrom)"
+    - c          it means case sensitive. 
+                 by default, it will replace all.
+                 like: for "project->move", replace: project->move, Project->Move, PROJECT->MOVE
+                 if give this, only replace: project->move
+    - rn         set recursive level. like: r0
+    - np         no path: the pattern of files not include path string
+    - o          output to file
+    - d          open dir
+                   d3 to open 3 dirs
+    - f          open file
+                   f3 to open 3 files

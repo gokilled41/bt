@@ -1,0 +1,22 @@
+<variables xmlns="http://workflow.vitria.com/model" xmlns:common="http://common.vitria.com/model" xmlns:schema="http://schema.vitria.com/model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <variable name="Header" kind="XSDTYPE" type="{http://schema.vitria.com/model}TaskHeader">
+    <field name="id" label="" type="string" visible="true" displayOrder="1" xpath="id"/>
+    <field name="businessEnvironment" label="" type="string" visible="true" displayOrder="2" xpath="businessEnvironment"/>
+    <field name="caseID" label="" type="string" visible="true" displayOrder="3" xpath="caseID"/>
+    <field name="activity" label="" type="string" visible="true" displayOrder="4" xpath="activity"/>
+    <field name="performer" label="" type="string" visible="true" displayOrder="5" xpath="performer"/>
+    <field name="description" label="" type="string" visible="true" displayOrder="6" xpath="description"/>
+    <field name="priority" label="" type="int" visible="true" displayOrder="7" xpath="priority"/>
+    <field name="state" label="" type="string" visible="true" displayOrder="8" xpath="state"/>
+    <field name="endReason" label="" type="string" visible="true" displayOrder="9" xpath="endReason"/>
+    <field name="dueDate" label="" type="dateTime" visible="true" displayOrder="10" xpath="dueDate"/>
+    <field name="createTime" label="" type="dateTime" visible="true" displayOrder="11" xpath="createTime"/>
+  </variable>
+  <variable name="elementB" kind="XSDELEMENT" type="{http://qualified.schema.vitria.com}elementB">
+    <field name="productName" label="" type="string" visible="true" displayOrder="12" xpath="declare namespace tns=&quot;http://qualified.schema.vitria.com&quot;;declare namespace tns1=&quot;http://qualified1.schema.vitria.com&quot;;/tns:elementB/product/tns:productName"/>
+    <field name="quantity" label="" type="integer" visible="true" displayOrder="13" xpath="declare namespace tns=&quot;http://qualified.schema.vitria.com&quot;;declare namespace tns1=&quot;http://qualified1.schema.vitria.com&quot;;/tns:elementB/product/quantity"/>
+    <field name="address" label="" type="string" visible="true" displayOrder="14" xpath="declare namespace tns=&quot;http://qualified.schema.vitria.com&quot;;declare namespace tns1=&quot;http://qualified1.schema.vitria.com&quot;;/tns:elementB/product1/address"/>
+    <field name="notes" label="" type="string" visible="true" displayOrder="15" xpath="declare namespace tns=&quot;http://qualified.schema.vitria.com&quot;;declare namespace tns1=&quot;http://qualified1.schema.vitria.com&quot;;/tns:elementB/product1/tns1:notes"/>
+  </variable>
+  <variable name="_userTaskResult" kind="XSDTYPE" type="{http://workflow.vitria.com/model}userTaskResult"/>
+</variables>

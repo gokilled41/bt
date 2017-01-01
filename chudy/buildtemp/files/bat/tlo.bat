@@ -1,0 +1,1 @@
+call tasklist | findstr oracle

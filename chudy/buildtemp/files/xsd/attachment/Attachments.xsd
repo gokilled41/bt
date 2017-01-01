@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:att="http://www.vitria.com/attachment"
+	xmlns:xmime="http://www.w3.org/2005/05/xmlmime"
+	targetNamespace="http://www.vitria.com/attachment">
+
+	<import namespace="http://www.w3.org/2005/05/xmlmime" schemaLocation="xmime.xsd" />
+
+	<element name="attachments" type="att:Attachments" />
+	<element name="attachmentsRequest" type="att:AttachmentsRequest" />
+
+	<complexType name="AttachmentsRequest">
+		<sequence>
+			<element name="attachmentName1" type="string" minOccurs="0" />
+			<element name="contentType1" type="string" minOccurs="0" />
+			<element name="rawContent1" type="xmime:base64Binary" minOccurs="0" />
+			<element name="contentURL1" type="string" minOccurs="0" />
+
+			<element name="attachmentName2" type="string" minOccurs="0" />
+			<element name="contentType2" type="string" minOccurs="0" />
+			<element name="rawContent2" type="xmime:base64Binary" minOccurs="0" />
+			<element name="contentURL2" type="string" minOccurs="0" />
+
+			<element name="attachmentName3" type="string" minOccurs="0" />
+			<element name="contentType3" type="string" minOccurs="0" />
+			<element name="rawContent3" type="xmime:base64Binary" minOccurs="0" />
+			<element name="contentURL3" type="string" minOccurs="0" />
+		</sequence>
+	</complexType>
+
+	<complexType name="Attachments">
+		<sequence>
+			<element name="attachment" type="att:Attachment" minOccurs="0" maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
+
+	<complexType name="Attachment">
+		<sequence>
+			<element name="attachmentName" type="string" />
+			<element name="attachmentInfo" type="att:AttachmentInfo" />
+			<element name="attachmentContent" type="att:AttachmentContent" />
+		</sequence>
+	</complexType>
+
+	<complexType name="AttachmentInfo">
+		<sequence>
+			<element name="contentType" type="string" />
+			<element name="category" type="string" />
+			<element name="description" type="string" nillable="true" />
+			<element name="submitter" type="string" />
+		</sequence>
+	</complexType>
+
+	<complexType name="AttachmentContent">
+		<choice>
+			<element name="contentURL" type="string" />
+			<element name="rawContent" type="base64Binary" />
+		</choice>
+	</complexType>
+</schema>
+

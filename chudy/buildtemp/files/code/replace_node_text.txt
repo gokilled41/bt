@@ -1,0 +1,20 @@
+Document doc = XQueryLib.parseXML(new InputSource(new FileInputStream(
+                "src/xml/project_sorted.xml")), new Hashtable());
+
+        Node[] nodes = XQueryLib.getFromXPath(doc.getDocumentElement(),
+                "/projectDescription/linkedResources/link");
+
+        String oldjboss = "D:/jedi/src/jboss4.0.5_GA";
+        String newjboss = "D:/jedi/src/jboss-eap-4.3-src/jboss-as";
+
+        for (int i = 0; i < nodes.length; i++) {
+            String name = (String) XQueryLib.getFirstFromXPath(nodes[i], "name/text()");
+            if (name.startsWith("jboss")) {
+                String location = (String) XQueryLib.getFirstFromXPath(nodes[i], "location/text()");
+                location = location.replaceAll(oldjboss, newjboss).trim();
+                XQueryLib.setUsingXPath(nodes[i], "location/text()", location);
+                //System.out.println(name + " " + location);
+            }
+        }
+
+        System.out.println(XQueryLib.unparsePrettyXML(doc));

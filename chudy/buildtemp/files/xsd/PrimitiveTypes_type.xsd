@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://schema.vitria.com/dmstesttype"
+	xmlns:dms="http://schema.vitria.com/dmstesttype">
+
+	<complexType name="PrimitiveTypes">
+		<sequence>
+			<element name="dateTimeType" type="dateTime" minOccurs="0" />
+			<element name="dateType" type="date" minOccurs="0" />
+			<element name="booleanType" type="boolean" minOccurs="0" />
+			<element name="anyURIType" type="anyURI" minOccurs="0" />
+			<element name="anyURIType" type="GDay" minOccurs="0" />
+		</sequence>
+	</complexType>
+</schema>

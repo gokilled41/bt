@@ -1,0 +1,162 @@
+<project name="spark" basedir=".">
+    <import file="../../properties.xml" />
+    <import file="${files.dir}/build/oracle.xml" />
+
+    <!-- spark properties ========================================================================== -->
+    <property name="uspark.dir" value="${yoda.home}\unbundled\spark" />
+    <property name="usp.dir" value="${yoda.home}\unbundled\apps\spark_pipe" />
+    <property name="hs.dir" value="${vtba.home}\spark" />
+    <property name="hss.dir" value="${hs.dir}\service" />
+    <property name="hss.bin.dir" value="${hss.dir}\bin" />
+    <property name="hss.logs.dir" value="${hss.dir}\logs" />
+    <property name="hsd.dir" value="${hs.dir}\debug" />
+    
+    <property name="kd.dir" value="D:\Workflow-G\workflow bug fixing\2016-09-19 Spark" />
+    <property name="ksp.dir" value="D:\soft\spark\spark-2.0.0-bin-hadoop2.4" />
+    <property name="ktmp.dir" value="D:\tmp" />
+    
+    <property name="euz.dir" value="${yoda.home}\export\projects\unbundled\zeppelin\libs" />
+
+    <!-- spark properties ========================================================================== -->
+
+    <target name="spark-copy-interpreter">
+        <copy todir="${hss.bin.dir}" overwrite="true">
+            <fileset dir="${kd.dir}\zeppelin">
+                <include name="interpreter.cmd" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="spark-apply-scala-hotfix">
+        <delete>
+            <fileset dir="${ksp.dir}/jars">
+                <include name="scala-compiler*.jar" />
+                <include name="scala-reflect*.jar" />
+            </fileset>
+        </delete>
+        <copy todir="${ksp.dir}/jars" overwrite="true">
+            <fileset dir="${kd.dir}\scala\hotfix">
+                <include name="scala-compiler*notfound_mismatch.jar" />
+                <include name="scala-reflect*notfound_mismatch.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="spark-remove-scala-hotfix">
+        <delete>
+            <fileset dir="${ksp.dir}/jars">
+                <include name="scala-compiler*.jar" />
+                <include name="scala-reflect*.jar" />
+            </fileset>
+        </delete>
+        <copy todir="${ksp.dir}/jars" overwrite="true">
+            <fileset dir="${kd.dir}\scala\hotfix">
+                <include name="scala-compiler*2.11.8.jar" />
+                <include name="scala-reflect*2.11.8.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="spark-update-scala-hotfix">
+        <delete dir="${ktmp.dir}\scala-compiler" />
+        <delete dir="${ktmp.dir}\scala-library" />
+        <delete dir="${ktmp.dir}\scala-reflect" />
+        <unzip src="${kd.dir}\scala\build_dist\scala-compiler.jar" dest="${ktmp.dir}\scala-compiler" />
+        <unzip src="${kd.dir}\scala\build_dist\scala-library.jar" dest="${ktmp.dir}\scala-library" />
+        <unzip src="${kd.dir}\scala\build_dist\scala-reflect.jar" dest="${ktmp.dir}\scala-reflect" />
+        
+        <property name="scdir" value="${kd.dir}\scala\Scala_Fix\vitria\scala-compiler\scala\tools\nsc\interpreter" />
+        <delete dir="${scdir}" />
+        <mkdir dir="${scdir}" />
+        <copy todir="${scdir}" overwrite="true">
+            <fileset dir="${ktmp.dir}\scala-compiler\scala\tools\nsc\interpreter">
+                <include name="ExprTyper*.class" />
+                <include name="Imports*.class" />
+                <include name="MemberHandlers*.class" />
+                <include name="ExprTyper*.class" />
+            </fileset>
+        </copy>
+        
+        <property name="srdir" value="${kd.dir}\scala\Scala_Fix\vitria\scala-reflect\scala\reflect\internal" />
+        <delete dir="${srdir}" />
+        <mkdir dir="${srdir}" />
+        <copy todir="${srdir}" overwrite="true">
+            <fileset dir="${ktmp.dir}\scala-reflect\scala\reflect\internal">
+                <include name="Names*.class" />
+                <include name="Types*.class" />
+                <exclude name="TypesStats*.class" />
+            </fileset>
+        </copy>
+        
+        <property name="sfdir" value="${kd.dir}\scala\Scala_Fix" />
+        <property name="sfzip" value="${kd.dir}\scala\Scala_Fix.zip" />
+        <property name="sfbdir" value="${sfdir}\backup" />
+        <delete dir="${sfbdir}" />
+        <mkdir dir="${sfbdir}" />
+        
+        <delete file="${sfzip}" />
+        <zip destfile="${sfzip}" basedir="${sfdir}" />
+    </target>
+
+    <target name="spark-uzv-up">
+        <copy todir="${jboss.lib.dir}" overwrite="true">
+            <fileset dir="${euz.dir}">
+                <include name="zeppelin-vtsparkservice*.jar" />
+            </fileset>
+        </copy>
+        <copy todir="D:\jedi\yoda\export\home\spark\service\interpreter\spark" overwrite="true">
+            <fileset dir="D:\jedi\yoda\unbundled\thirdparty\zeppelin\v0.6.1\dist\data\interpreter\spark">
+                <include name="zeppelin-*.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="spark-klc">
+        <delete dir="${hss.dir}/local-repo" />
+        <mkdir dir="${hss.dir}/local-repo" />
+    </target>
+
+    <target name="spark-fslog">
+        <property name="timer.dir" value="E:" />
+        <property name="jbosslog.dir" value="${jboss.log.dir}" />
+        <property name="jboss.log.file" value="${jbosslog.dir}\server.log" />
+        <mkdir dir="${jbosslog.dir}\result" />
+        
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\warn.log" pattern="WARN" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\error.log" pattern="ERROR" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\stdout.log" pattern="[STDOUT]" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\sp.log" pattern="[com.vitria.spark" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\spf.log" pattern="[com.vitria.spark.resource.functions" multiple="true" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\zp.log" pattern="[org.apache.zeppelin" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\sd.log" pattern="[com.vitria.zeppelin.util.SparkDebugger" multiple="true" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\cp.log" pattern="[com.vitria.domainservice.util.ClassPathHelper" multiple="true" />
+    </target>
+
+    <target name="spark-flog">
+        <property name="jbosslog.dir" value="${hss.logs.dir}" />
+        <property name="jboss.log.file" value="${jbosslog.dir}\vtSparkShell-DataPipe-1-gzhou-PEK-WKST67766.log" />
+        <mkdir dir="${jbosslog.dir}\result" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\warn.log" pattern="WARN" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\error.log" pattern="ERROR" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\stdout.log" pattern="[STDOUT]" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\ico.log" pattern="INFO  [SparkInterpreter] - interpret code [" multiple="false" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\ic.log" pattern="INFO  [SparkInterpreter] - interpret code [" multiple="true" />
+    </target>
+    
+    <target name="spark-icremove">
+        <delete file="${desktop.dir}/code-2.txt" />
+    </target>
+    
+    <target name="spark-iccopy">
+        <copy tofile="${desktop.dir}/code-2.txt" file="${desktop.dir}/code-1.txt" overwrite="true" />
+    </target>
+    
+    <target name="spark-hsd">
+        <mkdir dir="${hsd.dir}" />
+    </target>
+    
+    <target name="spark-hsd-remove">
+        <delete dir="${hsd.dir}" />
+    </target>
+
+</project>

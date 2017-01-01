@@ -1,0 +1,21 @@
+dir: D:\jedi\yoda\unbundled\af\java\dataflow\client
+dir: D:\jedi\yoda\unbundled\af\java\dataflow\locale
+
+from: DFI18NError
+to:   a
+from: DFI18NWarn
+to:   a
+from: DFI18NInfo
+to:   a
+from: DFI18NEx
+to:   a
+from: LocaleSortMC
+to:   a
+from: LocaleSortMSG
+to:   a
+
+-sortByErrorCode: true
+
+mcFile:  D:\jedi\yoda\unbundled\af\java\dataflow\client\com\vitria\dataflow\ClientMessageCode.java
+msgFile: D:\jedi\yoda\unbundled\af\java\dataflow\locale\en_US\dataflowclient.properties
+msgCodePrefix: Client

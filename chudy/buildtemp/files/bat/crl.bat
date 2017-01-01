@@ -1,0 +1,1 @@
+call cr samples/mysample-library.properties

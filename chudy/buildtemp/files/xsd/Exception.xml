@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ex:exception xmlns:ex="http://samples.schema.vitria.com/EX">
+	<exceptionId>exceptionId</exceptionId>
+	<exceptionContent>exceptionContent</exceptionContent>
+</ex:exception>
+

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wf="http://www.vitria.com/workflow/smoke"
+    targetNamespace="http://www.vitria.com/workflow/smoke">
+
+    <element name="parameterized" type="wf:Parameterized" />
+
+    <complexType name="Parameterized">
+        <sequence>
+            <element name="description" type="string" minOccurs="0" />
+            <element name="caseID" type="string" minOccurs="0" />
+            <element name="user" type="string" minOccurs="0" />
+            <element name="workgroup" type="string" minOccurs="0" />
+            <element name="index" type="int" minOccurs="0" />
+        </sequence>
+    </complexType>
+
+</schema>
+

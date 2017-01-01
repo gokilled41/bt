@@ -1,0 +1,2 @@
+call mgdocdir
+cd CypressMigrationTool

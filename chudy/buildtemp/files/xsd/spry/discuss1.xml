@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:Discussion xmlns:tns="http://www.spry.com/m3o" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.spry.com/m3o spry.xsd ">
+  <ID>ID</ID>
+  <Source>Source</Source>
+  <Subject>Subject</Subject>
+  <AssignedGroup>AssignedGroup</AssignedGroup>
+  <Status>Status</Status>
+  <AtRisk>true</AtRisk>
+  <OverdueCount>0</OverdueCount>
+  <Priority>Priority</Priority>
+  <Messages>
+    <ID>ID</ID>
+    <DiscussionID>DiscussionID</DiscussionID>
+    <RecievedTime>2001-12-31T12:00:00</RecievedTime>
+    <Author>Author</Author>
+    <Source>Source</Source>
+    <Content>Content</Content>
+    <Summary>Summary</Summary>
+    <RelatedTask>RelatedTask</RelatedTask>
+  </Messages>
+</tns:Discussion>

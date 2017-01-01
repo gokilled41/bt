@@ -1,0 +1,26 @@
+<taskSpecific xmlns="http://workflow.vitria.com/model"
+	xmlns:common="http://common.vitria.com/model"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<taskactions>
+		<taskaction name="Start" enable="true" />
+		<taskaction name="Close" enable="true" />
+		<taskaction name="Save" enable="true" />
+		<taskaction name="Pause" enable="true" />
+		<taskaction name="Release" enable="true" />
+		<taskaction name="Reassign" enable="true" />
+	</taskactions>
+	<assignment>
+		<assignmentPolicy>
+			<name>Any</name>
+			<users>
+				<entry type="role">wg1</entry>
+			</users>
+		</assignmentPolicy>
+	</assignment>
+	<timers />
+	<events>
+		<event>
+			<name>workflow.task.server.taskcreation</name>
+		</event>
+	</events>
+</taskSpecific>

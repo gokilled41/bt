@@ -1,0 +1,12 @@
+D:/jedi/yoda/workflow/projects/vtTaskManager/src
+D:/jedi/yoda/workflow/projects/vtWorkflowCommon/src
+D:/jedi/yoda/workflow/src/bundles/actionHandler/default
+D:/jedi/yoda/workflow/src/bundles/assignment/assignmentbymanager
+D:/jedi/yoda/workflow/src/bundles/assignment/default
+D:/jedi/yoda/workflow/src/bundles/attachment/default
+D:/jedi/yoda/workflow/src/bundles/audit/m3o/src
+D:/jedi/yoda/workflow/src/bundles/notification/mbean
+D:/jedi/yoda/workflow/src/bundles/taskmanager/m3o
+D:/jedi/yoda/workflow/src/bundles/timerHandler/m3o
+D:/jedi/yoda/workflow/src/bundles/timerService/quartzTimer
+D:/jedi/yoda/workflow/src/bundles/transition/default

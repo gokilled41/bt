@@ -1,0 +1,1 @@
+call gf C:\workspace\buildtemp\files\bat\%1.bat %2

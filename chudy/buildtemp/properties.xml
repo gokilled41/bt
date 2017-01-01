@@ -1,0 +1,219 @@
+<project name="buildtemp-properties" basedir="./">
+    <property name="app.server.type" value="websphere" />
+    <property name="yoda.home" value="D:\jedi\yoda" />
+    <property name="vtba1" value="${yoda.home}\export\home" />
+    <property name="vtba2" value="E:\vtbads001" />
+
+    <!-- ========================================================================== -->
+    <!-- Change VTBA HOME Here -->
+    <property name="vtba.home" value="${vtba1}" />
+    <!-- ========================================================================== -->
+
+    <property name="export.dir" value="${yoda.home}\export" />
+    <property name="workflow.dir" value="${yoda.home}\m3o\workflow" />
+    <property name="jboss.server.name" value="vtba" />
+    <property name="pf.dir" value="C:\Program Files" />
+    <property name="export.bak.dir" value="D:\jedi\exportbak" />
+    <property name="bug.id" value="173906" />
+    <property name="task.name" value="Pluggable Data Service" />
+    <property name="gzhou.password" value="zgf@221" />
+    <property name="zgfuser" value="zgf_domainds" />
+    <property name="zgfuser1" value="zgf_m3ods1" />
+    <property name="zgfuser2" value="zgf_m3ods2" />
+
+    <property name="desktop.dir" value="C:\Users\Chudy\Desktop" />
+    <property name="typeandrun.dir" value="C:\Program Files\typeandrun" />
+    <property name="df.model.name" value="test_simple_01" />
+    <property name="dfp.model.name" value="test_parallel_01" />
+
+    <!-- ========================================================================== -->
+    <!-- Change User Pass Here  -->
+    <property name="zgfuserpass" value="${zgfuser}" />
+    <!-- ========================================================================== -->
+
+    <property name="driver" value="oracle.jdbc.driver.OracleDriver" />
+    <property name="vt_ds_server" value="localhost" />
+    <property name="vt_ds_port" value="1521" />
+    <property name="vt_ds_sid" value="orcl" />
+    <property name="vt_ds_connection_url" value="${vt_ds_server}:${vt_ds_port}:${vt_ds_sid}" />
+    <property name="vt_ds_username" value="${zgfuserpass}" />
+    <property name="vt_ds_password" value="${zgfuserpass}" />
+
+    <property name="buildtemp.dir" value="C:\workspace\buildtemp" />
+    <property name="src.dir" value="${buildtemp.dir}/src" />
+    <property name="lib.dir" value="${buildtemp.dir}/lib" />
+    <property name="files.dir" value="${buildtemp.dir}/files" />
+    <property name="bin.dir" value="${buildtemp.dir}/bin" />
+    <property name="log.dir" value="${files.dir}/log" />
+    <property name="sql.dir" value="${files.dir}/sql" />
+    <property name="txt.dir" value="${files.dir}/txt" />
+    <property name="bat.dir" value="${files.dir}/bat" />
+    <property name="replacestr.dir" value="${files.dir}/replacestr" />
+    <property name="files.lib.dir" value="${files.dir}/lib" />
+    <property name="files.lib.vs.dir" value="${files.lib.dir}/vs" />
+    <property name="zgf.dir" value="E:\周贵芳" />
+
+    <property name="bundles.server.dir" value="${vtba.home}\bundles\m3o\server\bundle" />
+    <property name="bundles.server.conf.dir" value="${vtba.home}\bundles\m3o\server\conf" />
+    <property name="bundles.ui.dir" value="${vtba.home}\bundles\m3o\ui\bundle" />
+    <property name="bundles.ui.conf.dir" value="${vtba.home}\bundles\m3o\ui\conf" />
+
+    <property name="locale.dir" value="${vtba.home}\locale\en_US" />
+
+    <property name="jboss.home" value="${vtba.home}\jboss" />
+    <property name="jboss.bin.dir" value="${jboss.home}\bin" />
+    <property name="jboss.client.dir" value="${jboss.home}\client" />
+    <property name="jboss.home.lib.dir" value="${jboss.home}\lib" />
+    <property name="jboss.vtba.dir" value="${jboss.home}\server\${jboss.server.name}" />
+    <property name="jboss.lib.dir" value="${jboss.home}\server\${jboss.server.name}\lib" />
+    <property name="jboss.deploy.dir" value="${jboss.home}\server\${jboss.server.name}\deploy" />
+    <property name="jboss.log.dir" value="${jboss.home}\server\${jboss.server.name}\log" />
+    <property name="jboss.conf.dir" value="${jboss.home}\server\${jboss.server.name}\conf" />
+
+    <property name="runtime.dir" value="${vtba.home}\runtime" />
+    <property name="runtime.common.dir" value="${runtime.dir}\common" />
+    <property name="runtime.jboss.dir" value="${runtime.dir}\jboss" />
+    <property name="runtime.sqlscripts.dir" value="${runtime.dir}\sqlscripts" />
+    <property name="runtime.websphere.dir" value="${runtime.dir}\websphere" />
+
+    <property name="runtime.websphere.conf.dir" value="${runtime.websphere.dir}\conf" />
+    <property name="runtime.websphere.deploy.dir" value="${runtime.websphere.dir}\deploy" />
+    <property name="runtime.websphere.lib.dir" value="${runtime.websphere.dir}\lib" />
+    <property name="runtime.websphere.sharelib.dir" value="${runtime.websphere.dir}\sharedlib" />
+
+    <property name="runtime.common.conf.dir" value="${runtime.common.dir}\conf" />
+    <property name="runtime.common.deploy.dir" value="${runtime.common.dir}\deploy" />
+    <property name="runtime.common.lib.dir" value="${runtime.common.dir}\lib" />
+
+    <property name="runtime.jboss.conf.dir" value="${runtime.jboss.dir}\conf" />
+    <property name="runtime.jboss.deploy.dir" value="${runtime.jboss.dir}\deploy" />
+    <property name="runtime.jboss.lib.dir" value="${runtime.jboss.dir}\lib" />
+    <property name="runtime.jboss.data.dir" value="${runtime.jboss.dir}\data" />
+
+    <property name="share.lib.dir" value="${runtime.websphere.sharelib.dir}" />
+
+    <property name="dist.dir" value="${export.dir}\dist" />
+    <property name="m3o.dist.dir" value="${export.dir}\m3o\dist" />
+    <property name="m3o.dist.jboss.dir" value="${m3o.dist.dir}\JBoss" />
+
+    <property name="test.dir" value="${export.dir}\test" />
+    <property name="test.dist.dir" value="${test.dir}\dist" />
+    <property name="test.classes.dir" value="${test.dir}\classes" />
+
+    <property environment="env" />
+
+    <property name="debug.line" value="set JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n %JAVA_OPTS%" />
+    <property name="undebug.line" value="rem set JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=y %JAVA_OPTS%" />
+    <property name="undebug.line2" value="rem set JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n %JAVA_OPTS%" />
+
+    <property name="memory.line" value="set JAVA_OPTS=%JAVA_OPTS% -Xms128m -Xmx512m -XX:PermSize=64M -XX:MaxPermSize=512M" />
+    <property name="big.memory.line" value="set JAVA_OPTS=%JAVA_OPTS% -Xms256m -Xmx1024m" />
+
+    <property name="ojdbc.dir" value="${yoda.home}\build\lib\driver\ojdbc" />
+    <property name="ojdbc.version" value="10.2.0.4.0" />
+    <property name="xdb.version" value="10.2.0.3.0" />
+    <property name="ojdbc.jar" value="${ojdbc.dir}\ojdbc-${ojdbc.version}.jar" />
+    <property name="xdb.jar" value="${ojdbc.dir}\xdb-${xdb.version}.jar" />
+    <property name="xmlparserv2.jar" value="${ojdbc.dir}\xmlparserv2-${xdb.version}.jar" />
+
+    <property name="wfg.dir" value="D:\Workflow-G" />
+    <property name="bugfixing.dir" value="${wfg.dir}\workflow bug fixing" />
+    <property name="devbuild.dir" value="${bugfixing.dir}\0_yoda internal build" />
+    <property name="emf.datasource.xml" value="${devbuild.dir}\copied oracle\vt-oracle-emf-ds.xml" />
+    <property name="um.datasource.xml" value="${devbuild.dir}\copied oracle\vt-oracle-um-ds.xml" />
+
+    <property name="app.conf.xml" value="${devbuild.dir}\copied data xml\ApplicationServerDriverConfigs.xml" />
+    <property name="rcdata.xml" value="${devbuild.dir}\copied data xml\rcdata.xml" />
+
+    <property name="log4j.file" value="jboss-log4j.xml" />
+    <property name="log.log4j.dir" value="${devbuild.dir}\copied log4j\log" />
+    <property name="log.log4j.xml" value="${log.log4j.dir}\${log4j.file}" />
+    <property name="nolog.log4j.dir" value="${devbuild.dir}\copied log4j\nolog" />
+    <property name="nolog.log4j.xml" value="${nolog.log4j.dir}\${log4j.file}" />
+
+    <property name="tocopy.eclipse.settings.dir" value="${devbuild.dir}\copied eclipse settings\.settings" />
+    <property name="tocopy.eclipse.settings.file" value="${tocopy.eclipse.settings.dir}\org.eclipse.ui.ide.prefs" />
+
+    <property name="eclipse.settings.dir" value="${vtba.home}\eclipse\configuration\.settings" />
+    <property name="eclipse.settings.file" value="${eclipse.settings.dir}\org.eclipse.ui.ide.prefs" />
+
+    <taskdef name="handle" classname="gzhou.HandleTask" classpath="${bin.dir}" />
+    <taskdef name="appenddate" classname="gzhou.AppendDateTask" classpath="${bin.dir}" />
+    <taskdef name="appendtasklist" classname="gzhou.AppendTaskListTask" classpath="${bin.dir}" />
+    <taskdef name="debugupdate" classname="gzhou.DebugUpdateTask" classpath="${bin.dir}" />
+    <taskdef name="appendcopyright" classname="gzhou.AppendCopyrightTask" classpath="${bin.dir}" />
+    <taskdef name="merge" classname="com.vitria.workflow.test.XmlMerge" classpath="${lib.dir}/vtwftest.jar;${lib.dir}/dom4j-1.6.1.jar;${lib.dir}/commons-logging.jar;" />
+    <taskdef name="wfsql" classname="com.vitria.workflow.test.WFSQLExec" classpath="${lib.dir}/vtwftest.jar;${lib.dir}/vtfc.jar;${lib.dir}/commons-logging.jar;${lib.dir}/vtum.jar;${lib.dir}/xercesImpl-2.8.1.jar" />
+    <taskdef name="append" classname="gzhou.AppendXMLNodeTask" classpath="${bin.dir};${lib.dir}/vtfc.jar;${lib.dir}/commons-logging.jar;${lib.dir}/xercesImpl-2.8.1.jar" />
+    <taskdef name="propmerge" classname="gzhou.PropMergeTask" classpath="${bin.dir}" />
+    <taskdef name="analyze" classname="wfunit.WorkflowUnitLogAnalyst" classpath="${bin.dir}" />
+    <taskdef name="prop" classname="gzhou.PropSetTask" classpath="${bin.dir}" />
+    <taskdef name="find" classname="gzhou.FindStringTask" classpath="${bin.dir}" />
+    <taskdef name="connect" classname="gzhou.ConnectFileTask" classpath="${bin.dir}" />
+    <taskdef name="mkBugFolder" classname="gzhou.MakeBugFolderTask" classpath="${bin.dir}" />
+    <taskdef name="createBugDetail" classname="gzhou.CreateBugDetailTask" classpath="${bin.dir}" />
+    <taskdef name="appLines" classname="gzhou.AppendTXTLinesTask" classpath="${bin.dir}" />
+    <taskdef name="replaceStr" classname="gzhou.ReplaceStringTask" classpath="${bin.dir}" />
+    <taskdef name="logformat" classname="gzhou.ServerLogFormatter" classpath="${bin.dir}" />
+    <taskdef name="sjbrename" classname="gzhou.SJBRenameTask" classpath="${bin.dir}" />
+    <taskdef name="threaddump" classname="gzhou.ThreadDumpTask" classpath="${bin.dir}" />
+    <taskdef name="modelreplace" classname="gzhou.ModelReplaceTask" classpath="${bin.dir}" />
+    <taskdef name="verifyproxy" classname="gzhou.VerifyProxyTask" classpath="${bin.dir}" />
+    <taskdef name="tasklist" classname="gzhou.TaskListTask" classpath="${bin.dir}" />
+    <taskdef name="xmlformat" classname="gzhou.XMLFormatTask" classpath="${bin.dir}" />
+    <taskdef name="fund" classname="gzhou.FundTask" classpath="${bin.dir};${lib.dir}/jackson-annotations-2.1.1.jar;${lib.dir}/jackson-core-2.1.1.jar;${lib.dir}/jackson-databind-2.1.1.jar;${lib.dir}/vtpredictive-data.jar;${lib.dir}/vtfc.jar;${lib.dir}/commons-logging.jar;${lib.dir}/pinyin4j-2.5.0.jar" />
+    <taskdef name="xjcrjd" classname="gzhou.XJCRemoveJavaDocTask" classpath="${bin.dir}" />
+    <taskdef name="imsus" classname="gzhou.IoTSimulatorURLSwitchTask" classpath="${bin.dir}" />
+    <taskdef name="hzfsqlformat" classname="gzhou.HZFSQLFormatTask" classpath="${bin.dir}" />
+
+    <property name="jboss.j2ee.jar" value="${jboss.lib.dir}/jboss-j2ee.jar" />
+    <property name="jbossall.client.jar" value="${jboss.client.dir}/jbossall-client.jar" />
+    <property name="hornetq.jms.client.jar" value="${jboss.lib.dir}/hornetq-jms-client.jar" />
+    <property name="hornetq.core.client.jar" value="${jboss.lib.dir}/hornetq-core-client.jar" />
+    <property name="netty.jar" value="${jboss.lib.dir}/netty.jar" />
+    <taskdef name="jmsclient" classname="gzhou.JMSTask" classpath="${bin.dir};${jboss.j2ee.jar};${jbossall.client.jar};${hornetq.jms.client.jar};${hornetq.core.client.jar};${netty.jar}" />
+
+    <property name="m3o.ear.name" value="vtm3oserver.ear" />
+    <property name="m3o.ear.file" value="${jboss.deploy.dir}/${m3o.ear.name}" />
+    <property name="m3o.ear.dir" value="${java.io.tmpdir}/${m3o.ear.name}" />
+
+    <property name="m3o.utility.ear.name" value="vtm3outility.ear" />
+    <property name="m3o.utility.ear.file" value="${jboss.deploy.dir}/${m3o.utility.ear.name}" />
+    <property name="m3o.utility.ear.dir" value="${java.io.tmpdir}/${m3o.utility.ear.name}" />
+
+    <property name="m3o.stage.dir" value="${export.dir}/m3o/stage" />
+    <property name="m3o.stage.jboss.dir" value="${m3o.stage.dir}/JBoss" />
+    <property name="m3o.stage.jboss.m3oserver.dir" value="${m3o.stage.jboss.dir}/M3OServer" />
+
+    <property name="m3o.ui.ear.name" value="vtm3oui.ear" />
+    <property name="m3o.ui.ear.dir" value="${java.io.tmpdir}/${m3o.ui.ear.name}" />
+    <property name="m3o.ui.war.name" value="m3oui.war" />
+    <property name="m3o.ui.war.dir" value="${java.io.tmpdir}/${m3o.ui.war.name}" />
+
+    <property name="projects.dir" value="${export.dir}/projects" />
+    <property name="m3oui.dist.dir" value="${projects.dir}/m3o" />
+    <property name="m3oui.dist.ejb.dir" value="${m3oui.dist.dir}/application/ejb" />
+
+    <property name="myeclipse.name" value="MyEclipse 6.5" />
+    <property name="myeclipse.dir" value="${pf.dir}/${myeclipse.name}" />
+
+    <property name="vt.server.name.m3o" value="kirkwood" />
+    <property name="vt.server.name.analytic" value="analytic" />
+    <property name="vt.server.name.feed" value="feedserver" />
+    <property name="vt.server.name.presentation" value="presentationserver" />
+    <property name="vt.server.name.domain" value="domainserver" />
+    <property name="vt.db.dialect.type" value="org.hibernate.dialect.Oracle10gDialect" />
+    <property name="vt.server.context.factory.jboss" value="org.jnp.interfaces.NamingContextFactory" />
+    <property name="vt.server.provider.url.jboss" value="jnp://pek-wkst67766:1099" />
+    <property name="vt.server.context.factory.websphere" value="com.ibm.websphere.naming.WsnInitialContextFactory" />
+    <property name="vt.server.provider.url.websphere" value="corbaloc:iiop:pek-wkst67766:2809" />
+
+    <property file="${desktop.dir}\database.properties" />
+
+    <import file="${yoda.home}\sjb.xml" />
+    <property name="jboss.upgrade.dir" value="D:\Workflow-G\workflow bug fixing\2013-06-24 JBoss Upgrade" />
+
+    <property name="rn.dir" value="${desktop.dir}\rename" />
+
+    <property name="jdk8.fix.dir" value="D:\Workflow-G\workflow bug fixing\2015-03-05 JDK8\fix" />
+</project>

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<project name="test" basedir="../..">
+    <import file="../../properties.xml" />
+
+    <target name="test">
+        <echo message="${workflow.test.database.type}" />
+        <copy file="${desktop.dir}\${workflow.test.database.type}.default.config.properties" tofile="${desktop.dir}\default.config.properties" overwrite="true" />
+    </target>
+
+</project>

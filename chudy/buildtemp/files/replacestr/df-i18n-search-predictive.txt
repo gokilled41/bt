@@ -1,0 +1,22 @@
+dir: D:\jedi\yoda\unbundled\apps\predictive_analytics\libs\src\data\src
+dir: D:\jedi\yoda\unbundled\apps\predictive_analytics\libs\src\framework\src
+dir: D:\jedi\yoda\unbundled\apps\predictive_analytics\installer\stage\locale
+
+from: DFI18NError
+to:   a
+from: DFI18NWarn
+to:   a
+from: DFI18NInfo
+to:   a
+from: DFI18NEx
+to:   a
+from: LocaleSortMC
+to:   a
+from: LocaleSortMSG
+to:   a
+
+onlySearch: true
+-printSearch: true
+
+mcFile:  D:\jedi\yoda\unbundled\apps\predictive_analytics\libs\src\data\src\com\vitria\predictive\MessageCode.java
+msgFile: D:\jedi\yoda\unbundled\apps\predictive_analytics\installer\stage\locale\en_US\predictive.properties

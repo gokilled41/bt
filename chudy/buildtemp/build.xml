@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<project name="buildtemp" default="all" basedir=".">
+    <import file="properties.xml" />
+    <import file="${files.dir}/build/common.xml" />
+    <import file="${files.dir}/build/util.xml" />
+    <import file="${files.dir}/build/clean_build.xml" />
+    <import file="${files.dir}/build/mssql.xml" />
+    <import file="${files.dir}/build/oracle.xml" />
+    <import file="${files.dir}/build/clustering.xml" />
+    <import file="${files.dir}/build/mysql.xml" />
+    <import file="${files.dir}/build/performance.xml" />
+    <import file="${files.dir}/build/was.xml" />
+    <import file="${files.dir}/build/update.xml" />
+    <import file="${files.dir}/build/test.xml" />
+    <import file="${files.dir}/build/dataflow.xml" />
+    <import file="${files.dir}/build/hz.xml" />
+    
+    <target name="all" depends="clean-build, mysql" />
+    <target name="notdropdb" depends="clean-build, oracle-no-db" />
+    <target name="cdb-mysql" depends="clean-build, mysql" />
+    <target name="cdb-oracle" depends="clean-build, oracle" />
+
+    <target name="config-db" depends="clean-env, oracle-deploy-repository, oracle-copy-datasources" />
+    <target name="config-db-p" depends="clean-env, oracle-deploy-repository, oracle-copy-datasources-performance" />
+
+</project>
+

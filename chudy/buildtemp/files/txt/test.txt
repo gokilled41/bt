@@ -1,0 +1,140 @@
+        SQLQuery.setIP("10.101.3.108");
+        String account = "zgf";
+        SQLQuery.taskCount(account);
+        SQLQuery.taskPerformers(account);
+        SQLQuery.taskCategories(account);
+        SQLQuery.taskProcessNames(account);
+        SQLQuery.jmsCount("zgfjms");
+        SQLQuery.taskCountClosed(account);
+
+        for (int i = 0; i < 20; i++) {
+            SQLQuery.taskCountClosed(account);
+            Thread.sleep(1000);
+        }
+
+        SQLQuery.query(account, "select * from vtdm_tab_4");
+        SQLQuery.query(account, "select count(*) from vtdm_tab_2");
+        SQLQuery.query(account, "select count(*) from vtdm_tab_4");
+        for (int i = 1; i <= 50; i++) {
+            SQLQuery
+                    .query(
+                            account,
+                            "select count(*) from vt_wf_task where state = 'Closed' and originalperformer = '[role:testbe/workgroup"
+                                    + i + "]'");
+        }
+
+        SQLQuery.query(account,
+                "select min(ended), max(ended) from vt_wf_task where originalperformer = '[role:TestBE/workgroup"
+                        + 1 + "]'");
+        SQLQuery.query(account, "select min(ended), max(ended) from vt_wf_task");
+        SQLQuery.query(account, "select min(started), max(started) from vt_wf_task");
+        SQLQuery.taskClosedTime(account);
+        SQLQuery.attachments(account);
+        SQLQuery
+                .query(
+                        account,
+                        "select att.name, doc.doc_id from vt_dm_attachments att left outer join vt_docinstances doc on att.doc_name = doc.doc_name and att.context_id = doc.context_id");
+        SQLQuery.tasks(account);
+        SQLQuery.close();
+
+        double cpu = PerformanceAnalysis.getAverageCPU("2009-06-24 22:27:29.001",
+                "2009-06-25 09:41:36.487");
+        System.out.println();
+        System.out.println(cpu);
+
+        SearchSrcPath.search("D:\\jedi\\yoda\\m3o\\j2ee\\src");
+
+        MutablePicoContainer pico = new DefaultPicoContainer(new MultiInjection());
+        pico.addComponent(Orange.class, OrangePearImpl.class);
+        pico.addComponent(Pear.class, OrangePearImpl.class);
+        pico.addComponent(Banana.class, BananaImpl2.class);
+
+        pico.addComponent(Apple.class);
+
+        Apple apple = pico.getComponent(Apple.class);
+        System.out.println(apple);
+        System.out.println(apple.getBanana());
+        System.out.println(apple.getOrange());
+        System.out.println(apple.getPear());
+
+        for (int i = 1; i <= 50; i++) {
+            System.out.println("    <rule height=\"\">");
+            System.out.println("      <rulename>rule" + i + "</rulename>");
+            System.out.println("      <when>");
+            System.out.println("        <condition name=\"condition1\">");
+            System.out.println("          <expr value=\"workgroup" + i
+                    + "\" type=\"undefined\" variable=\"false\" operation=\"==\"/>");
+            System.out.println("        </condition>");
+            System.out.println("      </when>");
+            System.out.println("      <decision>");
+            System.out.println("        <assignment>");
+            System.out.println("          <assignmentPolicy>");
+            System.out.println("            <name>Any</name>");
+            System.out.println("            <users>");
+            System.out
+                    .println("              <entry type=\"workgroup\">workgroup" + i + "</entry>");
+            System.out.println("            </users>");
+            System.out.println("          </assignmentPolicy>");
+            System.out.println("        </assignment>");
+            System.out.println("      </decision>");
+            System.out.println("    </rule>");
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        File file = new File("D:\\Workflow-G\\workflow bug fixing" + File.separator
+                + (sdf.format(new Date())) + " 153760");
+        file.mkdir();
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(TMP_TXT)));
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(TMP2_TXT)));
+        String line;
+        while ((line = in.readLine()) != null) {
+            if (line.startsWith("c") && line.indexOf("cmd") > -1) {
+                line += "|3";
+            }
+            out.println(line);
+        }
+        in.close();
+        out.close();
+
+        DiffFileCopier.run();
+
+        VariableField field = VariableField
+                .valueOf("variableName=order1&xpath=declare namespace or=\"http://samples.schema.vitria.com/OR\";/or:order/orderId");
+        System.out.println(field.getVariableName());
+        System.out.println(field.getFieldPath());
+        System.out.println(field.toString());
+
+        XPath p1 = new XPath(
+                "declare namespace or=\"http://samples.schema.vitria.com/OR\";or:items/item/@name");
+        XPath p2 = new XPath(
+                "declare namespace or=\"http://samples.schema.vitria.com/OR\";or:items/item");
+        XPath p1 = new XPath("items/item");
+        XPath p2 = new XPath("datetimeType");
+        System.out.println(p1);
+        System.out.println(p2);
+        System.out.println(XPath.isCompatible(p1, p2));
+        System.out.println(p1.isQualifiedXPath());
+        System.out.println(p1.isAbsoluteXPath());
+        System.out.println(p1);
+
+        VariableField vf2 = VariableField.valueOf("variableName=primitiveTypes&xpath=datetimeType");
+        System.out.println(vf1.isCompatible(vf2));
+        System.out.println(vf1);
+        System.out.println(vf2);
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map
+                .put(
+                        "variableName=primitiveTypes&xpath=declare namespace or=\"http://samples.schema.vitria.com/OR\";/or:primitiveTypes/datetimeType",
+                        "value");
+        map
+                .put(
+                        "      variableName    =     primitiveTypes  &  xpath  =  declare  namespace  or = ' http://samples.schema.vitria.com/OR ' ;  / or : primitiveTypes / datetimeType ",
+                        "value");
+        String key = " $ primitiveTypes / declare  namespace  or = ' http://samples.schema.vitria.com/OR ' ;  / or : primitiveTypes / datetimeType ";
+        VariableField vf = VariableField.valueOf(key);
+        System.out.println(vf.getVariableName());
+        System.out.println(vf.getFieldPath());
+        System.out.println(vf.toString());
+        System.out.println(ReferenceDataExtractor.extract(map, key));

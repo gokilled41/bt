@@ -1,0 +1,21 @@
+<variables xmlns="http://workflow.vitria.com/model" xmlns:common="http://common.vitria.com/model" xmlns:schema="http://schema
+.vitria.com/model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <variable name="Header" kind="XSDVIEW">
+    <schema:modelRef name="mr.TaskHeader_1201761955959" content="structure"/>
+    <field name="id" type="string" visible="true" displayOrder="1"/>
+    <field name="activity" type="string" visible="true" displayOrder="2"/>
+    <field name="performer" type="string" visible="true" displayOrder="3"/>
+    <field name="description" type="string" visible="true" displayOrder="4"/>
+    <field name="priority" type="int" visible="true" displayOrder="5"/>
+    <field name="state" type="string" visible="true" displayOrder="6"/>
+    <field name="dueDate" type="dateTime" visible="true" displayOrder="7"/>
+  </variable>
+  <variable name="OAGOrder" kind="XSDVIEW">
+    <schema:modelRef content="structure" valid="false" name="mr.OAGOrder_1201761967394"/>
+    <group name="g1">
+      <field name="oid" visible="true" displayOrder="8" type="string"/>
+      <field name="cid" visible="true" displayOrder="9" type="string"/>
+      <field name="notes" visible="true" displayOrder="10" type="string"/>
+    </group>
+  </variable>
+</variables>

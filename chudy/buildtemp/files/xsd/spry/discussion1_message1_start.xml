@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:Action xmlns:tns="http://www.spry.com/m3o">
+  <ID>M3O-Action-0000001</ID>
+  <DiscussionID>Forums.sun.com - Java Concurrency - synchroniztion not working!!!</DiscussionID>
+  <ActionType>new</ActionType>
+  <OperatorID>vtbaadmin</OperatorID>
+  <OperatorType>facilitator</OperatorType>
+  <Status>Opened</Status>
+  <Started>2010-06-05T16:20:00</Started>
+  <Ended>2010-06-05T16:20:00</Ended>
+  <OperationParameter>
+    <Key>discussion</Key>
+    <Value><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<tns:Discussion xmlns:tns="http://www.spry.com/m3o" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.spry.com/m3o spry.xsd ">
+  <ID>Forums.sun.com - Java Concurrency - synchroniztion not working!!!</ID>
+  <Source>Forums.sun.com</Source>
+  <Subject>synchroniztion not working!!!</Subject>
+  <AssignedGroup></AssignedGroup>
+  <Status>Opened</Status>
+  <AtRisk>true</AtRisk>
+  <OverdueCount>0</OverdueCount>
+  <Priority>Normal</Priority>
+  <Started>2010-06-06T12:00:00</Started>
+  <Ended>2010-07-06T12:00:00</Ended>
+  <Group>Java Concurrency</Group>
+  <Author>vinaysb</Author>
+  <ActiveDates>
+  </ActiveDates>
+  <Messages>
+    <ID>#1</ID>
+    <DiscussionID>Forums.sun.com - Java Concurrency - synchroniztion not working!!!</DiscussionID>
+    <RecievedTime>2010-06-06T12:00:00</RecievedTime>
+    <Author>vinaysb</Author>
+    <Source>Forums.sun.com</Source>
+    <Content>hi all, I am a newbie, I have a very very doubt about security of the thread.
+
+ 
+
+Prelude:
+
+public class Globe {
+
+public static Date date = null;
+
+}
+
+......
+</Content>
+    <Subject>synchroniztion not working!!!</Subject>
+    <RelatedTask></RelatedTask>
+  </Messages>
+</tns:Discussion>]]></Value>
+  </OperationParameter>
+</tns:Action>

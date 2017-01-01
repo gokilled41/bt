@@ -1,0 +1,2 @@
+call dkfdir
+call ant

@@ -1,0 +1,3 @@
+ 
+rem For emma coverage
+set JAVA_OPTS=%JAVA_OPTS% -Demma.coverage.out.file=D:/jedi/yoda/export/test/classes/domainservice-junitee/emma/domainservice-junitee-coverage.emma  -Demma.coverage.out.merge=true

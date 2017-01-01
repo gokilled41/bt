@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="m3o" default="CreateResources">
+    <property file="../../appserver.properties" />
+    <property environment="env" />
+    <property name="vtba.home" location="${env.VTBA_HOME}" />
+    <property name="websphere.home" location="C:\WAS" />
+    <property name="websphere.profile" value="AppSrv01" />
+    <property name="websphere.lib.dir" location="${websphere.home}/lib" />
+    <property name="vtba.lib.dir" location="${vtba.home}/runtime/websphere" />
+
+    <path id="ws_ant_class_path">
+        <fileset dir="${websphere.home}\lib">
+            <include name="**/*.jar" />
+        </fileset>
+        <fileset dir="${websphere.home}\plugins">
+            <include name="**/*.jar" />
+        </fileset>
+        <fileset dir="${websphere.home}\java\lib">
+            <include name="**/*.jar" />
+        </fileset>
+    </path>
+    <taskdef name="wsUninstallApp" classname="com.ibm.websphere.ant.tasks.UninstallApplication" classpathref="ws_ant_class_path" />
+    <taskdef name="wsInstallApp" classname="com.ibm.websphere.ant.tasks.InstallApplication" classpathref="ws_ant_class_path" />
+    <taskdef name="wsadmin" classname="com.ibm.websphere.ant.tasks.WsAdmin" classpathref="ws_ant_class_path" />
+    <taskdef name="wsListApps" classname="com.ibm.websphere.ant.tasks.ListApplications" classpathref="ws_ant_class_path" />
+    <taskdef name="wsEjbDeploy" classname="com.ibm.websphere.ant.tasks.WsEjbDeploy" classpathref="ws_ant_class_path" />
+    <taskdef name="wsStopServer" classname="com.ibm.websphere.ant.tasks.StopServer" classpathref="ws_ant_class_path" />
+    <taskdef name="wsStartServer" classname="com.ibm.websphere.ant.tasks.StartServer" classpathref="ws_ant_class_path" />
+    <taskdef name="wsServerStatus" classname="com.ibm.websphere.ant.tasks.ServerStatus" classpathref="ws_ant_class_path" />
+    <taskdef name="wsStartApp" classname="com.ibm.websphere.ant.tasks.StartApplication" classpathref="ws_ant_class_path" />
+    <taskdef name="wsStopApp" classname="com.ibm.websphere.ant.tasks.StopApplication" classpathref="ws_ant_class_path" />
+
+    <target name="CreateResources">
+        <wsadmin wasHome="${websphere.home}" conntype="SOAP" port="${websphere.soap.port}" user="${websphere.admin.username}" password="${websphere.admin.password}" script="CreateResources.jacl" />
+    </target>
+
+    <target name="StartServer">
+        <wsStartServer wasHome="${websphere.home}" server="server1" username="${websphere.admin.username}" password="${websphere.admin.password}">
+            <jvmargs args="-Duser.language=en -Duser.region=US ">
+
+            </jvmargs>
+        </wsStartServer>
+    </target>
+
+    <target name="StopServer">
+        <wsStopServer wasHome="${websphere.home}" server="server1" conntype="SOAP" port="${websphere.soap.port}" username="${websphere.admin.username}" password="${websphere.admin.password}" />
+    </target>
+
+    <target name="StatusServer">
+        <wsServerStatus wasHome="${websphere.home}" server="server1" username="${websphere.admin.username}" password="${websphere.admin.password}" />
+    </target>
+
+    <!--At this stage, application operation only take effect for m3o server application. After m3o ui application is ported, will add it in the bucket-->
+    <target name="StartApp">
+        <wsStartApp wasHome="${websphere.home}" conntype="SOAP" port="${websphere.soap.port}" user="${websphere.admin.username}" password="${websphere.admin.password}" server="${websphere.server}" application="M3OServerApplication" />
+        <!--<wsStartApp wasHome="${websphere.home}" conntype="SOAP" port="${websphere.soap.port}" user="${websphere.admin.username}" password="${websphere.admin.password}" server="${websphere.server}" application="M3OUIApplication"/>-->
+    </target>
+
+    <target name="StopApp">
+        <wsStopApp wasHome="${websphere.home}" conntype="SOAP" port="${websphere.soap.port}" user="${websphere.admin.username}" password="${websphere.admin.password}" server="${websphere.server}" application="M3OServerApplication" />
+        <!--<wsStopApp wasHome="${websphere.home}" conntype="SOAP" port="${websphere.soap.port}" user="${websphere.admin.username}" password="${websphere.admin.password}" server="${websphere.server}" application="M3OUIApplication"/>-->
+    </target>
+
+    <target name="Deploy">
+        <!--<wsInstallApp wasHome="${websphere.home}" options="-MapWebModToVH {{.* .* default_host }}" conntype="SOAP" port="${websphere.soap.port}" user="${websphere.admin.username}" password="${websphere.admin.password}" ear="${vtba.home}/runtime/websphere/deploy/vtm3oserver.ear"/>-->
+        <wsInstallApp wasHome="${websphere.home}" options="-MapWebModToVH {{.* .* default_host }}" conntype="SOAP" port="${websphere.soap.port}" user="${websphere.admin.username}" password="${websphere.admin.password}" ear="${vtba.home}/runtime/websphere/deploy/vtm3oui.ear" />
+    </target>
+
+    <target name="Undeploy">
+        <wsUninstallApp wasHome="${websphere.home}" conntype="SOAP" port="${websphere.soap.port}" user="${websphere.admin.username}" password="${websphere.admin.password}" application="M3OServerApplication" />
+        <!--<wsUninstallApp wasHome="${websphere.home}" conntype="SOAP" port="${websphere.soap.port}" user="${websphere.admin.username}" password="${websphere.admin.password}" application="M3OUIApplication" />-->
+    </target>
+
+
+
+</project>

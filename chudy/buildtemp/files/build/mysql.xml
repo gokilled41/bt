@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+
+<project name="mysql" basedir="../..">
+    <import file="../../properties.xml" />
+    <import file="${files.dir}/build/common.xml" />
+
+    <property name="mysql_driver" value="com.mysql.jdbc.Driver" />
+    <property name="mysql_vt_ds_connection_ip" value="localhost" />
+    <property name="mysql_vt_ds_connection_port" value="3306" />
+    <property name="mysql_vt_ds_database" value="test" />
+    <property name="mysql_vt_ds_username" value="root" />
+    <property name="mysql_vt_ds_password" value="qilinsoft" />
+
+    <property name="mysql_vt_ds_connection_url" value="${mysql_vt_ds_connection_ip}:${mysql_vt_ds_connection_port}/${mysql_vt_ds_database}?autoReconnect=true" />
+    <property name="mysql_vt_ds_connection_url_no_auto_reconnect" value="${mysql_vt_ds_connection_ip}:${mysql_vt_ds_connection_port}/${mysql_vt_ds_database}" />
+    <property name="mysql_url" value="jdbc:mysql://${mysql_vt_ds_connection_url}" />
+    <property name="mysql_url_no_auto_reconnect" value="jdbc:mysql://${mysql_vt_ds_connection_url_no_auto_reconnect}" />
+    <property name="mysql_user" value="${mysql_vt_ds_username}" />
+    <property name="mysql_password" value="${mysql_vt_ds_password}" />
+
+    <property name="mysql.dialect" value="org.hibernate.dialect.MySQLDialect" />
+
+    <property name="mysql_sqljdbc.dir" value="${files.lib.dir}" />
+    <property name="mysql_sqljdbc.version" value="5.1.17" />
+    <property name="mysql_sqljdbc.jar" value="${mysql_sqljdbc.dir}\mysql-connector-java-${mysql_sqljdbc.version}-bin.jar" />
+
+    <taskdef name="mysqldrop" classname="gzhou.MysqlTablesDropperTask" classpath="${bin.dir};${mysql_sqljdbc.jar}" />
+
+    <target name="mysql" depends="
+        clean-drivers,
+        mysql-copy-drivers, 
+        mysql-set-dialect,
+        mysql-deploy-repository, 
+        mysql-copy-datasources,
+        mysql-set-ejb-jar-xml,
+        mysql-drop-db,
+        mysql-drop-all-tables,
+        mysql-create-db" />
+
+    <target name="mysql-no-db" depends="
+        clean-drivers,
+        mysql-copy-drivers,
+        mysql-set-dialect,
+        mysql-deploy-repository,
+        mysql-copy-datasources,
+        mysql-set-ejb-jar-xml" />
+
+    <target name="mysql-copy-drivers">
+        <copy todir="${jboss.lib.dir}" file="${mysql_sqljdbc.jar}" overwrite="true" />
+    </target>
+
+    <target name="mysql-set-dialect">
+        <append value="${mysql.dialect}" dest="${vtba.home}\data\m3o\server.xml" xpath="//dialect" type="text" replace="true" />
+        <append value="${mysql.dialect}" dest="${vtba.home}\data\m3o\server_analytic.xml" xpath="//dialect" type="text" replace="true" />
+        <append value="${mysql.dialect}" dest="${vtba.home}\data\m3o\server_feed.xml" xpath="//dialect" type="text" replace="true" />
+
+        <echo message="VT_HIBERNATE_DUALECT_VALUE: ${mysql.dialect}" />
+        <filter token="VT_HIBERNATE_DUALECT_VALUE" value="${mysql.dialect}" />
+        <copy todir="${jboss.conf.dir}" filtering="true" overwrite="true">
+            <fileset dir="${runtime.jboss.conf.dir}">
+                <include name="vtsecurity.properties" />
+                <include name="vtusermgr.properties" />
+            </fileset>
+        </copy>
+        <copy todir="${vtba.home}/data" filtering="true" overwrite="true">
+            <fileset dir="${yoda.home}\bw\src\bc\main">
+                <include name="vt-bc.properties" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="mysql-deploy-repository" depends="clean-repository">
+        <echo message="modify and deploy repository-mysql.xml for mysql" />
+        <echo message="url: ${mysql_url}" />
+        <echo message="user: ${mysql_user}" />
+        <echo message="password: ${mysql_password}" />
+        <filter token="URL" value="${mysql_url_no_auto_reconnect}" />
+        <filter token="USER" value="${mysql_user}" />
+        <filter token="PASSWORD" value="${mysql_password}" />
+        <copy todir="${vtba.home}\data\repository" filtering="true" overwrite="true">
+            <fileset dir="${vtba.home}\data\repository\template">
+                <include name="repository-mysql.xml" />
+            </fileset>
+        </copy>
+
+        <append value="${vtba.home}/data/repository/repository-mysql.xml" dest="${jboss.deploy.dir}\jcr-ds.xml" xpath="//config-property[@name='configFile']" type="text" replace="true" />
+
+    </target>
+
+    <target name="mysql-copy-datasources" depends="clean-datasources">
+        <echo message="modify and deploy vt-oracle-emf-ds.xml and vt-oracle-system-ds.xml" />
+        <echo message="url: ${mysql_url}" />
+        <echo message="user: ${mysql_user}" />
+        <echo message="password: ${mysql_password}" />
+        <filter token="VT_DS_CONNECTION_URL" value="${mysql_vt_ds_connection_url}" />
+        <filter token="VT_DS_USERNAME" value="${mysql_vt_ds_username}" />
+        <filter token="VT_DS_PASSWORD" value="${mysql_vt_ds_password}" />
+        <copy todir="${jboss.deploy.dir}" filtering="true" overwrite="true">
+            <fileset dir="${runtime.jboss.deploy.dir}">
+                <include name="vt-mysql-system-ds.xml" />
+                <include name="vt-mysql-emf-ds.xml" />
+                <include name="vt-mysql-feedserver-ds.xml" />
+                <include name="vt-mysql-vs-ds.xml" />
+                <include name="vt-mysql-processanalytics-ds.xml" />
+            </fileset>
+        </copy>
+        <copy todir="${vtba.home}\data\m3o" filtering="true" overwrite="true">
+            <fileset dir="${vtba.home}\data\m3o\template">
+                <include name="default_ds_mysql.properties" />
+            </fileset>
+        </copy>
+        <move file="${vtba.home}\data\m3o\default_ds_mysql.properties" tofile="${vtba.home}\data\m3o\default_ds.properties" />
+    </target>
+
+    <target name="mysql-set-ejb-jar-xml">
+        <!--
+        <property name="M3OServerApplication.ejb.name" value="M3OServerApplication-ejb.jar" />
+        <property name="M3OServerApplication.ejb.dir" value="${java.io.tmpdir}/${M3OServerApplication.ejb.name}" />
+
+        <echo message="update m3oserver.ear with new jars" />
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${m3o.ear.file}" dest="${m3o.ear.dir}" />
+
+        <mkdir dir="${M3OServerApplication.ejb.dir}" />
+        <property name="M3OServerApplication.ejb.file" value="${m3o.ear.dir}/${M3OServerApplication.ejb.name}" />
+        <unzip src="${M3OServerApplication.ejb.file}" dest="${M3OServerApplication.ejb.dir}" />
+
+        <append value="${mysql.dialect}" dest="${M3OServerApplication.ejb.dir}/META-INF/ejb-jar.xml" xpath="//*[text()='vtapplication/PersistenceDatabaseDialect']/../env-entry-value" type="cdata" replace="true" allnodes="true" />
+
+        <zip destfile="${M3OServerApplication.ejb.file}" basedir="${M3OServerApplication.ejb.dir}" />
+        <zip destfile="${m3o.ear.file}" basedir="${m3o.ear.dir}" />
+        -->
+    </target>
+
+    <target name="mysql-create-db">
+        <sql driver="${mysql_driver}" url="${mysql_url}" userid="${mysql_user}" password="${mysql_password}" onerror="continue">
+            <fileset dir="${vtba.home}\runtime\sqlscripts">
+                <include name="create*mysql.sql" />
+                <exclude name="*xdb*.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${mysql_sqljdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="mysql-drop-db">
+        <sql driver="${mysql_driver}" url="${mysql_url}" userid="${mysql_user}" password="${mysql_password}" onerror="continue">
+            <fileset dir="${vtba.home}\runtime\sqlscripts">
+                <include name="drop*mysql.sql" />
+                <exclude name="*xdb*.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${mysql_sqljdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="mysql-addusers">
+        <wfsql datasource="${jboss.deploy.dir}/vt-mysql-system-ds.xml" src="${sql.dir}/mysql_user2.sql" classpath="${files.lib.dir}/xercesImpl-2.8.1.jar;${mysql_sqljdbc.jar}" onerror="continue" />
+        <echo message="users and role types are added successfully." />
+    </target>
+
+    <target name="mysql-drop-all-tables">
+        <mysqldrop driver="${mysql_driver}" url="${mysql_url}" userid="${mysql_user}" password="${mysql_password}" db="${mysql_vt_ds_database}" />
+    </target>
+
+    <target name="mysql-recreate-db" depends="
+        mysql-drop-db,
+        mysql-drop-all-tables, 
+        mysql-create-db" />
+
+    <target name="mysql-clean-db" depends="
+        mysql-drop-db,
+        mysql-drop-all-tables" />
+        
+</project>

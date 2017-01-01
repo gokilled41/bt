@@ -1,0 +1,47 @@
+<virtualServerConfiguration xmlns="http://schema.vitria.com/vs">
+
+    <virtualServer>
+        <name>vs1</name>
+        <naming-factory>org.jnp.interfaces.NamingContextFactory</naming-factory>
+        <naming-provider-url>jnp://localhost:1099</naming-provider-url>
+        <naming-user>vtbaadmin</naming-user>
+        <naming-password>vitria</naming-password>
+
+        <runtime-persistence>
+            <jndiName>/vitria/m3o/app001/ds/testds1</jndiName>
+            <dialect>org.hibernate.dialect.Oracle10gDialect</dialect>
+        </runtime-persistence>
+
+
+        <dynamicservices-parameters>
+            <reuse-http-client>true</reuse-http-client>
+            <http-connection-pool-size>25</http-connection-pool-size>
+            <dynamicservices-artifacts-dir>
+                D:\jedi\yoda\export\home/tmp/dynamicservices
+            </dynamicservices-artifacts-dir>
+        </dynamicservices-parameters>
+
+        <model-repository>
+            <user-name>vtbasystem</user-name>
+            <password><![CDATA[<dI9napCJcMiRLHxtZ4VLdZwlWlV8>]]></password>
+        </model-repository>
+
+    </virtualServer>
+
+    <ESMSContainer>
+
+        <naming-factory>org.jnp.interfaces.NamingContextFactory</naming-factory>
+        <naming-provider-url>jnp://localhost:1099</naming-provider-url>
+        <naming-user>vtbaadmin</naming-user>
+        <naming-password>vitria</naming-password>
+
+        <ESMSEngine>
+            <URL>http://localhost:7950</URL>
+            <userName>system</userName>
+            <password>system</password>
+            <batchSize>5</batchSize>
+        </ESMSEngine>
+
+    </ESMSContainer>
+
+</virtualServerConfiguration>

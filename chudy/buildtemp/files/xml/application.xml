@@ -1,0 +1,70 @@
+<?xml version = '1.0' standalone = 'yes'?>
+<!DOCTYPE orion-application PUBLIC "-//Evermind//DTD J2EE Application runtime 1.2//EN" "http://xmlns.oracle.com/ias/dtds/orion-application-9_04.dtd">
+<!-- The global application config that is the parent of all the other
+	applications in this server. -->
+<orion-application autocreate-tables="true" default-data-source="jdbc/OracleDS">
+    <web-module id="defaultWebApp" path="../../home/default-web-app"/>
+    <web-module id="dms0" path="../../home/applications/dms0.war"/>
+    <web-module id="dms" path="../../home/applications/dms.war"/>
+    <commit-coordinator>
+        <commit-class class="com.evermind.server.OracleTwoPhaseCommitDriver"/>
+        <property name="datasource" value="jdbc/OracleDS"/>
+        <!-- Username and password are the optional properties
+           replace with your commit_co-ordinator_super_user
+                 <property name="username"
+                                   value="system" />
+                 <property name="password"
+                                   value="->pwForSystem" />
+  -->
+    </commit-coordinator>
+    <persistence path="../persistence"/>
+    <!-- Path to the libraries that are installed on this server.
+         These will be accesible for the servlets, EJBs etc -->
+    <library path="../applib"/>
+    <library path="../../../BC4J/lib"/>
+    <library path="../../../jlib/ojmisc.jar"/>
+    <library path="../../../ord/jlib/ordim.jar"/>
+    <library path="../../../ord/jlib/ordhttp.jar"/>
+    <library path="../../../jlib/uix2.jar"/>
+    <library path="../../../jlib/share.jar"/>
+    <library path="../../../jlib/regexp.jar"/>
+    <library path="../../../jlib/jdev-cm.jar"/>
+    <library path="../../../lib/dsv2.jar"/>
+    <library path="../../../rdbms/jlib/xsu12.jar"/>
+    <!-- Path to the taglib directory that is shared
+         among different applications. -->
+    <library path="../../../j2ee/home/jsp/lib/taglib"/>
+    <library path="../../../uix/taglib"/>
+    <library path="../../../lib/oraclexsql.jar"/>
+    <library path="../../../lib/xsqlserializers.jar"/>
+    <!-- Comment the following element to use principals.xml -->
+    <library path="C:\Oracle\product\OraAS10g_node1\jlib\ohw.jar"/><principals path="./principals.xml"/>
+
+    <log>
+        <file path="../log/global-application.log"/>
+        <!-- Uncomment this if you want to use ODL logging capabilities
+                  <odl path="../log/global-application/" max-file-size="1000" max-directory-size="10000"/>
+                  -->
+    </log>
+    <jazn provider="XML" location="./jazn-data.xml"/>
+    <data-sources path="data-sources.xml"/>
+
+    <connectors path="./oc4j-connectors.xml"/>
+
+    <resource-provider name="ojms" class="oracle.jms.OjmsContext"><description>A demo Oracle AQ</description><property name="datasource" value="ojmsdemo"/></resource-provider><namespace-access>
+        <read-access>
+            <namespace-resource root="">
+                <security-role-mapping>
+                    <group name="administrators"/>
+                </security-role-mapping>
+            </namespace-resource>
+        </read-access>
+        <write-access>
+            <namespace-resource root="">
+                <security-role-mapping>
+                    <group name="administrators"/>
+                </security-role-mapping>
+            </namespace-resource>
+        </write-access>
+    </namespace-access>
+</orion-application>

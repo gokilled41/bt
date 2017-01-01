@@ -1,0 +1,10 @@
+<xsd:element targetNamespace="http://sample.vitria.com/sa" name="activation" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://sample.vitria.com/sa">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element type="xsd:dateTime" name="activationTime"/>
+      <xsd:element type="xsd:int" name="accId"/>
+      <xsd:element type="xsd:string" name="accType"/>
+      <xsd:element type="xsd:integer" name="partnerId"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>

@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<!-- ===================================================================== -->
+<!-- 'test util' component build file                                      -->
+<!--                                                                       -->
+<!-- Main targets:                                                         -->
+<!--    default - defined in this project                                  -->
+<!--    all - defined in this project                                      -->
+<!--    clean - defined in this project                                    -->
+<!--    dist - defined in this project                                     -->
+<!--    test - defined in this project                                     -->
+<!--                                                                       -->
+<!-- Copyright (c) 2013 Vitria Technology, Inc.                            -->
+<!-- ===================================================================== -->
+
+
+<project name="testutil" default="default" basedir=".">
+    <description>test util</description>
+
+    <!-- Import properties and common targets -->
+    <import file="D:/jedi/yoda/build/imports.xml" />
+    
+    <!-- Module specific values that don't rely on the master build properties -->
+    <property name="module.name" value="${ant.project.name}" />
+    <property name="jar.file" value="vt${module.name}.jar" />
+
+    <!-- Module specific values that rely on master build properties -->
+    <property name="module.class.dir" location="${test.classes.dir}/${module.name}" />
+    <property name="module.jar.file" location="${test.dist.dir}/${jar.file}" />
+
+    <path id="module.compile.classpath">
+        <!-- Include global classpath -->
+        <path refid="global.bpa.emf.compile.classpath" />
+
+        <!--
+        <fileset dir="${export.dir}/projects/unbundled/libs">
+            <include name="jackson-annotations-2.1.1.jar" />
+            <include name="jackson-core-2.1.1.jar" />
+            <include name="jackson-databind-2.1.1.jar" />
+            <include name="stax2-api-3.0.1.jar" />
+            <include name="staxon-1.2.jar" />
+            <include name="staxon-jackson-1.2.jar" />
+            <include name="woodstox-core-asl-4.0.3.jar" />
+            <include name="vtncframework.jar" />
+            <include name="vtncm3o.jar" />
+            <include name="vtncutility.jar" />
+        </fileset>
+        -->
+        
+    </path>
+
+    <!-- Unified entry points -->
+    <target name="default" description="default: Build all components" depends="all" />
+
+    <target name="all" description="Build all components" depends="dist">
+        <vtecho level="debug" message="Build all components in ${module.name}" />
+    </target>
+
+    <target name="clean" description="Clean all components">
+        <vtecho level="debug" message="Clean all components in ${module.name}" />
+        <delete dir="${module.class.dir}" />
+        <delete file="${module.jar.file}" />
+    </target>
+
+    <target name="dist" description="Create distribution jar" depends="compile">
+        <copy todir="${module.class.dir}">
+            <fileset dir="${basedir}">
+                <include name="**/*.properties" />
+                <include name="**/*.ScriptEngineFactory" />
+            </fileset>
+        </copy>
+        <fileset id="module.archive.fileset" dir=".">
+            <include name="${module.class.dir}/*.class" />
+            <include name="${module.class.dir}/*.xml" />
+        </fileset>
+        <antcall target="common-archive">
+            <param name="base.dir" location="${module.class.dir}" />
+            <param name="dst.file" location="${module.jar.file}" />
+        </antcall>
+        <copy todir="../lib">
+            <fileset dir="${test.dist.dir}">
+                <include name="${jar.file}" />
+            </fileset>
+        </copy>
+        <!--copy todir="${jboss.lib.dir}">
+            <fileset dir="${test.dist.dir}">
+                <include name="${jar.file}" />
+            </fileset>
+        </copy-->
+        <copy todir="C:\dmsdk_tutorial\modules\creditmodule\libs" overwrite="true">
+            <fileset dir="${test.dist.dir}">
+                <include name="${jar.file}" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="test" description="Test all components" depends="dist" unless="global.skip.junit.tests">
+        <antcall target="run-test" />
+    </target>
+
+    <target name="fetch" description="Fetch source code">
+        <antcall target="common-fetch">
+            <param name="update.dir" location="${basedir}" />
+        </antcall>
+    </target>
+
+    <target name="noop" description="Test all components">
+        <antcall target="common-noop" />
+    </target>
+
+    <target name="projecthelp" description="Display project help">
+        <antcall target="common-target-help" />
+    </target>
+
+    <!-- Component level targets -->
+    <target name="init" description="Create output directories">
+        <mkdir dir="${module.class.dir}" />
+        <mkdir dir="${m3o.dist.dir}" />
+    </target>
+
+    <target name="compile" description="Compile code" depends="init">
+        <vtecho level="debug" message="Create output directories in ${module.name}" />
+        <antcall target="common-compile">
+            <param name="javac.executable" location="${javac.executable}" />
+            <param name="src.dir" location="." />
+            <param name="dst.dir" location="${module.class.dir}" />
+            <reference refid="module.compile.classpath" torefid="compile.classpath" />
+        </antcall>
+        <copy todir="${module.class.dir}">
+            <fileset dir="." includes="**/*hbm.xml" />
+            <fileset dir="." includes="**/*.xsl" />
+        </copy>
+    </target>
+
+    <target name="init-test" description="Init JUnit directories">
+        <vtecho level="debug" message="Init JUnit directories" />
+    </target>
+
+    <target name="run-test" description="Run JUnit test" depends="init-test">
+        <antcall target="common-test-junit">
+            <param name="src.dir" location="." />
+            <param name="dst.dir" location="${module.class.dir}" />
+            <reference refid="module.compile.classpath" torefid="compile.classpath" />
+        </antcall>
+    </target>
+</project>

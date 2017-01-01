@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://workflow.vitria.com/rest"
+	targetNamespace="http://workflow.vitria.com/rest" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+
+	<xsd:include schemaLocation="task.xsd" />
+
+	<xsd:element name="taskListEntries" type="TaskListEntries" />
+
+	<xsd:complexType name="TaskListEntries">
+		<xsd:sequence>
+			<xsd:element name="taskListEntry" type="TaskListEntry" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="TaskListEntry">
+		<xsd:sequence>
+			<xsd:element name="task" type="Task" />
+			<xsd:element name="activityLabel" type="xsd:string" />
+			<xsd:element name="stateDisplay" type="StateDisplayInfo" />
+			<xsd:element name="ownerDisplay" type="xsd:string" />
+			<xsd:element name="referenceData" type="ReferenceData" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="StateDisplayInfo">
+		<xsd:sequence>
+			<xsd:element name="label" type="xsd:string" />
+			<xsd:element name="order" type="xsd:string" minOccurs="0" />
+			<xsd:element name="icon" type="xsd:string" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>

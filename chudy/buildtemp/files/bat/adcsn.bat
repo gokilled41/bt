@@ -1,0 +1,1 @@
+call ad credit "C:\dmsdk_tutorial\credit-source-n.properties"

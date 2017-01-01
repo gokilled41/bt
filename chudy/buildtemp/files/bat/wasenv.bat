@@ -1,0 +1,1 @@
+set WAS_HOME=C:\WAS

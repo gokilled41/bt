@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<te:TIBCOExceptionEvent xmlns:te="http://www.tibco.com/exception" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.tibco.com/exception ../xsd/TIBCOExceptionEvent.xsd ">
+  <Computer>Computer</Computer>
+  <EventSourceName>EventSourceName</EventSourceName>
+  <EventTypeName>EventTypeName</EventTypeName>
+  <ErrorCode>ErrorCode</ErrorCode>
+  <Exception>
+    <ErrorMessage>no</ErrorMessage>
+  </Exception>
+  <Message>Message</Message>
+  <TimeStamp>2001-12-31T12:00:00</TimeStamp>
+  <UserName>UserName</UserName>
+</te:TIBCOExceptionEvent>

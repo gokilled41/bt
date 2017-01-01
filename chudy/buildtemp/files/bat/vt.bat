@@ -1,0 +1,1 @@
+call gftar "%1|"

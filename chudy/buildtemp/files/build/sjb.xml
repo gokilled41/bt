@@ -1,0 +1,732 @@
+<project name="sjb" basedir=".">
+    <import file="../../properties.xml" />
+
+    <!-- sjb properties ========================================================================== -->
+    <property name="ju.conf.dir" value="D:\Workflow-G\workflow bug fixing\2013-06-24 JBoss Upgrade\9.0\conf" />
+    <!-- sjb properties ========================================================================== -->
+
+    <target name="sjb-clean-jboss">
+        <delete dir="${sjb.standalone.dir}\data" />
+        <delete dir="${sjb.standalone.dir}\log" />
+        <delete dir="${sjb.standalone.dir}\tmp" />
+        <delete dir="${sjb.standalone.dir}\configuration\standalone_xml_history" />
+        <delete>
+        	<fileset dir="${sjb.standalone.dir}\deployments">
+                <include name="*.deployed" />
+                <include name="*.failed" />
+                <include name="*.dodeploy" />
+                <include name="*.deploying" />
+            </fileset>
+        </delete>
+        <delete dir="${jboss.9.0.2.vtba.dir}\modelrepository" />
+    </target>
+    <target name="sjb-clean">
+        <sjbrename dir="${sjb.deploy.dir}" />
+    </target>
+    <target name="sjb-update" depends="sjb-update-ejb, sjb-update-ejb-mdb, sjb-update-autostart">
+        <copy todir="${sjb.modules.ref.dir}" overwrite="true">
+            <fileset dir="${dist.dir}">
+                <include name="vtcommon.jar" />
+                <include name="vtcf.jar" />
+                <include name="vtconnectors.jar" />
+                <include name="vtum.jar" />
+                <include name="vtclusterservice.jar" />
+                <include name="vtrepositorysapi.jar" />
+            </fileset>
+        </copy>
+        <copy todir="${sjb.modules.ref.dir}" overwrite="true">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtclient.jar" />
+            </fileset>
+        </copy>
+        <copy todir="${sjb.server.ear.lib.dir}" overwrite="true">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtcore.jar" />
+                <include name="vtengine.jar" />
+                <include name="vtvirtualserver.jar" />
+                <include name="vtdomainservice.jar" />
+                <include name="vtfeedserver.jar" />
+            </fileset>
+        </copy>
+        <antcall target="sjb-update-repository" />
+    </target>
+    <target name="sjb-update-ejb2">
+        <!-- begin of updating sjb ejb -->
+        <property name="tmp.dir" value="${java.io.tmpdir}/M3OServerApplication-ejb.jar_1" />
+        <property name="tmp.ejb2.dir" value="${java.io.tmpdir}/M3OServerApplication-ejb.jar_2" />
+        
+        <delete dir="${tmp.dir}" />
+        <delete dir="${tmp.ejb2.dir}" />
+        <mkdir dir="${tmp.dir}" />
+        <mkdir dir="${tmp.ejb2.dir}" />
+        <unzip src="${m3o.dist.dir}/JBoss/M3OServerApplication-ejb.jar" dest="${tmp.dir}" />
+        <unzip src="${sjb.deploy.dir}/vtm3oserver.ear/M3OServerApplication-ejb.jar" dest="${tmp.ejb2.dir}" />
+        <delete dir="${tmp.ejb2.dir}/com" />
+        <copy todir="${tmp.ejb2.dir}" overwrite="true">
+            <fileset dir="${tmp.dir}">
+                <include name="com/**/*.class" />
+            </fileset>
+        </copy>
+        <zip destfile="${sjb.deploy.dir}/vtm3oserver.ear/M3OServerApplication-ejb.jar" basedir="${tmp.ejb2.dir}" />
+        <delete dir="${tmp.dir}" />
+        <delete dir="${tmp.ejb2.dir}" />
+        <!-- end of updating sjb ejb -->
+    </target>
+    <target name="sjb-update-ejb-mdb">
+        <!-- begin of updating sjb ejb -->
+        <property name="tmp.dir" value="${java.io.tmpdir}/DynamicMDB-ejb.jar_1" />
+        <property name="tmp.ejb2.dir" value="${java.io.tmpdir}/DynamicMDB-ejb.jar_2" />
+        
+        <delete dir="${tmp.dir}" />
+        <delete dir="${tmp.ejb2.dir}" />
+        <mkdir dir="${tmp.dir}" />
+        <mkdir dir="${tmp.ejb2.dir}" />
+        <unzip src="${m3o.dist.dir}/JBoss/DynamicMDB-ejb.jar" dest="${tmp.dir}" />
+        <unzip src="${sjb.deploy.dir}/vtm3oserver.ear/DynamicMDB-ejb.jar" dest="${tmp.ejb2.dir}" />
+        <copy todir="${tmp.ejb2.dir}/com/vitria/connectors/dynamic" overwrite="true">
+            <fileset dir="${tmp.dir}/com/vitria/connectors/dynamic">
+                <include name="*.class" />
+            </fileset>
+        </copy>
+        <zip destfile="${sjb.deploy.dir}/vtm3oserver.ear/DynamicMDB-ejb.jar" basedir="${tmp.ejb2.dir}" />
+        <delete dir="${tmp.dir}" />
+        <delete dir="${tmp.ejb2.dir}" />
+        <!-- end of updating sjb ejb -->
+    </target>
+    <target name="sjb-update-autostart">
+        <!-- begin of updating sjb ejb -->
+        <property name="tmp.dir" value="${java.io.tmpdir}/vtm3oautostart.war_1" />
+        <property name="tmp.ejb2.dir" value="${java.io.tmpdir}/vtm3oautostart.war_2" />
+        
+        <delete dir="${tmp.dir}" />
+        <delete dir="${tmp.ejb2.dir}" />
+        <mkdir dir="${tmp.dir}" />
+        <mkdir dir="${tmp.ejb2.dir}" />
+        <unzip src="${m3o.dist.dir}/vtm3oautostart.war" dest="${tmp.dir}" />
+        <unzip src="${sjb.deploy.dir}/vtm3oserver.ear/vtm3oautostart.war" dest="${tmp.ejb2.dir}" />
+        <copy todir="${tmp.ejb2.dir}/WEB-INF/classes/com/vitria/servlet/autostart" overwrite="true">
+            <fileset dir="${tmp.dir}/com/vitria/servlet/autostart">
+                <include name="*.class" />
+            </fileset>
+        </copy>
+        <zip destfile="${sjb.deploy.dir}/vtm3oserver.ear/vtm3oautostart.war" basedir="${tmp.ejb2.dir}" />
+        <delete dir="${tmp.dir}" />
+        <delete dir="${tmp.ejb2.dir}" />
+        <!-- end of updating sjb ejb -->
+    </target>
+    <target name="sjb-update-repository">
+        <!-- begin of updating sjb ejb -->
+        <property name="tmp.dir" value="${java.io.tmpdir}/M3OServerApplication-ejb.jar_1" />
+        <property name="tmp.ejb2.dir" value="${java.io.tmpdir}/M3OServerApplication-ejb.jar_2" />
+        
+        <delete dir="${tmp.dir}" />
+        <delete dir="${tmp.ejb2.dir}" />
+        <mkdir dir="${tmp.dir}" />
+        <mkdir dir="${tmp.ejb2.dir}" />
+        <unzip src="${sjb.modules.dir}\com\vitria\ref\main\vtrepositorysapi.jar" dest="${tmp.dir}" />
+        <copy todir="${tmp.dir}\com\vitria\modeling\repository\sapi\service" overwrite="true">
+            <fileset dir="D:\Workflow-G\workflow bug fixing\2013-06-24 JBoss Upgrade\sjb">
+                <include name="vtmodelrepos.properties" />
+            </fileset>
+        </copy>
+        <zip destfile="${sjb.modules.dir}\com\vitria\ref\main\vtrepositorysapi.jar" basedir="${tmp.dir}" />
+        <delete dir="${tmp.dir}" />
+        <delete dir="${tmp.ejb2.dir}" />
+        <!-- end of updating sjb ejb -->
+    </target>
+    <target name="sjb-deploy-ear">
+        <copy todir="${sjb.deploy.dir}" overwrite="true">
+            <fileset dir="${jboss.upgrade.dir}">
+                <include name="vtm3oserver.ear.dodeploy" />
+            </fileset>
+        </copy>
+    </target>
+    <target name="sjb-update-ui" depends="sjb-update-ui-ejb, sjb-update-ui-ejb-mdb">
+        <!--
+        <copy todir="${sjb.modules.ref.dir}" overwrite="true">
+            <fileset dir="${dist.dir}">
+                <include name="vtcommon.jar" />
+                <include name="vtconnectors.jar" />
+                <include name="vtum.jar" />
+                <include name="vtclusterservice.jar" />
+            </fileset>
+        </copy>
+        <copy todir="${sjb.modules.ref.dir}" overwrite="true">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtclient.jar" />
+            </fileset>
+        </copy>
+        <copy todir="${sjb.server.ear.lib.dir}" overwrite="true">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtengine.jar" />
+                <include name="vtvirtualserver.jar" />
+                <include name="vtdomainservice.jar" />
+                <include name="vtfeedserver.jar" />
+            </fileset>
+        </copy>
+        -->
+    </target>
+    <target name="sjb-update-ui-ejb">
+        <!-- begin of updating sjb ejb -->
+        <property name="tmp.dir" value="${java.io.tmpdir}/M3OUIApplication-ejb.jar_1" />
+        <property name="tmp.ejb2.dir" value="${java.io.tmpdir}/M3OUIApplication-ejb.jar_2" />
+        
+        <delete dir="${tmp.dir}" />
+        <delete dir="${tmp.ejb2.dir}" />
+        <mkdir dir="${tmp.dir}" />
+        <mkdir dir="${tmp.ejb2.dir}" />
+        <unzip src="${m3oui.dist.ejb.dir}/M3OUIApplication-ejb.jar" dest="${tmp.dir}" />
+        <unzip src="${sjb.deploy.dir}/vtm3oui.ear/M3OUIApplication-ejb.jar" dest="${tmp.ejb2.dir}" />
+        <delete dir="${tmp.ejb2.dir}/com" />
+        <copy todir="${tmp.ejb2.dir}" overwrite="true">
+            <fileset dir="${tmp.dir}">
+                <include name="com/**/*.class" />
+            </fileset>
+        </copy>
+        <zip destfile="${sjb.deploy.dir}/vtm3oui.ear/M3OUIApplication-ejb.jar" basedir="${tmp.ejb2.dir}" />
+        <delete dir="${tmp.dir}" />
+        <delete dir="${tmp.ejb2.dir}" />
+        <!-- end of updating sjb ejb -->
+    </target>
+    <target name="sjb-update-ui-ejb-mdb">
+        <!-- begin of updating sjb ejb -->
+        <!--
+        <property name="tmp.dir" value="${java.io.tmpdir}/DynamicMDB-ejb.jar_1" />
+        <property name="tmp.ejb2.dir" value="${java.io.tmpdir}/DynamicMDB-ejb.jar_2" />
+        
+        <delete dir="${tmp.dir}" />
+        <delete dir="${tmp.ejb2.dir}" />
+        <mkdir dir="${tmp.dir}" />
+        <mkdir dir="${tmp.ejb2.dir}" />
+        <unzip src="${m3o.dist.dir}/JBoss/DynamicMDB-ejb.jar" dest="${tmp.dir}" />
+        <unzip src="${sjb.deploy.dir}/vtm3oserver.ear/DynamicMDB-ejb.jar" dest="${tmp.ejb2.dir}" />
+        <copy todir="${tmp.ejb2.dir}/com/vitria/connectors/dynamic" overwrite="true">
+            <fileset dir="${tmp.dir}/com/vitria/connectors/dynamic">
+                <include name="*.class" />
+            </fileset>
+        </copy>
+        <zip destfile="${sjb.deploy.dir}/vtm3oserver.ear/DynamicMDB-ejb.jar" basedir="${tmp.ejb2.dir}" />
+        <delete dir="${tmp.dir}" />
+        <delete dir="${tmp.ejb2.dir}" />
+        -->
+        <!-- end of updating sjb ejb -->
+    </target>
+    <target name="sjb-deploy-ui-ear">
+        <copy todir="${sjb.deploy.dir}" overwrite="true">
+            <fileset dir="${jboss.upgrade.dir}">
+                <include name="vtm3oui.ear.dodeploy" />
+            </fileset>
+        </copy>
+    </target>
+    <target name="sjb-flog">
+        <property name="timer.dir" value="E:" />
+        <property name="jbosslog.dir" value="${sjb.log.dir}" />
+        <property name="jboss.log.file" value="${jbosslog.dir}\server.log" />
+        <mkdir dir="${jbosslog.dir}\result" />
+        
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\warn.log" pattern="WARN" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\error.log" pattern="ERROR" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\stdout.log" pattern="[stdout]" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\virtualServerLogger.log" pattern="com.vitria.virtualserver.util.VirtualServerLogger" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\virtualServerDebug.log" pattern="DEBUG [com.vitria.virtualserver" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\DomainManager.log" pattern="com.vitria.domainservice.DomainManager" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\DomainManagerFeed.log" pattern="[com.vitria.domainservice.DomainManager] Feed " />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\DomainManagerDebug.log" pattern="DEBUG [com.vitria.domainservice" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\DRRegistry.log" pattern="com.vitria.domainservice.persister.DRRegistry" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\virtualServerProjectContainer.log" pattern="[com.vitria.virtualserver.ProjectContainer]" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\componentLogger.log" pattern="com.vitria.component.util.ComponentLogger" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\feed.log" pattern="[com.vitria.feed" />
+        <find src="${jboss.log.file}" dest="${jbosslog.dir}\result\dataSourceHelper.log" pattern="[com.vitria.domainservice.datasource.DataSourceHelper" />
+        
+    </target>
+    <target name="sjb-update-junitee-msdds">
+        <!-- begin of updating sjb ejb -->
+        <property name="tmp.dir" value="${java.io.tmpdir}/tmpjunitee" />
+        
+        <delete dir="${tmp.dir}" />
+        <mkdir dir="${tmp.dir}" />
+        <unzip src="D:\jedi\yoda\export\test\dist\vtdomainservice-junitee.war" dest="${tmp.dir}" />
+        <copy todir="${tmp.dir}/META-INF" overwrite="true">
+            <fileset dir="${ju.conf.dir}\manifest\junitee">
+                <include name="MANIFEST.MF" />
+            </fileset>
+        </copy>
+        <zip destfile="${sjb.deploy.dir}\vtdomainservice-junitee.war" basedir="${tmp.dir}" />
+        <delete dir="${tmp.dir}" />
+        
+        <copy todir="${sjb.dir}\standalone\configuration" overwrite="true">
+            <fileset dir="${ju.conf.dir}">
+                <include name="standalone-full.xml" />
+            </fileset>
+        </copy>
+        
+        <!-- end of updating sjb ejb -->
+    </target>
+    <target name="sjb-update-conf">
+        <copy todir="${sjb.dir}\standalone\configuration" overwrite="true">
+            <fileset dir="${ju.conf.dir}">
+                <include name="standalone-full.xml" />
+            </fileset>
+        </copy>
+    </target>
+    <target name="sjb-update-ejb" depends="sjb-update-mja, sjb-update-mjc">
+    </target>
+    <target name="sjb-update-mja">
+        <!-- begin of updating sjb ejb -->
+        <property name="tmp.dir" value="${java.io.tmpdir}/tmpmja" />
+        
+        <delete dir="${tmp.dir}" />
+        <mkdir dir="${tmp.dir}" />
+        <unzip src="${m3o.dist.jboss.dir}\M3OServerApplication-ejb.jar" dest="${tmp.dir}" />
+        <copy todir="${tmp.dir}/META-INF" overwrite="true">
+            <fileset dir="${ju.conf.dir}\manifest\ejb">
+                <include name="MANIFEST.MF" />
+            </fileset>
+        </copy>
+        <copy todir="${tmp.dir}/config" overwrite="true">
+            <fileset dir="${ju.conf.dir}">
+                <include name="bwapplication.xml" />
+            </fileset>
+        </copy>
+        <delete>
+            <fileset dir="${tmp.dir}/META-INF">
+                <include name="*.xml" />
+            </fileset>
+        </delete>
+        <zip destfile="${m3o.dist.jboss.dir}\M3OServerApplication-ejb.jar" basedir="${tmp.dir}" />
+        <delete dir="${tmp.dir}" />
+        
+        <delete dir="${tmp.dir}" />
+        <mkdir dir="${tmp.dir}" />
+        <unzip src="${sjb.deploy.dir}\vtm3oserver.ear" dest="${tmp.dir}" />
+        <copy todir="${tmp.dir}/ejb" overwrite="true">
+            <fileset dir="${m3o.dist.jboss.dir}">
+                <include name="M3OServerApplication-ejb.jar" />
+            </fileset>
+        </copy>
+        <zip destfile="${sjb.deploy.dir}\vtm3oserver.ear" basedir="${tmp.dir}" />
+        <delete dir="${tmp.dir}" />
+        
+        <!-- end of updating sjb ejb -->
+    </target>
+    <target name="sjb-update-mjc">
+        <!-- begin of updating sjb ejb -->
+        <property name="tmp.dir" value="${java.io.tmpdir}/tmpmjc" />
+        
+        <delete dir="${tmp.dir}" />
+        <mkdir dir="${tmp.dir}" />
+        <unzip src="${m3o.dist.jboss.dir}\DynamicMDB-ejb.jar" dest="${tmp.dir}" />
+        <copy todir="${tmp.dir}/META-INF" overwrite="true">
+            <fileset dir="${ju.conf.dir}\manifest\ejb">
+                <include name="MANIFEST.MF" />
+            </fileset>
+        </copy>
+        <delete>
+            <fileset dir="${tmp.dir}/META-INF">
+                <include name="*.xml" />
+            </fileset>
+        </delete>
+        <zip destfile="${m3o.dist.jboss.dir}\DynamicMDB-ejb.jar" basedir="${tmp.dir}" />
+        <delete dir="${tmp.dir}" />
+        
+        <delete dir="${tmp.dir}" />
+        <mkdir dir="${tmp.dir}" />
+        <unzip src="${sjb.deploy.dir}\vtm3oserver.ear" dest="${tmp.dir}" />
+        <copy todir="${tmp.dir}/ejb" overwrite="true">
+            <fileset dir="${m3o.dist.jboss.dir}">
+                <include name="DynamicMDB-ejb.jar" />
+            </fileset>
+        </copy>
+        <zip destfile="${sjb.deploy.dir}\vtm3oserver.ear" basedir="${tmp.dir}" />
+        <delete dir="${tmp.dir}" />
+        
+        <!-- end of updating sjb ejb -->
+    </target>
+    <target name="sjb-update-libs">
+        <copy todir="${sjb.dir}\modules\com\vitria\ref\main" overwrite="true">
+            <fileset dir="${dist.dir}">
+                <include name="vtcommon.jar" />
+                <include name="vtfc.jar" />
+                <!--<include name="vtum.jar" />-->
+                <include name="vtconnectors.jar" />
+            </fileset>
+            <fileset dir="D:\jedi\yoda\export\m3o\dist">
+                <include name="vtclient.jar" />
+            </fileset>
+        </copy>
+        
+        <property name="tmp.dir" value="${java.io.tmpdir}/tmpear" />
+        <delete dir="${tmp.dir}" />
+        <mkdir dir="${tmp.dir}" />
+        <unzip src="${sjb.deploy.dir}\vtm3oserver.ear" dest="${tmp.dir}" />
+        <copy todir="${tmp.dir}/lib" overwrite="true">
+            <fileset dir="D:\jedi\yoda\export\m3o\dist">
+                <include name="vtcore.jar" />
+                <include name="vtengine.jar" />
+                <include name="vtvirtualserver.jar" />
+                <include name="vtdomainservice.jar" />
+                <include name="vtfeedserver.jar" />
+            </fileset>
+        </copy>
+        <zip destfile="${sjb.deploy.dir}\vtm3oserver.ear" basedir="${tmp.dir}" />
+        <delete dir="${tmp.dir}" />
+    </target>
+    <target name="sjb-update-bwrm">
+        <property name="tmp.dir" value="${java.io.tmpdir}/tmpbwrm" />
+        <delete dir="${tmp.dir}" />
+        <mkdir dir="${tmp.dir}" />
+        <unzip src="${dist.dir}\vtrepository-management.sar" dest="${tmp.dir}" />
+        <copy todir="${tmp.dir}/META-INF" overwrite="true">
+            <fileset dir="${ju.conf.dir}\manifest\mr">
+                <include name="MANIFEST.MF" />
+                <include name="jboss-service.xml" />
+            </fileset>
+        </copy>
+        <zip destfile="${sjb.deploy.dir}\vtrepository-management.sar" basedir="${tmp.dir}" />
+        <delete dir="${tmp.dir}" />
+    </target>
+    <target name="sjb-update-serverear">
+        <property name="tmp.dir" value="${java.io.tmpdir}/tmpserverear" />
+        <delete dir="${tmp.dir}" />
+        <mkdir dir="${tmp.dir}" />
+        <unzip src="${sjb.deploy.dir}\vtm3oserver.ear" dest="${tmp.dir}" />
+        <delete>
+            <fileset dir="${tmp.dir}/META-INF">
+                <include name="*.*" />
+            </fileset>
+        </delete>
+        <copy todir="${tmp.dir}/META-INF" overwrite="true">
+            <fileset dir="${ju.conf.dir}\manifest\vtm3oserver">
+                <include name="MANIFEST.MF" />
+                <include name="*.xml" />
+            </fileset>
+        </copy>
+        
+        <antcall target="sjb-update-serverear-metainf">
+            <param name="ear.dir" value="${tmp.dir}" />
+            <param name="jar.name" value="ejb\BPMNProcessControl-ejb.jar" />
+        </antcall>
+        <antcall target="sjb-update-serverear-metainf">
+            <param name="ear.dir" value="${tmp.dir}" />
+            <param name="jar.name" value="ejb\DynamicMDB-ejb.jar" />
+        </antcall>
+        <antcall target="sjb-update-serverear-metainf">
+            <param name="ear.dir" value="${tmp.dir}" />
+            <param name="jar.name" value="ejb\M3OAuditLogger-ejb.jar" />
+        </antcall>
+        <antcall target="sjb-update-serverear-metainf">
+            <param name="ear.dir" value="${tmp.dir}" />
+            <param name="jar.name" value="ejb\M3OServerApplication-ejb.jar" />
+        </antcall>
+        <antcall target="sjb-update-serverear-metainf">
+            <param name="ear.dir" value="${tmp.dir}" />
+            <param name="jar.name" value="ejb\SimpleServiceQuery-ejb.jar" />
+        </antcall>
+        <antcall target="sjb-update-serverear-metainf">
+            <param name="ear.dir" value="${tmp.dir}" />
+            <param name="jar.name" value="ejb\Workflow-ejb.jar" />
+        </antcall>
+        <antcall target="sjb-update-serverear-metainf">
+            <param name="ear.dir" value="${tmp.dir}" />
+            <param name="jar.name" value="sar\M3OServerApplicationStartup.sar" />
+        </antcall>
+        <antcall target="sjb-update-serverear-metainf">
+            <param name="ear.dir" value="${tmp.dir}" />
+            <param name="jar.name" value="sar\vtm3ocommands.sar" />
+        </antcall>
+        <antcall target="sjb-update-serverear-metainf">
+            <param name="ear.dir" value="${tmp.dir}" />
+            <param name="jar.name" value="war\file-export.war" />
+        </antcall>
+        <antcall target="sjb-update-serverear-metainf">
+            <param name="ear.dir" value="${tmp.dir}" />
+            <param name="jar.name" value="war\vtaxis2.war" />
+        </antcall>
+        <antcall target="sjb-update-serverear-metainf">
+            <param name="ear.dir" value="${tmp.dir}" />
+            <param name="jar.name" value="war\vtm3oautostart.war" />
+        </antcall>
+        <antcall target="sjb-update-serverear-metainf">
+            <param name="ear.dir" value="${tmp.dir}" />
+            <param name="jar.name" value="war\vtrest4feed.war" />
+        </antcall>
+        
+        <zip destfile="${sjb.deploy.dir}\vtm3oserver.ear" basedir="${tmp.dir}" />
+        <delete dir="${tmp.dir}" />
+    </target>
+    <target name="sjb-update-serverear-metainf">
+        <property name="tmp.jar.dir" value="${java.io.tmpdir}/tmpserverearmetainf" />
+        <delete dir="${tmp.jar.dir}" />
+        <mkdir dir="${tmp.jar.dir}" />
+        <unzip src="${ear.dir}\${jar.name}" dest="${tmp.jar.dir}" />
+        <copy todir="${tmp.jar.dir}/META-INF" overwrite="true">
+            <fileset dir="${ju.conf.dir}\manifest\vtm3oserver">
+                <include name="MANIFEST.MF" />
+            </fileset>
+        </copy>
+        <zip destfile="${ear.dir}\${jar.name}" basedir="${tmp.jar.dir}" />
+        <delete dir="${tmp.jar.dir}" />
+    </target>
+    <target name="sjb-update-uiear">
+        <property name="tmp.dir" value="${java.io.tmpdir}/tmpuiear" />
+        <delete dir="${tmp.dir}" />
+        <mkdir dir="${tmp.dir}" />
+        <unzip src="${sjb.deploy.dir}\vtm3oui.ear" dest="${tmp.dir}" />
+        <delete>
+            <fileset dir="${tmp.dir}/META-INF">
+                <include name="*.*" />
+            </fileset>
+        </delete>
+        <copy todir="${tmp.dir}/META-INF" overwrite="true">
+            <fileset dir="${ju.conf.dir}\manifest\vtm3oui">
+                <include name="MANIFEST.MF" />
+                <include name="*.xml" />
+            </fileset>
+        </copy>
+        
+        <antcall target="sjb-update-serverear-metainf">
+            <param name="ear.dir" value="${tmp.dir}" />
+            <param name="jar.name" value="ejb\M3OUIApplication-ejb.jar" />
+        </antcall>
+        <antcall target="sjb-update-serverear-metainf">
+            <param name="ear.dir" value="${tmp.dir}" />
+            <param name="jar.name" value="war\m3oui.war" />
+        </antcall>
+        <antcall target="sjb-update-serverear-metainf">
+            <param name="ear.dir" value="${tmp.dir}" />
+            <param name="jar.name" value="war\vitria-oi.war" />
+        </antcall>
+        
+        <zip destfile="${sjb.deploy.dir}\vtm3oui.ear" basedir="${tmp.dir}" />
+        <delete dir="${tmp.dir}" />
+    </target>
+    <target name="sjb-clean-wildfly">
+        <delete dir="D:\jedi\yoda\export\home\wildfly" />
+    </target>
+    
+    <target name="jmsnew">
+        <echo message="update m3o server jars in wildfly" />
+        
+        <!-- begin of updating m3o server ear -->
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${sjb.deploy.dir}/${m3o.ear.name}" dest="${m3o.ear.dir}" />
+        <copy todir="${m3o.ear.dir}/lib">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtcore.jar" />
+                <include name="vtengine.jar" />
+                <include name="vtfeedserver.jar" />
+                <include name="vtse.jar" />
+                <include name="vtvirtualserver.jar" />
+                <include name="vtdomainservice.jar" />
+                <include name="vtcomponents.jar" />
+                <include name="axis2Config.jar" />
+                <include name="vtdependency.jar" />
+            </fileset>
+        </copy>
+        <copy todir="${m3o.ear.dir}">
+            <fileset dir="${m3o.dist.dir}/JBoss">
+                <include name="*-ejb.jar" />
+                <exclude name="*-cluster-ejb.jar" />
+                <exclude name="LogAccessor-ejb.jar" />
+            </fileset>
+        </copy>
+        <copy todir="${m3o.ear.dir}">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="*.war" />
+            </fileset>
+        </copy>
+        <copy todir="${m3o.ear.dir}">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtm3ocommands.sar" />
+            </fileset>
+        </copy>
+
+        <!-- for ds cluster testing -->
+        <copy todir="${m3o.ear.dir}">
+            <fileset dir="${m3o.dist.dir}/JBoss">
+                <include name="*-ejb.jar" />
+                <exclude name="*-cluster-ejb.jar" />
+                <exclude name="LogAccessor-ejb.jar" />
+            </fileset>
+        </copy>
+        <copy todir="${m3o.ear.dir}">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="*.war" />
+            </fileset>
+        </copy>
+        <copy todir="${m3o.ear.dir}">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtm3ocommands.sar" />
+            </fileset>
+        </copy>
+
+        <zip destfile="${sjb.deploy.dir}/${m3o.ear.name}" basedir="${m3o.ear.dir}" />
+        <delete dir="${m3o.ear.dir}" />
+        <!-- end of updating m3o server ear -->
+        
+        <!-- begin of updating m3o utility ear -->
+        <!--
+        <delete dir="${m3o.utility.ear.dir}" />
+        <mkdir dir="${m3o.utility.ear.dir}" />
+        <unzip src="${sjb.deploy.dir}/${m3o.utility.ear.name}" dest="${m3o.utility.ear.dir}" />
+        <copy todir="${m3o.utility.ear.dir}/ejb">
+            <fileset dir="${m3o.dist.dir}/JBoss">
+                <include name="LogAccessor-ejb.jar" />
+            </fileset>
+        </copy>
+        <zip destfile="${sjb.deploy.dir}/${m3o.utility.ear.name}" basedir="${m3o.utility.ear.dir}" />
+        <delete dir="${m3o.utility.ear.dir}" />
+        -->
+        <!-- end of updating server ear -->
+        
+        <!-- begin of updating stage folders -->
+        <copy todir="${m3o.stage.jboss.m3oserver.dir}/lib">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtcore.jar" />
+                <include name="vtengine.jar" />
+                <include name="vtfeedserver.jar" />
+                <include name="vtse.jar" />
+                <include name="vtvirtualserver.jar" />
+                <include name="vtdomainservice.jar" />
+                <include name="vtcomponents.jar" />
+                <include name="axis2Config.jar" />
+                <include name="vtdependency.jar" />
+            </fileset>
+        </copy>
+        <copy todir="${m3o.stage.jboss.m3oserver.dir}/ejb">
+            <fileset dir="${m3o.dist.dir}/JBoss">
+                <include name="*-ejb.jar" />
+                <exclude name="*-cluster-ejb.jar" />
+            </fileset>
+        </copy>
+        <copy todir="${m3o.stage.jboss.m3oserver.dir}/war">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="*.war" />
+            </fileset>
+        </copy>
+        <copy todir="${m3o.stage.jboss.m3oserver.dir}/sar">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtm3ocommands.sar" />
+            </fileset>
+        </copy>
+        <!-- end of updating stage folders -->
+
+        <copy todir="${sjb.modules.vtlibs.dir}">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtclient.jar" />
+                <include name="vttimerservice.jar" />
+                <include name="vtm3ocommands.jar" />
+                <include name="vt*connector.jar" />
+                <include name="vtshare.jar" />
+                <include name="vtanalyticsclient.jar" />
+            </fileset>
+        </copy>
+
+        <copy todir="${sjb.deploy.dir}">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vt*connector.rar" />
+            </fileset>
+        </copy>
+
+        <copy todir="${vtba.home}\locale\en_US">
+            <fileset dir="${yoda.home}\m3o\server\locale\en_US">
+                <include name="*.properties" />
+            </fileset>
+        </copy>
+
+        <copy todir="${vtba.home}\runtime\sqlscripts">
+            <fileset dir="${yoda.home}\m3o\server\src\sql">
+                <include name="*.sql" />
+                <include name="*.lst" />
+            </fileset>
+        </copy>
+
+        <copy todir="${vtba.home}\bundles\m3o\server\conf">
+            <fileset dir="${yoda.home}\m3o\bpa\emf\server\src\modules\resources">
+                <include name="config.properties" />
+            </fileset>
+        </copy>
+        
+    </target>
+
+    <target name="jbwnew">
+        <echo message="update vtba lib with new bw jar" />
+        <copy todir="${sjb.modules.vtlibs.dir}">
+            <fileset dir="${dist.dir}">
+                <include name="vtdms.jar" />
+                <include name="vtregistry.jar" />
+                <include name="vtdregistry.jar" />
+                <include name="vtrepository-ac.jar" />
+                <include name="vtrepositorysapi.jar" />
+                <include name="vtrepositoryclient.jar" />
+                <include name="vtrepositoryutil.jar" />
+                <include name="vtrepository-management.jar" />
+                <include name="vtsapi-remote-client.jar" />
+                <include name="vtum.jar" />
+                <include name="vtfc.jar" />
+                <include name="vtcf.jar" />
+                <include name="vtconnectors.jar" />
+                <include name="vtcommon.jar" />
+                <include name="vtbc.jar" />
+                <include name="vtcommands.jar" />
+                <include name="vtclusterservice.jar" />
+                <include name="vtresourcecoordinator.jar" />
+            </fileset>
+        </copy>
+        <copy todir="${vtba.home}\build\lib">
+            <fileset dir="${dist.dir}">
+                <include name="vtum.jar" />
+                <include name="vtfc.jar" />
+                <include name="vtcf.jar" />
+                <include name="vtconnectors.jar" />
+                <include name="vtcommon.jar" />
+                <include name="vtbc.jar" />
+            </fileset>
+        </copy>
+        <copy todir="${sjb.deploy.dir}">
+            <fileset dir="${dist.dir}">
+                <include name="vtsapi-remote-server-ejb.jar" />
+                <include name="vtrepository-management.sar" />
+            </fileset>
+        </copy>
+        <copy todir="${vtba.home}/data">
+            <fileset dir="${dist.dir}">
+                <include name="vt-system-security.data" />
+            </fileset>
+        </copy>
+        <copy todir="${vtba.home}/locale/en_US">
+            <fileset dir="${yoda.home}/bw/locale/en_US">
+                <include name="*.properties" />
+            </fileset>
+        </copy>
+        <copy todir="${vtba.home}\runtime\sqlscripts">
+            <fileset dir="${yoda.home}\bw\src\sql">
+                <include name="*.sql" />
+                <exclude name="*db2*.sql" />
+            </fileset>
+        </copy>
+        <copy todir="${vtba.home}\data\package\template">
+            <fileset dir="${yoda.home}\bw\src\me\asdjbosscore\templates\packager\driver">
+                <include name="jboss4-ds-oracle.vm" />
+                <include name="jboss4-ds-mysql.vm" />
+                <include name="jboss4-ds-mssql.vm" />
+            </fileset>
+        </copy>
+        <copy todir="${vtba.home}\bundles\m3o\utilities\bundle">
+            <fileset dir="${dist.dir}">
+                <include name="com.vitria.m3o.vtclusterservice.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="sa-copy">
+        <echo message="copy D:\jedi\yoda\export\home to ${sa.dir}" />
+        <copy todir="${sa.dir}">
+            <fileset dir="D:\jedi\yoda\export\home">
+                <include name="**/**" />
+            </fileset>
+        </copy>
+    </target>
+
+</project>

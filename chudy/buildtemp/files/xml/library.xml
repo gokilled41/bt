@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<or:order xmlns:or="http://arraysupport.schema.vitria.com/OR" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://arraysupport.schema.vitria.com/OR ../xsd/library.xsd ">
+  <or:orderId>or:orderId</or:orderId>
+  <or:custId>or:custId</or:custId>
+  <or:code>or:code</or:code>
+  <or:items>
+    <or:item>
+      <or:productName>or:productName</or:productName>
+      <or:quantity>0</or:quantity>
+      <or:price>0.0</or:price>
+      <or:notes>or:notes</or:notes>
+    </or:item>
+  </or:items>
+  <or:notes>or:notes</or:notes>
+</or:order>

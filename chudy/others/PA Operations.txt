@@ -1,0 +1,8 @@
+- zip and unzip
+- aops: list all commands
+- pattern support sub: a/(sub/(sub)); sub=b\c
+- support mv
+- dup lines: af dd\todo.txt /l32-33 dup
+- mv lines: af dd\todo.txt /l32-33 mv100
+- del lines: af dd\todo.txt /l32-33 del
+ 

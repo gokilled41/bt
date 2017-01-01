@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<or:bookOrder xmlns:or="http://schema.vitria.com/dmstest/bo2">
+	<orderId>oid</orderId>
+	<custId>cid</custId>
+	<code>222-DD</code>
+	<notes>notes</notes>
+	<purchaser>
+		<firstName>Guifang</firstName>
+		<lastName>Zhou</lastName>
+		<age>26</age>
+		<address>
+			<city>Beijing</city>
+			<street>East Chang An street</street>
+			<houseNumber>1</houseNumber>
+		</address>
+	</purchaser>
+	<item>
+		<productName>product1</productName>
+		<quantity>100</quantity>
+		<price>5.5</price>
+		<notes>This is a book.</notes>
+	</item>
+</or:bookOrder>

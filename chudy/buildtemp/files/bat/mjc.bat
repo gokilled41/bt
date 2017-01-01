@@ -1,0 +1,2 @@
+call mjcdir
+call ant

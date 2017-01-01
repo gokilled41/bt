@@ -1,0 +1,215 @@
+<?xml version="1.0"?>
+
+<project name="update" basedir="../..">
+    <import file="../../properties.xml" />
+
+    <target name="wfnew_jboss" description="update all workflow jars">
+        <echo message="update vtwfcommon.jar, vtwfejbclient.jar, vtwfclient.jar and vtwfmodel.jar in home\jboss\server\vtba\lib" />
+        <copy todir="${jboss.lib.dir}">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtwfcommon.jar" />
+                <include name="vtwfejbclient.jar" />
+                <include name="vtwfclient.jar" />
+                <include name="vtwfmodel.jar" />
+            </fileset>
+        </copy>
+
+        <echo message="update com.vitria.workflow.*.jar in home\bundles\m3o\server\bundle" />
+        <copy todir="${bundles.server.dir}">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="com.vitria.workflow.*.jar" />
+            </fileset>
+        </copy>
+
+        <echo message="update *.xml and *.properties from m3o\workflow\src\bundles\data to vtba_home\data\workflow" />
+        <copy todir="${vtba.home}\data\workflow">
+            <fileset dir="${workflow.dir}\src\bundles\data">
+                <include name="*.xml" />
+                <include name="*.properties" />
+                <exclude name="EmailConfiguration.properties" />
+            </fileset>
+        </copy>
+
+        <echo message="update *.properties from m3o\workflow\en_US to vtba_home\locale\en_US" />
+        <copy todir="${vtba.home}\locale\en_US">
+            <fileset dir="${workflow.dir}\locale\en_US">
+                <include name="*.properties" />
+            </fileset>
+        </copy>
+
+        <echo message="update m3oserver.ear with new workflow jars" />
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${export.dir}/home/jboss/server/vtba/deploy/${m3o.ear.name}" dest="${m3o.ear.dir}" />
+        <copy todir="${m3o.ear.dir}/lib">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="vtse.jar" />
+                <include name="vtwfm3o.jar" />
+                <include name="vtwftaskmanager.jar" />
+            </fileset>
+        </copy>
+        <copy todir="${m3o.ear.dir}/ejb">
+            <fileset dir="${m3o.dist.dir}/JBoss">
+                <include name="Workflow-ejb.jar" />
+            </fileset>
+        </copy>
+        <zip destfile="${export.dir}/home/jboss/server/vtba/deploy/${m3o.ear.name}" basedir="${m3o.ear.dir}" />
+        <delete dir="${m3o.ear.dir}" />
+    </target>
+
+    <target name="bcnew" description="update bc jars">
+        <copy todir="${jboss.lib.dir}">
+            <fileset dir="${export.dir}/dist">
+                <include name="vtbc.jar" />
+            </fileset>
+        </copy>
+
+        <copy todir="${vtba.home}/build/lib">
+            <fileset dir="${export.dir}/dist">
+                <include name="vtbc.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="runew" description="update ru jar">
+        <copy todir="${vtba.home}/bundles/m3o/server/bundle">
+            <fileset dir="${m3o.dist.dir}">
+                <include name="com.vitria.workflow.assignment.randomuser*.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="bcbnew" description="update business calendar bundles">
+        <echo message="update business calendar bundles" />
+        <copy todir="${vtba.home}/bundles/m3o/server/bundle">
+            <fileset dir="${export.dir}/dist">
+                <include name="com.vitria.bc.resourceHandler.do_2.1.1.jar" />
+            </fileset>
+        </copy>
+        <delete dir="${vtba.home}/bundles/m3o/server/bundle/cache" failonerror="no" />
+    </target>
+
+    <target name="umnew" description="update um jar">
+        <copy todir="${jboss.lib.dir}">
+            <fileset dir="${export.dir}/dist">
+                <include name="vtum.jar" />
+            </fileset>
+        </copy>
+
+        <copy todir="${vtba.home}/build/lib">
+            <fileset dir="${export.dir}/dist">
+                <include name="vtum.jar" />
+            </fileset>
+        </copy>
+
+        <copy todir="${vtba.home}/runtime/common/lib">
+            <fileset dir="${export.dir}/dist">
+                <include name="vtum.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="dmsnew" description="update dms jar">
+        <copy todir="${jboss.lib.dir}">
+            <fileset dir="${export.dir}/dist">
+                <include name="vtdms.jar" />
+            </fileset>
+        </copy>
+
+        <copy todir="${vtba.home}/build/lib">
+            <fileset dir="${export.dir}/dist">
+                <include name="vtdms.jar" />
+            </fileset>
+        </copy>
+
+        <copy todir="${vtba.home}/runtime/common/lib">
+            <fileset dir="${export.dir}/dist">
+                <include name="vtdms.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="fcnew" description="update fc jar">
+        <copy todir="${jboss.lib.dir}">
+            <fileset dir="${export.dir}/dist">
+                <include name="vtfc.jar" />
+            </fileset>
+        </copy>
+
+        <copy todir="${vtba.home}/build/lib">
+            <fileset dir="${export.dir}/dist">
+                <include name="vtfc.jar" />
+            </fileset>
+        </copy>
+
+        <copy todir="${vtba.home}/runtime/common/lib">
+            <fileset dir="${export.dir}/dist">
+                <include name="vtfc.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="mrnew" description="update mr jars">
+        <echo message="update mr jars" />
+        <copy todir="${jboss.deploy.dir}">
+            <fileset dir="${export.dir}/dist">
+                <include name="vtsapi-remote-server-ejb.jar" />
+            </fileset>
+        </copy>
+
+        <copy todir="${vtba.home}/runtime/common/deploy">
+            <fileset dir="${export.dir}/dist">
+                <include name="vtsapi-remote-server-ejb.jar" />
+            </fileset>
+        </copy>
+
+        <copy todir="${jboss.lib.dir}">
+            <fileset dir="${export.dir}/dist">
+                <include name="vtrepository-ac.jar" />
+                <include name="vtrepositoryclient.jar" />
+                <include name="vtrepositorysapi.jar" />
+            </fileset>
+        </copy>
+
+        <copy todir="${vtba.home}/runtime/common/lib">
+            <fileset dir="${export.dir}/dist">
+                <include name="vtrepository-ac.jar" />
+                <include name="vtrepositoryclient.jar" />
+                <include name="vtrepositorysapi.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="enginenew" description="update m3oserver.ear with new vtengine.jar">
+        <echo message="update m3oserver.ear with new vtengine.jar" />
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${export.dir}/m3o/dist/JBoss/${m3o.ear.name}" dest="${m3o.ear.dir}" />
+        <copy todir="${m3o.ear.dir}/lib">
+            <fileset dir="${export.dir}/m3o/dist">
+                <include name="vtengine.jar" />
+            </fileset>
+        </copy>
+        <zip destfile="${export.dir}/m3o/dist/JBoss/${m3o.ear.name}" basedir="${m3o.ear.dir}" />
+
+        <copy todir="${vtba.home}/runtime/common/deploy" file="${export.dir}/m3o/dist/JBoss/${m3o.ear.name}" />
+
+        <delete dir="${m3o.ear.dir}" />
+        <mkdir dir="${m3o.ear.dir}" />
+        <unzip src="${export.dir}/home/jboss/server/vtba/deploy/${m3o.ear.name}" dest="${m3o.ear.dir}" />
+        <copy todir="${m3o.ear.dir}/lib">
+            <fileset dir="${export.dir}/m3o/dist">
+                <include name="vtengine.jar" />
+            </fileset>
+        </copy>
+        <zip destfile="${export.dir}/home/jboss/server/vtba/deploy/${m3o.ear.name}" basedir="${m3o.ear.dir}" />
+
+        <delete dir="${m3o.ear.dir}" />
+    </target>
+
+    <target name="vtclientnew" description="update with new vtclient.jar">
+        <copy todir="${jboss.lib.dir}" file="${m3o.dist.dir}/vtclient.jar" />
+        <copy todir="${vtba.home}\runtime\common\lib" file="${m3o.dist.dir}/vtclient.jar" />
+    </target>
+
+</project>

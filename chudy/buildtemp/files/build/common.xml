@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+
+<project name="common" basedir="../..">
+    <import file="../../properties.xml" />
+
+    <target name="clean-datasources">
+        <delete>
+            <fileset dir="${jboss.deploy.dir}">
+                <include name="vt-*-um-ds.xml" />
+                <include name="vt-*-bc-ds.xml" />
+                <include name="vt-*-emf-ds.xml" />
+                <include name="vt-*-feedserver-ds.xml" />
+                <include name="vt-*-system-ds.xml" />
+                <include name="vt-*-vs-ds.xml" />
+                <include name="vt-*-processanalytics-ds.xml" />
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="clean-drivers">
+        <delete>
+            <fileset dir="${jboss.lib.dir}">
+            	  <!-- oracle -->
+                <include name="ojdbc-*.jar" />
+                <include name="xdb-*.jar" />
+                <include name="xmlparserv2-*.jar" />
+                <!-- mysql -->
+                <include name="mysql-connector-java-*-bin.jar" />
+                <!-- mssql -->
+                <include name="sqljdbc-*.jar" />
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="all-drivers">
+        <antcall target="oracle-copy-drivers" />
+        <antcall target="mysql-copy-drivers" />
+        <antcall target="mssql-copy-drivers" />
+    </target>
+
+    <target name="clean-repository">
+        <delete>
+            <fileset dir="${vtba.home}\data\repository">
+                <include name="repository-*.xml" />
+            </fileset>
+        </delete>
+    </target>
+    
+    <target name="copy-datasources-templates">
+        <copy todir="${runtime.jboss.deploy.dir}" overwrite="true">
+            <fileset dir="${files.dir}\xml\ds2">
+                <include name="*.xml" />
+            </fileset>
+        </copy>
+    </target>
+
+</project>

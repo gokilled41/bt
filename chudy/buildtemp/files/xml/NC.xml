@@ -1,0 +1,181 @@
+<Component name="NCServer_@project.simple.name@" class="com.vitria.nc.fw.common.impl.BaseEventComponentImpl">
+    <SubComponents>
+        <Component name="CSVFileReader" class="com.vitria.nc.util.generater.CSVFileReader">
+            <ExceptionHandler class="com.vitria.nc.util.exception.CSVExceptionHandler" />
+            <EPSCounter class="com.vitria.nc.fw.util.BucketEPSCounter">
+                <Limit>50000</Limit>
+            </EPSCounter>
+            <Monitor>true</Monitor>
+            <Next>TreeConvertManagers</Next>
+            <State>true</State>
+            <StatesFolder>$VTBA_HOME/applications/home/server/hadoop/states</StatesFolder>
+        </Component>
+
+        <Component name="TreeConvertManagers" class="com.vitria.nc.fw.common.impl.BaseEventComponentImpl">
+            <SubComponents>
+                <HandlePolicy class="com.vitria.nc.fw.router.RoundRobinNoDropPolicy" />
+                <Component name="TreeConvertManager_0" class="com.vitria.nc.fw.common.impl.BufferEventSource">
+                    <EPSCounter class="com.vitria.nc.fw.util.BucketEPSCounter">
+                        <Limit>50000</Limit>
+                    </EPSCounter>
+                    <Buffer class="com.vitria.nc.fw.queue.NCBlockingQueueImpl">
+                        <Limit>50000</Limit>
+                    </Buffer>
+                    <Monitor>true</Monitor>
+                    <SubComponents>
+                        <Component name="TreeConverter_0" class="com.vitria.nc.util.converter.GenericConverter">
+                            <ConverterChain class="com.vitria.nc.util.converter.ConverterChain" Type="*">
+                                <Converter class="com.vitria.nc.util.converter.CSVToTreeConverter" />
+                            </ConverterChain>
+                            <Next>RoutingManagers</Next>
+                        </Component>
+                    </SubComponents>
+                </Component>
+            </SubComponents>
+        </Component>
+
+        <Component name="RoutingManagers" class="com.vitria.nc.fw.common.impl.BaseEventComponentImpl">
+            <SubComponents>
+                <HandlePolicy class="com.vitria.nc.fw.router.AllPolicy" />
+                <Component name="RoutingManager_0" class="com.vitria.nc.fw.common.impl.BaseEventComponentImpl">
+                    <SubComponents>
+                        <HandlePolicy class="com.vitria.nc.fw.router.RulePolicy">
+                            <Rule class="com.vitria.nc.util.router.rule.PerEventRule" />
+                            <Filter class="com.vitria.nc.util.router.rule.OperationFilter">
+                                <PropertyName>a.b.c0</PropertyName>
+                                <Op>=</Op>
+                                <Value>0</Value>
+                            </Filter>
+                        </HandlePolicy>
+                        <Component name="Routing_0" class="com.vitria.nc.fw.common.impl.BaseEventComponentImpl">
+                            <Next>ViewConvertManagers_0</Next>
+                        </Component>
+                    </SubComponents>
+                </Component>
+                <Component name="RoutingManager_1" class="com.vitria.nc.fw.common.impl.BaseEventComponentImpl">
+                    <SubComponents>
+                        <HandlePolicy class="com.vitria.nc.fw.router.RulePolicy">
+                            <Rule class="com.vitria.nc.util.router.rule.OccurenceRule">
+                                <PropertyName>a.b</PropertyName>
+                            </Rule>
+                            <Filter class="com.vitria.nc.util.router.rule.OperationFilter">
+                                <PropertyName>a.b.c1</PropertyName>
+                                <Op>=</Op>
+                                <Value>1</Value>
+                            </Filter>
+                        </HandlePolicy>
+                        <Component name="Routing_1" class="com.vitria.nc.fw.common.impl.BaseEventComponentImpl">
+                            <Next>ViewConvertManagers_1</Next>
+                        </Component>
+                    </SubComponents>
+                </Component>
+            </SubComponents>
+        </Component>
+
+        <Component name="ViewConvertManagers_0" class="com.vitria.nc.fw.common.impl.BaseEventComponentImpl">
+            <SubComponents>
+                <HandlePolicy class="com.vitria.nc.fw.router.RoundRobinNoDropPolicy" />
+                <Component name="ViewConvertManager_0" class="com.vitria.nc.fw.common.impl.BufferEventSource">
+                    <EPSCounter class="com.vitria.nc.fw.util.BucketEPSCounter">
+                        <Limit>50000</Limit>
+                    </EPSCounter>
+                    <Buffer class="com.vitria.nc.fw.queue.NCBlockingQueueImpl">
+                        <Limit>50000</Limit>
+                    </Buffer>
+                    <Monitor>true</Monitor>
+                    <SubComponents>
+                        <Component name="ViewConverter_0" class="com.vitria.nc.util.converter.GenericConverter">
+                            <ConverterChain class="com.vitria.nc.util.converter.ConverterChain" Type="*">
+                                <Converter class="com.vitria.nc.util.converter.TreeToXMLConverter">
+                                    <View>View Definition 0 Here</View>
+                                </Converter>
+                            </ConverterChain>
+                            <Next>ViewPublisherManagers_0</Next>
+                        </Component>
+                    </SubComponents>
+                </Component>
+            </SubComponents>
+        </Component>
+
+        <Component name="ViewConvertManagers_1" class="com.vitria.nc.fw.common.impl.BaseEventComponentImpl">
+            <SubComponents>
+                <HandlePolicy class="com.vitria.nc.fw.router.RoundRobinNoDropPolicy" />
+                <Component name="ViewConvertManager_1" class="com.vitria.nc.fw.common.impl.BufferEventSource">
+                    <EPSCounter class="com.vitria.nc.fw.util.BucketEPSCounter">
+                        <Limit>50000</Limit>
+                    </EPSCounter>
+                    <Buffer class="com.vitria.nc.fw.queue.NCBlockingQueueImpl">
+                        <Limit>50000</Limit>
+                    </Buffer>
+                    <Monitor>true</Monitor>
+                    <SubComponents>
+                        <Component name="ViewConverter_1" class="com.vitria.nc.util.converter.GenericConverter">
+                            <ConverterChain class="com.vitria.nc.util.converter.ConverterChain" Type="*">
+                                <Converter class="com.vitria.nc.util.converter.TreeToXMLConverter">
+                                    <View>View Definition 1 Here</View>
+                                </Converter>
+                            </ConverterChain>
+                            <Next>ViewPublisherManagers_1</Next>
+                        </Component>
+                    </SubComponents>
+                </Component>
+            </SubComponents>
+        </Component>
+
+        <Component name="ViewPublisherManagers_0" class="com.vitria.nc.fw.common.impl.BaseEventComponentImpl">
+            <SubComponents>
+                <HandlePolicy class="com.vitria.nc.fw.router.AllPolicy" />
+                <Component name="ViewPublisherManagersRouter_0" class="com.vitria.nc.fw.common.impl.BaseEventComponentImpl">
+                    <SubComponents>
+                        <HandlePolicy class="com.vitria.nc.fw.router.RoundRobinNoDropPolicy" />
+                        <Component name="ViewPublisherManager_0" class="com.vitria.nc.fw.common.impl.BufferEventSource">
+                            <EPSCounter class="com.vitria.nc.fw.util.BucketEPSCounter">
+                                <Limit>50000</Limit>
+                            </EPSCounter>
+                            <Buffer class="com.vitria.nc.fw.queue.NCBlockingQueueImpl">
+                                <Limit>50000</Limit>
+                            </Buffer>
+                            <Monitor>true</Monitor>
+                            <SubComponents>
+                                <Component name="ViewPublisher_0" class="com.vitria.nc.util.publisher.FeedPublisher">
+                                    <ProjectName>App Dynamic Project Name Here</ProjectName>
+                                    <FeedName>View Feed Name 0 Here</FeedName>
+                                </Component>
+                            </SubComponents>
+                        </Component>
+                    </SubComponents>
+                </Component>
+            </SubComponents>
+        </Component>
+
+        <Component name="ViewPublisherManagers_1" class="com.vitria.nc.fw.common.impl.BaseEventComponentImpl">
+            <SubComponents>
+                <HandlePolicy class="com.vitria.nc.fw.router.AllPolicy" />
+                <Component name="ViewPublisherManagersRouter_1" class="com.vitria.nc.fw.common.impl.BaseEventComponentImpl">
+                    <SubComponents>
+                        <HandlePolicy class="com.vitria.nc.fw.router.RoundRobinNoDropPolicy" />
+                        <Component name="ViewPublisherManager_1" class="com.vitria.nc.fw.common.impl.BufferEventSource">
+                            <EPSCounter class="com.vitria.nc.fw.util.BucketEPSCounter">
+                                <Limit>50000</Limit>
+                            </EPSCounter>
+                            <Buffer class="com.vitria.nc.fw.queue.NCBlockingQueueImpl">
+                                <Limit>50000</Limit>
+                            </Buffer>
+                            <Monitor>true</Monitor>
+                            <SubComponents>
+                                <Component name="ViewPublisher_1" class="com.vitria.nc.util.publisher.FeedPublisher">
+                                    <ProjectName>App Dynamic Project Name Here</ProjectName>
+                                    <FeedName>View Feed Name 1 Here</FeedName>
+                                </Component>
+                            </SubComponents>
+                        </Component>
+                    </SubComponents>
+                </Component>
+            </SubComponents>
+        </Component>
+    </SubComponents>
+
+    <Parameter name="enable_output_eps" value="true" />
+    <Parameter name="stop_wait_completed" value="true" />
+    <Parameter name="default_exception_handler" value="com.vitria.nc.fw.common.impl.IgnoreHandler" />
+</Component>

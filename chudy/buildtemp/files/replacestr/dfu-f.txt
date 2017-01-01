@@ -1,0 +1,18 @@
+dir: D:\jedi\yoda\unbundled\af\java\dataflow\devtests\junit\framework\build.xml
+
+from: BatchingTest
+to:   *Test
+from: BoundaryTest
+to:   *Test
+from: InjectEventTest
+to:   *Test
+from: ModelTest
+to:   *Test
+from: SerializerTest
+to:   *Test
+from: UtilTest
+to:   *Test
+from: ConverterTest
+to:   *Test
+from: SplitterTest
+to:   *Test

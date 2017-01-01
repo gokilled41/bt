@@ -1,0 +1,451 @@
+<xsd:schema targetNamespace="http://www.spry.com/m3o" xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:tns="http://www.spry.com/m3o" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore">
+  
+  <xsd:element type="tns:DiscussionType" name="Discussion"/>
+  <xsd:element type="tns:MessageType" name="Message"/>
+  <xsd:element type="tns:TaskType" name="Task"/>
+  <xsd:element type="tns:ActionType" name="Action"/>
+  
+  <xsd:complexType name="DiscussionType">
+    <xsd:annotation>
+      <xsd:appinfo source="teneo.jpa">@Table(name="SPRY_DISCUSSION")</xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="ID">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="ID", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Source">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="SOURCE", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Subject">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="SUBJECT", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="AssignedGroup">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="ASSIGNED_GROUP", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Status">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="STATUS", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:boolean" name="AtRisk">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="AT_RISK", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:int" name="OverdueCount">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="OVERDUE_COUNT", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Priority">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="PRIORITY", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+
+      
+      <xsd:element type="tns:ActiveDateType" maxOccurs="unbounded" minOccurs="0" name="ActiveDates">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.hibernate">@Index(name="ActiveDates_IDX")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      
+      <xsd:element type="tns:MessageType" maxOccurs="unbounded" minOccurs="0" name="Messages">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.hibernate">@Index(name="Messages_IDX")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      
+      <xsd:element type="tns:RiskType" maxOccurs="unbounded" minOccurs="0" name="Risks">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.hibernate">@Index(name="Risks_IDX")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      
+      <xsd:element type="tns:CategoryType" maxOccurs="unbounded" minOccurs="0" name="Categories">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.hibernate">@Index(name="Categories_IDX")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      
+      <xsd:element type="tns:TagType" maxOccurs="unbounded" minOccurs="0" name="Tags">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.hibernate">@Index(name="Tags_IDX")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      
+      <xsd:element type="tns:ActionType" maxOccurs="unbounded" minOccurs="0" name="Actions">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.hibernate">@Index(name="Actions_IDX")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      
+      <xsd:element type="tns:EscalationType" maxOccurs="unbounded" minOccurs="0" name="Escalations">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.hibernate">@Index(name="Escalations_IDX")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      
+      <xsd:element type="tns:TaskType" maxOccurs="unbounded" minOccurs="0" name="Tasks">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.hibernate">@Index(name="Tasks_IDX")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="ActiveDateType">
+    <xsd:annotation>
+      <xsd:appinfo source="teneo.jpa">@Table(name="SPRY_ACTDATE")</xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="DiscussionID">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="DISCUSSION_ID", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="ActiveName">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="ACTIVE_NAME", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:dateTime" name="ActiveTime">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="ACTIVE_TIME", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Description">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="DESCRIPTION", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="MessageType">
+    <xsd:annotation>
+      <xsd:appinfo source="teneo.jpa">@Table(name="SPRY_MESSAGE")</xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="ID">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="ID", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="DiscussionID">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="DISCUSSION_ID", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:dateTime" name="RecievedTime">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="RECIEVED_TIME", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Author">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="AUTHOR", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Source">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="SOURCE", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Content">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">
+            @Lob
+            @Column(name="CONTENT", nullable="true", length=1048576)
+          </xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Summary">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="SUMMARY", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="RelatedTask">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="RELATED_TASK", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="RiskType">
+    <xsd:annotation>
+      <xsd:appinfo source="teneo.jpa">@Table(name="SPRY_RISK")</xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="ID">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="ID", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="DiscussionID">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="DISCUSSION_ID", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Reason">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="REASON", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Owner">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="OWNER", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="CategoryType">
+    <xsd:annotation>
+      <xsd:appinfo source="teneo.jpa">@Table(name="SPRY_CATEGORY")</xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="ID">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="ID", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Name">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="NAME", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="TagType">
+    <xsd:annotation>
+      <xsd:appinfo source="teneo.jpa">@Table(name="SPRY_TAG")</xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="ID">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="ID", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="DiscussionID">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="DISCUSSION_ID", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Name">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="NAME", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="ActionType">
+    <xsd:annotation>
+      <xsd:appinfo source="teneo.jpa">@Table(name="SPRY_ACTION")</xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="ID">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="ID", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="DiscussionID">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="DISCUSSION_ID", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="OperationName">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="OPERATION_NAME", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="OperatorID">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="OPERATOR_ID", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="OperatorType">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="OPERATOR_Type", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Status">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="STATUS", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:dateTime" name="Started">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="STARTED", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:dateTime" name="Ended">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="ENDED", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" nillable="true" type="tns:OperationParameterType" name="OperationParameter">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.hibernate">@Index(name="OperationParameter_IDX")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="EscalationType">
+    <xsd:annotation>
+      <xsd:appinfo source="teneo.jpa">@Table(name="SPRY_ESCALATION")</xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="ID">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="ID", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="DiscussionID">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="DISCUSSION_ID", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Reason">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="REASON", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="OtherReason">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">
+            @Lob
+            @Column(name="OTHER_REASON", nullable="true", length=1048576)
+          </xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Status">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="STATUS", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="TaskType">
+    <xsd:annotation>
+      <xsd:appinfo source="teneo.jpa">@Table(name="SPRY_TASK")</xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="ID">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="ID", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="DiscussionID">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="DISCUSSION_ID", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:dateTime" name="DueDate">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="DUE_DATE", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Priority">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="PRIORITY", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Title">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="TITLE", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="AssignedWorkgroup">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="ASSIGNED_WORKGROUP", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="AssignedPerformer">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="ASSIGNED_PERFORMER", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="ActualPerformer">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="ACTUAL_PERFORMER", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Status">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="STATUS", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Comment">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">
+            @Lob
+            @Column(name="COMMENT", nullable="true", length=1048576)
+          </xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Action">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="ACTION", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Recommended">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="RECOMMENDED", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Notes">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">
+            @Lob
+            @Column(name="Notes", nullable="true", length=1048576)
+          </xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      
+      <xsd:element type="tns:TagType" maxOccurs="unbounded" minOccurs="0" name="Tags">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.hibernate">@Index(name="Tags_IDX")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="OperationParameterType">
+    <xsd:annotation>
+      <xsd:appinfo source="teneo.jpa">@Table(name="SPRY_ACTION_PARAM")</xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Key">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">@Column(name="KEY", nullable="true")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" nillable="true" type="xsd:string" name="Value">
+        <xsd:annotation>
+          <xsd:appinfo source="teneo.jpa">
+          @Lob
+          @Column(name="VALUE", nullable="true", length=1048576)
+          </xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>
