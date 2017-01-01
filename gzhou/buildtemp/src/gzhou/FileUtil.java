@@ -3339,6 +3339,30 @@ public class FileUtil extends Util implements Constants {
         }
     }
 
+    public static class MultipleLinesResult {
+        public String[] args;
+        public boolean multipleLines;
+
+        public static MultipleLinesResult multipleLines(String[] args) {
+            MultipleLinesResult r = new MultipleLinesResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.multipleLines = true;
+                r.args = cutLastArg(args);
+                if (debug_)
+                    System.out.println(tab(2) + "Multiple Lines: " + r.multipleLines);
+            } else {
+                r.multipleLines = false;
+                r.args = args;
+            }
+            return r;
+        }
+
+        public static boolean isParam(String last) {
+            return last.equals("ml");
+        }
+    }
+
     public static class Params {
 
         public String[] args;
@@ -3357,6 +3381,7 @@ public class FileUtil extends Util implements Constants {
         public boolean noPath = false;
         public boolean useDot = false;
         public String sortType = null;
+        public boolean multipleLines = false;
 
         public int getExpandLines() {
             if (expandLines == null) {
@@ -3486,6 +3511,13 @@ public class FileUtil extends Util implements Constants {
                     if (params.sortType == null)
                         params.sortType = str.sortType;
                 }
+                // multiple lines
+                MultipleLinesResult mlr = MultipleLinesResult.multipleLines(args);
+                if (args.length > mlr.args.length) {
+                    args = mlr.args;
+                    if (params.multipleLines == false)
+                        params.multipleLines = mlr.multipleLines;
+                }
             } while (args.length < n);
             params.args = args;
             setDefaultParams(params, op);
@@ -3544,6 +3576,8 @@ public class FileUtil extends Util implements Constants {
             if (NoPathResult.isParam(s))
                 return true;
             if (UseDotResult.isParam(s))
+                return true;
+            if (MultipleLinesResult.isParam(s))
                 return true;
             return false;
         }

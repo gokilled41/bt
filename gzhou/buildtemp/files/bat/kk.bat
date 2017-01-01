@@ -1,6 +1,6 @@
 @echo off
-call afu %* ar "no path" "sort type"
-call afu %* ar NoPath SortType
-call afu %* ar "No Path" "Sort Type"
-call afu %* ar noPath sortType
-call afu %* ar npr str
+call afu %* ar "no path" "multiple lines"
+call afu %* ar NoPath MultipleLines
+call afu %* ar "No Path" "Multiple Lines"
+call afu %* ar noPath multipleLines
+call afu %* ar npr mlr

@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -858,7 +859,7 @@ public class Util implements Constants {
                 int pos = lr.li + i + 1;
                 if (f.accept(line, pos)) {
                     Line item = new Line(pos, line);
-                    item.fillPrevNext(params.getExpandLines(), lines);
+                    item.fillPrevNext(params, lines);
                     list.add(item);
                 }
             }
@@ -885,7 +886,8 @@ public class Util implements Constants {
             this.replaced = replaced;
         }
 
-        public void fillPrevNext(int eln, List<String> lines) {
+        public void fillPrevNext(Params params, List<String> lines) {
+            int eln = params.getExpandLines();
             if (eln > 0) {
                 prev = new ArrayList<String>();
                 next = new ArrayList<String>();
@@ -896,7 +898,63 @@ public class Util implements Constants {
                 for (int k = current + 1; k <= Math.min(current + eln, lines.size() - 1); k++) {
                     next.add(lines.get(k));
                 }
+            } else {
+                boolean multipleLines = params.multipleLines;
+                if (multipleLines) {
+                    next = new ArrayList<String>();
+                    int current = this.i % ABATCH - 1;
+                    for (int k = current + 1; k <= lines.size() - 1; k++) {
+                        String nextLine = lines.get(k);
+                        MultipleLineResult r = stopMultipleLine(nextLine);
+                        if (r.stop) {
+                            if (r.next) {
+                                next.add(nextLine);
+                            }
+                            break;
+                        }
+                        next.add(nextLine);
+                    }
+                }
             }
+        }
+
+        private MultipleLineResult stopMultipleLine(String nextLine) {
+            MultipleLineResult r = new MultipleLineResult();
+            r.stop = true;
+            // log file
+            if (isLogLine(line)) {
+                r.stop = isLogLine(nextLine);
+                r.next = false;
+            }
+            // ant target
+            if (isAntTargetLine(line)) {
+                r.stop = isAntTargetLine(nextLine);
+                r.next = true;
+            }
+            // java method
+            if (isJavaMethodLineStart(line)) {
+                r.stop = isJavaMethodLineEnd(nextLine);
+                r.next = true;
+            }
+            return r;
+        }
+
+        private boolean isLogLine(String s) {
+            return s.length() > 10 && isDate(cutLast(s, s.length() - 10));
+        }
+
+        private boolean isAntTargetLine(String s) {
+            s = s.trim();
+            return s.startsWith("<target") || s.startsWith("</target>");
+        }
+
+        private boolean isJavaMethodLineStart(String s) {
+            s = s.trim();
+            return s.startsWith("public") || s.startsWith("private") || s.startsWith("protected");
+        }
+
+        private boolean isJavaMethodLineEnd(String s) {
+            return s.trim().equals("}") && getIndentSize(s) == getIndentSize(line);
         }
 
         public void print(int tab, int indent) {
@@ -925,6 +983,11 @@ public class Util implements Constants {
                 if (!p)
                     System.out.println();
             }
+        }
+
+        private class MultipleLineResult {
+            public boolean stop;
+            public boolean next;
         }
     }
 
@@ -974,6 +1037,24 @@ public class Util implements Constants {
             sb.append(" ");
         }
         return sb.toString();
+    }
+
+    public static int getIndentSize(String s) {
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c != ' ')
+                return i;
+        }
+        return 0;
+    }
+
+    public static boolean isDate(String s) {
+        try {
+            sdfDay.parse(s);
+            return true;
+        } catch (ParseException e) {
+        }
+        return false;
     }
 
     public static String formatstr(String s, int n) {
