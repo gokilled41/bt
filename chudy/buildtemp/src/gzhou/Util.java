@@ -1,8 +1,5 @@
 package gzhou;
 
-import gzhou.FileUtil.Filters;
-import gzhou.FileUtil.Params;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,6 +24,9 @@ import java.util.Map.Entry;
 import java.util.Properties;
 
 import com.vitria.component.util.DOMUtil;
+
+import gzhou.FileUtil.Filters;
+import gzhou.FileUtil.Params;
 
 public class Util implements Constants {
 
@@ -683,6 +683,11 @@ public class Util implements Constants {
             }
             file.delete();
         }
+    }
+
+    public static void deleteFileWithFolders(String path) {
+        deleteFile(path);
+        deleteFolderIfEmpty(getParent(path));
     }
 
     public static String renameFile(String filePath, String from, String to) {

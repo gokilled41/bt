@@ -11,3 +11,6 @@ call acp bt \.svn\(bin\files\src\lib) %btdir%\buildtemp kd sl
 
 echo copying tar
 call acp tar %btdir%\typeandrun sl
+
+echo copying others
+call acp "dd\PA Operations.txt" %btdir%\others kd sl

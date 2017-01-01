@@ -748,7 +748,8 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static void gettersetter() throws Exception {
-        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(desktopDir + "translate.txt")));
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(new FileInputStream(desktopDir + "translate.txt")));
         List<String> list = new ArrayList<String>();
         String line;
         String s = "";
@@ -758,10 +759,8 @@ public class FileUtil extends Util implements Constants {
                 if (line.contains("_")) {
                     int i = line.lastIndexOf("_");
                     String next = line.substring(i + 1, i + 2);
-                    if (next.equals("(")
-                            || next.equals(")")
-                            || (next.equals(";") && !line.trim().startsWith("return")
-                                    && !line.trim().startsWith("private") && !line.trim().startsWith("public"))) {
+                    if (next.equals("(") || next.equals(")") || (next.equals(";") && !line.trim().startsWith("return")
+                            && !line.trim().startsWith("private") && !line.trim().startsWith("public"))) {
                         s = line.substring(0, i) + line.substring(i + 1, line.length());
                     }
                 }
@@ -796,15 +795,11 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static void generateNCTemplate() throws Exception {
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(
-                        new FileInputStream(
-                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ncgenerator.xsl")));
-        PrintWriter out = new PrintWriter(
-                new OutputStreamWriter(
-                        new FileOutputStream(
-                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\NCTemplate.java",
-                                false)));
+        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(
+                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ncgenerator.xsl")));
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(
+                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\NCTemplate.java",
+                false)));
 
         out.println("// Copyright (c) 2013 Vitria Technology, Inc.");
         out.println("// All Rights Reserved.");
@@ -855,15 +850,11 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static void generateViewTemplate() throws Exception {
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(
-                        new FileInputStream(
-                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\instance_view.xml")));
-        PrintWriter out = new PrintWriter(
-                new OutputStreamWriter(
-                        new FileOutputStream(
-                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ViewTemplate.java",
-                                false)));
+        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(
+                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\instance_view.xml")));
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(
+                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ViewTemplate.java",
+                false)));
 
         out.println("// Copyright (c) 2013 Vitria Technology, Inc.");
         out.println("// All Rights Reserved.");
@@ -926,8 +917,7 @@ public class FileUtil extends Util implements Constants {
         copyFile(
                 "C:\\zhou\\yoda\\unbundled\\af\\java\\nc_framework\\utility\\com\\vitria\\o2\\nc\\publisher\\FeedPublisher.java",
                 "C:\\Workflow-G\\workflow bug fixing\\2012-12-11 Hadoop\\feed_publisher\\not_modified\\FeedPublisher.java");
-        copyFile(
-                "C:\\Workflow-G\\workflow bug fixing\\2012-12-11 Hadoop\\feed_publisher\\modified\\FeedPublisher.java",
+        copyFile("C:\\Workflow-G\\workflow bug fixing\\2012-12-11 Hadoop\\feed_publisher\\modified\\FeedPublisher.java",
                 "C:\\zhou\\yoda\\unbundled\\af\\java\\nc_framework\\utility\\com\\vitria\\o2\\nc\\publisher\\FeedPublisher.java");
     }
 
@@ -1868,6 +1858,7 @@ public class FileUtil extends Util implements Constants {
                 if (isFile(from)) {
                     fromfile = getFileName(from);
                     from = getParent(from);
+                    onlyOneFile(params);
                 } else {
                     fromfile = "*";
                 }
@@ -2053,7 +2044,10 @@ public class FileUtil extends Util implements Constants {
 
         protected static void copyFiles(String from, String fromfile, String to, String tofile, Params params)
                 throws Exception {
-            System.out.println("copy from: " + from);
+            if (!params.move)
+                System.out.println("copy from: " + from);
+            else
+                System.out.println("move from: " + from);
             System.out.println("     to:   " + to);
             List<File> files = toCopyFromFiles(getFromFiles(from, fromfile, params));
             if (!files.isEmpty()) {
@@ -2076,6 +2070,8 @@ public class FileUtil extends Util implements Constants {
                                 topath = dir + FILE_SEPARATOR + fileName;
                             }
                             copyFile(p, topath, false);
+                            if (params.move)
+                                deleteFileWithFolders(p);
                             System.out.println("           " + relativePath);
                             System.out.println("        -> " + topath);
                             addWithoutDup(dirs, topath);
@@ -2098,8 +2094,7 @@ public class FileUtil extends Util implements Constants {
                 List<String> dirs = new ArrayList<String>();
                 for (File file : files) {
                     String p = file.getAbsolutePath();
-                    deleteFile(p);
-                    deleteFolderIfEmpty(getParent(p));
+                    deleteFileWithFolders(p);
                     System.out.println(tab(2) + toRelativePath(from, p));
                     addWithoutDup(dirs, p);
                 }
@@ -2211,8 +2206,8 @@ public class FileUtil extends Util implements Constants {
                         List<Line> foundLines = findInFile(p, from, params);
                         if (!foundLines.isEmpty()) {
                             String n1 = toRelativePath(dir, p);
-                            System.out.println(tab(2)
-                                    + format("found \"{0}\" places in \"{1}\":", foundLines.size(), n1));
+                            System.out.println(
+                                    tab(2) + format("found \"{0}\" places in \"{1}\":", foundLines.size(), n1));
                             System.out.println();
                             for (Line line : foundLines) {
                                 line.print(6, 7);
@@ -2410,8 +2405,8 @@ public class FileUtil extends Util implements Constants {
             int dirIndent = 10;
             int timeIndent = 30;
             String n = formatstr(relativePath, nameIndent + 1);
-            String size = file.isDirectory() ? formatstr("", sizeIndent) : formatstr(df.format(file.length()),
-                    sizeIndent, false);
+            String size = file.isDirectory() ? formatstr("", sizeIndent)
+                    : formatstr(df.format(file.length()), sizeIndent, false);
             String dir = file.isDirectory() ? formatstr("<DIR>", dirIndent) : formatstr("", dirIndent);
             String time = formatstr(sdf4.format(new Date(file.lastModified())), timeIndent);
             return format("{0} {1}     {2} {3}", n, size, dir, time);
@@ -2497,8 +2492,8 @@ public class FileUtil extends Util implements Constants {
                 first = filter.getFirst();
             }
             if (debug2_) {
-                System.out.println(format("Filters: p={0}, filters={1}, filter={2}, first={3}", p, filters, filter,
-                        first));
+                System.out.println(
+                        format("Filters: p={0}, filters={1}, filter={2}, first={3}", p, filters, filter, first));
             }
             return first;
         }
@@ -2752,7 +2747,7 @@ public class FileUtil extends Util implements Constants {
             if (p.isGroup()) {
                 first = filters.getFirst();
             } else {
-                first = p.p;
+                first = p.getFirst();
             }
             if (debug2_) {
                 System.out.println(format("Filter: p={0}, filters={1}, first={3}", p, filters, first));
@@ -2817,6 +2812,8 @@ public class FileUtil extends Util implements Constants {
         public boolean regular = false;
         public boolean lineNumber = false;
 
+        private boolean ignore = false;
+
         public void init() {
             if (p.startsWith("/")) {
                 include = true;
@@ -2840,6 +2837,11 @@ public class FileUtil extends Util implements Constants {
             } else if (p.matches("l\\d*-?\\d*")) {
                 lineNumber = true;
             }
+        }
+
+        public String getFirst() {
+            ignore = true;
+            return p;
         }
 
         public boolean isGroup() {
@@ -2953,6 +2955,8 @@ public class FileUtil extends Util implements Constants {
                 }
                 b = line.matches(fixPattern);
             }
+            if (ignore)
+                b = true;
             if (include) {
                 if (debug2_) {
                     System.out.println(format("Pattern: line={2}, p={0}, result={1}", p, b, line));
@@ -3363,6 +3367,30 @@ public class FileUtil extends Util implements Constants {
         }
     }
 
+    public static class MoveResult {
+        public String[] args;
+        public boolean move;
+
+        public static MoveResult move(String[] args) {
+            MoveResult r = new MoveResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.move = true;
+                r.args = cutLastArg(args);
+                if (debug_)
+                    System.out.println(tab(2) + "Move: " + r.move);
+            } else {
+                r.move = false;
+                r.args = args;
+            }
+            return r;
+        }
+
+        public static boolean isParam(String last) {
+            return last.equals("mv");
+        }
+    }
+
     public static class Params {
 
         public String[] args;
@@ -3382,6 +3410,7 @@ public class FileUtil extends Util implements Constants {
         public boolean useDot = false;
         public String sortType = null;
         public boolean multipleLines = false;
+        public boolean move = false;
 
         public int getExpandLines() {
             if (expandLines == null) {
@@ -3518,6 +3547,13 @@ public class FileUtil extends Util implements Constants {
                     if (params.multipleLines == false)
                         params.multipleLines = mlr.multipleLines;
                 }
+                // move
+                MoveResult mvr = MoveResult.move(args);
+                if (args.length > mvr.args.length) {
+                    args = mvr.args;
+                    if (params.move == false)
+                        params.move = mvr.move;
+                }
             } while (args.length < n);
             params.args = args;
             setDefaultParams(params, op);
@@ -3578,6 +3614,8 @@ public class FileUtil extends Util implements Constants {
             if (UseDotResult.isParam(s))
                 return true;
             if (MultipleLinesResult.isParam(s))
+                return true;
+            if (MoveResult.isParam(s))
                 return true;
             return false;
         }
