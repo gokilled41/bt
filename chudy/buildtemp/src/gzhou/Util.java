@@ -203,6 +203,14 @@ public class Util implements Constants {
         return s;
     }
 
+    public static String cut(String s, int first, int last) {
+        if (first > 0)
+            s = cutFirst(s, first);
+        if (last > 0)
+            s = cutLast(s, last);
+        return s;
+    }
+
     public static String cutBack(String s, String from, String to) {
         if (from != null && !from.isEmpty())
             s = s.substring(0, s.lastIndexOf(from));

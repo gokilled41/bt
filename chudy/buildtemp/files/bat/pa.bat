@@ -7,6 +7,9 @@ rem use last param to determine debug or not
   if "%LastBatParam%" == "-d" set ADEBUG=true
   set LastBatParam=
 
+rem pa operation
+  set PAOperation=%~1
+
 rem execute command
   call palias %*
 
@@ -29,3 +32,17 @@ rem run necessary tmp scripts
   rem open file
     if exist "C:\workspace\buildtemp\files\bat\aopenfiletmp.bat" call aopenfiletmp
     if exist "C:\workspace\buildtemp\files\bat\aopenfiletmp.bat" call bdel aopenfiletmp
+  rem zip
+    if "%PAOperation%"=="list" goto azipstart
+    if not "%PAOperation%"=="list" goto azipend
+      : azipstart
+      if exist "C:\workspace\buildtemp\files\bat\aziptmp.bat" call aziptmp
+      if exist "C:\workspace\buildtemp\files\bat\aziptmp.bat" call bdel aziptmp
+      : azipend
+  rem unzip
+    if "%PAOperation%"=="list" goto aunzipstart
+    if not "%PAOperation%"=="list" goto aunzipend
+      : aunzipstart
+      if exist "C:\workspace\buildtemp\files\bat\aunziptmp.bat" call aunziptmp
+      if exist "C:\workspace\buildtemp\files\bat\aunziptmp.bat" call bdel aunziptmp
+      : aunzipend
