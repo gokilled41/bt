@@ -203,6 +203,14 @@ public class Util implements Constants {
         return s;
     }
 
+    public static String cut(String s, int first, int last) {
+        if (first > 0)
+            s = cutFirst(s, first);
+        if (last > 0)
+            s = cutLast(s, last);
+        return s;
+    }
+
     public static String cutBack(String s, String from, String to) {
         if (from != null && !from.isEmpty())
             s = s.substring(0, s.lastIndexOf(from));
@@ -303,6 +311,20 @@ public class Util implements Constants {
             out.println(line);
         }
         out.close();
+    }
+
+    public static void insertLines(String p, List<String> list, int i, String encoding) throws Exception {
+        List<String> lines = getLines(p, encoding);
+        lines.addAll(i - 1, list);
+        setLines(p, lines, encoding);
+    }
+
+    public static void deleteLines(String p, List<String> list, int i, String encoding) throws Exception {
+        List<String> lines = getLines(p, encoding);
+        for (int j = 0; j < list.size(); j++) {
+            lines.remove(i - 1);
+        }
+        setLines(p, lines, encoding);
     }
 
     public static void moveFiles(String from, String to) {
@@ -685,6 +707,11 @@ public class Util implements Constants {
         }
     }
 
+    public static void deleteFileWithFolders(String path) {
+        deleteFile(path);
+        deleteFolderIfEmpty(getParent(path));
+    }
+
     public static String renameFile(String filePath, String from, String to) {
         String oldName = getFileName(filePath);
         if (oldName.contains(from)) {
@@ -708,10 +735,11 @@ public class Util implements Constants {
         List<String> list = new ArrayList<String>();
         List<Line> affected = new ArrayList<Line>();
         boolean changed = false;
+        List<Line> foundLines = findInFile(filePath, fromFilter, params);
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
             int pos = i + 1;
-            if (containsInLine(line, fromFilter, from, params.caseSensitive, pos, params)) {
+            if (containsInLine(line, fromFilter, from, params.caseSensitive, pos, params, foundLines)) {
                 changed = true;
                 String replaced = replaceInLine(line, from, to, params.caseSensitive);
                 list.add(replaced);
@@ -732,59 +760,28 @@ public class Util implements Constants {
     }
 
     private static boolean containsInLine(String line, Filters fromFilter, String from, boolean caseSensitive, int pos,
-            Params params) {
+            Params params, List<Line> foundLines) {
         if (caseSensitive)
-            return lineConstains(line, fromFilter, from, pos, params);
+            return lineConstains(line, fromFilter, from, pos, params, foundLines);
         else
-            return lineConstains(line, fromFilter, toLowerCase(from), pos, params)
-                    || lineConstains(line, fromFilter, toUpperCase(from), pos, params)
-                    || lineConstains(line, fromFilter, toCamelCase(from), pos, params);
+            return lineConstains(line, fromFilter, toLowerCase(from), pos, params, foundLines)
+                    || lineConstains(line, fromFilter, toUpperCase(from), pos, params, foundLines)
+                    || lineConstains(line, fromFilter, toCamelCase(from), pos, params, foundLines);
     }
 
-    private static boolean lineConstains(String line, Filters fromFilter, String from, int pos, Params params) {
+    private static boolean lineConstains(String line, Filters fromFilter, String from, int pos, Params params,
+            List<Line> foundLines) {
         if (!line.contains(from))
             return false;
-        return fromFilter.accept(line, pos);
+        return fromFilter.accept(line, pos) || matchFoundLines(foundLines, line, pos);
     }
 
-    public static boolean matchesLineNumber(String pattern, int pos) {
-        ExpandLines el = parseExpandLines(pattern);
-        int fpos = el.from;
-        int tpos = el.to;
-        return pos >= fpos && pos < tpos;
-    }
-
-    public static boolean matchesLineNumber(ExpandLines expandLines, int pos) {
-        ExpandLines el = expandLines;
-        int fpos = el.from;
-        int tpos = el.to;
-        return pos >= fpos && pos < tpos;
-    }
-
-    public static ExpandLines parseExpandLines(String pattern) {
-        if (pattern.matches("l\\d*-?\\d*")) {
-            pattern = cutFirst(pattern, 1);
-            String from, to;
-            if (pattern.contains("-")) {
-                int i = pattern.indexOf("-");
-                from = pattern.substring(0, i);
-                to = pattern.substring(i + 1, pattern.length());
-            } else {
-                from = pattern;
-                to = "";
-            }
-            int fpos = 0;
-            int tpos = Integer.MAX_VALUE;
-            if (from != null && !from.isEmpty())
-                fpos = toInt(from);
-            if (to != null && !to.isEmpty())
-                tpos = toInt(to);
-            ExpandLines el = new ExpandLines();
-            el.from = fpos;
-            el.to = tpos;
-            return el;
+    private static boolean matchFoundLines(List<Line> foundLines, String line, int pos) {
+        for (Line foundLine : foundLines) {
+            if (foundLine.match(pos))
+                return true;
         }
-        return null;
+        return false;
     }
 
     private static String replaceInLine(String line, String from, String to, boolean caseSensitive) {
@@ -848,9 +845,13 @@ public class Util implements Constants {
     }
 
     public static List<Line> findInFile(String p, String from, Params params) throws Exception {
+        Filters f = Filters.getFilters(from, params);
+        return findInFile(p, f, params);
+    }
+
+    public static List<Line> findInFile(String p, Filters f, Params params) throws Exception {
         List<Line> list = new ArrayList<Line>();
         LinesResult lr = new LinesResult();
-        Filters f = Filters.getFilters(from, params);
         while (lr.hasMore) {
             lr = getLinesFromStream(p, params.getEncoding(), ABATCH, lr);
             List<String> lines = lr.lines;
@@ -884,6 +885,24 @@ public class Util implements Constants {
             this.i = i;
             this.line = line;
             this.replaced = replaced;
+        }
+
+        public boolean match(int pos) {
+            int from = i - getPrevLines();
+            int to = i + getNextLines();
+            return from <= pos && pos <= to;
+        }
+
+        private int getPrevLines() {
+            if (prev != null)
+                return prev.size();
+            return 0;
+        }
+
+        private int getNextLines() {
+            if (next != null)
+                return next.size();
+            return 0;
         }
 
         public void fillPrevNext(Params params, List<String> lines) {
@@ -985,6 +1004,16 @@ public class Util implements Constants {
             }
         }
 
+        public List<String> toLines() {
+            List<String> list = new ArrayList<String>();
+            if (prev != null)
+                list.addAll(prev);
+            list.add(line);
+            if (next != null)
+                list.addAll(next);
+            return list;
+        }
+
         private class MultipleLineResult {
             public boolean stop;
             public boolean next;
@@ -997,16 +1026,6 @@ public class Util implements Constants {
         public List<String> lines = new ArrayList<String>();
         public BufferedReader in = null;
         public boolean hasMore = true;
-    }
-
-    public static class ExpandLines {
-        public int from = 0;
-        public int to = 0;
-
-        @Override
-        public String toString() {
-            return format("{0}-{1}", from, to);
-        }
     }
 
     public static class ReplaceResult {

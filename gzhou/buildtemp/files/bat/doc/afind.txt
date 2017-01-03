@@ -1,5 +1,5 @@
 afind is one command to find given search key in files.
-  afind <fromdir> [<fromfile>] <from> [ln] [rn] [mp] [np] [o] [d] [f]
+  afind <fromdir> [<fromfile>] <from> [ln] [rn] [ml] [dup/del/mv100] [np] [o] [d] [f]
     - fromdir    one dir or one tar alias find from
     - fromfile   files to find in
                    file name like "a.jar" or file pattern like "*Manager*" or "*.zip"
@@ -23,7 +23,10 @@ afind is one command to find given search key in files.
     - ln         print expanded lines. like: l100
     - rn         set recursive level. like: r0
     - np         no path: the pattern of files not include path string
-    - mp         multiple lines: print the stack trace of exception in log, print whole target defininition in build.xml...
+    - ml         multiple lines: print the stack trace of exception in log, print whole target defininition in build.xml...
+    - dup        dup: duplicate the lines
+      del        del: remove the lines
+      mv100      mv100: move lines to specified pos
     - o          output to file
     - d          open dir
                    d3 to open 3 dirs

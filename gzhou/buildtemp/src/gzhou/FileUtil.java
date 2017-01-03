@@ -1,5 +1,10 @@
 package gzhou;
 
+import gzhou.FileUtil.ExpandLinesResult.ExpandLines;
+import gzhou.FileUtil.OperateLinesResult.OperateLines;
+import gzhou.FileUtil.OperateLinesResult.OperateLinesUtil;
+import gzhou.FileUtil.ZipOperationsResult.ZipOperations;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -1463,6 +1468,7 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static String toTARAlias(String p) throws Exception {
+        p = unwrapTARAlias(p);
         List<String> list = getLines2(TYPEANDRUN_CONFIG);
         for (String tarLine : list) {
             String tarAlias = cut(tarLine, null, "|");
@@ -1486,6 +1492,12 @@ public class FileUtil extends Util implements Constants {
                 return tarPath + FILE_SEPARATOR + sub;
             }
         }
+        return p;
+    }
+
+    private static String unwrapTARAlias(String p) {
+        if (p.startsWith("'") && p.endsWith("'"))
+            p = cut(p, 1, 1);
         return p;
     }
 
@@ -1868,6 +1880,7 @@ public class FileUtil extends Util implements Constants {
                 if (isFile(from)) {
                     fromfile = getFileName(from);
                     from = getParent(from);
+                    onlyOneFile(params);
                 } else {
                     fromfile = "*";
                 }
@@ -2053,7 +2066,10 @@ public class FileUtil extends Util implements Constants {
 
         protected static void copyFiles(String from, String fromfile, String to, String tofile, Params params)
                 throws Exception {
-            System.out.println("copy from: " + from);
+            if (!params.move)
+                System.out.println("copy from: " + from);
+            else
+                System.out.println("move from: " + from);
             System.out.println("     to:   " + to);
             List<File> files = toCopyFromFiles(getFromFiles(from, fromfile, params));
             if (!files.isEmpty()) {
@@ -2076,12 +2092,14 @@ public class FileUtil extends Util implements Constants {
                                 topath = dir + FILE_SEPARATOR + fileName;
                             }
                             copyFile(p, topath, false);
+                            if (params.move)
+                                deleteFileWithFolders(p);
                             System.out.println("           " + relativePath);
                             System.out.println("        -> " + topath);
                             addWithoutDup(dirs, topath);
                         }
                     }
-                    OpenDirResult.OpenDirs(params, dirs);
+                    OpenDirResult.openDirs(params, dirs);
                 } else {
                     System.out.println(tab(2) + "to files not found: " + tofile);
                 }
@@ -2098,12 +2116,14 @@ public class FileUtil extends Util implements Constants {
                 List<String> dirs = new ArrayList<String>();
                 for (File file : files) {
                     String p = file.getAbsolutePath();
-                    deleteFile(p);
-                    deleteFolderIfEmpty(getParent(p));
+                    if (params.keepDir)
+                        deleteFile(p);
+                    else
+                        deleteFileWithFolders(p);
                     System.out.println(tab(2) + toRelativePath(from, p));
                     addWithoutDup(dirs, p);
                 }
-                OpenDirResult.OpenDirs(params, dirs);
+                OpenDirResult.openDirs(params, dirs);
             } else {
                 System.out.println(tab(2) + "no matched files: " + filefrom);
             }
@@ -2126,7 +2146,7 @@ public class FileUtil extends Util implements Constants {
                         for (int i = 0; i < lines.size(); i++) {
                             String line = lines.get(i);
                             if (params.expandLines != null) {
-                                if (!matchesLineNumber(params.expandLines, i + 1)) {
+                                if (!ExpandLines.matchesLineNumber(params.expandLines, i + 1)) {
                                     continue;
                                 }
                             }
@@ -2138,7 +2158,7 @@ public class FileUtil extends Util implements Constants {
                         }
                         addWithoutDup(dirs, p);
                     }
-                    OpenDirResult.OpenDirs(params, dirs);
+                    OpenDirResult.openDirs(params, dirs);
                 }
             } else {
                 System.out.println(tab(2) + "no matched files: " + filefrom);
@@ -2170,7 +2190,8 @@ public class FileUtil extends Util implements Constants {
                     System.out.println(tab(2) + listFileDetail(file, relativePath, nameIndent));
                     addWithoutDup(dirs, p);
                 }
-                OpenDirResult.OpenDirs(params, dirs);
+                OpenDirResult.openDirs(params, dirs);
+                ZipOperationsResult.zipOperations(params, dirs);
                 System.out.println(tab(2) + format("dirs: {0}, files: {1}", dirsSize, files.size() - dirsSize));
             } else {
                 System.out.println(tab(2) + "no matched files: " + filefrom);
@@ -2192,7 +2213,7 @@ public class FileUtil extends Util implements Constants {
                     System.out.println(tab(2) + n1 + " -> " + n2);
                     addWithoutDup(dirs, p2);
                 }
-                OpenDirResult.OpenDirs(params, dirs);
+                OpenDirResult.openDirs(params, dirs);
             } else {
                 System.out.println(tab(2) + "no matched files: " + filefrom);
             }
@@ -2220,9 +2241,10 @@ public class FileUtil extends Util implements Constants {
                             System.out.println();
                             hasResult = true;
                             addWithoutDup(dirs, p);
+                            OperateLinesUtil.operateLines(p, foundLines, params);
                         }
                     }
-                    OpenDirResult.OpenDirs(params, dirs);
+                    OpenDirResult.openDirs(params, dirs);
                 }
             }
             if (!hasResult) {
@@ -2244,7 +2266,7 @@ public class FileUtil extends Util implements Constants {
                         lines.add(format("call \"{0}\" \"{1}\"", UltraEdit, p));
                         addWithoutDup(dirs, p);
                     }
-                    OpenDirResult.OpenDirs(params, dirs);
+                    OpenDirResult.openDirs(params, dirs);
                 }
             } else {
                 System.out.println(tab(2) + "no matched files: " + filefrom);
@@ -2279,7 +2301,7 @@ public class FileUtil extends Util implements Constants {
                             addWithoutDup(dirs, p);
                         }
                     }
-                    OpenDirResult.OpenDirs(params, dirs);
+                    OpenDirResult.openDirs(params, dirs);
                 }
             }
             if (!replaced) {
@@ -2752,7 +2774,7 @@ public class FileUtil extends Util implements Constants {
             if (p.isGroup()) {
                 first = filters.getFirst();
             } else {
-                first = p.p;
+                first = p.getFirst();
             }
             if (debug2_) {
                 System.out.println(format("Filter: p={0}, filters={1}, first={3}", p, filters, first));
@@ -2817,6 +2839,8 @@ public class FileUtil extends Util implements Constants {
         public boolean regular = false;
         public boolean lineNumber = false;
 
+        private boolean ignore = false;
+
         public void init() {
             if (p.startsWith("/")) {
                 include = true;
@@ -2840,6 +2864,11 @@ public class FileUtil extends Util implements Constants {
             } else if (p.matches("l\\d*-?\\d*")) {
                 lineNumber = true;
             }
+        }
+
+        public String getFirst() {
+            ignore = true;
+            return p;
         }
 
         public boolean isGroup() {
@@ -2945,7 +2974,7 @@ public class FileUtil extends Util implements Constants {
                 if (debug2_) {
                     System.out.println(format("Pattern: line={2}, p={0}, lineNumber={1}", p, lineNumber, line));
                 }
-                b = matchesLineNumber(p, pos);
+                b = ExpandLines.matchesLineNumber(p, pos);
             } else {
                 String fixPattern = fixPattern(p);
                 if (debug2_) {
@@ -2953,6 +2982,8 @@ public class FileUtil extends Util implements Constants {
                 }
                 b = line.matches(fixPattern);
             }
+            if (ignore)
+                b = true;
             if (include) {
                 if (debug2_) {
                     System.out.println(format("Pattern: line={2}, p={0}, result={1}", p, b, line));
@@ -3019,7 +3050,7 @@ public class FileUtil extends Util implements Constants {
             ExpandLinesResult r = new ExpandLinesResult();
             String last = getLastArg(args);
             if (isParam(last)) {
-                r.expandLines = parseExpandLines(last);
+                r.expandLines = ExpandLines.parseExpandLines(last);
                 r.args = cutLastArg(args);
                 if (debug_)
                     System.out.println(tab(2) + "Expand Lines: " + r.expandLines);
@@ -3032,6 +3063,56 @@ public class FileUtil extends Util implements Constants {
 
         public static boolean isParam(String last) {
             return last.matches("l\\d*-?\\d*");
+        }
+
+        public static class ExpandLines {
+            public int from = 0;
+            public int to = 0;
+
+            public static ExpandLines parseExpandLines(String pattern) {
+                if (pattern.matches("l\\d*-?\\d*")) {
+                    pattern = cutFirst(pattern, 1);
+                    String from, to;
+                    if (pattern.contains("-")) {
+                        int i = pattern.indexOf("-");
+                        from = pattern.substring(0, i);
+                        to = pattern.substring(i + 1, pattern.length());
+                    } else {
+                        from = pattern;
+                        to = "";
+                    }
+                    int fpos = 0;
+                    int tpos = Integer.MAX_VALUE;
+                    if (from != null && !from.isEmpty())
+                        fpos = toInt(from);
+                    if (to != null && !to.isEmpty())
+                        tpos = toInt(to);
+                    ExpandLines el = new ExpandLines();
+                    el.from = fpos;
+                    el.to = tpos;
+                    return el;
+                }
+                return null;
+            }
+
+            public static boolean matchesLineNumber(String pattern, int pos) {
+                ExpandLines el = ExpandLines.parseExpandLines(pattern);
+                int fpos = el.from;
+                int tpos = el.to;
+                return pos >= fpos && pos <= tpos;
+            }
+
+            public static boolean matchesLineNumber(ExpandLines expandLines, int pos) {
+                ExpandLines el = expandLines;
+                int fpos = el.from;
+                int tpos = el.to;
+                return pos >= fpos && pos < tpos;
+            }
+
+            @Override
+            public String toString() {
+                return format("{0}-{1}", from, to);
+            }
         }
     }
 
@@ -3153,16 +3234,19 @@ public class FileUtil extends Util implements Constants {
             return last.equals("d") || last.matches("d\\d*");
         }
 
-        public static void OpenDirs(Params params, List<String> dirs) throws Exception {
+        public static void openDirs(Params params, List<String> dirs) throws Exception {
             if (params.openDir) {
                 if (dirs != null && !dirs.isEmpty()) {
                     List<String> list = new ArrayList<String>();
                     int i = 0;
                     for (String dir : dirs) {
-                        if (isFile(dir))
+                        if (isFile(dir)) {
                             list.add("call explorer /e,/select," + dir);
-                        else
+                        } else {
+                            if (dir.contains("\\\\"))
+                                dir = dir.replace("\\\\", "\\");
                             list.add("call explorer " + dir);
+                        }
                         i++;
                         if (params.openDirsCount > 0 && i >= params.openDirsCount)
                             break;
@@ -3363,6 +3447,260 @@ public class FileUtil extends Util implements Constants {
         }
     }
 
+    public static class MoveResult {
+        public String[] args;
+        public boolean move;
+
+        public static MoveResult move(String[] args) {
+            MoveResult r = new MoveResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.move = true;
+                r.args = cutLastArg(args);
+                if (debug_)
+                    System.out.println(tab(2) + "Move: " + r.move);
+            } else {
+                r.move = false;
+                r.args = args;
+            }
+            return r;
+        }
+
+        public static boolean isParam(String last) {
+            return last.equals("mv");
+        }
+    }
+
+    public static class OperateLinesResult {
+        public String[] args;
+        public OperateLines operateLines;
+
+        public static OperateLinesResult operateLines(String[] args) {
+            OperateLinesResult r = new OperateLinesResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.operateLines = OperateLines.parseOperateLines(last);
+                r.args = cutLastArg(args);
+                if (debug_)
+                    System.out.println(tab(2) + "Operate Lines: " + r.operateLines);
+            } else {
+                r.operateLines = null;
+                r.args = args;
+            }
+            return r;
+        }
+
+        public static boolean isParam(String last) {
+            return OperateLines.isParam(last);
+        }
+
+        public static class OperateLines {
+            public int op = 0;
+            public int to = 0;
+
+            public static OperateLines parseOperateLines(String pattern) {
+                if (isParam(pattern)) {
+                    OperateLines ol = new OperateLines();
+                    ol.op = getOp(pattern);
+                    ol.to = getTo(pattern);
+                    return ol;
+                }
+                return null;
+            }
+
+            public static boolean isParam(String pattern) {
+                return getOp(pattern) > 0;
+            }
+
+            public static int getOp(String pattern) {
+                // duplicate
+                if (pattern.equals("dup"))
+                    return 1;
+                // move
+                if (!pattern.equals("mv") && pattern.matches("mv\\d*"))
+                    return 2;
+                // delete
+                if (pattern.equals("del"))
+                    return 3;
+                return 0;
+            }
+
+            public static int getTo(String pattern) {
+                int op = getOp(pattern);
+                if (op == 2) {
+                    return Integer.valueOf(cutFirst(pattern, 2));
+                }
+                return 0;
+            }
+
+            @Override
+            public String toString() {
+                if (op == 1)
+                    return "dup";
+                if (op == 2)
+                    return "mv" + to;
+                if (op == 3)
+                    return "del";
+                return "";
+            }
+        }
+
+        public static class OperateLinesUtil {
+            public static void operateLines(String p, List<Line> foundLines, Params params) throws Exception {
+                OperateLines ol = params.operateLines;
+                if (ol != null) {
+                    int op = ol.op;
+                    if (op == 1) {
+                        dupLines(p, foundLines, params);
+                    } else if (op == 2) {
+                        mvLines(p, foundLines, params);
+                    } else if (op == 3) {
+                        delLines(p, foundLines, params);
+                    }
+                }
+            }
+
+            private static void dupLines(String p, List<Line> foundLines, Params params) throws Exception {
+                if (foundLines.size() > 0) {
+                    List<String> list = new ArrayList<String>();
+                    for (Line lineObj : foundLines) {
+                        list.addAll(lineObj.toLines());
+                    }
+                    int n = list.size();
+                    int i = foundLines.get(0).i;
+                    insertLines(p, list, i + n, params.getEncoding());
+                }
+            }
+
+            private static void mvLines(String p, List<Line> foundLines, Params params) throws Exception {
+                if (foundLines.size() > 0) {
+                    List<String> list = new ArrayList<String>();
+                    for (Line lineObj : foundLines) {
+                        list.addAll(lineObj.toLines());
+                    }
+                    int i = foundLines.get(0).i;
+                    OperateLines ol = params.operateLines;
+                    int to = ol.to;
+                    if (to > i) {
+                        insertLines(p, list, to, params.getEncoding());
+                        deleteLines(p, list, i, params.getEncoding());
+                    } else {
+                        deleteLines(p, list, i, params.getEncoding());
+                        insertLines(p, list, to, params.getEncoding());
+                    }
+                }
+            }
+
+            private static void delLines(String p, List<Line> foundLines, Params params) throws Exception {
+                if (foundLines.size() > 0) {
+                    List<String> list = new ArrayList<String>();
+                    for (Line lineObj : foundLines) {
+                        list.addAll(lineObj.toLines());
+                    }
+                    int i = foundLines.get(0).i;
+                    deleteLines(p, list, i, params.getEncoding());
+                }
+            }
+        }
+
+    }
+
+    public static class ZipOperationsResult {
+        public String[] args;
+        public ZipOperations zipOperations;
+
+        public static ZipOperationsResult zipOperations(String[] args) throws Exception {
+            ZipOperationsResult r = new ZipOperationsResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.zipOperations = ZipOperations.parseZipOperations(last);
+                r.args = cutLastArg(args);
+                if (debug_)
+                    System.out.println(tab(2) + "Zip Operations: " + r.zipOperations);
+            } else {
+                r.zipOperations = null;
+                r.args = args;
+            }
+            return r;
+        }
+
+        public static void zipOperations(Params params, List<String> files) throws Exception {
+            if (params.zipOperations != null) {
+                ZipOperations zo = params.zipOperations;
+                if (zo.zip) {
+                    if (files.size() == 1) {
+                        String zipFile = files.get(0);
+                        String from = zipFile;
+                        String to = getParent(zo.to);
+                        String name = getFileName(zo.to);
+                        String line = format("call azip \"{0}\" \"{1}\" \"{2}\"", from, to, name);
+                        setLines(batDir + "aziptmp.bat", toList(line));
+                    } else {
+                        if (debug_)
+                            System.out.println("Ignore zip operations since file size is " + files.size());
+                    }
+                } else {
+                    if (files.size() == 1) {
+                        String zipFile = files.get(0);
+                        String from = getParent(zipFile);
+                        String to = zo.to;
+                        String name = getFileName(zipFile);
+                        String line = format("call aunzip \"{0}\" \"{1}\" \"{2}\"", from, to, name);
+                        setLines(batDir + "aunziptmp.bat", toList(line));
+                    } else {
+                        if (debug_)
+                            System.out.println("Ignore zip operations since file size is " + files.size());
+                    }
+                }
+            }
+        }
+
+        public static boolean isParam(String last) {
+            return ZipOperations.isParam(last);
+        }
+
+        public static class ZipOperations {
+            public boolean zip = true;
+            public String to;
+
+            public static ZipOperations parseZipOperations(String pattern) throws Exception {
+                if (isParam(pattern)) {
+                    ZipOperations zo = new ZipOperations();
+                    zo.zip = isZip(pattern);
+                    zo.to = getTo(pattern);
+                    return zo;
+                }
+                return null;
+            }
+
+            public static boolean isParam(String last) {
+                return last.startsWith("unzip=") || last.startsWith("zip=");
+            }
+
+            private static boolean isZip(String pattern) {
+                return pattern.startsWith("zip=");
+            }
+
+            private static String getTo(String pattern) throws Exception {
+                String tmp;
+                if (isZip(pattern)) {
+                    tmp = cutFirst(pattern, "zip=".length());
+                } else {
+                    tmp = cutFirst(pattern, "unzip=".length());
+                }
+                return toTARAlias(tmp);
+            }
+
+            @Override
+            public String toString() {
+                if (zip)
+                    return format("zip={0}", to);
+                else
+                    return format("unzip={0}", to);
+            }
+        }
+    }
+
     public static class Params {
 
         public String[] args;
@@ -3382,6 +3720,9 @@ public class FileUtil extends Util implements Constants {
         public boolean useDot = false;
         public String sortType = null;
         public boolean multipleLines = false;
+        public boolean move = false;
+        public OperateLines operateLines = null;
+        public ZipOperations zipOperations = null;
 
         public int getExpandLines() {
             if (expandLines == null) {
@@ -3422,7 +3763,7 @@ public class FileUtil extends Util implements Constants {
             }
         }
 
-        public static Params toParams(String op, String[] args) {
+        public static Params toParams(String op, String[] args) throws Exception {
             args = sortParamsInArgs(args);
             Params params = new Params();
             int n;
@@ -3518,6 +3859,27 @@ public class FileUtil extends Util implements Constants {
                     if (params.multipleLines == false)
                         params.multipleLines = mlr.multipleLines;
                 }
+                // move
+                MoveResult mvr = MoveResult.move(args);
+                if (args.length > mvr.args.length) {
+                    args = mvr.args;
+                    if (params.move == false)
+                        params.move = mvr.move;
+                }
+                // operate lines
+                OperateLinesResult olr = OperateLinesResult.operateLines(args);
+                if (args.length > olr.args.length) {
+                    args = olr.args;
+                    if (params.operateLines == null)
+                        params.operateLines = olr.operateLines;
+                }
+                // zip operations
+                ZipOperationsResult zor = ZipOperationsResult.zipOperations(args);
+                if (args.length > zor.args.length) {
+                    args = zor.args;
+                    if (params.zipOperations == null)
+                        params.zipOperations = zor.zipOperations;
+                }
             } while (args.length < n);
             params.args = args;
             setDefaultParams(params, op);
@@ -3540,7 +3902,7 @@ public class FileUtil extends Util implements Constants {
                 if (params.expandLines == null) {
                     ExpandLines el = new ExpandLines();
                     el.from = 1;
-                    el.to = 1001;
+                    el.to = 1000;
                     params.expandLines = el;
                 }
             }
@@ -3578,6 +3940,10 @@ public class FileUtil extends Util implements Constants {
             if (UseDotResult.isParam(s))
                 return true;
             if (MultipleLinesResult.isParam(s))
+                return true;
+            if (MoveResult.isParam(s))
+                return true;
+            if (OperateLinesResult.isParam(s))
                 return true;
             return false;
         }

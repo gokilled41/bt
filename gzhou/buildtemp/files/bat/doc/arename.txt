@@ -6,7 +6,6 @@ arename is one command to rename files.
                    begin and end will automatically add "*"
                    it can be combined like: "a/b\c\d". "/" means includes. "\" means excludes.
                    it can be combined like: "a##b". "##" means or.
-                   it can be combined like: "a/(b\c)". "()" is groups.
                    it can be ` or ~. it means "*".
                    it can be wrap with "'". it means exactly equals.
                    it can be wrap with "@". it means regular expressions.

@@ -1,15 +1,17 @@
 alist is one command to list files under given dir.
-  alist <dir> [<pattern>] [ud] [rn] [np] [o] [d] [f]
+  alist <dir> [<pattern>] [zip] [ud] [rn] [np] [o] [d] [f]
     - dir        one dir or one tar alias
     - pattern    files to list
                    file name like "a.jar" or file pattern like "*Manager*" or "*.zip"
                    begin and end will automatically add "*"
                    it can be combined like: "a/b\c\d". "/" means includes. "\" means excludes.
                    it can be combined like: "a##b". "##" means or.
-                   it can be combined like: "a/(b\c)". "()" is groups.
                    it can be ` or ~. it means "*".
                    it can be wrap with "'". it means exactly equals.
                    it can be wrap with "@". it means regular expressions.
+    - zip        zip/unzip operations
+                   unzip=dd\123:            unzip the list zip file to given dir
+                   zip=d\vtm3oserver.ear:   zip the list dir to given zip file
     - ud         use dot
     - rn         set recursive level. like: r0
     - np         no path: the pattern of files not include path string

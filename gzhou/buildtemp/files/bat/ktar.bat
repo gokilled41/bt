@@ -15,4 +15,7 @@ call grgbk "C:\Users\gzhou\Desktop\rename\Config-2.ini" "D:\soft\typeandrun" "D:
 call grgbk "C:\Users\gzhou\Desktop\rename\Config-2.ini" "D:\\soft\\typeandrun" "D:\\Workflow-G\\software\\typeandrun"
 call grgbk "C:\Users\gzhou\Desktop\rename\Config-2.ini" "http://localhost:8080/fms" "http://localhost:18080/fms"
 call grgbk "C:\Users\gzhou\Desktop\rename\Config-2.ini" "C:\Program Files (x86)\Maxthon\Bin\Maxthon.exe" "C:\Program Files\Maxthon\Bin\Maxthon.exe"
+call grgbk "C:\Users\gzhou\Desktop\rename\Config-2.ini" "C:\Program Files (x86)\Dell" "C:\Program Files\Dell"
+call grgbk "C:\Users\gzhou\Desktop\rename\Config-2.ini" "C:\Program Files (x86)\jprofiler" "C:\Program Files\jprofiler"
+call grgbk "C:\Users\gzhou\Desktop\rename\Config-2.ini" "pf|C:\Program Files" "pf|C:\Program Files (x86)"
 call grgbk "C:\Users\gzhou\Desktop\rename\Config-2.ini" "localhost" "10.101.3.73"

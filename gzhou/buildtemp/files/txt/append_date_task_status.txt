@@ -1,4 +1,4 @@
-#Fri Dec 30 10:06:46 CST 2016
-notes.txt=2016-12-30
-diary.txt=2016-12-30
-bugs.txt=2016-12-30
+#Tue Jan 03 13:50:23 CST 2017
+notes.txt=2017-01-03
+diary.txt=2017-01-03
+bugs.txt=2017-01-03

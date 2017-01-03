@@ -1,11 +1,16 @@
 @echo off
 
+call btenv
+
 echo deleting...
-call arm btg\buildtemp sl
-call arm btg\typeandrun sl
+call arm %btdir%\buildtemp sl
+call arm %btdir%\typeandrun sl
 
 echo copying bt
-call acp bt \.svn\(bin\files\src\lib) btg\buildtemp kd sl
+call acp bt \.svn\(bin\files\src\lib) %btdir%\buildtemp kd sl
 
 echo copying tar
-call acp tar btg\typeandrun sl
+call acp tar %btdir%\typeandrun sl
+
+echo copying others
+call acp "dd\PA Operations.txt" %btdir%\others kd sl
