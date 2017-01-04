@@ -2159,7 +2159,10 @@ public class FileUtil extends Util implements Constants {
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
             if (!files.isEmpty()) {
                 List<String> dirs = new ArrayList<String>();
+                int filesSize = 0;
                 for (File file : files) {
+                    if (file.isFile())
+                        filesSize++;
                     String p = file.getAbsolutePath();
                     if (params.keepDir)
                         deleteFile(p);
@@ -2169,6 +2172,7 @@ public class FileUtil extends Util implements Constants {
                     addWithoutDup(dirs, p);
                 }
                 OpenDirResult.openDirs(params, dirs);
+                System.out.println(tab(2) + format("dirs: {0}, files: {1}", files.size() - filesSize, filesSize));
             } else {
                 System.out.println(tab(2) + "no matched files: " + filefrom);
             }
@@ -2216,13 +2220,13 @@ public class FileUtil extends Util implements Constants {
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
             if (!files.isEmpty()) {
                 List<String> dirs = new ArrayList<String>();
-                int dirsSize = 0;
+                int filesSize = 0;
                 int nameIndent = getNameIndent(from, files);
                 for (File file : files) {
                     if (file.isHidden())
                         continue;
-                    if (file.isDirectory())
-                        dirsSize++;
+                    if (file.isFile())
+                        filesSize++;
                     String p = file.getAbsolutePath();
                     String relativePath = toRelativePath(from, p);
                     if (params.useDot) {
@@ -2237,7 +2241,7 @@ public class FileUtil extends Util implements Constants {
                 }
                 OpenDirResult.openDirs(params, dirs);
                 ZipOperationsResult.zipOperations(params, dirs);
-                System.out.println(tab(2) + format("dirs: {0}, files: {1}", dirsSize, files.size() - dirsSize));
+                System.out.println(tab(2) + format("dirs: {0}, files: {1}", files.size() - filesSize, filesSize));
             } else {
                 System.out.println(tab(2) + "no matched files: " + filefrom);
             }
