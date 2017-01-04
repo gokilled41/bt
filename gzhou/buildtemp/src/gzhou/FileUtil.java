@@ -1486,13 +1486,58 @@ public class FileUtil extends Util implements Constants {
             } else if (p.startsWith(tarAlias + "/")) {
                 String sub = cutFirst(p, tarAlias.length() + 1);
                 sub = sub.replace("/", FILE_SEPARATOR);
-                return tarPath + FILE_SEPARATOR + sub;
+                return toTARPath(tarPath, sub);
             } else if (p.startsWith(tarAlias + FILE_SEPARATOR)) {
                 String sub = cutFirst(p, tarAlias.length() + 1);
-                return tarPath + FILE_SEPARATOR + sub;
+                return toTARPath(tarPath, sub);
             }
         }
         return p;
+    }
+
+    public static String toTARPath(String tarPath, String sub) {
+        String sp = FILE_SEPARATOR;
+        List<String> list = splitToList(sub, sp + sp);
+        List<String> list2 = new ArrayList<String>();
+        String path = tarPath;
+        for (int i = 0; i < list.size(); i++) {
+            String node = list.get(i);
+            if (i < list.size() - 1) {
+                // dir
+                node = toTARPathMatchNode(path, node, true);
+            } else {
+                // dir or file
+                node = toTARPathMatchNode(path, node, false);
+            }
+            list2.add(node);
+            path = path + sp + node;
+        }
+        return path;
+    }
+
+    private static String toTARPathMatchNode(String path, String node, boolean onlyDir) {
+        File pathFile = new File(path);
+        if (pathFile.exists()) {
+            File[] files = pathFile.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (onlyDir) {
+                        if (file.isDirectory()) {
+                            String n = file.getName();
+                            if (n.contains(node)) {
+                                return n;
+                            }
+                        }
+                    } else {
+                        String n = file.getName();
+                        if (n.contains(node)) {
+                            return n;
+                        }
+                    }
+                }
+            }
+        }
+        return node;
     }
 
     private static String unwrapTARAlias(String p) {

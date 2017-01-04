@@ -26,7 +26,18 @@ public class DiffFileCopier implements Constants {
     }
 
     public static void run() throws Exception {
-        String file = desktopDir + "\\yodast.txt";
+        if (existsYodast())
+            copyDiffFilesFromYodast();
+        else if (existsRNSvnLog())
+            copyDiffFilesFromRNSvnLog();
+    }
+
+    private static boolean existsYodast() {
+        return Util.exists(desktopDir + "yodast.txt");
+    }
+
+    private static void copyDiffFilesFromYodast() throws Exception {
+        String file = desktopDir + "yodast.txt";
         List<String> list = Util.getLines(file);
         for (String n : list) {
             if (n.startsWith("M       ") || n.startsWith("A       ")) {
@@ -39,11 +50,39 @@ public class DiffFileCopier implements Constants {
         }
     }
 
+    private static boolean existsRNSvnLog() throws Exception {
+        try {
+            List<String> lines = Util.getLines(rn);
+            String first = lines.get(0);
+            return first.startsWith("Revision: ");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private static void copyDiffFilesFromRNSvnLog() throws Exception {
+        List<String> lines = Util.getLines(rn);
+        for (String s : lines) {
+            if (s.startsWith("Modified") || s.startsWith("Added")) {
+                if (s.contains("6.0.0.x"))
+                    s = Util.cut(s, "6.0.0.x/", null);
+                else
+                    s = Util.cut(s, "yoda/", null);
+                System.out.println(s);
+                String n = s;
+                String from = YODA_DIR + FILE_SEPARATOR + n;
+                String to = desktopDir + FILE_SEPARATOR + n;
+                Util.copyFile(from, to);
+            }
+        }
+    }
+
     public static void copyBackFiles() throws Exception {
         String prefix = YODA_DIR;
         String desktop = desktopDir;
 
-        String file = desktopDir + "\\yodast.txt";
+        String file = desktopDir + "yodast.txt";
 
         BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 

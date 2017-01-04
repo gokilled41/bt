@@ -98,7 +98,7 @@ public class PAUnit extends TestCase implements Constants {
         doTest1("abc", "a/l200-", false, 100);
         doTest1("abc", "a/l-99", false, 100);
         doTest1("abc", "a/l100-", true, 100);
-        doTest1("abc", "a/l-100", false, 100);
+        doTest1("abc", "a/l-100", true, 100);
         doTest1("abc", "l1", true, 100);
         doTest1("abc", "l1-200", true, 100);
         doTest1("abc", "l1-", true, 100);
@@ -106,7 +106,7 @@ public class PAUnit extends TestCase implements Constants {
         doTest1("abc", "l200-", false, 100);
         doTest1("abc", "l-99", false, 100);
         doTest1("abc", "l100-", true, 100);
-        doTest1("abc", "l-100", false, 100);
+        doTest1("abc", "l-100", true, 100);
     }
 
     public void testFilters_12() throws Exception {
@@ -148,6 +148,24 @@ public class PAUnit extends TestCase implements Constants {
         doTest2("abc", "'a'/b\\d", "a");
         doTest2("abc", "'a*+'/b\\d", "a*+");
         doTest2("abc", "a*+/b\\d", "a*+");
+    }
+
+    public void testTARPath_01() throws Exception {
+        String p = "dd\\ol";
+        p = FileUtil.toTARAlias(p);
+        assertEquals(p, "C:\\Users\\gzhou\\Desktop\\old");
+        p = "dd\\ol\\buildt";
+        p = FileUtil.toTARAlias(p);
+        assertEquals(p, "C:\\Users\\gzhou\\Desktop\\old\\buildtemp");
+        p = "dd\\ol\\buildt\\build.xml";
+        p = FileUtil.toTARAlias(p);
+        assertEquals(p, "C:\\Users\\gzhou\\Desktop\\old\\buildtemp\\build.xml");
+        p = "dd\\old\\buildtemp\\build.xml";
+        p = FileUtil.toTARAlias(p);
+        assertEquals(p, "C:\\Users\\gzhou\\Desktop\\old\\buildtemp\\build.xml");
+        p = "dd\\old1\\buildtemp1\\build1.xml";
+        p = FileUtil.toTARAlias(p);
+        assertEquals(p, "C:\\Users\\gzhou\\Desktop\\old1\\buildtemp1\\build1.xml");
     }
 
     private void doTest(String dir, String name, String filefrom, boolean expect) {
