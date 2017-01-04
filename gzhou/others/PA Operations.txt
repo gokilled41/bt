@@ -1,2 +1,1 @@
 - aops: list all commands
-- arm: give summary like al
