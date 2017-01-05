@@ -1,8 +1,5 @@
 package gzhou;
 
-import gzhou.FileUtil.Filters;
-import gzhou.FileUtil.Params;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,6 +24,9 @@ import java.util.Map.Entry;
 import java.util.Properties;
 
 import com.vitria.component.util.DOMUtil;
+
+import gzhou.FileUtil.Filters;
+import gzhou.FileUtil.Params;
 
 public class Util implements Constants {
 
@@ -833,6 +833,11 @@ public class Util implements Constants {
     public static String getFileExtName(String path) {
         String n = getFileName(path);
         return cutBack(n, null, ".");
+    }
+
+    public static long getFileTimestamp(String path) {
+        File file = new File(path);
+        return file.lastModified();
     }
 
     public static List<String> splitToList(String listString) {

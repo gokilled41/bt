@@ -1,10 +1,5 @@
 package gzhou;
 
-import gzhou.FileUtil.ExpandLinesResult.ExpandLines;
-import gzhou.FileUtil.OperateLinesResult.OperateLines;
-import gzhou.FileUtil.OperateLinesResult.OperateLinesUtil;
-import gzhou.FileUtil.ZipOperationsResult.ZipOperations;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -43,6 +38,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import com.vitria.domainservice.util.DOMUtil;
+
+import gzhou.FileUtil.ExpandLinesResult.ExpandLines;
+import gzhou.FileUtil.OperateLinesResult.OperateLines;
+import gzhou.FileUtil.OperateLinesResult.OperateLinesUtil;
+import gzhou.FileUtil.ZipOperationsResult.ZipOperations;
 
 public class FileUtil extends Util implements Constants {
 
@@ -753,7 +753,8 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static void gettersetter() throws Exception {
-        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(desktopDir + "translate.txt")));
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(new FileInputStream(desktopDir + "translate.txt")));
         List<String> list = new ArrayList<String>();
         String line;
         String s = "";
@@ -763,10 +764,8 @@ public class FileUtil extends Util implements Constants {
                 if (line.contains("_")) {
                     int i = line.lastIndexOf("_");
                     String next = line.substring(i + 1, i + 2);
-                    if (next.equals("(")
-                            || next.equals(")")
-                            || (next.equals(";") && !line.trim().startsWith("return")
-                                    && !line.trim().startsWith("private") && !line.trim().startsWith("public"))) {
+                    if (next.equals("(") || next.equals(")") || (next.equals(";") && !line.trim().startsWith("return")
+                            && !line.trim().startsWith("private") && !line.trim().startsWith("public"))) {
                         s = line.substring(0, i) + line.substring(i + 1, line.length());
                     }
                 }
@@ -801,15 +800,11 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static void generateNCTemplate() throws Exception {
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(
-                        new FileInputStream(
-                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ncgenerator.xsl")));
-        PrintWriter out = new PrintWriter(
-                new OutputStreamWriter(
-                        new FileOutputStream(
-                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\NCTemplate.java",
-                                false)));
+        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(
+                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ncgenerator.xsl")));
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(
+                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\NCTemplate.java",
+                false)));
 
         out.println("// Copyright (c) 2013 Vitria Technology, Inc.");
         out.println("// All Rights Reserved.");
@@ -860,15 +855,11 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static void generateViewTemplate() throws Exception {
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(
-                        new FileInputStream(
-                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\instance_view.xml")));
-        PrintWriter out = new PrintWriter(
-                new OutputStreamWriter(
-                        new FileOutputStream(
-                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ViewTemplate.java",
-                                false)));
+        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(
+                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\instance_view.xml")));
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(
+                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ViewTemplate.java",
+                false)));
 
         out.println("// Copyright (c) 2013 Vitria Technology, Inc.");
         out.println("// All Rights Reserved.");
@@ -931,8 +922,7 @@ public class FileUtil extends Util implements Constants {
         copyFile(
                 "C:\\zhou\\yoda\\unbundled\\af\\java\\nc_framework\\utility\\com\\vitria\\o2\\nc\\publisher\\FeedPublisher.java",
                 "C:\\Workflow-G\\workflow bug fixing\\2012-12-11 Hadoop\\feed_publisher\\not_modified\\FeedPublisher.java");
-        copyFile(
-                "C:\\Workflow-G\\workflow bug fixing\\2012-12-11 Hadoop\\feed_publisher\\modified\\FeedPublisher.java",
+        copyFile("C:\\Workflow-G\\workflow bug fixing\\2012-12-11 Hadoop\\feed_publisher\\modified\\FeedPublisher.java",
                 "C:\\zhou\\yoda\\unbundled\\af\\java\\nc_framework\\utility\\com\\vitria\\o2\\nc\\publisher\\FeedPublisher.java");
     }
 
@@ -2135,12 +2125,14 @@ public class FileUtil extends Util implements Constants {
                                 fileName = newFileNameInCopy(fileName, params);
                                 topath = dir + FILE_SEPARATOR + fileName;
                             }
-                            copyFile(p, topath, false);
-                            if (params.move)
-                                deleteFileWithFolders(p);
-                            System.out.println("           " + relativePath);
-                            System.out.println("        -> " + topath);
-                            addWithoutDup(dirs, topath);
+                            if (needOverwrite(p, topath, params)) {
+                                copyFile(p, topath, false);
+                                if (params.move)
+                                    deleteFileWithFolders(p);
+                                System.out.println("           " + relativePath);
+                                System.out.println("        -> " + topath);
+                                addWithoutDup(dirs, topath);
+                            }
                         }
                     }
                     OpenDirResult.openDirs(params, dirs);
@@ -2150,18 +2142,6 @@ public class FileUtil extends Util implements Constants {
             } else {
                 System.out.println(tab(2) + "from files not found: " + fromfile);
             }
-        }
-
-        private static String newFileNameInCopy(String fileName, Params params) {
-            if (params.newFileName != null) {
-                String newFileName = params.newFileName;
-                if (newFileName.contains("{n}"))
-                    newFileName = newFileName.replace("{n}", getFileSimpleName(fileName));
-                if (newFileName.contains("{e}"))
-                    newFileName = newFileName.replace("{e}", getFileExtName(fileName));
-                return newFileName;
-            }
-            return fileName;
         }
 
         protected static void deleteFiles(String from, String filefrom, Params params) throws Exception {
@@ -2292,8 +2272,8 @@ public class FileUtil extends Util implements Constants {
                         List<Line> foundLines = findInFile(p, from, params);
                         if (!foundLines.isEmpty()) {
                             String n1 = toRelativePath(dir, p);
-                            System.out.println(tab(2)
-                                    + format("found \"{0}\" places in \"{1}\":", foundLines.size(), n1));
+                            System.out.println(
+                                    tab(2) + format("found \"{0}\" places in \"{1}\":", foundLines.size(), n1));
                             System.out.println();
                             for (Line line : foundLines) {
                                 line.print(6, 7);
@@ -2492,8 +2472,8 @@ public class FileUtil extends Util implements Constants {
             int dirIndent = 10;
             int timeIndent = 30;
             String n = formatstr(relativePath, nameIndent + 1);
-            String size = file.isDirectory() ? formatstr("", sizeIndent) : formatstr(df.format(file.length()),
-                    sizeIndent, false);
+            String size = file.isDirectory() ? formatstr("", sizeIndent)
+                    : formatstr(df.format(file.length()), sizeIndent, false);
             String dir = file.isDirectory() ? formatstr("<DIR>", dirIndent) : formatstr("", dirIndent);
             String time = formatstr(sdf4.format(new Date(file.lastModified())), timeIndent);
             return format("{0} {1}     {2} {3}", n, size, dir, time);
@@ -2528,6 +2508,27 @@ public class FileUtil extends Util implements Constants {
             params.recursive = false;
             params.recursiveLevel = 0;
             params.noPath = true;
+        }
+
+        private static boolean needOverwrite(String frompath, String topath, Params params) {
+            if (params.overwrite)
+                return true;
+            if (exists(topath)) {
+                return getFileTimestamp(frompath) > getFileTimestamp(topath);
+            }
+            return true;
+        }
+
+        private static String newFileNameInCopy(String fileName, Params params) {
+            if (params.newFileName != null) {
+                String newFileName = params.newFileName;
+                if (newFileName.contains("{n}"))
+                    newFileName = newFileName.replace("{n}", getFileSimpleName(fileName));
+                if (newFileName.contains("{e}"))
+                    newFileName = newFileName.replace("{e}", getFileExtName(fileName));
+                return newFileName;
+            }
+            return fileName;
         }
     }
 
@@ -2579,8 +2580,8 @@ public class FileUtil extends Util implements Constants {
                 first = filter.getFirst();
             }
             if (debug2_) {
-                System.out.println(format("Filters: p={0}, filters={1}, filter={2}, first={3}", p, filters, filter,
-                        first));
+                System.out.println(
+                        format("Filters: p={0}, filters={1}, filter={2}, first={3}", p, filters, filter, first));
             }
             return first;
         }
@@ -3761,6 +3762,30 @@ public class FileUtil extends Util implements Constants {
         }
     }
 
+    public static class OverwriteResult {
+        public String[] args;
+        public boolean overwrite;
+
+        public static OverwriteResult overwrite(String[] args) {
+            OverwriteResult r = new OverwriteResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.overwrite = true;
+                r.args = cutLastArg(args);
+                if (debug_)
+                    System.out.println(tab(2) + "Overwrite: " + r.overwrite);
+            } else {
+                r.overwrite = false;
+                r.args = args;
+            }
+            return r;
+        }
+
+        public static boolean isParam(String last) {
+            return last.equals("ov") || last.equals("overwrite");
+        }
+    }
+
     public static class Params {
 
         public String[] args;
@@ -3783,6 +3808,7 @@ public class FileUtil extends Util implements Constants {
         public boolean move = false;
         public OperateLines operateLines = null;
         public ZipOperations zipOperations = null;
+        public boolean overwrite = false;
 
         public int getExpandLines() {
             if (expandLines == null) {
@@ -3940,6 +3966,13 @@ public class FileUtil extends Util implements Constants {
                     if (params.zipOperations == null)
                         params.zipOperations = zor.zipOperations;
                 }
+                // overwrite
+                OverwriteResult ovr = OverwriteResult.overwrite(args);
+                if (args.length > ovr.args.length) {
+                    args = ovr.args;
+                    if (params.overwrite == false)
+                        params.overwrite = ovr.overwrite;
+                }
             } while (args.length < n);
             params.args = args;
             setDefaultParams(params, op);
@@ -4004,6 +4037,8 @@ public class FileUtil extends Util implements Constants {
             if (MoveResult.isParam(s))
                 return true;
             if (OperateLinesResult.isParam(s))
+                return true;
+            if (OverwriteResult.isParam(s))
                 return true;
             return false;
         }

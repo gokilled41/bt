@@ -1,2 +1,1 @@
 - aops: list all commands
-- call al %btdirfrom% .txt np acp rn ##{n}-2.txt
