@@ -682,6 +682,7 @@ public class Util implements Constants {
         }
         fos.close();
         fis.close();
+        setFileTimestamp(to, getFileTimestamp(from));
         if (log)
             System.out.println("copy: " + from + " to " + to);
     }
@@ -838,6 +839,11 @@ public class Util implements Constants {
     public static long getFileTimestamp(String path) {
         File file = new File(path);
         return file.lastModified();
+    }
+
+    public static void setFileTimestamp(String path, long t) {
+        File file = new File(path);
+        file.setLastModified(t);
     }
 
     public static List<String> splitToList(String listString) {
