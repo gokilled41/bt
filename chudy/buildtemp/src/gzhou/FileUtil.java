@@ -2268,6 +2268,7 @@ public class FileUtil extends Util implements Constants {
                 OpenDirResult.openDirs(params, dirs);
                 ZipOperationsResult.zipOperations(params, dirs);
                 GoResult.go(params, dirs);
+                DeleteSameResult.deleteSame(params, dirs);
                 System.out.println(tab(2) + format("dirs: {0}, files: {1}", files.size() - filesSize, filesSize));
             } else {
                 System.out.println(tab(2) + "no matched files: " + filefrom);
@@ -3886,6 +3887,42 @@ public class FileUtil extends Util implements Constants {
         }
     }
 
+    public static class DeleteSameResult {
+        public String[] args;
+        public boolean deleteSame;
+
+        public static DeleteSameResult deleteSame(String[] args) {
+            DeleteSameResult r = new DeleteSameResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.deleteSame = true;
+                r.args = cutLastArg(args);
+                if (debug_)
+                    System.out.println(tab(2) + "Delete Same: " + r.deleteSame);
+            } else {
+                r.deleteSame = false;
+                r.args = args;
+            }
+            return r;
+        }
+
+        public static void deleteSame(Params params, List<String> dirs) throws Exception {
+            if (params.deleteSame) {
+                if (dirs != null && !dirs.isEmpty()) {
+                    for (String dir : dirs) {
+                        if (isFile(dir)) {
+                            compareAndDeleteSame(dir);
+                        }
+                    }
+                }
+            }
+        }
+
+        public static boolean isParam(String last) {
+            return last.equals("ds");
+        }
+    }
+
     public static class Params {
 
         public String[] args;
@@ -3910,6 +3947,7 @@ public class FileUtil extends Util implements Constants {
         public ZipOperations zipOperations = null;
         public boolean overwrite = false;
         public boolean go = false;
+        public boolean deleteSame = false;
 
         public int getExpandLines() {
             if (expandLines == null) {
@@ -4081,6 +4119,13 @@ public class FileUtil extends Util implements Constants {
                     if (params.go == false)
                         params.go = gor.go;
                 }
+                // delete same
+                DeleteSameResult dsr = DeleteSameResult.deleteSame(args);
+                if (args.length > dsr.args.length) {
+                    args = dsr.args;
+                    if (params.deleteSame == false)
+                        params.deleteSame = dsr.deleteSame;
+                }
             } while (args.length < n);
             params.args = args;
             setDefaultParams(params, op);
@@ -4149,6 +4194,8 @@ public class FileUtil extends Util implements Constants {
             if (OverwriteResult.isParam(s))
                 return true;
             if (GoResult.isParam(s))
+                return true;
+            if (DeleteSameResult.isParam(s))
                 return true;
             return false;
         }

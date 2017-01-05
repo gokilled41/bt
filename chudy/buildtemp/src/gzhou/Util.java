@@ -1251,4 +1251,32 @@ public class Util implements Constants {
         return false;
     }
 
+    public static void compareAndDeleteSame(String p) throws Exception {
+        String n = getFileName(p);
+        if (n.contains("-2")) {
+            String n2 = n.replace("-2", "");
+            String dir = getParent(p);
+            compareAndDeleteSame(dir, n, n2);
+        }
+    }
+
+    public static void compareAndDeleteSame(String dir, String n, String n2) throws Exception {
+        String p1 = dir + FILE_SEPARATOR + n;
+        String p2 = dir + FILE_SEPARATOR + n2;
+        if (isSameTextFile(p1, p2)) {
+            System.out.println(format("delete same: {0}={1}", n, n2));
+            deleteFile(p1);
+            deleteFile(p2);
+        }
+    }
+
+    public static boolean isSameTextFile(String p1, String p2) throws Exception {
+        if (exists(p1) && exists(p2)) {
+            List<String> l1 = Util.getLines(p1);
+            List<String> l2 = Util.getLines(p2);
+            return l1.containsAll(l2) && l2.containsAll(l1);
+        }
+        return false;
+    }
+
 }
