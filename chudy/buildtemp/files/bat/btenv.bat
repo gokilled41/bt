@@ -9,5 +9,7 @@ echo btenv=%btenv%
 
 if "%btenv%"=="chudy" set btdir=btc
 if "%btenv%"=="gzhou" set btdir=btg
+if "%btenv%"=="chudy" set btdirfrom=btg
+if "%btenv%"=="gzhou" set btdirfrom=btc
 
 :end

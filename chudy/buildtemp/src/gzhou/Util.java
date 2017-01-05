@@ -1,5 +1,8 @@
 package gzhou;
 
+import gzhou.FileUtil.Filters;
+import gzhou.FileUtil.Params;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,9 +27,6 @@ import java.util.Map.Entry;
 import java.util.Properties;
 
 import com.vitria.component.util.DOMUtil;
-
-import gzhou.FileUtil.Filters;
-import gzhou.FileUtil.Params;
 
 public class Util implements Constants {
 
@@ -215,7 +215,7 @@ public class Util implements Constants {
         if (from != null && !from.isEmpty())
             s = s.substring(0, s.lastIndexOf(from));
         if (to != null && !to.isEmpty())
-            s = s.substring(s.indexOf(to) + to.length(), s.length());
+            s = s.substring(s.lastIndexOf(to) + to.length(), s.length());
         return s;
     }
 
@@ -735,10 +735,11 @@ public class Util implements Constants {
         List<String> list = new ArrayList<String>();
         List<Line> affected = new ArrayList<Line>();
         boolean changed = false;
+        List<Line> foundLines = findInFile(filePath, fromFilter, params);
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
             int pos = i + 1;
-            if (containsInLine(line, fromFilter, from, params.caseSensitive, pos, params)) {
+            if (containsInLine(line, fromFilter, from, params.caseSensitive, pos, params, foundLines)) {
                 changed = true;
                 String replaced = replaceInLine(line, from, to, params.caseSensitive);
                 list.add(replaced);
@@ -759,19 +760,28 @@ public class Util implements Constants {
     }
 
     private static boolean containsInLine(String line, Filters fromFilter, String from, boolean caseSensitive, int pos,
-            Params params) {
+            Params params, List<Line> foundLines) {
         if (caseSensitive)
-            return lineConstains(line, fromFilter, from, pos, params);
+            return lineConstains(line, fromFilter, from, pos, params, foundLines);
         else
-            return lineConstains(line, fromFilter, toLowerCase(from), pos, params)
-                    || lineConstains(line, fromFilter, toUpperCase(from), pos, params)
-                    || lineConstains(line, fromFilter, toCamelCase(from), pos, params);
+            return lineConstains(line, fromFilter, toLowerCase(from), pos, params, foundLines)
+                    || lineConstains(line, fromFilter, toUpperCase(from), pos, params, foundLines)
+                    || lineConstains(line, fromFilter, toCamelCase(from), pos, params, foundLines);
     }
 
-    private static boolean lineConstains(String line, Filters fromFilter, String from, int pos, Params params) {
+    private static boolean lineConstains(String line, Filters fromFilter, String from, int pos, Params params,
+            List<Line> foundLines) {
         if (!line.contains(from))
             return false;
-        return fromFilter.accept(line, pos);
+        return fromFilter.accept(line, pos) || matchFoundLines(foundLines, line, pos);
+    }
+
+    private static boolean matchFoundLines(List<Line> foundLines, String line, int pos) {
+        for (Line foundLine : foundLines) {
+            if (foundLine.match(pos))
+                return true;
+        }
+        return false;
     }
 
     private static String replaceInLine(String line, String from, String to, boolean caseSensitive) {
@@ -815,6 +825,16 @@ public class Util implements Constants {
         return file.getName();
     }
 
+    public static String getFileSimpleName(String path) {
+        String n = getFileName(path);
+        return cutBack(n, ".", null);
+    }
+
+    public static String getFileExtName(String path) {
+        String n = getFileName(path);
+        return cutBack(n, null, ".");
+    }
+
     public static List<String> splitToList(String listString) {
         return splitToList(listString, ",");
     }
@@ -835,9 +855,13 @@ public class Util implements Constants {
     }
 
     public static List<Line> findInFile(String p, String from, Params params) throws Exception {
+        Filters f = Filters.getFilters(from, params);
+        return findInFile(p, f, params);
+    }
+
+    public static List<Line> findInFile(String p, Filters f, Params params) throws Exception {
         List<Line> list = new ArrayList<Line>();
         LinesResult lr = new LinesResult();
-        Filters f = Filters.getFilters(from, params);
         while (lr.hasMore) {
             lr = getLinesFromStream(p, params.getEncoding(), ABATCH, lr);
             List<String> lines = lr.lines;
@@ -871,6 +895,24 @@ public class Util implements Constants {
             this.i = i;
             this.line = line;
             this.replaced = replaced;
+        }
+
+        public boolean match(int pos) {
+            int from = i - getPrevLines();
+            int to = i + getNextLines();
+            return from <= pos && pos <= to;
+        }
+
+        private int getPrevLines() {
+            if (prev != null)
+                return prev.size();
+            return 0;
+        }
+
+        private int getNextLines() {
+            if (next != null)
+                return next.size();
+            return 0;
         }
 
         public void fillPrevNext(Params params, List<String> lines) {

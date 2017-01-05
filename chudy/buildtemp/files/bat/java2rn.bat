@@ -2,10 +2,10 @@
 
 call btenv
 
-call al %btdir% FileUtil.java* np acp rn ##FileUtil-2.java
-call al %btdir% Constants.java* np acp rn ##Constants-2.java
-call al %btdir% Util.java* np acp rn ##Util-2.java
-call al %btdir% Test.java* np acp rn ##Test-2.java
+call al %btdirfrom% FileUtil.java* np acp rn ##FileUtil-2.java
+call al %btdirfrom% Constants.java* np acp rn ##Constants-2.java
+call al %btdirfrom% Util.java* np acp rn ##Util-2.java
+call al %btdirfrom% Test.java* np acp rn ##Test-2.java
 
 call al bts FileUtil.java* np acp rn ##FileUtil.java
 call al bts Constants.java* np acp rn ##Constants.java

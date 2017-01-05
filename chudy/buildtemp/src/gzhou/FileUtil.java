@@ -1,5 +1,10 @@
 package gzhou;
 
+import gzhou.FileUtil.ExpandLinesResult.ExpandLines;
+import gzhou.FileUtil.OperateLinesResult.OperateLines;
+import gzhou.FileUtil.OperateLinesResult.OperateLinesUtil;
+import gzhou.FileUtil.ZipOperationsResult.ZipOperations;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -38,11 +43,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import com.vitria.domainservice.util.DOMUtil;
-
-import gzhou.FileUtil.ExpandLinesResult.ExpandLines;
-import gzhou.FileUtil.OperateLinesResult.OperateLines;
-import gzhou.FileUtil.OperateLinesResult.OperateLinesUtil;
-import gzhou.FileUtil.ZipOperationsResult.ZipOperations;
 
 public class FileUtil extends Util implements Constants {
 
@@ -753,8 +753,7 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static void gettersetter() throws Exception {
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(new FileInputStream(desktopDir + "translate.txt")));
+        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(desktopDir + "translate.txt")));
         List<String> list = new ArrayList<String>();
         String line;
         String s = "";
@@ -764,8 +763,10 @@ public class FileUtil extends Util implements Constants {
                 if (line.contains("_")) {
                     int i = line.lastIndexOf("_");
                     String next = line.substring(i + 1, i + 2);
-                    if (next.equals("(") || next.equals(")") || (next.equals(";") && !line.trim().startsWith("return")
-                            && !line.trim().startsWith("private") && !line.trim().startsWith("public"))) {
+                    if (next.equals("(")
+                            || next.equals(")")
+                            || (next.equals(";") && !line.trim().startsWith("return")
+                                    && !line.trim().startsWith("private") && !line.trim().startsWith("public"))) {
                         s = line.substring(0, i) + line.substring(i + 1, line.length());
                     }
                 }
@@ -800,11 +801,15 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static void generateNCTemplate() throws Exception {
-        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(
-                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ncgenerator.xsl")));
-        PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(
-                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\NCTemplate.java",
-                false)));
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream(
+                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ncgenerator.xsl")));
+        PrintWriter out = new PrintWriter(
+                new OutputStreamWriter(
+                        new FileOutputStream(
+                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\NCTemplate.java",
+                                false)));
 
         out.println("// Copyright (c) 2013 Vitria Technology, Inc.");
         out.println("// All Rights Reserved.");
@@ -855,11 +860,15 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static void generateViewTemplate() throws Exception {
-        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(
-                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\instance_view.xml")));
-        PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(
-                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ViewTemplate.java",
-                false)));
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream(
+                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\instance_view.xml")));
+        PrintWriter out = new PrintWriter(
+                new OutputStreamWriter(
+                        new FileOutputStream(
+                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ViewTemplate.java",
+                                false)));
 
         out.println("// Copyright (c) 2013 Vitria Technology, Inc.");
         out.println("// All Rights Reserved.");
@@ -922,7 +931,8 @@ public class FileUtil extends Util implements Constants {
         copyFile(
                 "C:\\zhou\\yoda\\unbundled\\af\\java\\nc_framework\\utility\\com\\vitria\\o2\\nc\\publisher\\FeedPublisher.java",
                 "C:\\Workflow-G\\workflow bug fixing\\2012-12-11 Hadoop\\feed_publisher\\not_modified\\FeedPublisher.java");
-        copyFile("C:\\Workflow-G\\workflow bug fixing\\2012-12-11 Hadoop\\feed_publisher\\modified\\FeedPublisher.java",
+        copyFile(
+                "C:\\Workflow-G\\workflow bug fixing\\2012-12-11 Hadoop\\feed_publisher\\modified\\FeedPublisher.java",
                 "C:\\zhou\\yoda\\unbundled\\af\\java\\nc_framework\\utility\\com\\vitria\\o2\\nc\\publisher\\FeedPublisher.java");
     }
 
@@ -1476,13 +1486,58 @@ public class FileUtil extends Util implements Constants {
             } else if (p.startsWith(tarAlias + "/")) {
                 String sub = cutFirst(p, tarAlias.length() + 1);
                 sub = sub.replace("/", FILE_SEPARATOR);
-                return tarPath + FILE_SEPARATOR + sub;
+                return toTARPath(tarPath, sub);
             } else if (p.startsWith(tarAlias + FILE_SEPARATOR)) {
                 String sub = cutFirst(p, tarAlias.length() + 1);
-                return tarPath + FILE_SEPARATOR + sub;
+                return toTARPath(tarPath, sub);
             }
         }
         return p;
+    }
+
+    public static String toTARPath(String tarPath, String sub) {
+        String sp = FILE_SEPARATOR;
+        List<String> list = splitToList(sub, sp + sp);
+        List<String> list2 = new ArrayList<String>();
+        String path = tarPath;
+        for (int i = 0; i < list.size(); i++) {
+            String node = list.get(i);
+            if (i < list.size() - 1) {
+                // dir
+                node = toTARPathMatchNode(path, node, true);
+            } else {
+                // dir or file
+                node = toTARPathMatchNode(path, node, false);
+            }
+            list2.add(node);
+            path = path + sp + node;
+        }
+        return path;
+    }
+
+    private static String toTARPathMatchNode(String path, String node, boolean onlyDir) {
+        File pathFile = new File(path);
+        if (pathFile.exists()) {
+            File[] files = pathFile.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (onlyDir) {
+                        if (file.isDirectory()) {
+                            String n = file.getName();
+                            if (n.contains(node)) {
+                                return n;
+                            }
+                        }
+                    } else {
+                        String n = file.getName();
+                        if (n.contains(node)) {
+                            return n;
+                        }
+                    }
+                }
+            }
+        }
+        return node;
     }
 
     private static String unwrapTARAlias(String p) {
@@ -2077,8 +2132,7 @@ public class FileUtil extends Util implements Constants {
                                 topath = dir + FILE_SEPARATOR + relativePath.replace("/", FILE_SEPARATOR);
                             } else {
                                 String fileName = getFileName(p);
-                                if (params.newFileName != null)
-                                    fileName = params.newFileName;
+                                fileName = newFileNameInCopy(fileName, params);
                                 topath = dir + FILE_SEPARATOR + fileName;
                             }
                             copyFile(p, topath, false);
@@ -2098,19 +2152,38 @@ public class FileUtil extends Util implements Constants {
             }
         }
 
+        private static String newFileNameInCopy(String fileName, Params params) {
+            if (params.newFileName != null) {
+                String newFileName = params.newFileName;
+                if (newFileName.contains("{n}"))
+                    newFileName = newFileName.replace("{n}", getFileSimpleName(fileName));
+                if (newFileName.contains("{e}"))
+                    newFileName = newFileName.replace("{e}", getFileExtName(fileName));
+                return newFileName;
+            }
+            return fileName;
+        }
+
         protected static void deleteFiles(String from, String filefrom, Params params) throws Exception {
             System.out.println("delete from: " + from);
             FilenameFilter filter = Filters.getFilters(filefrom, params);
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
             if (!files.isEmpty()) {
                 List<String> dirs = new ArrayList<String>();
+                int filesSize = 0;
                 for (File file : files) {
+                    if (file.isFile())
+                        filesSize++;
                     String p = file.getAbsolutePath();
-                    deleteFileWithFolders(p);
+                    if (params.keepDir)
+                        deleteFile(p);
+                    else
+                        deleteFileWithFolders(p);
                     System.out.println(tab(2) + toRelativePath(from, p));
                     addWithoutDup(dirs, p);
                 }
                 OpenDirResult.openDirs(params, dirs);
+                System.out.println(tab(2) + format("dirs: {0}, files: {1}", files.size() - filesSize, filesSize));
             } else {
                 System.out.println(tab(2) + "no matched files: " + filefrom);
             }
@@ -2158,13 +2231,13 @@ public class FileUtil extends Util implements Constants {
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
             if (!files.isEmpty()) {
                 List<String> dirs = new ArrayList<String>();
-                int dirsSize = 0;
+                int filesSize = 0;
                 int nameIndent = getNameIndent(from, files);
                 for (File file : files) {
                     if (file.isHidden())
                         continue;
-                    if (file.isDirectory())
-                        dirsSize++;
+                    if (file.isFile())
+                        filesSize++;
                     String p = file.getAbsolutePath();
                     String relativePath = toRelativePath(from, p);
                     if (params.useDot) {
@@ -2179,7 +2252,7 @@ public class FileUtil extends Util implements Constants {
                 }
                 OpenDirResult.openDirs(params, dirs);
                 ZipOperationsResult.zipOperations(params, dirs);
-                System.out.println(tab(2) + format("dirs: {0}, files: {1}", dirsSize, files.size() - dirsSize));
+                System.out.println(tab(2) + format("dirs: {0}, files: {1}", files.size() - filesSize, filesSize));
             } else {
                 System.out.println(tab(2) + "no matched files: " + filefrom);
             }
@@ -2219,8 +2292,8 @@ public class FileUtil extends Util implements Constants {
                         List<Line> foundLines = findInFile(p, from, params);
                         if (!foundLines.isEmpty()) {
                             String n1 = toRelativePath(dir, p);
-                            System.out.println(
-                                    tab(2) + format("found \"{0}\" places in \"{1}\":", foundLines.size(), n1));
+                            System.out.println(tab(2)
+                                    + format("found \"{0}\" places in \"{1}\":", foundLines.size(), n1));
                             System.out.println();
                             for (Line line : foundLines) {
                                 line.print(6, 7);
@@ -2419,8 +2492,8 @@ public class FileUtil extends Util implements Constants {
             int dirIndent = 10;
             int timeIndent = 30;
             String n = formatstr(relativePath, nameIndent + 1);
-            String size = file.isDirectory() ? formatstr("", sizeIndent)
-                    : formatstr(df.format(file.length()), sizeIndent, false);
+            String size = file.isDirectory() ? formatstr("", sizeIndent) : formatstr(df.format(file.length()),
+                    sizeIndent, false);
             String dir = file.isDirectory() ? formatstr("<DIR>", dirIndent) : formatstr("", dirIndent);
             String time = formatstr(sdf4.format(new Date(file.lastModified())), timeIndent);
             return format("{0} {1}     {2} {3}", n, size, dir, time);
@@ -2506,8 +2579,8 @@ public class FileUtil extends Util implements Constants {
                 first = filter.getFirst();
             }
             if (debug2_) {
-                System.out.println(
-                        format("Filters: p={0}, filters={1}, filter={2}, first={3}", p, filters, filter, first));
+                System.out.println(format("Filters: p={0}, filters={1}, filter={2}, first={3}", p, filters, filter,
+                        first));
             }
             return first;
         }
@@ -3227,10 +3300,13 @@ public class FileUtil extends Util implements Constants {
                     List<String> list = new ArrayList<String>();
                     int i = 0;
                     for (String dir : dirs) {
-                        if (isFile(dir))
+                        if (isFile(dir)) {
                             list.add("call explorer /e,/select," + dir);
-                        else
+                        } else {
+                            if (dir.contains("\\\\"))
+                                dir = dir.replace("\\\\", "\\");
                             list.add("call explorer " + dir);
+                        }
                         i++;
                         if (params.openDirsCount > 0 && i >= params.openDirsCount)
                             break;

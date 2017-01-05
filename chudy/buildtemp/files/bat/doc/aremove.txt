@@ -1,5 +1,5 @@
 aremove is one command to remove files under given dir.
-  aremove <dir> [<pattern>] [rn] [np] [o] [d] [f]
+  aremove <dir> [<pattern>] [kd] [rn] [np] [o] [d] [f]
     - dir        one dir or one tar alias
     - pattern    files to remove
                    file name like "a.jar" or file pattern like "*Manager*" or "*.zip"
@@ -9,6 +9,7 @@ aremove is one command to remove files under given dir.
                    it can be ` or ~. it means "*".
                    it can be wrap with "'". it means exactly equals.
                    it can be wrap with "@". it means regular expressions.
+    - kd         keep dirs
     - rn         set recursive level. like: r0
     - np         no path: the pattern of files not include path string
     - o          output to file

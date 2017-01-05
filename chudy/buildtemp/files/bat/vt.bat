@@ -1,1 +1,2 @@
-call gftar "%1|"
+@echo off
+call aft %1*

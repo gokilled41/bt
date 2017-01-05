@@ -1,2 +1,2 @@
 - aops: list all commands
-- replace in ml
+- call al %btdirfrom% .txt np acp rn ##{n}-2.txt
