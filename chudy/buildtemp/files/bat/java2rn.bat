@@ -7,6 +7,8 @@ call al %btdirfrom% Constants.java* np acp rn ##Constants-2.java
 call al %btdirfrom% Util.java* np acp rn ##Util-2.java
 call al %btdirfrom% Test.java* np acp rn ##Test-2.java
 
+call al rn\Test-2.java ar "'//import org'" "import org"
+
 call al bts FileUtil.java* np acp rn ##FileUtil.java
 call al bts Constants.java* np acp rn ##Constants.java
 call al bts Util.java* np acp rn ##Util.java
