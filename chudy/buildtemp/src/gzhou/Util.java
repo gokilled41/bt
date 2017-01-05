@@ -25,6 +25,7 @@ import java.util.Properties;
 
 import com.vitria.component.util.DOMUtil;
 
+import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
 import gzhou.FileUtil.Filters;
 import gzhou.FileUtil.Params;
 
@@ -40,6 +41,76 @@ public class Util implements Constants {
     public static Date toDate(long l) {
         Date d = new Date(l);
         return d;
+    }
+
+    public static String toDateStr(long l) {
+        if (l == Long.MAX_VALUE)
+            return "MAX";
+        return sdf2.format(toDate(l));
+    }
+
+    public static long toTimestamp(String s) throws Exception {
+        return sdf2.parse(toTimestampFormat(s)).getTime();
+    }
+
+    public static String toTimestampFormat(String s) {
+        if (s.length() == 1) {
+            if (s.equals("0"))
+                return format("{0}{1}{2}000000", thisYear(), thisMonth(), thisDay());
+            else
+                return format("{0}{1}0{2}000000", thisYear(), thisMonth(), s);
+        } else if (s.length() == 2) {
+            return format("{0}{1}{2}000000", thisYear(), thisMonth(), s);
+        } else if (s.length() == 3) {
+            return format("{0}0{1}000000", thisYear(), s);
+        } else if (s.length() == 4) {
+            return format("{0}{1}000000", thisYear(), s);
+        } else if (s.length() == 6) {
+            return format("{0}{1}0000", thisYear(), s);
+        } else if (s.length() == 8) {
+            String first2 = subFirst(s, 2);
+            int i = toInt(first2);
+            if (i > 12)
+                return format("{0}000000", s);
+            else
+                return format("{0}{1}00", thisYear(), s);
+        } else if (s.length() == 10) {
+            String first2 = subFirst(s, 2);
+            int i = toInt(first2);
+            if (i > 12)
+                return format("{0}0000", s);
+            else
+                return format("{0}{1}", thisYear(), s);
+        } else if (s.length() == 12) {
+            String first2 = subFirst(s, 2);
+            int i = toInt(first2);
+            if (i > 12)
+                return format("{0}00", s);
+        } else if (s.length() == 14) {
+            String first2 = subFirst(s, 2);
+            int i = toInt(first2);
+            if (i > 12)
+                return format("{0}", s);
+        }
+        throw new UnsupportedOperationException("Unsupported time format: " + s);
+    }
+
+    public static String thisYear() {
+        Date today = new Date();
+        String month = sdfMonth.format(today);
+        return subFirst(month, 4);
+    }
+
+    public static String thisMonth() {
+        Date today = new Date();
+        String month = sdfMonth.format(today);
+        return subLast(month, 2);
+    }
+
+    public static String thisDay() {
+        Date today = new Date();
+        String day = sdfDay.format(today);
+        return subLast(day, 2);
     }
 
     public static boolean isToday(Date d) {
@@ -209,6 +280,18 @@ public class Util implements Constants {
         if (last > 0)
             s = cutLast(s, last);
         return s;
+    }
+
+    public static String sub(String s, int begin, int end) {
+        return s.substring(begin, end);
+    }
+
+    public static String subFirst(String s, int n) {
+        return sub(s, 0, n);
+    }
+
+    public static String subLast(String s, int n) {
+        return sub(s, s.length() - n, s.length());
     }
 
     public static String cutBack(String s, String from, String to) {
@@ -461,7 +544,22 @@ public class Util implements Constants {
         } else {
             list = listFiles(folder, recursion, filter, params.recursiveLevel, 0);
         }
+        list = filterFiles(list, params);
         sortFiles(list, params);
+        return list;
+    }
+
+    private static List<File> filterFiles(List<File> list, Params params) {
+        FileTimestamp ft = params.fileTimestamp;
+        if (ft != null) {
+            List<File> filtered = new ArrayList<File>();
+            for (File file : list) {
+                if (ft.matches(file)) {
+                    filtered.add(file);
+                }
+            }
+            return filtered;
+        }
         return list;
     }
 

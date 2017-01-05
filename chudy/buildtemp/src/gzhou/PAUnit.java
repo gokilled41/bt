@@ -184,6 +184,21 @@ public class PAUnit extends TestCase implements Constants {
         assertEquals(Util.getFileExtName(p), "zip");
     }
 
+    public void testUtil_02() throws Exception {
+        assertEquals(Util.toTimestampFormat("1"), "20170101000000");
+        assertEquals(Util.toTimestampFormat("01"), "20170101000000");
+        assertEquals(Util.toTimestampFormat("101"), "20170101000000");
+        assertEquals(Util.toTimestampFormat("0101"), "20170101000000");
+        assertEquals(Util.toTimestampFormat("010100"), "20170101000000");
+        assertEquals(Util.toTimestampFormat("01010000"), "20170101000000");
+        assertEquals(Util.toTimestampFormat("20170101"), "20170101000000");
+        assertEquals(Util.toTimestampFormat("0101000000"), "20170101000000");
+        assertEquals(Util.toTimestampFormat("2017010100"), "20170101000000");
+        assertEquals(Util.toTimestampFormat("201701010000"), "20170101000000");
+        assertEquals(Util.toTimestampFormat("20170101000000"), "20170101000000");
+        assertEquals(Util.subLast("201701", 2), "01");
+    }
+
     private void doTest(String dir, String name, String filefrom, boolean expect) {
         doTest(dir, name, filefrom, expect, 0);
     }

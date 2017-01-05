@@ -40,6 +40,7 @@ import org.w3c.dom.Node;
 import com.vitria.domainservice.util.DOMUtil;
 
 import gzhou.FileUtil.ExpandLinesResult.ExpandLines;
+import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
 import gzhou.FileUtil.OperateLinesResult.OperateLines;
 import gzhou.FileUtil.OperateLinesResult.OperateLinesUtil;
 import gzhou.FileUtil.ZipOperationsResult.ZipOperations;
@@ -2153,13 +2154,15 @@ public class FileUtil extends Util implements Constants {
                             String p = file.getAbsolutePath();
                             String relativePath = toRelativePath(from, p);
                             String topath;
+                            // keep dir
                             if (params.keepDir) {
                                 topath = dir + FILE_SEPARATOR + relativePath.replace("/", FILE_SEPARATOR);
                             } else {
-                                String fileName = getFileName(p);
-                                fileName = newFileNameInCopy(fileName, params);
-                                topath = dir + FILE_SEPARATOR + fileName;
+                                topath = dir + FILE_SEPARATOR + getFileName(p);
                             }
+                            // rename file
+                            String newFileName = newFileNameInCopy(getFileName(topath), params);
+                            topath = getParent(topath) + FILE_SEPARATOR + newFileName;
                             if (needOverwrite(p, topath, params)) {
                                 copyFile(p, topath, false);
                                 if (params.move)
@@ -3923,6 +3926,89 @@ public class FileUtil extends Util implements Constants {
         }
     }
 
+    public static class FileTimestampResult {
+        public String[] args;
+        public FileTimestamp fileTimestamp;
+
+        public static FileTimestampResult fileTimestamp(String[] args) throws Exception {
+            FileTimestampResult r = new FileTimestampResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.fileTimestamp = FileTimestamp.parseFileTimestamp(last);
+                r.args = cutLastArg(args);
+                if (debug_)
+                    System.out.println(tab(2) + "File Timestamp: " + r.fileTimestamp);
+            } else {
+                r.fileTimestamp = null;
+                r.args = args;
+            }
+            return r;
+        }
+
+        public static boolean isParam(String last) {
+            return last.matches("t\\d*-?\\d*");
+        }
+
+        public static class FileTimestamp {
+            public long from = 0;
+            public long to = Long.MAX_VALUE;
+
+            public boolean matches(File file) {
+                return matchesFileTimestamp(this, file.getAbsolutePath());
+            }
+
+            public static FileTimestamp parseFileTimestamp(String pattern) throws Exception {
+                if (pattern.matches("t\\d*-?\\d*")) {
+                    pattern = cutFirst(pattern, 1);
+                    String from, to;
+                    if (pattern.contains("-")) {
+                        int i = pattern.indexOf("-");
+                        from = pattern.substring(0, i);
+                        to = pattern.substring(i + 1, pattern.length());
+                    } else {
+                        from = pattern;
+                        to = "";
+                        if (from.isEmpty())
+                            from = "0";
+                    }
+                    long fpos = 0;
+                    long tpos = Long.MAX_VALUE;
+                    if (from != null && !from.isEmpty())
+                        fpos = toTimestamp(from);
+                    if (to != null && !to.isEmpty())
+                        tpos = toTimestamp(to);
+                    FileTimestamp ft = new FileTimestamp();
+                    ft.from = fpos;
+                    ft.to = tpos;
+                    return ft;
+                }
+                return null;
+            }
+
+            public static boolean matchesFileTimestamp(String pattern, String p) throws Exception {
+                FileTimestamp el = FileTimestamp.parseFileTimestamp(pattern);
+                long fpos = el.from;
+                long tpos = el.to;
+                long pos = getFileTimestamp(p);
+                return pos >= fpos && pos <= tpos;
+            }
+
+            public static boolean matchesFileTimestamp(FileTimestamp fileTimestamp, String p) {
+                FileTimestamp el = fileTimestamp;
+                long fpos = el.from;
+                long tpos = el.to;
+                long pos = getFileTimestamp(p);
+                return pos >= fpos && pos < tpos;
+            }
+
+            @Override
+            public String toString() {
+                return format("{0}-{1}", toDateStr(from), toDateStr(to));
+            }
+
+        }
+    }
+
     public static class Params {
 
         public String[] args;
@@ -3948,6 +4034,7 @@ public class FileUtil extends Util implements Constants {
         public boolean overwrite = false;
         public boolean go = false;
         public boolean deleteSame = false;
+        public FileTimestamp fileTimestamp = null;
 
         public int getExpandLines() {
             if (expandLines == null) {
@@ -4126,6 +4213,13 @@ public class FileUtil extends Util implements Constants {
                     if (params.deleteSame == false)
                         params.deleteSame = dsr.deleteSame;
                 }
+                // file timestamp
+                FileTimestampResult ftr = FileTimestampResult.fileTimestamp(args);
+                if (args.length > ftr.args.length) {
+                    args = ftr.args;
+                    if (params.fileTimestamp == null)
+                        params.fileTimestamp = ftr.fileTimestamp;
+                }
             } while (args.length < n);
             params.args = args;
             setDefaultParams(params, op);
@@ -4196,6 +4290,8 @@ public class FileUtil extends Util implements Constants {
             if (GoResult.isParam(s))
                 return true;
             if (DeleteSameResult.isParam(s))
+                return true;
+            if (FileTimestampResult.isParam(s))
                 return true;
             return false;
         }
