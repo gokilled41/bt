@@ -32,6 +32,9 @@ rem run necessary tmp scripts
   rem open file
     if exist "C:\workspace\buildtemp\files\bat\aopenfiletmp.bat" call aopenfiletmp
     if exist "C:\workspace\buildtemp\files\bat\aopenfiletmp.bat" call bdel aopenfiletmp
+  rem go
+    if exist "C:\workspace\buildtemp\files\bat\agotmp.bat" call agotmp
+    if exist "C:\workspace\buildtemp\files\bat\agotmp.bat" call bdel agotmp
   rem zip
     if "%PAOperation%"=="list" goto azipstart
     if not "%PAOperation%"=="list" goto azipend

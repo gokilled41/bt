@@ -2267,6 +2267,7 @@ public class FileUtil extends Util implements Constants {
                 }
                 OpenDirResult.openDirs(params, dirs);
                 ZipOperationsResult.zipOperations(params, dirs);
+                GoResult.go(params, dirs);
                 System.out.println(tab(2) + format("dirs: {0}, files: {1}", files.size() - filesSize, filesSize));
             } else {
                 System.out.println(tab(2) + "no matched files: " + filefrom);
@@ -2385,12 +2386,15 @@ public class FileUtil extends Util implements Constants {
         }
 
         private static String[] debug(String[] args) {
+            args = sortDebugInArgs(args);
             int n;
             do {
                 n = args.length;
 
                 // -v
                 args = viewDebugLoggings(args);
+                // -va
+                args = viewDebugAllLoggings(args);
                 // -d
                 args = cutJBossDebug(args);
 
@@ -2398,10 +2402,27 @@ public class FileUtil extends Util implements Constants {
             return args;
         }
 
+        private static String[] sortDebugInArgs(String[] args) {
+            List<String> list = arrayToList(args);
+            Collections.sort(list, new ParamsSorterDebug());
+            args = listToArray(list);
+            return args;
+        }
+
         private static String[] viewDebugLoggings(String[] args) {
             String last = getLastArg(args);
             if (last.equals("-v")) {
                 debug_ = true;
+                args = cutLastArg(args);
+            }
+            return args;
+        }
+
+        private static String[] viewDebugAllLoggings(String[] args) {
+            String last = getLastArg(args);
+            if (last.equals("-va")) {
+                debug_ = true;
+                debug2_ = true;
                 args = cutLastArg(args);
             }
             return args;
@@ -3817,7 +3838,51 @@ public class FileUtil extends Util implements Constants {
         }
 
         public static boolean isParam(String last) {
-            return last.equals("ov") || last.equals("overwrite");
+            return last.equals("ov");
+        }
+    }
+
+    public static class GoResult {
+        public String[] args;
+        public boolean go;
+
+        public static GoResult go(String[] args) {
+            GoResult r = new GoResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.go = true;
+                r.args = cutLastArg(args);
+                if (debug_)
+                    System.out.println(tab(2) + "Go: " + r.go);
+            } else {
+                r.go = false;
+                r.args = args;
+            }
+            return r;
+        }
+
+        public static void go(Params params, List<String> dirs) throws Exception {
+            if (params.go) {
+                if (dirs != null && !dirs.isEmpty()) {
+                    List<String> list = new ArrayList<String>();
+                    for (String dir : dirs) {
+                        if (isFile(dir)) {
+                            list.add("call go " + getParent(dir));
+                            break;
+                        } else {
+                            if (dir.contains("\\\\"))
+                                dir = dir.replace("\\\\", "\\");
+                            list.add("call go " + dir);
+                            break;
+                        }
+                    }
+                    setLines(batDir + "agotmp.bat", list);
+                }
+            }
+        }
+
+        public static boolean isParam(String last) {
+            return last.equals("go");
         }
     }
 
@@ -3844,6 +3909,7 @@ public class FileUtil extends Util implements Constants {
         public OperateLines operateLines = null;
         public ZipOperations zipOperations = null;
         public boolean overwrite = false;
+        public boolean go = false;
 
         public int getExpandLines() {
             if (expandLines == null) {
@@ -4008,6 +4074,13 @@ public class FileUtil extends Util implements Constants {
                     if (params.overwrite == false)
                         params.overwrite = ovr.overwrite;
                 }
+                // go
+                GoResult gor = GoResult.go(args);
+                if (args.length > gor.args.length) {
+                    args = gor.args;
+                    if (params.go == false)
+                        params.go = gor.go;
+                }
             } while (args.length < n);
             params.args = args;
             setDefaultParams(params, op);
@@ -4075,6 +4148,8 @@ public class FileUtil extends Util implements Constants {
                 return true;
             if (OverwriteResult.isParam(s))
                 return true;
+            if (GoResult.isParam(s))
+                return true;
             return false;
         }
     }
@@ -4091,6 +4166,27 @@ public class FileUtil extends Util implements Constants {
         private int toParamPriority(String o1) {
             if (Params.isParam(o1))
                 return 1;
+            return 0;
+        }
+
+    }
+
+    public static class ParamsSorterDebug implements Comparator<String> {
+
+        @Override
+        public int compare(String o1, String o2) {
+            Integer i1 = toParamPriority(o1);
+            Integer i2 = toParamPriority(o2);
+            return i1.compareTo(i2);
+        }
+
+        private int toParamPriority(String o1) {
+            if (o1.equals("-v"))
+                return 10;
+            if (o1.equals("-va"))
+                return 9;
+            if (o1.equals("-d"))
+                return 8;
             return 0;
         }
 

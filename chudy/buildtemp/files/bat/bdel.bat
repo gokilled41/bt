@@ -1,2 +1,1 @@
-call bd
-call del /f %1.bat
+call del /f C:\workspace\buildtemp\files\bat\%1.bat
