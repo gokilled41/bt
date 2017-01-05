@@ -1506,6 +1506,7 @@ public class FileUtil extends Util implements Constants {
     }
 
     private static String toTARPathMatchNode(String path, String node, boolean onlyDir) {
+        List<TARPathMatchNodeItem> list = new ArrayList<TARPathMatchNodeItem>();
         File pathFile = new File(path);
         if (pathFile.exists()) {
             File[] files = pathFile.listFiles();
@@ -1515,19 +1516,53 @@ public class FileUtil extends Util implements Constants {
                         if (file.isDirectory()) {
                             String n = file.getName();
                             if (n.contains(node)) {
-                                return n;
+                                TARPathMatchNodeItem item = new TARPathMatchNodeItem();
+                                if (n.equals(node))
+                                    item.i = 1;
+                                else
+                                    item.i = 2;
+                                item.file = file;
+                                item.n = n;
+                                list.add(item);
                             }
                         }
                     } else {
                         String n = file.getName();
                         if (n.contains(node)) {
-                            return n;
+                            TARPathMatchNodeItem item = new TARPathMatchNodeItem();
+                            if (n.equals(node))
+                                item.i = 1;
+                            else if (file.isDirectory())
+                                item.i = 2;
+                            else
+                                item.i = 3;
+                            item.file = file;
+                            item.n = n;
+                            list.add(item);
                         }
                     }
                 }
             }
         }
+        if (!list.isEmpty()) {
+            Collections.sort(list);
+            return list.get(0).n;
+        }
         return node;
+    }
+
+    public static class TARPathMatchNodeItem implements Comparable<TARPathMatchNodeItem> {
+        public int i;
+        public File file;
+        public String n;
+
+        @Override
+        public int compareTo(TARPathMatchNodeItem o) {
+            Integer i1 = i;
+            Integer i2 = o.i;
+            return i1.compareTo(i2);
+        }
+
     }
 
     private static String unwrapTARAlias(String p) {
