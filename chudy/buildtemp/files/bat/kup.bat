@@ -1,2 +1,3 @@
-call btdir
-call ant spark-update-scala-hotfix
+call go btgit
+call gup
+call btres
