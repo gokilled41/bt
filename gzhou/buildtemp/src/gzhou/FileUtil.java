@@ -2336,7 +2336,7 @@ public class FileUtil extends Util implements Constants {
                                     continue;
                                 }
                             }
-                            Line l = new Line(i + 1, line);
+                            Line l = new Line(i + 1, line, params);
                             if (!one)
                                 l.print(6, 7, params.noLineNumber);
                             else
@@ -2757,6 +2757,20 @@ public class FileUtil extends Util implements Constants {
             return first;
         }
 
+        public String getFirstNoIgnore() {
+            String first = null;
+            if (isFilters()) {
+                first = filters.get(0).getFirstNoIgnore();
+            } else {
+                first = filter.getFirstNoIgnore();
+            }
+            if (debug2_) {
+                System.out.println(format("Filters: p={0}, filters={1}, filter={2}, first={3}", p, filters, filter,
+                        first));
+            }
+            return first;
+        }
+
         public boolean isFilters() {
             return filters.size() > 0;
         }
@@ -3014,6 +3028,19 @@ public class FileUtil extends Util implements Constants {
             return first;
         }
 
+        public String getFirstNoIgnore() {
+            String first = null;
+            if (p.isGroup()) {
+                first = filters.getFirstNoIgnore();
+            } else {
+                first = p.getFirstNoIgnore();
+            }
+            if (debug2_) {
+                System.out.println(format("Filter: p={0}, filters={1}, first={3}", p, filters, first));
+            }
+            return first;
+        }
+
         private void init() {
             if (p.isGroup()) {
                 filters = Filters.getFilters(p.p, params);
@@ -3100,6 +3127,10 @@ public class FileUtil extends Util implements Constants {
 
         public String getFirst() {
             ignore = true;
+            return p;
+        }
+
+        public String getFirstNoIgnore() {
             return p;
         }
 
@@ -4169,6 +4200,45 @@ public class FileUtil extends Util implements Constants {
         }
     }
 
+    public static class MarkOccurrenceResult {
+        public String[] args;
+        public boolean markOccurrence;
+
+        public static MarkOccurrenceResult markOccurrence(String[] args) {
+            MarkOccurrenceResult r = new MarkOccurrenceResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.markOccurrence = true;
+                r.args = cutLastArg(args);
+                if (debug_)
+                    System.out.println(tab(2) + "Mark Occurrence: " + r.markOccurrence);
+            } else {
+                r.markOccurrence = false;
+                r.args = args;
+            }
+            return r;
+        }
+
+        public static boolean isParam(String last) {
+            return last.equals("mk");
+        }
+
+        public static String makeMarkLine(String line, String key) {
+            String mark = getRepeatingString("^", key.length());
+            line = line.replace(key, mark);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < line.length(); i++) {
+                char c = line.charAt(i);
+                if (c != '^') {
+                    sb.append(" ");
+                } else {
+                    sb.append(c);
+                }
+            }
+            return sb.toString();
+        }
+    }
+
     public static class Params {
 
         public String[] args;
@@ -4195,6 +4265,7 @@ public class FileUtil extends Util implements Constants {
         public boolean go = false;
         public boolean deleteSame = false;
         public FileTimestamp fileTimestamp = null;
+        public boolean markOccurrence = false;
 
         public int getExpandLines() {
             if (expandLines == null) {
@@ -4381,6 +4452,13 @@ public class FileUtil extends Util implements Constants {
                     args = ftr.args;
                     if (params.fileTimestamp == null)
                         params.fileTimestamp = ftr.fileTimestamp;
+                }
+                // mark occurrence
+                MarkOccurrenceResult mor = MarkOccurrenceResult.markOccurrence(args);
+                if (args.length > mor.args.length) {
+                    args = mor.args;
+                    if (params.markOccurrence == false)
+                        params.markOccurrence = mor.markOccurrence;
                 }
             } while (args.length < n);
             params.args = args;

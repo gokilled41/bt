@@ -2,6 +2,7 @@ package gzhou;
 
 import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
 import gzhou.FileUtil.Filters;
+import gzhou.FileUtil.MarkOccurrenceResult;
 import gzhou.FileUtil.Params;
 
 import java.io.BufferedReader;
@@ -864,7 +865,7 @@ public class Util implements Constants {
                 changed = true;
                 String replaced = replaceInLine(line, from, to, params.caseSensitive);
                 list.add(replaced);
-                affected.add(new Line(pos, line, replaced));
+                affected.add(new Line(pos, line, replaced, params));
             } else {
                 list.add(line);
             }
@@ -1005,6 +1006,7 @@ public class Util implements Constants {
     }
 
     public static List<Line> findInFile(String p, Filters f, Params params) throws Exception {
+        String first = f.getFirstNoIgnore();
         List<Line> list = new ArrayList<Line>();
         LinesResult lr = new LinesResult();
         while (lr.hasMore) {
@@ -1014,7 +1016,8 @@ public class Util implements Constants {
                 String line = lines.get(i);
                 int pos = lr.li + i + 1;
                 if (f.accept(line, pos)) {
-                    Line item = new Line(pos, line);
+                    Line item = new Line(pos, line, params);
+                    item.searchKey = first;
                     item.fillPrevNext(params, lines);
                     list.add(item);
                 }
@@ -1030,16 +1033,20 @@ public class Util implements Constants {
         public String replaced;
         public List<String> prev;
         public List<String> next;
+        public Params params;
+        public String searchKey;
 
-        public Line(int i, String line) {
+        public Line(int i, String line, Params params) {
             this.i = i;
             this.line = line;
+            this.params = params;
         }
 
-        public Line(int i, String line, String replaced) {
+        public Line(int i, String line, String replaced, Params params) {
             this.i = i;
             this.line = line;
             this.replaced = replaced;
+            this.params = params;
         }
 
         public boolean match(int pos) {
@@ -1139,6 +1146,9 @@ public class Util implements Constants {
             print(tab + indent, prev, true);
             if (!noLineNumber) {
                 System.out.println(tab(tab) + formatstr(i + ": ", indent) + line);
+                if (params.markOccurrence) {
+                    System.out.println(tab(tab + indent) + MarkOccurrenceResult.makeMarkLine(line, searchKey));
+                }
                 if (replaced != null)
                     System.out.println(tab(tab) + formatstr("  ->", indent) + replaced);
             } else {
