@@ -1,2 +1,1 @@
 - aops: list all commands
-- use ~ to mark found places in the lines
