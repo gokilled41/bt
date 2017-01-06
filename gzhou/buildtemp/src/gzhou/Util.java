@@ -1281,11 +1281,15 @@ public class Util implements Constants {
     }
 
     public static String getFirstArg(String[] args) {
-        return args[0];
+        if (args.length > 0)
+            return args[0];
+        return null;
     }
 
     public static String getLastArg(String[] args) {
-        return args[args.length - 1];
+        if (args.length > 0)
+            return args[args.length - 1];
+        return null;
     }
 
     public static String[] cutFirstArg(String[] args) {

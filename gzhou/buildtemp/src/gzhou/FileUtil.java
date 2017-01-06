@@ -95,6 +95,7 @@ public class FileUtil extends Util implements Constants {
             System.out.println("tar:     tar"); // ta rename
             System.out.println("p2st:    p2st"); // patch to dstf
             System.out.println("palias:  palias"); // print tar alias
+            System.out.println("git:     git"); // git
         } else if (args[0].equals("clean")) { // fuc
             clean();
         } else if (args[0].equals("copyAppSrc")) { // fucas
@@ -175,6 +176,8 @@ public class FileUtil extends Util implements Constants {
             p2st(args);
         } else if (args[0].equals("palias")) { // palias
             palias(cutFirstArg(args));
+        } else if (args[0].equals("git")) { // git
+            git(cutFirstArg(args));
         }
     }
 
@@ -1459,6 +1462,48 @@ public class FileUtil extends Util implements Constants {
             PAOperations.paOpen(args);
         } else if (type.equals("replace")) {
             PAOperations.paReplace(args);
+        }
+    }
+
+    public static void git(String[] args) throws Exception {
+        if (args.length < 1) {
+            System.out.println("git <type> <args>");
+            return;
+        }
+        String[] oArgs = args;
+        args = PAOperations.debug(args);
+        Params.log("begin", oArgs);
+        String type = args[0];
+        args = cutFirstArg(args);
+        Params.log("cut type", args);
+        args = OutputToFile.outputToFile(args, "git_" + type);
+        Params.log("output to file", args);
+        if (type.equals("add")) {
+            GitOperations.gitAdd(args);
+        }
+    }
+
+    public static class GitOperations {
+
+        public static void gitAdd(String[] args) throws Exception {
+            Params params = Params.toParams("gitadd", args);
+            args = params.args;
+
+            String log = "D:\\alogs\\gst.log";
+            List<String> lines = getLines(log);
+            List<String> list = new ArrayList<String>();
+            for (String line : lines) {
+                if (line.startsWith("\t")) {
+                    line = cutFirst(line, 1);
+                    if (line.startsWith("deleted:    ")) {
+                        line = cutFirst(line, 12);
+                        list.add("call git rm " + line);
+                    } else {
+                        list.add("call git add " + line);
+                    }
+                }
+            }
+            setLines(batDir + "agitaddtmp.bat", list);
         }
     }
 
@@ -4143,6 +4188,8 @@ public class FileUtil extends Util implements Constants {
             int n;
             do {
                 n = args.length;
+                if (n == 0)
+                    break;
                 // expand lines
                 ExpandLinesResult elr = ExpandLinesResult.expandLines(args);
                 if (args.length > elr.args.length) {
@@ -4402,24 +4449,26 @@ public class FileUtil extends Util implements Constants {
             boolean outputToFile = false;
             boolean slient = false;
             String last = getLastArg(args);
-            if (last.equalsIgnoreCase("o")) {
-                outputToFile = true;
-                args = cutLastArg(args);
-            } else if (last.equalsIgnoreCase("sl")) {
-                outputToFile = true;
-                slient = true;
-                args = cutLastArg(args);
-            }
-            if (outputToFile) {
-                String dir = "D:\\alogs\\";
-                mkdirs(dir);
-                String file = dir + n + ".log";
-                if (!slient)
-                    System.out.println("output to: " + file);
-                outputToFile(file);
-                if (!slient) {
-                    String line = "call e " + file;
-                    setLines(batDir + "aoutputtmp.bat", toList(line));
+            if (last != null) {
+                if (last.equalsIgnoreCase("o")) {
+                    outputToFile = true;
+                    args = cutLastArg(args);
+                } else if (last.equalsIgnoreCase("sl")) {
+                    outputToFile = true;
+                    slient = true;
+                    args = cutLastArg(args);
+                }
+                if (outputToFile) {
+                    String dir = "D:\\alogs\\";
+                    mkdirs(dir);
+                    String file = dir + n + ".log";
+                    if (!slient)
+                        System.out.println("output to: " + file);
+                    outputToFile(file);
+                    if (!slient) {
+                        String line = "call e " + file;
+                        setLines(batDir + "aoutputtmp.bat", toList(line));
+                    }
                 }
             }
             return args;

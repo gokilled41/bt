@@ -87,16 +87,8 @@ import com.vitria.xquery.*;
 public class Test extends gzhou.Util {
 
     public static void main(String[] args) throws Exception {
-
-        String s = "1w1d1m1s1y";
-
-        Pattern p = Pattern.compile("\\d*[dwmy]");
-
-        Matcher m = p.matcher(s);
-        while (m.find()) {
-            String g = m.group();
-            System.out.println(g);
-        }
+        
+        
         
     }
 }
