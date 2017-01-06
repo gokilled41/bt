@@ -25,11 +25,6 @@ call svn info
 
 @echo off
 call yodadir
-cd unbundled\thirdparty\zeppelin\v0.6.1\zeppelin-server
-call svn info
-
-@echo off
-call yodadir
 cd unbundled\thirdparty\zeppelin\v0.6.1\zeppelin-vitria
 call svn info
 

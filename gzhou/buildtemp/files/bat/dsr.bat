@@ -25,11 +25,6 @@ call sr
 
 @echo off
 call yodadir
-cd unbundled\thirdparty\zeppelin\v0.6.1\zeppelin-server
-call sr
-
-@echo off
-call yodadir
 cd unbundled\thirdparty\zeppelin\v0.6.1\zeppelin-vitria
 call sr
 

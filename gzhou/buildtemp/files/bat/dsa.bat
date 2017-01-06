@@ -1,3 +1,3 @@
 @echo off
 call yodadir
-call svn add unbundled\thirdparty\zeppelin\v0.6.1\spark\src\main\java\org\apache\zeppelin\spark\MyLogger.java
+call svn add unbundled\apps\spark_pipe\ui\services\src\com\vitria\spark\resource\utils\DateFormatter.java

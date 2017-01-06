@@ -4,7 +4,7 @@ rem echo ****** FileUtil.git() ******
 
 set JAVA_HOME=C:\Program Files\Java\jdk1.8.0_51
 
-set VT_CP=C:\workspace\buildtemp\bin
+call avtcp
 
 set JAVA_OPTS=-Xms16m -Xmx1024m
 if "%PADebugPort%"=="" set PADebugPort=8787

@@ -96,6 +96,7 @@ public class FileUtil extends Util implements Constants {
             System.out.println("p2st:    p2st"); // patch to dstf
             System.out.println("palias:  palias"); // print tar alias
             System.out.println("git:     git"); // git
+            System.out.println("custom:  custom"); // custom
         } else if (args[0].equals("clean")) { // fuc
             clean();
         } else if (args[0].equals("copyAppSrc")) { // fucas
@@ -178,6 +179,8 @@ public class FileUtil extends Util implements Constants {
             palias(cutFirstArg(args));
         } else if (args[0].equals("git")) { // git
             git(cutFirstArg(args));
+        } else if (args[0].equals("custom")) { // custom
+            custom(cutFirstArg(args));
         }
     }
 
@@ -1505,6 +1508,56 @@ public class FileUtil extends Util implements Constants {
             }
             setLines(batDir + "agitaddtmp.bat", list);
         }
+    }
+
+    public static void custom(String[] args) throws Exception {
+        if (args.length < 1) {
+            System.out.println("custom <type> <args>");
+            return;
+        }
+        String[] oArgs = args;
+        args = PAOperations.debug(args);
+        Params.log("begin", oArgs);
+        String type = args[0];
+        args = cutFirstArg(args);
+        Params.log("cut type", args);
+        args = OutputToFile.outputToFile(args, "custom_" + type);
+        Params.log("output to file", args);
+        if (type.equals("formatjson")) {
+            CustomOperations.customFormatJSON(args);
+        }
+    }
+
+    public static class CustomOperations {
+
+        public static void customFormatJSON(String[] args) throws Exception {
+            Params params = Params.toParams("custom_format_json", args);
+            args = params.args;
+
+            String p = toTARAlias(args[0]);
+
+            boolean tol = false;
+            String last = getLastArg(args);
+            if (last.equals("tol"))
+                tol = true;
+
+            if (!tol) {
+                List<String> lines = getLines(p);
+                List<String> list = new ArrayList<String>();
+                for (String s : lines) {
+                    list.add(JSONUtil.format(s));
+                }
+                setLines(p, list);
+            } else {
+                List<String> lines = getLinesNoEx(p);
+                StringBuilder sb = new StringBuilder();
+                for (String line : lines) {
+                    sb.append(line.trim());
+                }
+                setLines(p, toList(sb.toString()));
+            }
+        }
+
     }
 
     private static String fixPath(String path) {
