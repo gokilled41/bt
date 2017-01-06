@@ -1,6 +1,7 @@
 package gzhou;
 
 import gzhou.FileUtil.ExpandLinesResult.ExpandLines;
+import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
 import gzhou.FileUtil.OperateLinesResult.OperateLines;
 import gzhou.FileUtil.OperateLinesResult.OperateLinesUtil;
 import gzhou.FileUtil.ZipOperationsResult.ZipOperations;
@@ -1516,6 +1517,7 @@ public class FileUtil extends Util implements Constants {
     }
 
     private static String toTARPathMatchNode(String path, String node, boolean onlyDir) {
+        List<TARPathMatchNodeItem> list = new ArrayList<TARPathMatchNodeItem>();
         File pathFile = new File(path);
         if (pathFile.exists()) {
             File[] files = pathFile.listFiles();
@@ -1525,19 +1527,53 @@ public class FileUtil extends Util implements Constants {
                         if (file.isDirectory()) {
                             String n = file.getName();
                             if (n.contains(node)) {
-                                return n;
+                                TARPathMatchNodeItem item = new TARPathMatchNodeItem();
+                                if (n.equals(node))
+                                    item.i = 1;
+                                else
+                                    item.i = 2;
+                                item.file = file;
+                                item.n = n;
+                                list.add(item);
                             }
                         }
                     } else {
                         String n = file.getName();
                         if (n.contains(node)) {
-                            return n;
+                            TARPathMatchNodeItem item = new TARPathMatchNodeItem();
+                            if (n.equals(node))
+                                item.i = 1;
+                            else if (file.isDirectory())
+                                item.i = 2;
+                            else
+                                item.i = 3;
+                            item.file = file;
+                            item.n = n;
+                            list.add(item);
                         }
                     }
                 }
             }
         }
+        if (!list.isEmpty()) {
+            Collections.sort(list);
+            return list.get(0).n;
+        }
         return node;
+    }
+
+    public static class TARPathMatchNodeItem implements Comparable<TARPathMatchNodeItem> {
+        public int i;
+        public File file;
+        public String n;
+
+        @Override
+        public int compareTo(TARPathMatchNodeItem o) {
+            Integer i1 = i;
+            Integer i2 = o.i;
+            return i1.compareTo(i2);
+        }
+
     }
 
     private static String unwrapTARAlias(String p) {
@@ -2128,20 +2164,23 @@ public class FileUtil extends Util implements Constants {
                             String p = file.getAbsolutePath();
                             String relativePath = toRelativePath(from, p);
                             String topath;
+                            // keep dir
                             if (params.keepDir) {
                                 topath = dir + FILE_SEPARATOR + relativePath.replace("/", FILE_SEPARATOR);
                             } else {
-                                String fileName = getFileName(p);
-                                if (params.newFileName != null)
-                                    fileName = params.newFileName;
-                                topath = dir + FILE_SEPARATOR + fileName;
+                                topath = dir + FILE_SEPARATOR + getFileName(p);
                             }
-                            copyFile(p, topath, false);
-                            if (params.move)
-                                deleteFileWithFolders(p);
-                            System.out.println("           " + relativePath);
-                            System.out.println("        -> " + topath);
-                            addWithoutDup(dirs, topath);
+                            // rename file
+                            String newFileName = newFileNameInCopy(getFileName(topath), params);
+                            topath = getParent(topath) + FILE_SEPARATOR + newFileName;
+                            if (needOverwrite(p, topath, params)) {
+                                copyFile(p, topath, false);
+                                if (params.move)
+                                    deleteFileWithFolders(p);
+                                System.out.println("           " + relativePath);
+                                System.out.println("        -> " + topath);
+                                addWithoutDup(dirs, topath);
+                            }
                         }
                     }
                     OpenDirResult.openDirs(params, dirs);
@@ -2216,7 +2255,10 @@ public class FileUtil extends Util implements Constants {
 
         protected static void listFiles(String from, String filefrom, Params params) throws Exception {
             FilenameFilter filter = Filters.getFilters(filefrom, params);
-            System.out.println("list from: " + from);
+            if (params.fileTimestamp != null)
+                System.out.println(format("list from: {0} ({1})", from, params.fileTimestamp.toString2()));
+            else
+                System.out.println("list from: " + from);
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
             if (!files.isEmpty()) {
                 List<String> dirs = new ArrayList<String>();
@@ -2241,6 +2283,8 @@ public class FileUtil extends Util implements Constants {
                 }
                 OpenDirResult.openDirs(params, dirs);
                 ZipOperationsResult.zipOperations(params, dirs);
+                GoResult.go(params, dirs);
+                DeleteSameResult.deleteSame(params, dirs);
                 System.out.println(tab(2) + format("dirs: {0}, files: {1}", files.size() - filesSize, filesSize));
             } else {
                 System.out.println(tab(2) + "no matched files: " + filefrom);
@@ -2359,12 +2403,15 @@ public class FileUtil extends Util implements Constants {
         }
 
         private static String[] debug(String[] args) {
+            args = sortDebugInArgs(args);
             int n;
             do {
                 n = args.length;
 
                 // -v
                 args = viewDebugLoggings(args);
+                // -va
+                args = viewDebugAllLoggings(args);
                 // -d
                 args = cutJBossDebug(args);
 
@@ -2372,10 +2419,27 @@ public class FileUtil extends Util implements Constants {
             return args;
         }
 
+        private static String[] sortDebugInArgs(String[] args) {
+            List<String> list = arrayToList(args);
+            Collections.sort(list, new ParamsSorterDebug());
+            args = listToArray(list);
+            return args;
+        }
+
         private static String[] viewDebugLoggings(String[] args) {
             String last = getLastArg(args);
             if (last.equals("-v")) {
                 debug_ = true;
+                args = cutLastArg(args);
+            }
+            return args;
+        }
+
+        private static String[] viewDebugAllLoggings(String[] args) {
+            String last = getLastArg(args);
+            if (last.equals("-va")) {
+                debug_ = true;
+                debug2_ = true;
                 args = cutLastArg(args);
             }
             return args;
@@ -2517,6 +2581,27 @@ public class FileUtil extends Util implements Constants {
             params.recursive = false;
             params.recursiveLevel = 0;
             params.noPath = true;
+        }
+
+        private static boolean needOverwrite(String frompath, String topath, Params params) {
+            if (params.overwrite)
+                return true;
+            if (exists(topath)) {
+                return getFileTimestamp(frompath) > getFileTimestamp(topath);
+            }
+            return true;
+        }
+
+        private static String newFileNameInCopy(String fileName, Params params) {
+            if (params.newFileName != null) {
+                String newFileName = params.newFileName;
+                if (newFileName.contains("{n}"))
+                    newFileName = newFileName.replace("{n}", getFileSimpleName(fileName));
+                if (newFileName.contains("{e}"))
+                    newFileName = newFileName.replace("{e}", getFileExtName(fileName));
+                return newFileName;
+            }
+            return fileName;
         }
     }
 
@@ -3750,6 +3835,242 @@ public class FileUtil extends Util implements Constants {
         }
     }
 
+    public static class OverwriteResult {
+        public String[] args;
+        public boolean overwrite;
+
+        public static OverwriteResult overwrite(String[] args) {
+            OverwriteResult r = new OverwriteResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.overwrite = true;
+                r.args = cutLastArg(args);
+                if (debug_)
+                    System.out.println(tab(2) + "Overwrite: " + r.overwrite);
+            } else {
+                r.overwrite = false;
+                r.args = args;
+            }
+            return r;
+        }
+
+        public static boolean isParam(String last) {
+            return last.equals("ov");
+        }
+    }
+
+    public static class GoResult {
+        public String[] args;
+        public boolean go;
+
+        public static GoResult go(String[] args) {
+            GoResult r = new GoResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.go = true;
+                r.args = cutLastArg(args);
+                if (debug_)
+                    System.out.println(tab(2) + "Go: " + r.go);
+            } else {
+                r.go = false;
+                r.args = args;
+            }
+            return r;
+        }
+
+        public static void go(Params params, List<String> dirs) throws Exception {
+            if (params.go) {
+                if (dirs != null && !dirs.isEmpty()) {
+                    List<String> list = new ArrayList<String>();
+                    for (String dir : dirs) {
+                        if (isFile(dir)) {
+                            list.add("call go " + getParent(dir));
+                            break;
+                        } else {
+                            if (dir.contains("\\\\"))
+                                dir = dir.replace("\\\\", "\\");
+                            list.add("call go " + dir);
+                            break;
+                        }
+                    }
+                    setLines(batDir + "agotmp.bat", list);
+                }
+            }
+        }
+
+        public static boolean isParam(String last) {
+            return last.equals("go");
+        }
+    }
+
+    public static class DeleteSameResult {
+        public String[] args;
+        public boolean deleteSame;
+
+        public static DeleteSameResult deleteSame(String[] args) {
+            DeleteSameResult r = new DeleteSameResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.deleteSame = true;
+                r.args = cutLastArg(args);
+                if (debug_)
+                    System.out.println(tab(2) + "Delete Same: " + r.deleteSame);
+            } else {
+                r.deleteSame = false;
+                r.args = args;
+            }
+            return r;
+        }
+
+        public static void deleteSame(Params params, List<String> dirs) throws Exception {
+            if (params.deleteSame) {
+                if (dirs != null && !dirs.isEmpty()) {
+                    for (String dir : dirs) {
+                        if (isFile(dir)) {
+                            compareAndDeleteSame(dir);
+                        }
+                    }
+                }
+            }
+        }
+
+        public static boolean isParam(String last) {
+            return last.equals("ds");
+        }
+    }
+
+    public static class FileTimestampResult {
+        public String[] args;
+        public FileTimestamp fileTimestamp;
+
+        public static FileTimestampResult fileTimestamp(String[] args) throws Exception {
+            FileTimestampResult r = new FileTimestampResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.fileTimestamp = FileTimestamp.parseFileTimestamp(last);
+                r.args = cutLastArg(args);
+                if (debug_)
+                    System.out.println(tab(2) + "File Timestamp: " + r.fileTimestamp);
+            } else {
+                r.fileTimestamp = null;
+                r.args = args;
+            }
+            return r;
+        }
+
+        public static boolean isParam(String last) {
+            return isFromTo(last) || isNearDays(last);
+        }
+
+        private static boolean isFromTo(String last) {
+            return last.matches("t\\d*-?\\d*");
+        }
+
+        private static boolean isNearDays(String last) {
+            return last.matches("t(\\d*[dwmy])*");
+        }
+
+        public static class FileTimestamp {
+            public long from = 0;
+            public long to = Long.MAX_VALUE;
+
+            public boolean matches(File file) {
+                return matchesFileTimestamp(this, file.getAbsolutePath());
+            }
+
+            public static FileTimestamp parseFileTimestamp(String pattern) throws Exception {
+                if (isFromTo(pattern)) {
+                    pattern = cutFirst(pattern, 1);
+                    String from, to;
+                    if (pattern.contains("-")) {
+                        int i = pattern.indexOf("-");
+                        from = pattern.substring(0, i);
+                        to = pattern.substring(i + 1, pattern.length());
+                    } else {
+                        from = pattern;
+                        to = "";
+                        if (from.isEmpty())
+                            from = "0";
+                    }
+                    long fpos = 0;
+                    long tpos = Long.MAX_VALUE;
+                    if (from != null && !from.isEmpty())
+                        fpos = toTimestamp(from);
+                    if (to != null && !to.isEmpty())
+                        tpos = toTimestamp(to);
+                    FileTimestamp ft = new FileTimestamp();
+                    ft.from = fpos;
+                    ft.to = tpos;
+                    return ft;
+                }
+                if (isNearDays(pattern)) {
+                    pattern = cutFirst(pattern, 1);
+                    String from, to = tomorrow();
+                    List<String> list = splitToListWithRegex(pattern, "\\d*[dwmy]");
+                    Calendar c = Calendar.getInstance();
+                    for (String s : list) {
+                        String number = cutLast(s, 1);
+                        String unit = subLast(s, 1);
+                        switch (unit) {
+                        case "d":
+                            c.add(Calendar.DAY_OF_YEAR, -1 * toInt(number));
+                            break;
+                        case "w":
+                            c.add(Calendar.WEEK_OF_YEAR, -1 * toInt(number));
+                            break;
+                        case "m":
+                            c.add(Calendar.MONTH, -1 * toInt(number));
+                            break;
+                        case "y":
+                            c.add(Calendar.YEAR, -1 * toInt(number));
+                            break;
+                        default:
+                            break;
+                        }
+                    }
+                    from = toDateStr2(c.getTimeInMillis());
+                    long fpos = 0;
+                    long tpos = Long.MAX_VALUE;
+                    if (from != null && !from.isEmpty())
+                        fpos = toTimestamp(from);
+                    if (to != null && !to.isEmpty())
+                        tpos = toTimestamp(to);
+                    FileTimestamp ft = new FileTimestamp();
+                    ft.from = fpos;
+                    ft.to = tpos;
+                    return ft;
+                }
+                return null;
+            }
+
+            public static boolean matchesFileTimestamp(String pattern, String p) throws Exception {
+                FileTimestamp el = FileTimestamp.parseFileTimestamp(pattern);
+                long fpos = el.from;
+                long tpos = el.to;
+                long pos = getFileTimestamp(p);
+                return pos >= fpos && pos <= tpos;
+            }
+
+            public static boolean matchesFileTimestamp(FileTimestamp fileTimestamp, String p) {
+                FileTimestamp el = fileTimestamp;
+                long fpos = el.from;
+                long tpos = el.to;
+                long pos = getFileTimestamp(p);
+                return pos >= fpos && pos < tpos;
+            }
+
+            @Override
+            public String toString() {
+                return format("{0}-{1}", toDateStr(from), toDateStr(to));
+            }
+
+            public String toString2() {
+                return format("{0}-{1}", toDateStr2(from), toDateStr2(to));
+            }
+
+        }
+    }
+
     public static class Params {
 
         public String[] args;
@@ -3772,6 +4093,10 @@ public class FileUtil extends Util implements Constants {
         public boolean move = false;
         public OperateLines operateLines = null;
         public ZipOperations zipOperations = null;
+        public boolean overwrite = false;
+        public boolean go = false;
+        public boolean deleteSame = false;
+        public FileTimestamp fileTimestamp = null;
 
         public int getExpandLines() {
             if (expandLines == null) {
@@ -3929,6 +4254,34 @@ public class FileUtil extends Util implements Constants {
                     if (params.zipOperations == null)
                         params.zipOperations = zor.zipOperations;
                 }
+                // overwrite
+                OverwriteResult ovr = OverwriteResult.overwrite(args);
+                if (args.length > ovr.args.length) {
+                    args = ovr.args;
+                    if (params.overwrite == false)
+                        params.overwrite = ovr.overwrite;
+                }
+                // go
+                GoResult gor = GoResult.go(args);
+                if (args.length > gor.args.length) {
+                    args = gor.args;
+                    if (params.go == false)
+                        params.go = gor.go;
+                }
+                // delete same
+                DeleteSameResult dsr = DeleteSameResult.deleteSame(args);
+                if (args.length > dsr.args.length) {
+                    args = dsr.args;
+                    if (params.deleteSame == false)
+                        params.deleteSame = dsr.deleteSame;
+                }
+                // file timestamp
+                FileTimestampResult ftr = FileTimestampResult.fileTimestamp(args);
+                if (args.length > ftr.args.length) {
+                    args = ftr.args;
+                    if (params.fileTimestamp == null)
+                        params.fileTimestamp = ftr.fileTimestamp;
+                }
             } while (args.length < n);
             params.args = args;
             setDefaultParams(params, op);
@@ -3994,6 +4347,14 @@ public class FileUtil extends Util implements Constants {
                 return true;
             if (OperateLinesResult.isParam(s))
                 return true;
+            if (OverwriteResult.isParam(s))
+                return true;
+            if (GoResult.isParam(s))
+                return true;
+            if (DeleteSameResult.isParam(s))
+                return true;
+            if (FileTimestampResult.isParam(s))
+                return true;
             return false;
         }
     }
@@ -4010,6 +4371,27 @@ public class FileUtil extends Util implements Constants {
         private int toParamPriority(String o1) {
             if (Params.isParam(o1))
                 return 1;
+            return 0;
+        }
+
+    }
+
+    public static class ParamsSorterDebug implements Comparator<String> {
+
+        @Override
+        public int compare(String o1, String o2) {
+            Integer i1 = toParamPriority(o1);
+            Integer i2 = toParamPriority(o2);
+            return i1.compareTo(i2);
+        }
+
+        private int toParamPriority(String o1) {
+            if (o1.equals("-v"))
+                return 10;
+            if (o1.equals("-va"))
+                return 9;
+            if (o1.equals("-d"))
+                return 8;
             return 0;
         }
 

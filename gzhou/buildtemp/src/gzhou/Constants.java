@@ -48,6 +48,7 @@ public interface Constants {
     public static final SimpleDateFormat sdf4 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final SimpleDateFormat sdfDay = new SimpleDateFormat("yyyy-MM-dd");
     public static final SimpleDateFormat sdfMonth = new SimpleDateFormat("yyyyMM");
+    public static final SimpleDateFormat sdfDay2 = new SimpleDateFormat("yyyyMMdd");
     public static final SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm:ss");
 
     public static final DecimalFormat df = new DecimalFormat("#,###");

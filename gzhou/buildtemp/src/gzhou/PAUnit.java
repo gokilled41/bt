@@ -1,9 +1,9 @@
 package gzhou;
 
-import gzhou.FileUtil.Filters;
-
 import java.io.File;
 
+import gzhou.FileUtil.FileTimestampResult;
+import gzhou.FileUtil.Filters;
 import junit.framework.TestCase;
 
 public class PAUnit extends TestCase implements Constants {
@@ -151,21 +151,65 @@ public class PAUnit extends TestCase implements Constants {
     }
 
     public void testTARPath_01() throws Exception {
-        String p = "dd\\ol";
-        p = FileUtil.toTARAlias(p);
-        assertEquals(p, "C:\\Users\\gzhou\\Desktop\\old");
-        p = "dd\\ol\\buildt";
-        p = FileUtil.toTARAlias(p);
-        assertEquals(p, "C:\\Users\\gzhou\\Desktop\\old\\buildtemp");
-        p = "dd\\ol\\buildt\\build.xml";
-        p = FileUtil.toTARAlias(p);
-        assertEquals(p, "C:\\Users\\gzhou\\Desktop\\old\\buildtemp\\build.xml");
-        p = "dd\\old\\buildtemp\\build.xml";
-        p = FileUtil.toTARAlias(p);
-        assertEquals(p, "C:\\Users\\gzhou\\Desktop\\old\\buildtemp\\build.xml");
-        p = "dd\\old1\\buildtemp1\\build1.xml";
-        p = FileUtil.toTARAlias(p);
-        assertEquals(p, "C:\\Users\\gzhou\\Desktop\\old1\\buildtemp1\\build1.xml");
+        if (Util.exists("C:\\Users\\gzhou")) {
+            String p = "dd\\ol";
+            p = FileUtil.toTARAlias(p);
+            assertEquals(p, desktopDir + "old");
+            p = "dd\\ol\\buildt";
+            p = FileUtil.toTARAlias(p);
+            assertEquals(p, desktopDir + "old\\buildtemp");
+            p = "dd\\ol\\buildt\\build.xml";
+            p = FileUtil.toTARAlias(p);
+            assertEquals(p, desktopDir + "old\\buildtemp\\build.xml");
+            p = "dd\\old\\buildtemp\\build.xml";
+            p = FileUtil.toTARAlias(p);
+            assertEquals(p, desktopDir + "old\\buildtemp\\build.xml");
+            p = "dd\\old1\\buildtemp1\\build1.xml";
+            p = FileUtil.toTARAlias(p);
+            assertEquals(p, desktopDir + "old1\\buildtemp1\\build1.xml");
+        }
+    }
+
+    public void testUtil_01() throws Exception {
+        String p = rn;
+        assertEquals(Util.getFileSimpleName(p), "rename");
+        assertEquals(Util.getFileExtName(p), "txt");
+        p = rndir + "\\a.b.c.zip";
+        assertEquals(Util.getFileSimpleName(p), "a.b.c");
+        assertEquals(Util.getFileExtName(p), "zip");
+        p = "rename.txt";
+        assertEquals(Util.getFileSimpleName(p), "rename");
+        assertEquals(Util.getFileExtName(p), "txt");
+        p = "a.b.c.zip";
+        assertEquals(Util.getFileSimpleName(p), "a.b.c");
+        assertEquals(Util.getFileExtName(p), "zip");
+    }
+
+    public void testUtil_02() throws Exception {
+        assertEquals(Util.toTimestampFormat("1"), "20170101000000");
+        assertEquals(Util.toTimestampFormat("01"), "20170101000000");
+        assertEquals(Util.toTimestampFormat("101"), "20170101000000");
+        assertEquals(Util.toTimestampFormat("0101"), "20170101000000");
+        assertEquals(Util.toTimestampFormat("010100"), "20170101000000");
+        assertEquals(Util.toTimestampFormat("01010000"), "20170101000000");
+        assertEquals(Util.toTimestampFormat("20170101"), "20170101000000");
+        assertEquals(Util.toTimestampFormat("0101000000"), "20170101000000");
+        assertEquals(Util.toTimestampFormat("2017010100"), "20170101000000");
+        assertEquals(Util.toTimestampFormat("201701010000"), "20170101000000");
+        assertEquals(Util.toTimestampFormat("20170101000000"), "20170101000000");
+        assertEquals(Util.subLast("201701", 2), "01");
+    }
+
+    public void testFileTimestamp_01() throws Exception {
+        assertEquals(FileTimestampResult.isParam("t1d"), true);
+        assertEquals(FileTimestampResult.isParam("t1w"), true);
+        assertEquals(FileTimestampResult.isParam("t1m"), true);
+        assertEquals(FileTimestampResult.isParam("t1y"), true);
+        assertEquals(FileTimestampResult.isParam("t1ds"), false);
+        assertEquals(FileTimestampResult.isParam("t1m1w1d"), true);
+        assertEquals(FileTimestampResult.isParam("t1d1m1y1w1d"), true);
+        assertEquals(FileTimestampResult.isParam("t1d1m1y1s1d"), false);
+        assertEquals(FileTimestampResult.isParam("t1m1w-1d"), false);
     }
 
     private void doTest(String dir, String name, String filefrom, boolean expect) {

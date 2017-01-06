@@ -1,5 +1,6 @@
 package gzhou;
 
+import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
 import gzhou.FileUtil.Filters;
 import gzhou.FileUtil.Params;
 
@@ -25,6 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.vitria.component.util.DOMUtil;
 
@@ -40,6 +43,96 @@ public class Util implements Constants {
     public static Date toDate(long l) {
         Date d = new Date(l);
         return d;
+    }
+
+    // yyyyMMddHHmmss
+    public static String toDateStr(long l) {
+        if (l == Long.MAX_VALUE)
+            return "MAX";
+        return sdf2.format(toDate(l));
+    }
+
+    // yyyyMMdd
+    public static String toDateStr2(long l) {
+        if (l == Long.MAX_VALUE)
+            return "MAX";
+        return sdfDay2.format(toDate(l));
+    }
+
+    public static long toTimestamp(String s) throws Exception {
+        return sdf2.parse(toTimestampFormat(s)).getTime();
+    }
+
+    public static String toTimestampFormat(String s) {
+        if (s.length() == 1) {
+            if (s.equals("0"))
+                return format("{0}{1}{2}000000", thisYear(), thisMonth(), thisDay());
+            else
+                return format("{0}{1}0{2}000000", thisYear(), thisMonth(), s);
+        } else if (s.length() == 2) {
+            return format("{0}{1}{2}000000", thisYear(), thisMonth(), s);
+        } else if (s.length() == 3) {
+            return format("{0}0{1}000000", thisYear(), s);
+        } else if (s.length() == 4) {
+            return format("{0}{1}000000", thisYear(), s);
+        } else if (s.length() == 6) {
+            return format("{0}{1}0000", thisYear(), s);
+        } else if (s.length() == 8) {
+            String first2 = subFirst(s, 2);
+            int i = toInt(first2);
+            if (i > 12)
+                return format("{0}000000", s);
+            else
+                return format("{0}{1}00", thisYear(), s);
+        } else if (s.length() == 10) {
+            String first2 = subFirst(s, 2);
+            int i = toInt(first2);
+            if (i > 12)
+                return format("{0}0000", s);
+            else
+                return format("{0}{1}", thisYear(), s);
+        } else if (s.length() == 12) {
+            String first2 = subFirst(s, 2);
+            int i = toInt(first2);
+            if (i > 12)
+                return format("{0}00", s);
+        } else if (s.length() == 14) {
+            String first2 = subFirst(s, 2);
+            int i = toInt(first2);
+            if (i > 12)
+                return format("{0}", s);
+        }
+        throw new UnsupportedOperationException("Unsupported time format: " + s);
+    }
+
+    public static String thisYear() {
+        Date today = new Date();
+        String month = sdfMonth.format(today);
+        return subFirst(month, 4);
+    }
+
+    public static String thisMonth() {
+        Date today = new Date();
+        String month = sdfMonth.format(today);
+        return subLast(month, 2);
+    }
+
+    public static String thisDay() {
+        Date today = new Date();
+        String day = sdfDay.format(today);
+        return subLast(day, 2);
+    }
+
+    public static String now() {
+        return sdf2.format(toDate(System.currentTimeMillis()));
+    }
+
+    public static String today() {
+        return sdfDay2.format(toDate(System.currentTimeMillis()));
+    }
+
+    public static String tomorrow() {
+        return sdfDay2.format(toDate(System.currentTimeMillis() + 24 * 3600 * 1000));
     }
 
     public static boolean isToday(Date d) {
@@ -211,11 +304,23 @@ public class Util implements Constants {
         return s;
     }
 
+    public static String sub(String s, int begin, int end) {
+        return s.substring(begin, end);
+    }
+
+    public static String subFirst(String s, int n) {
+        return sub(s, 0, n);
+    }
+
+    public static String subLast(String s, int n) {
+        return sub(s, s.length() - n, s.length());
+    }
+
     public static String cutBack(String s, String from, String to) {
         if (from != null && !from.isEmpty())
             s = s.substring(0, s.lastIndexOf(from));
         if (to != null && !to.isEmpty())
-            s = s.substring(s.indexOf(to) + to.length(), s.length());
+            s = s.substring(s.lastIndexOf(to) + to.length(), s.length());
         return s;
     }
 
@@ -461,7 +566,22 @@ public class Util implements Constants {
         } else {
             list = listFiles(folder, recursion, filter, params.recursiveLevel, 0);
         }
+        list = filterFiles(list, params);
         sortFiles(list, params);
+        return list;
+    }
+
+    private static List<File> filterFiles(List<File> list, Params params) {
+        FileTimestamp ft = params.fileTimestamp;
+        if (ft != null) {
+            List<File> filtered = new ArrayList<File>();
+            for (File file : list) {
+                if (ft.matches(file)) {
+                    filtered.add(file);
+                }
+            }
+            return filtered;
+        }
         return list;
     }
 
@@ -682,6 +802,7 @@ public class Util implements Constants {
         }
         fos.close();
         fis.close();
+        setFileTimestamp(to, getFileTimestamp(from));
         if (log)
             System.out.println("copy: " + from + " to " + to);
     }
@@ -825,6 +946,26 @@ public class Util implements Constants {
         return file.getName();
     }
 
+    public static String getFileSimpleName(String path) {
+        String n = getFileName(path);
+        return cutBack(n, ".", null);
+    }
+
+    public static String getFileExtName(String path) {
+        String n = getFileName(path);
+        return cutBack(n, null, ".");
+    }
+
+    public static long getFileTimestamp(String path) {
+        File file = new File(path);
+        return file.lastModified();
+    }
+
+    public static void setFileTimestamp(String path, long t) {
+        File file = new File(path);
+        file.setLastModified(t);
+    }
+
     public static List<String> splitToList(String listString) {
         return splitToList(listString, ",");
     }
@@ -840,6 +981,20 @@ public class Util implements Constants {
                     list.add(item);
                 }
             }
+        }
+        return list;
+    }
+
+    /**
+     * find matches in given string with regex.
+     */
+    public static List<String> splitToListWithRegex(String listString, String regex) {
+        List<String> list = new ArrayList<String>();
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(listString);
+        while (m.find()) {
+            String g = m.group();
+            list.add(g);
         }
         return list;
     }
@@ -1226,6 +1381,34 @@ public class Util implements Constants {
         for (String ext : txtList_) {
             if (pattern.contains(ext))
                 return true;
+        }
+        return false;
+    }
+
+    public static void compareAndDeleteSame(String p) throws Exception {
+        String n = getFileName(p);
+        if (n.contains("-2")) {
+            String n2 = n.replace("-2", "");
+            String dir = getParent(p);
+            compareAndDeleteSame(dir, n, n2);
+        }
+    }
+
+    public static void compareAndDeleteSame(String dir, String n, String n2) throws Exception {
+        String p1 = dir + FILE_SEPARATOR + n;
+        String p2 = dir + FILE_SEPARATOR + n2;
+        if (isSameTextFile(p1, p2)) {
+            System.out.println(format("delete same: {0}={1}", n, n2));
+            deleteFile(p1);
+            deleteFile(p2);
+        }
+    }
+
+    public static boolean isSameTextFile(String p1, String p2) throws Exception {
+        if (exists(p1) && exists(p2)) {
+            List<String> l1 = Util.getLines(p1);
+            List<String> l2 = Util.getLines(p2);
+            return l1.containsAll(l2) && l2.containsAll(l1);
         }
         return false;
     }
