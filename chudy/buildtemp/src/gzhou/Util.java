@@ -317,6 +317,30 @@ public class Util implements Constants {
         return sub(s, s.length() - n, s.length());
     }
 
+    public static String addFirst(String s, String n) {
+        if (!s.startsWith(n))
+            s = n + s;
+        return s;
+    }
+
+    public static String addLast(String s, String n) {
+        if (!s.endsWith(n))
+            s = s + n;
+        return s;
+    }
+
+    public static String removeFirst(String s, String n) {
+        if (s.startsWith(n))
+            s = cutFirst(s, n.length());
+        return s;
+    }
+
+    public static String removeLast(String s, String n) {
+        if (s.endsWith(n))
+            s = cutLast(s, n.length());
+        return s;
+    }
+
     public static String cutBack(String s, String from, String to) {
         if (from != null && !from.isEmpty())
             s = s.substring(0, s.lastIndexOf(from));
@@ -1452,4 +1476,9 @@ public class Util implements Constants {
         }
         return len;
     }
+
+    public static boolean containsIgnoreCase(String s, String n) {
+        return s.toLowerCase().contains(n.toLowerCase());
+    }
+
 }

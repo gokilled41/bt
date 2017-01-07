@@ -1570,18 +1570,29 @@ public class FileUtil extends Util implements Constants {
             }
             if (tarPath.contains("://"))
                 continue;
+
             if (p.equals(tarAlias)) {
+                tarPath = fixTarPath(tarPath);
                 return tarPath;
             } else if (p.startsWith(tarAlias + "/")) {
+                tarPath = fixTarPath(tarPath);
                 String sub = cutFirst(p, tarAlias.length() + 1);
                 sub = sub.replace("/", FILE_SEPARATOR);
                 return toTARPath(tarPath, sub);
             } else if (p.startsWith(tarAlias + FILE_SEPARATOR)) {
+                tarPath = fixTarPath(tarPath);
                 String sub = cutFirst(p, tarAlias.length() + 1);
                 return toTARPath(tarPath, sub);
             }
         }
         return p;
+    }
+
+    private static String fixTarPath(String tarPath) {
+        tarPath = removeLast(tarPath, FILE_SEPARATOR);
+        if (tarPath.endsWith(":"))
+            tarPath = addLast(tarPath, FILE_SEPARATOR);
+        return tarPath;
     }
 
     public static String toTARPath(String tarPath, String sub) {
@@ -1599,7 +1610,7 @@ public class FileUtil extends Util implements Constants {
                 node = toTARPathMatchNode(path, node, false);
             }
             list2.add(node);
-            path = path + sp + node;
+            path = addLast(path, sp) + node;
         }
         return path;
     }
@@ -1614,12 +1625,15 @@ public class FileUtil extends Util implements Constants {
                     if (onlyDir) {
                         if (file.isDirectory()) {
                             String n = file.getName();
-                            if (n.contains(node)) {
+                            if (containsIgnoreCase(n, node)) {
                                 TARPathMatchNodeItem item = new TARPathMatchNodeItem();
-                                if (n.equals(node))
+                                if (n.equals(node)) {
                                     item.i = 1;
-                                else
+                                } else if (n.contains(node)) {
                                     item.i = 2;
+                                } else {
+                                    item.i = 3;
+                                }
                                 item.file = file;
                                 item.n = n;
                                 list.add(item);
@@ -1627,14 +1641,18 @@ public class FileUtil extends Util implements Constants {
                         }
                     } else {
                         String n = file.getName();
-                        if (n.contains(node)) {
+                        if (containsIgnoreCase(n, node)) {
                             TARPathMatchNodeItem item = new TARPathMatchNodeItem();
-                            if (n.equals(node))
+                            if (n.equals(node)) {
                                 item.i = 1;
-                            else if (file.isDirectory())
-                                item.i = 2;
-                            else
-                                item.i = 3;
+                            } else if (file.isDirectory()) {
+                                if (n.contains(node))
+                                    item.i = 2;
+                                else
+                                    item.i = 3;
+                            } else {
+                                item.i = 4;
+                            }
                             item.file = file;
                             item.n = n;
                             list.add(item);
@@ -2597,7 +2615,10 @@ public class FileUtil extends Util implements Constants {
         }
 
         private static String toRelativePath(String from, String p) {
-            return p.substring(from.length() + 1).replace(FILE_SEPARATOR, "/");
+            if (p.contains("\\\\"))
+                p = p.replace("\\\\", "\\");
+            from = addLast(from, FILE_SEPARATOR);
+            return p.substring(from.length()).replace(FILE_SEPARATOR, "/");
         }
 
         private static List<File> toCopyFromFiles(List<File> fromFiles) {
