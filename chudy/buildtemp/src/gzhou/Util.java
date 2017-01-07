@@ -1,5 +1,10 @@
 package gzhou;
 
+import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
+import gzhou.FileUtil.Filters;
+import gzhou.FileUtil.MarkOccurrenceResult;
+import gzhou.FileUtil.Params;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,12 +27,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.vitria.component.util.DOMUtil;
-
-import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
-import gzhou.FileUtil.Filters;
-import gzhou.FileUtil.Params;
 
 public class Util implements Constants {
 
@@ -43,10 +46,18 @@ public class Util implements Constants {
         return d;
     }
 
+    // yyyyMMddHHmmss
     public static String toDateStr(long l) {
         if (l == Long.MAX_VALUE)
             return "MAX";
         return sdf2.format(toDate(l));
+    }
+
+    // yyyyMMdd
+    public static String toDateStr2(long l) {
+        if (l == Long.MAX_VALUE)
+            return "MAX";
+        return sdfDay2.format(toDate(l));
     }
 
     public static long toTimestamp(String s) throws Exception {
@@ -111,6 +122,18 @@ public class Util implements Constants {
         Date today = new Date();
         String day = sdfDay.format(today);
         return subLast(day, 2);
+    }
+
+    public static String now() {
+        return sdf2.format(toDate(System.currentTimeMillis()));
+    }
+
+    public static String today() {
+        return sdfDay2.format(toDate(System.currentTimeMillis()));
+    }
+
+    public static String tomorrow() {
+        return sdfDay2.format(toDate(System.currentTimeMillis() + 24 * 3600 * 1000));
     }
 
     public static boolean isToday(Date d) {
@@ -842,7 +865,7 @@ public class Util implements Constants {
                 changed = true;
                 String replaced = replaceInLine(line, from, to, params.caseSensitive);
                 list.add(replaced);
-                affected.add(new Line(pos, line, replaced));
+                affected.add(new Line(pos, line, replaced, params));
             } else {
                 list.add(line);
             }
@@ -963,12 +986,27 @@ public class Util implements Constants {
         return list;
     }
 
+    /**
+     * find matches in given string with regex.
+     */
+    public static List<String> splitToListWithRegex(String listString, String regex) {
+        List<String> list = new ArrayList<String>();
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(listString);
+        while (m.find()) {
+            String g = m.group();
+            list.add(g);
+        }
+        return list;
+    }
+
     public static List<Line> findInFile(String p, String from, Params params) throws Exception {
         Filters f = Filters.getFilters(from, params);
         return findInFile(p, f, params);
     }
 
     public static List<Line> findInFile(String p, Filters f, Params params) throws Exception {
+        String first = f.getFirstNoIgnore();
         List<Line> list = new ArrayList<Line>();
         LinesResult lr = new LinesResult();
         while (lr.hasMore) {
@@ -978,7 +1016,8 @@ public class Util implements Constants {
                 String line = lines.get(i);
                 int pos = lr.li + i + 1;
                 if (f.accept(line, pos)) {
-                    Line item = new Line(pos, line);
+                    Line item = new Line(pos, line, params);
+                    item.searchKey = first;
                     item.fillPrevNext(params, lines);
                     list.add(item);
                 }
@@ -994,16 +1033,20 @@ public class Util implements Constants {
         public String replaced;
         public List<String> prev;
         public List<String> next;
+        public Params params;
+        public String searchKey;
 
-        public Line(int i, String line) {
+        public Line(int i, String line, Params params) {
             this.i = i;
             this.line = line;
+            this.params = params;
         }
 
-        public Line(int i, String line, String replaced) {
+        public Line(int i, String line, String replaced, Params params) {
             this.i = i;
             this.line = line;
             this.replaced = replaced;
+            this.params = params;
         }
 
         public boolean match(int pos) {
@@ -1103,6 +1146,9 @@ public class Util implements Constants {
             print(tab + indent, prev, true);
             if (!noLineNumber) {
                 System.out.println(tab(tab) + formatstr(i + ": ", indent) + line);
+                if (params.markOccurrence) {
+                    System.out.println(tab(tab + indent) + MarkOccurrenceResult.makeMarkLine(line, searchKey));
+                }
                 if (replaced != null)
                     System.out.println(tab(tab) + formatstr("  ->", indent) + replaced);
             } else {
@@ -1245,11 +1291,15 @@ public class Util implements Constants {
     }
 
     public static String getFirstArg(String[] args) {
-        return args[0];
+        if (args.length > 0)
+            return args[0];
+        return null;
     }
 
     public static String getLastArg(String[] args) {
-        return args[args.length - 1];
+        if (args.length > 0)
+            return args[args.length - 1];
+        return null;
     }
 
     public static String[] cutFirstArg(String[] args) {

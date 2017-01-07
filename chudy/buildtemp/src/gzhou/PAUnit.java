@@ -2,6 +2,7 @@ package gzhou;
 
 import java.io.File;
 
+import gzhou.FileUtil.FileTimestampResult;
 import gzhou.FileUtil.Filters;
 import junit.framework.TestCase;
 
@@ -150,7 +151,7 @@ public class PAUnit extends TestCase implements Constants {
     }
 
     public void testTARPath_01() throws Exception {
-        if (Util.exists("C:\\Users\\gzhou")) {
+        if (Util.exists("C:\\Users\\Chudy")) {
             String p = "dd\\ol";
             p = FileUtil.toTARAlias(p);
             assertEquals(p, desktopDir + "old");
@@ -197,6 +198,18 @@ public class PAUnit extends TestCase implements Constants {
         assertEquals(Util.toTimestampFormat("201701010000"), "20170101000000");
         assertEquals(Util.toTimestampFormat("20170101000000"), "20170101000000");
         assertEquals(Util.subLast("201701", 2), "01");
+    }
+
+    public void testFileTimestamp_01() throws Exception {
+        assertEquals(FileTimestampResult.isParam("t1d"), true);
+        assertEquals(FileTimestampResult.isParam("t1w"), true);
+        assertEquals(FileTimestampResult.isParam("t1m"), true);
+        assertEquals(FileTimestampResult.isParam("t1y"), true);
+        assertEquals(FileTimestampResult.isParam("t1ds"), false);
+        assertEquals(FileTimestampResult.isParam("t1m1w1d"), true);
+        assertEquals(FileTimestampResult.isParam("t1d1m1y1w1d"), true);
+        assertEquals(FileTimestampResult.isParam("t1d1m1y1s1d"), false);
+        assertEquals(FileTimestampResult.isParam("t1m1w-1d"), false);
     }
 
     private void doTest(String dir, String name, String filefrom, boolean expect) {

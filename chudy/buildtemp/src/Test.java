@@ -19,6 +19,7 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.logging.Logger;
+import java.util.regex.*;
 
 import javax.management.*;
 import javax.naming.*;
@@ -87,7 +88,14 @@ public class Test extends gzhou.Util {
 
     public static void main(String[] args) throws Exception {
         
-        
+        List<String> list = getLines("kout\\20170106144623.json.part-00003");
+        for (String s : list) {
+            System.out.println(s);
+            s = JSONUtil.format(s);
+            System.out.println(s);
+            s = JSONUtil.formatOneLine(s);
+            System.out.println(s);
+        }
         
     }
 }

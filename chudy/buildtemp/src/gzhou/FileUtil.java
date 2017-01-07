@@ -1,5 +1,11 @@
 package gzhou;
 
+import gzhou.FileUtil.ExpandLinesResult.ExpandLines;
+import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
+import gzhou.FileUtil.OperateLinesResult.OperateLines;
+import gzhou.FileUtil.OperateLinesResult.OperateLinesUtil;
+import gzhou.FileUtil.ZipOperationsResult.ZipOperations;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -38,12 +44,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import com.vitria.domainservice.util.DOMUtil;
-
-import gzhou.FileUtil.ExpandLinesResult.ExpandLines;
-import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
-import gzhou.FileUtil.OperateLinesResult.OperateLines;
-import gzhou.FileUtil.OperateLinesResult.OperateLinesUtil;
-import gzhou.FileUtil.ZipOperationsResult.ZipOperations;
 
 public class FileUtil extends Util implements Constants {
 
@@ -95,6 +95,8 @@ public class FileUtil extends Util implements Constants {
             System.out.println("tar:     tar"); // ta rename
             System.out.println("p2st:    p2st"); // patch to dstf
             System.out.println("palias:  palias"); // print tar alias
+            System.out.println("git:     git"); // git
+            System.out.println("custom:  custom"); // custom
         } else if (args[0].equals("clean")) { // fuc
             clean();
         } else if (args[0].equals("copyAppSrc")) { // fucas
@@ -175,6 +177,10 @@ public class FileUtil extends Util implements Constants {
             p2st(args);
         } else if (args[0].equals("palias")) { // palias
             palias(cutFirstArg(args));
+        } else if (args[0].equals("git")) { // git
+            git(cutFirstArg(args));
+        } else if (args[0].equals("custom")) { // custom
+            custom(cutFirstArg(args));
         }
     }
 
@@ -754,8 +760,7 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static void gettersetter() throws Exception {
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(new FileInputStream(desktopDir + "translate.txt")));
+        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(desktopDir + "translate.txt")));
         List<String> list = new ArrayList<String>();
         String line;
         String s = "";
@@ -765,8 +770,10 @@ public class FileUtil extends Util implements Constants {
                 if (line.contains("_")) {
                     int i = line.lastIndexOf("_");
                     String next = line.substring(i + 1, i + 2);
-                    if (next.equals("(") || next.equals(")") || (next.equals(";") && !line.trim().startsWith("return")
-                            && !line.trim().startsWith("private") && !line.trim().startsWith("public"))) {
+                    if (next.equals("(")
+                            || next.equals(")")
+                            || (next.equals(";") && !line.trim().startsWith("return")
+                                    && !line.trim().startsWith("private") && !line.trim().startsWith("public"))) {
                         s = line.substring(0, i) + line.substring(i + 1, line.length());
                     }
                 }
@@ -801,11 +808,15 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static void generateNCTemplate() throws Exception {
-        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(
-                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ncgenerator.xsl")));
-        PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(
-                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\NCTemplate.java",
-                false)));
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream(
+                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ncgenerator.xsl")));
+        PrintWriter out = new PrintWriter(
+                new OutputStreamWriter(
+                        new FileOutputStream(
+                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\NCTemplate.java",
+                                false)));
 
         out.println("// Copyright (c) 2013 Vitria Technology, Inc.");
         out.println("// All Rights Reserved.");
@@ -856,11 +867,15 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static void generateViewTemplate() throws Exception {
-        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(
-                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\instance_view.xml")));
-        PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(
-                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ViewTemplate.java",
-                false)));
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream(
+                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\instance_view.xml")));
+        PrintWriter out = new PrintWriter(
+                new OutputStreamWriter(
+                        new FileOutputStream(
+                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ViewTemplate.java",
+                                false)));
 
         out.println("// Copyright (c) 2013 Vitria Technology, Inc.");
         out.println("// All Rights Reserved.");
@@ -923,7 +938,8 @@ public class FileUtil extends Util implements Constants {
         copyFile(
                 "C:\\zhou\\yoda\\unbundled\\af\\java\\nc_framework\\utility\\com\\vitria\\o2\\nc\\publisher\\FeedPublisher.java",
                 "C:\\Workflow-G\\workflow bug fixing\\2012-12-11 Hadoop\\feed_publisher\\not_modified\\FeedPublisher.java");
-        copyFile("C:\\Workflow-G\\workflow bug fixing\\2012-12-11 Hadoop\\feed_publisher\\modified\\FeedPublisher.java",
+        copyFile(
+                "C:\\Workflow-G\\workflow bug fixing\\2012-12-11 Hadoop\\feed_publisher\\modified\\FeedPublisher.java",
                 "C:\\zhou\\yoda\\unbundled\\af\\java\\nc_framework\\utility\\com\\vitria\\o2\\nc\\publisher\\FeedPublisher.java");
     }
 
@@ -1450,6 +1466,98 @@ public class FileUtil extends Util implements Constants {
         } else if (type.equals("replace")) {
             PAOperations.paReplace(args);
         }
+    }
+
+    public static void git(String[] args) throws Exception {
+        if (args.length < 1) {
+            System.out.println("git <type> <args>");
+            return;
+        }
+        String[] oArgs = args;
+        args = PAOperations.debug(args);
+        Params.log("begin", oArgs);
+        String type = args[0];
+        args = cutFirstArg(args);
+        Params.log("cut type", args);
+        args = OutputToFile.outputToFile(args, "git_" + type);
+        Params.log("output to file", args);
+        if (type.equals("add")) {
+            GitOperations.gitAdd(args);
+        }
+    }
+
+    public static class GitOperations {
+
+        public static void gitAdd(String[] args) throws Exception {
+            Params params = Params.toParams("gitadd", args);
+            args = params.args;
+
+            String log = "D:\\alogs\\gst.log";
+            List<String> lines = getLines(log);
+            List<String> list = new ArrayList<String>();
+            for (String line : lines) {
+                if (line.startsWith("\t")) {
+                    line = cutFirst(line, 1);
+                    if (line.startsWith("deleted:    ")) {
+                        line = cutFirst(line, 12);
+                        list.add("call git rm " + line);
+                    } else {
+                        list.add("call git add " + line);
+                    }
+                }
+            }
+            setLines(batDir + "agitaddtmp.bat", list);
+        }
+    }
+
+    public static void custom(String[] args) throws Exception {
+        if (args.length < 1) {
+            System.out.println("custom <type> <args>");
+            return;
+        }
+        String[] oArgs = args;
+        args = PAOperations.debug(args);
+        Params.log("begin", oArgs);
+        String type = args[0];
+        args = cutFirstArg(args);
+        Params.log("cut type", args);
+        args = OutputToFile.outputToFile(args, "custom_" + type);
+        Params.log("output to file", args);
+        if (type.equals("formatjson")) {
+            CustomOperations.customFormatJSON(args);
+        }
+    }
+
+    public static class CustomOperations {
+
+        public static void customFormatJSON(String[] args) throws Exception {
+            Params params = Params.toParams("custom_format_json", args);
+            args = params.args;
+
+            String p = toTARAlias(args[0]);
+
+            boolean tol = false;
+            String last = getLastArg(args);
+            if (last.equals("tol"))
+                tol = true;
+
+            if (!tol) {
+                List<String> lines = getLines(p);
+                List<String> list = new ArrayList<String>();
+                for (String s : lines) {
+                    list.add(JSONUtil.format(s));
+                }
+                setLines(p, list);
+            } else {
+                List<String> lines = getLinesNoEx(p);
+                StringBuilder sb = new StringBuilder();
+                for (String line : lines) {
+                    sb.append(line.trim());
+                }
+                setLines(p, toList(sb.toString()));
+            }
+        }
+
     }
 
     private static String fixPath(String path) {
@@ -2228,7 +2336,7 @@ public class FileUtil extends Util implements Constants {
                                     continue;
                                 }
                             }
-                            Line l = new Line(i + 1, line);
+                            Line l = new Line(i + 1, line, params);
                             if (!one)
                                 l.print(6, 7, params.noLineNumber);
                             else
@@ -2245,7 +2353,10 @@ public class FileUtil extends Util implements Constants {
 
         protected static void listFiles(String from, String filefrom, Params params) throws Exception {
             FilenameFilter filter = Filters.getFilters(filefrom, params);
-            System.out.println("list from: " + from);
+            if (params.fileTimestamp != null)
+                System.out.println(format("list from: {0} ({1})", from, params.fileTimestamp.toString2()));
+            else
+                System.out.println("list from: " + from);
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
             if (!files.isEmpty()) {
                 List<String> dirs = new ArrayList<String>();
@@ -2312,8 +2423,8 @@ public class FileUtil extends Util implements Constants {
                         List<Line> foundLines = findInFile(p, from, params);
                         if (!foundLines.isEmpty()) {
                             String n1 = toRelativePath(dir, p);
-                            System.out.println(
-                                    tab(2) + format("found \"{0}\" places in \"{1}\":", foundLines.size(), n1));
+                            System.out.println(tab(2)
+                                    + format("found \"{0}\" places in \"{1}\":", foundLines.size(), n1));
                             System.out.println();
                             for (Line line : foundLines) {
                                 line.print(6, 7);
@@ -2532,8 +2643,8 @@ public class FileUtil extends Util implements Constants {
             int dirIndent = 10;
             int timeIndent = 30;
             String n = formatstr(relativePath, nameIndent + 1);
-            String size = file.isDirectory() ? formatstr("", sizeIndent)
-                    : formatstr(df.format(file.length()), sizeIndent, false);
+            String size = file.isDirectory() ? formatstr("", sizeIndent) : formatstr(df.format(file.length()),
+                    sizeIndent, false);
             String dir = file.isDirectory() ? formatstr("<DIR>", dirIndent) : formatstr("", dirIndent);
             String time = formatstr(sdf4.format(new Date(file.lastModified())), timeIndent);
             return format("{0} {1}     {2} {3}", n, size, dir, time);
@@ -2640,8 +2751,22 @@ public class FileUtil extends Util implements Constants {
                 first = filter.getFirst();
             }
             if (debug2_) {
-                System.out.println(
-                        format("Filters: p={0}, filters={1}, filter={2}, first={3}", p, filters, filter, first));
+                System.out.println(format("Filters: p={0}, filters={1}, filter={2}, first={3}", p, filters, filter,
+                        first));
+            }
+            return first;
+        }
+
+        public String getFirstNoIgnore() {
+            String first = null;
+            if (isFilters()) {
+                first = filters.get(0).getFirstNoIgnore();
+            } else {
+                first = filter.getFirstNoIgnore();
+            }
+            if (debug2_) {
+                System.out.println(format("Filters: p={0}, filters={1}, filter={2}, first={3}", p, filters, filter,
+                        first));
             }
             return first;
         }
@@ -2903,6 +3028,19 @@ public class FileUtil extends Util implements Constants {
             return first;
         }
 
+        public String getFirstNoIgnore() {
+            String first = null;
+            if (p.isGroup()) {
+                first = filters.getFirstNoIgnore();
+            } else {
+                first = p.getFirstNoIgnore();
+            }
+            if (debug2_) {
+                System.out.println(format("Filter: p={0}, filters={1}, first={3}", p, filters, first));
+            }
+            return first;
+        }
+
         private void init() {
             if (p.isGroup()) {
                 filters = Filters.getFilters(p.p, params);
@@ -2989,6 +3127,10 @@ public class FileUtil extends Util implements Constants {
 
         public String getFirst() {
             ignore = true;
+            return p;
+        }
+
+        public String getFirstNoIgnore() {
             return p;
         }
 
@@ -3946,7 +4088,15 @@ public class FileUtil extends Util implements Constants {
         }
 
         public static boolean isParam(String last) {
+            return isFromTo(last) || isNearDays(last);
+        }
+
+        private static boolean isFromTo(String last) {
             return last.matches("t\\d*-?\\d*");
+        }
+
+        private static boolean isNearDays(String last) {
+            return last.matches("t(\\d*[dwmy])*");
         }
 
         public static class FileTimestamp {
@@ -3958,7 +4108,7 @@ public class FileUtil extends Util implements Constants {
             }
 
             public static FileTimestamp parseFileTimestamp(String pattern) throws Exception {
-                if (pattern.matches("t\\d*-?\\d*")) {
+                if (isFromTo(pattern)) {
                     pattern = cutFirst(pattern, 1);
                     String from, to;
                     if (pattern.contains("-")) {
@@ -3971,6 +4121,43 @@ public class FileUtil extends Util implements Constants {
                         if (from.isEmpty())
                             from = "0";
                     }
+                    long fpos = 0;
+                    long tpos = Long.MAX_VALUE;
+                    if (from != null && !from.isEmpty())
+                        fpos = toTimestamp(from);
+                    if (to != null && !to.isEmpty())
+                        tpos = toTimestamp(to);
+                    FileTimestamp ft = new FileTimestamp();
+                    ft.from = fpos;
+                    ft.to = tpos;
+                    return ft;
+                }
+                if (isNearDays(pattern)) {
+                    pattern = cutFirst(pattern, 1);
+                    String from, to = tomorrow();
+                    List<String> list = splitToListWithRegex(pattern, "\\d*[dwmy]");
+                    Calendar c = Calendar.getInstance();
+                    for (String s : list) {
+                        String number = cutLast(s, 1);
+                        String unit = subLast(s, 1);
+                        switch (unit) {
+                        case "d":
+                            c.add(Calendar.DAY_OF_YEAR, -1 * toInt(number));
+                            break;
+                        case "w":
+                            c.add(Calendar.WEEK_OF_YEAR, -1 * toInt(number));
+                            break;
+                        case "m":
+                            c.add(Calendar.MONTH, -1 * toInt(number));
+                            break;
+                        case "y":
+                            c.add(Calendar.YEAR, -1 * toInt(number));
+                            break;
+                        default:
+                            break;
+                        }
+                    }
+                    from = toDateStr2(c.getTimeInMillis());
                     long fpos = 0;
                     long tpos = Long.MAX_VALUE;
                     if (from != null && !from.isEmpty())
@@ -4006,6 +4193,49 @@ public class FileUtil extends Util implements Constants {
                 return format("{0}-{1}", toDateStr(from), toDateStr(to));
             }
 
+            public String toString2() {
+                return format("{0}-{1}", toDateStr2(from), toDateStr2(to));
+            }
+
+        }
+    }
+
+    public static class MarkOccurrenceResult {
+        public String[] args;
+        public boolean markOccurrence;
+
+        public static MarkOccurrenceResult markOccurrence(String[] args) {
+            MarkOccurrenceResult r = new MarkOccurrenceResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.markOccurrence = true;
+                r.args = cutLastArg(args);
+                if (debug_)
+                    System.out.println(tab(2) + "Mark Occurrence: " + r.markOccurrence);
+            } else {
+                r.markOccurrence = false;
+                r.args = args;
+            }
+            return r;
+        }
+
+        public static boolean isParam(String last) {
+            return last.equals("mk");
+        }
+
+        public static String makeMarkLine(String line, String key) {
+            String mark = getRepeatingString("^", key.length());
+            line = line.replace(key, mark);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < line.length(); i++) {
+                char c = line.charAt(i);
+                if (c != '^') {
+                    sb.append(" ");
+                } else {
+                    sb.append(c);
+                }
+            }
+            return sb.toString();
         }
     }
 
@@ -4035,6 +4265,7 @@ public class FileUtil extends Util implements Constants {
         public boolean go = false;
         public boolean deleteSame = false;
         public FileTimestamp fileTimestamp = null;
+        public boolean markOccurrence = false;
 
         public int getExpandLines() {
             if (expandLines == null) {
@@ -4081,6 +4312,8 @@ public class FileUtil extends Util implements Constants {
             int n;
             do {
                 n = args.length;
+                if (n == 0)
+                    break;
                 // expand lines
                 ExpandLinesResult elr = ExpandLinesResult.expandLines(args);
                 if (args.length > elr.args.length) {
@@ -4220,6 +4453,13 @@ public class FileUtil extends Util implements Constants {
                     if (params.fileTimestamp == null)
                         params.fileTimestamp = ftr.fileTimestamp;
                 }
+                // mark occurrence
+                MarkOccurrenceResult mor = MarkOccurrenceResult.markOccurrence(args);
+                if (args.length > mor.args.length) {
+                    args = mor.args;
+                    if (params.markOccurrence == false)
+                        params.markOccurrence = mor.markOccurrence;
+                }
             } while (args.length < n);
             params.args = args;
             setDefaultParams(params, op);
@@ -4340,24 +4580,26 @@ public class FileUtil extends Util implements Constants {
             boolean outputToFile = false;
             boolean slient = false;
             String last = getLastArg(args);
-            if (last.equalsIgnoreCase("o")) {
-                outputToFile = true;
-                args = cutLastArg(args);
-            } else if (last.equalsIgnoreCase("sl")) {
-                outputToFile = true;
-                slient = true;
-                args = cutLastArg(args);
-            }
-            if (outputToFile) {
-                String dir = "D:\\alogs\\";
-                mkdirs(dir);
-                String file = dir + n + ".log";
-                if (!slient)
-                    System.out.println("output to: " + file);
-                outputToFile(file);
-                if (!slient) {
-                    String line = "call e " + file;
-                    setLines(batDir + "aoutputtmp.bat", toList(line));
+            if (last != null) {
+                if (last.equalsIgnoreCase("o")) {
+                    outputToFile = true;
+                    args = cutLastArg(args);
+                } else if (last.equalsIgnoreCase("sl")) {
+                    outputToFile = true;
+                    slient = true;
+                    args = cutLastArg(args);
+                }
+                if (outputToFile) {
+                    String dir = "D:\\alogs\\";
+                    mkdirs(dir);
+                    String file = dir + n + ".log";
+                    if (!slient)
+                        System.out.println("output to: " + file);
+                    outputToFile(file);
+                    if (!slient) {
+                        String line = "call e " + file;
+                        setLines(batDir + "aoutputtmp.bat", toList(line));
+                    }
                 }
             }
             return args;

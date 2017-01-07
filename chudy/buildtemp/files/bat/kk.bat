@@ -13,11 +13,11 @@ if not "%1" == "" set kkfrom=%1
 set kkto=%1
 if not "%2" == "" set kkto=%2
 
-call afu /l%kkfrom%-%kkto% ar "expand lines" "file timestamp"
-call afu /l%kkfrom%-%kkto% ar ExpandLines FileTimestamp
-call afu /l%kkfrom%-%kkto% ar "Expand Lines" "File Timestamp"
-call afu /l%kkfrom%-%kkto% ar expandLines fileTimestamp
-call afu /l%kkfrom%-%kkto% ar elr ftr
+call afu /l%kkfrom%-%kkto% ar "delete same" "mark occurrence"
+call afu /l%kkfrom%-%kkto% ar DeleteSame MarkOccurrence
+call afu /l%kkfrom%-%kkto% ar "Delete Same" "Mark Occurrence"
+call afu /l%kkfrom%-%kkto% ar deleteSame markOccurrence
+call afu /l%kkfrom%-%kkto% ar dsr mor
 
 goto end
 

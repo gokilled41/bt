@@ -16,3 +16,4 @@ call grgbk "C:\Users\Chudy\Desktop\rename\Config-2.ini" "http://localhost:18080/
 call grgbk "C:\Users\Chudy\Desktop\rename\Config-2.ini" "C:\Program Files\Maxthon\Bin\Maxthon.exe" "C:\Program Files (x86)\Maxthon\Bin\Maxthon.exe"
 call al rn Config-2.ini gbk af "'C:\Program Files (x86)'" ar "C:\Program Files"
 call al rn Config-2.ini gbk af shrmt ar localhost 10.101.3.73
+call al rn Config-2.ini gbk af chrome/vitria/localhost ar localhost 10.101.3.73
