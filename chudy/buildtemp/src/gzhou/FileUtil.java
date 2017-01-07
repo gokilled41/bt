@@ -2627,7 +2627,7 @@ public class FileUtil extends Util implements Constants {
             for (File file : files) {
                 String p = file.getAbsolutePath();
                 String rp = toRelativePath(from, p);
-                i = Math.max(i, rp.length());
+                i = Math.max(i, getUnicodeLength(rp));
             }
             return i;
         }
