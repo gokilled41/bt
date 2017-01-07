@@ -2389,11 +2389,12 @@ public class FileUtil extends Util implements Constants {
                             relativePath = cutLast(relativePath, 6);
                     }
                     System.out.println(tab(2) + listFileDetail(file, relativePath, nameIndent));
+                    renameFileInList(file, params, relativePath);
                     addWithoutDup(dirs, p);
                 }
                 OpenDirResult.openDirs(params, dirs);
                 ZipOperationsResult.zipOperations(params, dirs);
-                GoResult.go(params, dirs);
+                GoResult.go(params, dirs, from);
                 DeleteSameResult.deleteSame(params, dirs);
                 System.out.println(tab(2) + format("dirs: {0}, files: {1}", files.size() - filesSize, filesSize));
             } else {
@@ -2705,16 +2706,69 @@ public class FileUtil extends Util implements Constants {
             return true;
         }
 
-        private static String newFileNameInCopy(String fileName, Params params) {
+        public static String newFileNameInCopy(String fileName, Params params) {
             if (params.newFileName != null) {
                 String newFileName = params.newFileName;
+                if (newFileName.endsWith("}"))
+                    newFileName = addLast(newFileName, ".{e}");
+                if (!newFileName.contains("."))
+                    newFileName = addLast(newFileName, ".{e}");
                 if (newFileName.contains("{n}"))
                     newFileName = newFileName.replace("{n}", getFileSimpleName(fileName));
+                if (newFileName.matches(".*\\{n\\d*-?\\d*\\}.*")) {
+                    List<String> list = splitToListWithRegex(newFileName, "\\{n\\d*-?\\d*\\}");
+                    for (String pattern : list) {
+                        String sub = newFileNameSub(getFileSimpleName(fileName), pattern);
+                        newFileName = newFileName.replace(pattern, sub);
+                    }
+                }
                 if (newFileName.contains("{e}"))
                     newFileName = newFileName.replace("{e}", getFileExtName(fileName));
                 return newFileName;
             }
             return fileName;
+        }
+
+        private static String newFileNameSub(String fileName, String pattern) {
+            pattern = cut(pattern, 1, 1);
+            if (pattern.matches("n\\d*-?\\d*")) {
+                pattern = cutFirst(pattern, 1);
+                String from, to;
+                if (pattern.contains("-")) {
+                    int i = pattern.indexOf("-");
+                    from = pattern.substring(0, i);
+                    to = pattern.substring(i + 1, pattern.length());
+                } else {
+                    from = pattern;
+                    to = "";
+                }
+                int fpos = 0;
+                int len = fileName.length();
+                int tpos = len;
+                if (from != null && !from.isEmpty())
+                    fpos = toInt(from);
+                if (to != null && !to.isEmpty())
+                    tpos = toInt(to);
+                // last n
+                if (fpos == 0) {
+                    fpos = len - tpos + 1;
+                    tpos = len;
+                }
+                return sub(fileName, fpos - 1, tpos);
+            }
+            return "";
+        }
+
+        private static void renameFileInList(File file, Params params, String relativePath) {
+            if (params.newFileName != null) {
+                String fileName = file.getName();
+                String newFileName = newFileNameInCopy(fileName, params);
+                if (!newFileName.equals(fileName)) {
+                    renameFile(file.getAbsolutePath(), fileName, newFileName);
+                    relativePath = relativePath.replace(fileName, newFileName);
+                    System.out.println(tab(2) + "-> " + relativePath);
+                }
+            }
         }
     }
 
@@ -4013,23 +4067,28 @@ public class FileUtil extends Util implements Constants {
     public static class GoResult {
         public String[] args;
         public boolean go;
+        public boolean ago;
 
         public static GoResult go(String[] args) {
             GoResult r = new GoResult();
             String last = getLastArg(args);
             if (isParam(last)) {
-                r.go = true;
+                r.go = isGo(last);
+                r.ago = isAGo(last);
                 r.args = cutLastArg(args);
                 if (debug_)
                     System.out.println(tab(2) + "Go: " + r.go);
+                if (debug_)
+                    System.out.println(tab(2) + "AGo: " + r.ago);
             } else {
                 r.go = false;
+                r.ago = false;
                 r.args = args;
             }
             return r;
         }
 
-        public static void go(Params params, List<String> dirs) throws Exception {
+        public static void go(Params params, List<String> dirs, String from) throws Exception {
             if (params.go) {
                 if (dirs != null && !dirs.isEmpty()) {
                     List<String> list = new ArrayList<String>();
@@ -4047,10 +4106,23 @@ public class FileUtil extends Util implements Constants {
                     setLines(batDir + "agotmp.bat", list);
                 }
             }
+            if (params.ago) {
+                List<String> list = new ArrayList<String>();
+                list.add("call explorer " + from);
+                setLines(batDir + "agotmp.bat", list);
+            }
         }
 
         public static boolean isParam(String last) {
+            return isGo(last) || isAGo(last);
+        }
+
+        private static boolean isGo(String last) {
             return last.equals("go");
+        }
+
+        private static boolean isAGo(String last) {
+            return last.equals("ago");
         }
     }
 
@@ -4285,6 +4357,7 @@ public class FileUtil extends Util implements Constants {
         public ZipOperations zipOperations = null;
         public boolean overwrite = false;
         public boolean go = false;
+        public boolean ago = false;
         public boolean deleteSame = false;
         public FileTimestamp fileTimestamp = null;
         public boolean markOccurrence = false;
@@ -4460,6 +4533,8 @@ public class FileUtil extends Util implements Constants {
                     args = gor.args;
                     if (params.go == false)
                         params.go = gor.go;
+                    if (params.ago == false)
+                        params.ago = gor.ago;
                 }
                 // delete same
                 DeleteSameResult dsr = DeleteSameResult.deleteSame(args);

@@ -877,10 +877,12 @@ public class Util implements Constants {
             File file = new File(filePath);
             File parent = file.getParentFile();
             String parentPath = parent.getAbsolutePath();
-            String newFolderPath = parentPath + File.separator + newName;
-            File newFolder = new File(newFolderPath);
-            file.renameTo(newFolder);
-            return newFolderPath;
+            String newFilePath = parentPath + File.separator + newName;
+            File newFile = new File(newFilePath);
+            mkdirs(getParent(newFilePath));
+            file.renameTo(newFile);
+            deleteFolderIfEmpty(parentPath);
+            return newFilePath;
         }
         return filePath;
     }
