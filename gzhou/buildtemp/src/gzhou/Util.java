@@ -1,10 +1,5 @@
 package gzhou;
 
-import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
-import gzhou.FileUtil.Filters;
-import gzhou.FileUtil.MarkOccurrenceResult;
-import gzhou.FileUtil.Params;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,6 +26,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.vitria.component.util.DOMUtil;
+
+import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
+import gzhou.FileUtil.Filters;
+import gzhou.FileUtil.MarkOccurrenceResult;
+import gzhou.FileUtil.Params;
 
 public class Util implements Constants {
 
@@ -315,6 +315,30 @@ public class Util implements Constants {
 
     public static String subLast(String s, int n) {
         return sub(s, s.length() - n, s.length());
+    }
+
+    public static String addFirst(String s, String n) {
+        if (!s.startsWith(n))
+            s = n + s;
+        return s;
+    }
+
+    public static String addLast(String s, String n) {
+        if (!s.endsWith(n))
+            s = s + n;
+        return s;
+    }
+
+    public static String removeFirst(String s, String n) {
+        if (s.startsWith(n))
+            s = cutFirst(s, n.length());
+        return s;
+    }
+
+    public static String removeLast(String s, String n) {
+        if (s.endsWith(n))
+            s = cutLast(s, n.length());
+        return s;
     }
 
     public static String cutBack(String s, String from, String to) {
@@ -1246,11 +1270,12 @@ public class Util implements Constants {
     }
 
     public static String formatstr(String s, int n, boolean right) {
-        if (n > s.length()) {
+        int len = getUnicodeLength(s);
+        if (n > len) {
             if (right)
-                return s + getIndent(n - s.length());
+                return s + getIndent(n - len);
             else
-                return getIndent(n - s.length()) + s;
+                return getIndent(n - len) + s;
         }
         return s;
     }
@@ -1425,6 +1450,35 @@ public class Util implements Constants {
             return l1.containsAll(l2) && l2.containsAll(l1);
         }
         return false;
+    }
+
+    public static boolean isChinese(char c) {
+        Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
+        if (ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
+                || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS
+                || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
+                || ub == Character.UnicodeBlock.GENERAL_PUNCTUATION
+                || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
+                || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {
+            return true;
+        }
+        return false;
+    }
+
+    public static int getUnicodeLength(String s) {
+        int len = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (isChinese(c))
+                len += 2;
+            else
+                len++;
+        }
+        return len;
+    }
+
+    public static boolean containsIgnoreCase(String s, String n) {
+        return s.toLowerCase().contains(n.toLowerCase());
     }
 
 }

@@ -24,5 +24,10 @@
 	<classpathentry kind="lib" path="D:/jedi/yoda/export/projects/unbundled/libs/vtdflocale.jar"/>
 	<classpathentry kind="lib" path="D:/jedi/yoda/unbundled/af/java/dataflow/modules/hdfsmodule/libs/slf4j-api-1.7.5.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/UZ_LIB"/>
+	<classpathentry kind="lib" path="lib/vtpredictive-data.jar"/>
+	<classpathentry kind="lib" path="lib/vtpredictive-framework.jar"/>
+	<classpathentry kind="lib" path="lib/vtdf-dmsdk.jar"/>
+	<classpathentry kind="lib" path="lib/vtdf-sdkframework.jar"/>
+	<classpathentry kind="lib" path="lib/vtdfmodel.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
