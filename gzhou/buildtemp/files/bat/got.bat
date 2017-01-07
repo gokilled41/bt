@@ -1,0 +1,1 @@
+call all ef\обть %~1.rmvb\xltd acp mv\GoT\1 ##%~1.rmvb

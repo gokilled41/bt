@@ -3517,13 +3517,20 @@ public class FileUtil extends Util implements Constants {
                 if (dirs != null && !dirs.isEmpty()) {
                     List<String> list = new ArrayList<String>();
                     int i = 0;
+                    Set<String> opened = new HashSet<String>();
                     for (String dir : dirs) {
                         if (isFile(dir)) {
-                            list.add("call explorer /e,/select," + dir);
+                            if (!opened.contains(getParent(dir))) {
+                                list.add("call explorer /e,/select," + dir);
+                                opened.add(getParent(dir));
+                            }
                         } else {
                             if (dir.contains("\\\\"))
                                 dir = dir.replace("\\\\", "\\");
-                            list.add("call explorer " + dir);
+                            if (!opened.contains(dir)) {
+                                list.add("call explorer " + dir);
+                                opened.add(dir);
+                            }
                         }
                         i++;
                         if (params.openDirsCount > 0 && i >= params.openDirsCount)

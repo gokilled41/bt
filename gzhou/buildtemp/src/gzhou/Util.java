@@ -432,7 +432,17 @@ public class Util implements Constants {
     }
 
     public static void setLines(String filePath, List<String> lines) throws Exception {
-        setLines(filePath, lines, "UTF-8");
+        setLines(filePath, lines, determineEncoding(lines));
+    }
+
+    public static String determineEncoding(List<String> lines) {
+        if (lines != null && !lines.isEmpty()) {
+            String line = lines.get(0);
+            if (isChinese(line)) {
+                return "GBK";
+            }
+        }
+        return "UTF-8";
     }
 
     public static void setLines(String filePath, List<String> lines, String encoding) throws Exception {
@@ -1430,6 +1440,7 @@ public class Util implements Constants {
             String n2 = n.replace("-2", "");
             String dir = getParent(p);
             compareAndDeleteSame(dir, n, n2);
+            deleteFolderIfEmpty(dir);
         }
     }
 
@@ -1448,6 +1459,16 @@ public class Util implements Constants {
             List<String> l1 = Util.getLines(p1);
             List<String> l2 = Util.getLines(p2);
             return l1.containsAll(l2) && l2.containsAll(l1);
+        }
+        return false;
+    }
+
+    public static boolean isChinese(String s) {
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (isChinese(c)) {
+                return true;
+            }
         }
         return false;
     }
