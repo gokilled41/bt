@@ -1430,6 +1430,7 @@ public class Util implements Constants {
             String n2 = n.replace("-2", "");
             String dir = getParent(p);
             compareAndDeleteSame(dir, n, n2);
+            deleteFolderIfEmpty(dir);
         }
     }
 
