@@ -217,23 +217,27 @@ public class PAUnit extends TestCase implements Constants {
     public void testNewFileNameInCopy_01() throws Exception {
         Params p = new Params();
         p.newFileName = "{n}";
-        assertEquals(PAOperations.newFileNameInCopy("a.txt", p), "a.txt");
+        assertEquals(PAOperations.newFileNameInCopy("a.txt", p, true), "a.txt");
         p.newFileName = "{n}.{e}";
-        assertEquals(PAOperations.newFileNameInCopy("a.txt", p), "a.txt");
+        assertEquals(PAOperations.newFileNameInCopy("a.txt", p, true), "a.txt");
         p.newFileName = "{n}-2";
-        assertEquals(PAOperations.newFileNameInCopy("a.txt", p), "a-2.txt");
+        assertEquals(PAOperations.newFileNameInCopy("a.txt", p, true), "a-2.txt");
         p.newFileName = "1-{n}";
-        assertEquals(PAOperations.newFileNameInCopy("a.txt", p), "1-a.txt");
+        assertEquals(PAOperations.newFileNameInCopy("a.txt", p, true), "1-a.txt");
         p.newFileName = "{n1-2}";
-        assertEquals(PAOperations.newFileNameInCopy("abc.txt", p), "ab.txt");
+        assertEquals(PAOperations.newFileNameInCopy("abc.txt", p, true), "ab.txt");
         p.newFileName = "{n2}";
-        assertEquals(PAOperations.newFileNameInCopy("abc.txt", p), "bc.txt");
+        assertEquals(PAOperations.newFileNameInCopy("abc.txt", p, true), "ab.txt");
         p.newFileName = "{n-2}";
-        assertEquals(PAOperations.newFileNameInCopy("abc.txt", p), "bc.txt");
+        assertEquals(PAOperations.newFileNameInCopy("abc.txt", p, true), "bc.txt");
         p.newFileName = "{n-2}";
-        assertEquals(PAOperations.newFileNameInCopy("1234567890.txt", p), "90.txt");
+        assertEquals(PAOperations.newFileNameInCopy("1234567890.txt", p, true), "90.txt");
         p.newFileName = "a{n7-8}b{n7-8}c{n-2}";
-        assertEquals(PAOperations.newFileNameInCopy("1234567890.txt", p), "a78b78c90.txt");
+        assertEquals(PAOperations.newFileNameInCopy("1234567890.txt", p, true), "a78b78c90.txt");
+        p.newFileName = "{n4}";
+        assertEquals(PAOperations.newFileNameInCopy("yoda_sjb", p, false), "yoda");
+        p.newFileName = "{n}_main";
+        assertEquals(PAOperations.newFileNameInCopy("yoda", p, false), "yoda_main");
     }
 
     private void doTest(String dir, String name, String filefrom, boolean expect) {

@@ -985,7 +985,9 @@ public class Util implements Constants {
 
     public static String getFileSimpleName(String path) {
         String n = getFileName(path);
-        return cutBack(n, ".", null);
+        if (n.contains("."))
+            return cutBack(n, ".", null);
+        return n;
     }
 
     public static String getFileExtName(String path) {

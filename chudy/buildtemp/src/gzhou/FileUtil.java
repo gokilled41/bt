@@ -2277,7 +2277,7 @@ public class FileUtil extends Util implements Constants {
                                 topath = dir + FILE_SEPARATOR + getFileName(p);
                             }
                             // rename file
-                            String newFileName = newFileNameInCopy(getFileName(topath), params);
+                            String newFileName = newFileNameInCopy(getFileName(topath), params, true);
                             topath = getParent(topath) + FILE_SEPARATOR + newFileName;
                             if (needOverwrite(p, topath, params)) {
                                 long s = System.currentTimeMillis();
@@ -2706,12 +2706,12 @@ public class FileUtil extends Util implements Constants {
             return true;
         }
 
-        public static String newFileNameInCopy(String fileName, Params params) {
+        public static String newFileNameInCopy(String fileName, Params params, boolean isFile) {
             if (params.newFileName != null) {
                 String newFileName = params.newFileName;
-                if (newFileName.endsWith("}"))
+                if (isFile && newFileName.endsWith("}"))
                     newFileName = addLast(newFileName, ".{e}");
-                if (!newFileName.contains("."))
+                if (isFile && !newFileName.contains("."))
                     newFileName = addLast(newFileName, ".{e}");
                 if (newFileName.contains("{n}"))
                     newFileName = newFileName.replace("{n}", getFileSimpleName(fileName));
@@ -2744,7 +2744,7 @@ public class FileUtil extends Util implements Constants {
                 }
                 int fpos = 0;
                 int len = fileName.length();
-                int tpos = len;
+                int tpos = Integer.MAX_VALUE;
                 if (from != null && !from.isEmpty())
                     fpos = toInt(from);
                 if (to != null && !to.isEmpty())
@@ -2754,6 +2754,11 @@ public class FileUtil extends Util implements Constants {
                     fpos = len - tpos + 1;
                     tpos = len;
                 }
+                // first n
+                if (tpos == Integer.MAX_VALUE) {
+                    tpos = fpos;
+                    fpos = 1;
+                }
                 return sub(fileName, fpos - 1, tpos);
             }
             return "";
@@ -2762,7 +2767,7 @@ public class FileUtil extends Util implements Constants {
         private static void renameFileInList(File file, Params params, String relativePath) {
             if (params.newFileName != null) {
                 String fileName = file.getName();
-                String newFileName = newFileNameInCopy(fileName, params);
+                String newFileName = newFileNameInCopy(fileName, params, file.isFile());
                 if (!newFileName.equals(fileName)) {
                     renameFile(file.getAbsolutePath(), fileName, newFileName);
                     relativePath = relativePath.replace(fileName, newFileName);
