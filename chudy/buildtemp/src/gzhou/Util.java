@@ -29,6 +29,7 @@ import com.vitria.component.util.DOMUtil;
 
 import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
 import gzhou.FileUtil.Filters;
+import gzhou.FileUtil.ListConditionResult.ListCondition;
 import gzhou.FileUtil.MarkOccurrenceResult;
 import gzhou.FileUtil.Params;
 
@@ -607,17 +608,19 @@ public class Util implements Constants {
     }
 
     private static List<File> filterFiles(List<File> list, Params params) {
+        List<File> filtered = new ArrayList<File>();
         FileTimestamp ft = params.fileTimestamp;
-        if (ft != null) {
-            List<File> filtered = new ArrayList<File>();
-            for (File file : list) {
-                if (ft.matches(file)) {
-                    filtered.add(file);
-                }
+        ListCondition lc = params.listCondition;
+        for (File file : list) {
+            if (ft != null && !ft.matches(file)) {
+                continue;
             }
-            return filtered;
+            if (lc != null && !lc.matches(file)) {
+                continue;
+            }
+            filtered.add(file);
         }
-        return list;
+        return filtered;
     }
 
     private static void sortFiles(List<File> list, Params params) {

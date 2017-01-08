@@ -4,6 +4,7 @@ import java.io.File;
 
 import gzhou.FileUtil.FileTimestampResult;
 import gzhou.FileUtil.Filters;
+import gzhou.FileUtil.ListConditionResult;
 import gzhou.FileUtil.PAOperations;
 import gzhou.FileUtil.Params;
 import junit.framework.TestCase;
@@ -212,6 +213,10 @@ public class PAUnit extends TestCase implements Constants {
         assertEquals(FileTimestampResult.isParam("t1d1m1y1w1d"), true);
         assertEquals(FileTimestampResult.isParam("t1d1m1y1s1d"), false);
         assertEquals(FileTimestampResult.isParam("t1m1w-1d"), false);
+    }
+
+    public void testListCondition_01() throws Exception {
+        assertEquals(ListConditionResult.isParam("in(lib)"), true);
     }
 
     public void testNewFileNameInCopy_01() throws Exception {

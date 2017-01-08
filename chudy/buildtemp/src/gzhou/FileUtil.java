@@ -41,6 +41,7 @@ import com.vitria.domainservice.util.DOMUtil;
 
 import gzhou.FileUtil.ExpandLinesResult.ExpandLines;
 import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
+import gzhou.FileUtil.ListConditionResult.ListCondition;
 import gzhou.FileUtil.OperateLinesResult.OperateLines;
 import gzhou.FileUtil.OperateLinesResult.OperateLinesUtil;
 import gzhou.FileUtil.ZipOperationsResult.ZipOperations;
@@ -4338,6 +4339,80 @@ public class FileUtil extends Util implements Constants {
         }
     }
 
+    public static class ListConditionResult {
+        public String[] args;
+        public ListCondition listCondition;
+
+        public static ListConditionResult listCondition(String[] args, Params params) throws Exception {
+            ListConditionResult r = new ListConditionResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.listCondition = ListCondition.parseListCondition(last, params);
+                r.args = cutLastArg(args);
+                if (debug_)
+                    System.out.println(tab(2) + "List Condition: " + r.listCondition);
+            } else {
+                r.listCondition = null;
+                r.args = args;
+            }
+            return r;
+        }
+
+        public static boolean isParam(String last) {
+            return isInCondition(last);
+        }
+
+        private static boolean isInCondition(String last) {
+            return last.matches("in\\(.*\\)");
+        }
+
+        public static class ListCondition {
+            public String dir;
+            public String pattern;
+            public List<String> fileNames;
+
+            public boolean matches(File file) {
+                return matchesListCondition(this, file.getAbsolutePath());
+            }
+
+            public static ListCondition parseListCondition(String pattern, Params params) throws Exception {
+                if (isInCondition(pattern)) {
+                    ListCondition lc = new ListCondition();
+                    String dir = cut(pattern, 3, 1);
+                    lc.dir = dir;
+                    lc.pattern = null;
+                    dir = toTARAlias(dir);
+
+                    String from = dir;
+                    String filefrom = "*";
+                    params = new Params();
+                    FilenameFilter filter = Filters.getFilters(filefrom, params);
+                    List<File> files = Util.listFiles(new File(from), false, filter, params);
+
+                    List<String> fileNames = new ArrayList<String>();
+                    for (File file : files) {
+                        fileNames.add(file.getName());
+                    }
+                    lc.fileNames = fileNames;
+
+                    return lc;
+                }
+                return null;
+            }
+
+            public static boolean matchesListCondition(ListCondition listCondition, String p) {
+                ListCondition lc = listCondition;
+                String fileName = getFileName(p);
+                return lc.fileNames.contains(fileName);
+            }
+
+            @Override
+            public String toString() {
+                return format("in({0})", dir);
+            }
+        }
+    }
+
     public static class Params {
 
         public String[] args;
@@ -4366,6 +4441,7 @@ public class FileUtil extends Util implements Constants {
         public boolean deleteSame = false;
         public FileTimestamp fileTimestamp = null;
         public boolean markOccurrence = false;
+        public ListCondition listCondition = null;
 
         public int getExpandLines() {
             if (expandLines == null) {
@@ -4562,6 +4638,13 @@ public class FileUtil extends Util implements Constants {
                     if (params.markOccurrence == false)
                         params.markOccurrence = mor.markOccurrence;
                 }
+                // list condition
+                ListConditionResult lcr = ListConditionResult.listCondition(args, params);
+                if (args.length > lcr.args.length) {
+                    args = lcr.args;
+                    if (params.listCondition == null)
+                        params.listCondition = lcr.listCondition;
+                }
             } while (args.length < n);
             params.args = args;
             setDefaultParams(params, op);
@@ -4621,11 +4704,15 @@ public class FileUtil extends Util implements Constants {
                 return true;
             if (UseDotResult.isParam(s))
                 return true;
+            if (SortTypeResult.isParam(s))
+                return true;
             if (MultipleLinesResult.isParam(s))
                 return true;
             if (MoveResult.isParam(s))
                 return true;
             if (OperateLinesResult.isParam(s))
+                return true;
+            if (ZipOperationsResult.isParam(s))
                 return true;
             if (OverwriteResult.isParam(s))
                 return true;
@@ -4634,6 +4721,10 @@ public class FileUtil extends Util implements Constants {
             if (DeleteSameResult.isParam(s))
                 return true;
             if (FileTimestampResult.isParam(s))
+                return true;
+            if (MarkOccurrenceResult.isParam(s))
+                return true;
+            if (ListConditionResult.isParam(s))
                 return true;
             return false;
         }
