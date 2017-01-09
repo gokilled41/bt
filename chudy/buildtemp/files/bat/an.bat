@@ -22,6 +22,7 @@ echo updating jars
 
 rem whether need zip and copy
   if exist "C:\Users\Chudy\Desktop\vtm3oserver\summary.txt" call set AN_HAS_UPDATE=true
+  call arm dd\vtm3oserver\summary.txt sl
 
 echo zipping vtm3oserver.ear
   if "%AN_HAS_UPDATE%"=="true" call all dd vtm3oserver zip=dd\vtm3oserver.ear sl
