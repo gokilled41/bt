@@ -1,1 +1,3 @@
 - aops: list all commands
+- al rn fn: fn is full name, no print detail, just print full path
+- find class in listed jars

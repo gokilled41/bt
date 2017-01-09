@@ -2751,6 +2751,9 @@ public class FileUtil extends Util implements Constants {
             if (!filefrom.startsWith("*") && filefrom.endsWith("*")) {
                 params.noPath = true;
             }
+            if (filefrom.matches("\\{.*\\}")) {
+                params.noPath = true;
+            }
             return filefrom;
         }
 
@@ -3421,6 +3424,9 @@ public class FileUtil extends Util implements Constants {
                 if (!filefrom.endsWith("*"))
                     filefrom = filefrom + "*";
             }
+            // cut { and } for exactly match cases
+            if (filefrom.matches("\\{.*\\}"))
+                filefrom = cut(filefrom, 1, 1);
             // fix regular expression
             String result = filefrom.replace(".", "\\.").replace("*", ".*");
             return result;
@@ -3432,6 +3438,8 @@ public class FileUtil extends Util implements Constants {
             if (filefrom.endsWith("*")) // abc*
                 return false;
             if (filefrom.matches("l\\d*-?\\d*")) // l100, l100-, l-200, l100-200, not first (first is search key)
+                return false;
+            if (filefrom.matches("\\{.*\\}")) // {abc}: exactly match abc, not contains
                 return false;
             if (filefrom.contains("##")) // a##b, it means a or b
                 return false;

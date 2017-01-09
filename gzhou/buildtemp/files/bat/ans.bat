@@ -35,7 +35,7 @@ rem set log tab
 
 echo unzipping vtm3oserver.ear
   call arm %ANS_DIR_TMP%\vtm3oserver sl
-  call al "%ANS_DIR%" vtm3oserver.ear unzip=%ANS_DIR_TMP%\vtm3oserver sl
+  call al "%ANS_DIR%" {vtm3oserver.ear} unzip=%ANS_DIR_TMP%\vtm3oserver np sl
   call anl
 echo updating jars
   call al dm in(%ANS_DIR_LIB%) acp %ANS_DIR_LIB% os(%ANS_DIR_TMP%\vtm3oserver)
