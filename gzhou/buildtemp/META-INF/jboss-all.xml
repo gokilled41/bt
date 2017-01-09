@@ -1,0 +1,11 @@
+<jboss xmlns="urn:jboss:1.0">
+    <jboss-deployment-dependencies xmlns="urn:jboss:deployment-dependencies:1.0">
+        <dependency name="vtdependencies-ejb.jar"/>
+        <dependency name="vt-dyncbq-hornetq-jms.xml"/>
+        <dependency name="vt-dynrecq-hornetq-jms.xml"/>
+        <dependency name="vt-EmfFeedService-hornetq-jms.xml"/>
+        <dependency name="vt-EmfService-hornetq-jms.xml"/>
+        <dependency name="vt-NotificationUpdates-hornetq-jms.xml"/>
+        <dependency name="vt-QueueInternal-hornetq-jms.xml"/>
+    </jboss-deployment-dependencies>    
+</jboss>    

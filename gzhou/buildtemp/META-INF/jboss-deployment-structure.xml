@@ -1,0 +1,19 @@
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.2">
+    <deployment>
+        <exclude-subsystems>
+            <subsystem name="messaging"/>
+        </exclude-subsystems>
+        <dependencies>
+            <!-- define modules dependencies -->
+            <module name="com.vitria.ref" export="true" services="export" />
+            <module name="com.vitria.thirdparty.commons.beanutils" export="true" />
+            <module name="com.vitria.thirdparty.jackrabbit" optional="true" export="true" services="export"/>
+        </dependencies>
+    </deployment>
+    <!--
+    <sub-deployment name="vtesbapplication-ejb.jar">
+        <dependencies></dependencies>
+        <local-last value="false"/>
+    </sub-deployment>
+    -->
+</jboss-deployment-structure>

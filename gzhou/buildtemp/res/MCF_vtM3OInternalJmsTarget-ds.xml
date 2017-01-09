@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE connection-factories PUBLIC 
+          "-//JBoss//DTD JBOSS JCA Config 1.5//EN"
+          "http://www.jboss.org/j2ee/dtd/jboss-ds_1_5.dtd">
+<connection-factories>
+    <tx-connection-factory>
+        <track-connection-by-tx/>
+        <application-managed-security/>
+        <jndi-name>vtM3OInternalJmsTarget</jndi-name>
+        <rar-name>vtjmsconnector.rar</rar-name>
+        <connection-definition>javax.resource.cci.ConnectionFactory</connection-definition>
+        <xa-transaction/>
+        <max-pool-size>${com.vitria.feedserver.jms_target.pool_size}</max-pool-size>
+        <config-property name="password" type="java.lang.String"></config-property>
+        <config-property name="userId" type="java.lang.String"></config-property>
+        <config-property name="pubSub" type="java.lang.Boolean">false</config-property>
+        <config-property name="jmsProvider" type="java.lang.String">Websphere</config-property>
+        <config-property name="transactionality" type="java.lang.String">Dynamic</config-property>
+        <config-property name="jndiPassword" type="java.lang.String"></config-property>
+        <config-property name="projectName" type="java.lang.String">M3OServerProject</config-property>
+        <config-property name="jndiProviderURL" type="java.lang.String"></config-property>
+        <config-property name="jmsConnectionFactoryName" type="java.lang.String">jms/queue-factory</config-property>
+        <config-property name="logicalDestName" type="java.lang.String">vtQueueInternal</config-property>
+        <config-property name="dest" type="java.lang.String">/vitria/vtQueueInternal</config-property>
+        <config-property name="exceptionHandlerClass" type="java.lang.String">com.vitria.engine.runtime.ExceptionHandlerImpl</config-property>
+        <config-property name="isLogicalName" type="java.lang.Boolean">true</config-property>
+        <config-property name="componentName" type="java.lang.String">vtM3OInternalJmsTarget</config-property>
+        <config-property name="useXATransaction" type="java.lang.Boolean">true</config-property>
+        <config-property name="jndiUserName" type="java.lang.String"></config-property>
+        <config-property name="transactionSupportType" type="java.lang.String">XATransaction</config-property>
+        <config-property name="jndiContextFactoryName" type="java.lang.String"></config-property>
+        <config-property name="name" type="java.lang.String">JMS Target</config-property>
+    </tx-connection-factory>
+</connection-factories>
