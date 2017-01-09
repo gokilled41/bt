@@ -1,5 +1,11 @@
 package gzhou;
 
+import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
+import gzhou.FileUtil.Filters;
+import gzhou.FileUtil.ListConditionResult.ListCondition;
+import gzhou.FileUtil.MarkOccurrenceResult;
+import gzhou.FileUtil.Params;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,11 +32,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.vitria.component.util.DOMUtil;
-
-import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
-import gzhou.FileUtil.Filters;
-import gzhou.FileUtil.MarkOccurrenceResult;
-import gzhou.FileUtil.Params;
 
 public class Util implements Constants {
 
@@ -607,17 +608,19 @@ public class Util implements Constants {
     }
 
     private static List<File> filterFiles(List<File> list, Params params) {
+        List<File> filtered = new ArrayList<File>();
         FileTimestamp ft = params.fileTimestamp;
-        if (ft != null) {
-            List<File> filtered = new ArrayList<File>();
-            for (File file : list) {
-                if (ft.matches(file)) {
-                    filtered.add(file);
-                }
+        ListCondition lc = params.listCondition;
+        for (File file : list) {
+            if (ft != null && !ft.matches(file)) {
+                continue;
             }
-            return filtered;
+            if (lc != null && !lc.matches(file)) {
+                continue;
+            }
+            filtered.add(file);
         }
-        return list;
+        return filtered;
     }
 
     private static void sortFiles(List<File> list, Params params) {
@@ -877,10 +880,12 @@ public class Util implements Constants {
             File file = new File(filePath);
             File parent = file.getParentFile();
             String parentPath = parent.getAbsolutePath();
-            String newFolderPath = parentPath + File.separator + newName;
-            File newFolder = new File(newFolderPath);
-            file.renameTo(newFolder);
-            return newFolderPath;
+            String newFilePath = parentPath + File.separator + newName;
+            File newFile = new File(newFilePath);
+            mkdirs(getParent(newFilePath));
+            file.renameTo(newFile);
+            deleteFolderIfEmpty(parentPath);
+            return newFilePath;
         }
         return filePath;
     }
@@ -983,7 +988,9 @@ public class Util implements Constants {
 
     public static String getFileSimpleName(String path) {
         String n = getFileName(path);
-        return cutBack(n, ".", null);
+        if (n.contains("."))
+            return cutBack(n, ".", null);
+        return n;
     }
 
     public static String getFileExtName(String path) {
@@ -993,7 +1000,8 @@ public class Util implements Constants {
 
     public static long getFileTimestamp(String path) {
         File file = new File(path);
-        return file.lastModified();
+        long t = file.lastModified();
+        return t;
     }
 
     public static void setFileTimestamp(String path, long t) {

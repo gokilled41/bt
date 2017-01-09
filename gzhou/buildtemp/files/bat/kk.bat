@@ -13,11 +13,11 @@ if not "%1" == "" set kkfrom=%1
 set kkto=%1
 if not "%2" == "" set kkto=%2
 
-call afu /l%kkfrom%-%kkto% ar "delete same" "mark occurrence"
-call afu /l%kkfrom%-%kkto% ar DeleteSame MarkOccurrence
-call afu /l%kkfrom%-%kkto% ar "Delete Same" "Mark Occurrence"
-call afu /l%kkfrom%-%kkto% ar deleteSame markOccurrence
-call afu /l%kkfrom%-%kkto% ar dsr mor
+call afu /l%kkfrom%-%kkto% ar "file timestamp" "output summary"
+call afu /l%kkfrom%-%kkto% ar FileTimestamp OutputSummary
+call afu /l%kkfrom%-%kkto% ar "File Timestamp" "Output Summary"
+call afu /l%kkfrom%-%kkto% ar fileTimestamp outputSummary
+call afu /l%kkfrom%-%kkto% ar ftr osr
 
 goto end
 

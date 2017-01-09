@@ -4,6 +4,9 @@ import java.io.File;
 
 import gzhou.FileUtil.FileTimestampResult;
 import gzhou.FileUtil.Filters;
+import gzhou.FileUtil.ListConditionResult;
+import gzhou.FileUtil.PAOperations;
+import gzhou.FileUtil.Params;
 import junit.framework.TestCase;
 
 public class PAUnit extends TestCase implements Constants {
@@ -210,6 +213,36 @@ public class PAUnit extends TestCase implements Constants {
         assertEquals(FileTimestampResult.isParam("t1d1m1y1w1d"), true);
         assertEquals(FileTimestampResult.isParam("t1d1m1y1s1d"), false);
         assertEquals(FileTimestampResult.isParam("t1m1w-1d"), false);
+    }
+
+    public void testListCondition_01() throws Exception {
+        assertEquals(ListConditionResult.isParam("in(lib)"), true);
+    }
+
+    public void testNewFileNameInCopy_01() throws Exception {
+        Params p = new Params();
+        p.newFileName = "{n}";
+        assertEquals(PAOperations.newFileNameInCopy("a.txt", p, true), "a.txt");
+        p.newFileName = "{n}.{e}";
+        assertEquals(PAOperations.newFileNameInCopy("a.txt", p, true), "a.txt");
+        p.newFileName = "{n}-2";
+        assertEquals(PAOperations.newFileNameInCopy("a.txt", p, true), "a-2.txt");
+        p.newFileName = "1-{n}";
+        assertEquals(PAOperations.newFileNameInCopy("a.txt", p, true), "1-a.txt");
+        p.newFileName = "{n1-2}";
+        assertEquals(PAOperations.newFileNameInCopy("abc.txt", p, true), "ab.txt");
+        p.newFileName = "{n2}";
+        assertEquals(PAOperations.newFileNameInCopy("abc.txt", p, true), "ab.txt");
+        p.newFileName = "{n-2}";
+        assertEquals(PAOperations.newFileNameInCopy("abc.txt", p, true), "bc.txt");
+        p.newFileName = "{n-2}";
+        assertEquals(PAOperations.newFileNameInCopy("1234567890.txt", p, true), "90.txt");
+        p.newFileName = "a{n7-8}b{n7-8}c{n-2}";
+        assertEquals(PAOperations.newFileNameInCopy("1234567890.txt", p, true), "a78b78c90.txt");
+        p.newFileName = "{n4}";
+        assertEquals(PAOperations.newFileNameInCopy("yoda_sjb", p, false), "yoda");
+        p.newFileName = "{n}_main";
+        assertEquals(PAOperations.newFileNameInCopy("yoda", p, false), "yoda_main");
     }
 
     private void doTest(String dir, String name, String filefrom, boolean expect) {

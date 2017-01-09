@@ -11,7 +11,8 @@ rem pa operation
   set PAOperation=%~1
 
 rem execute command
-  call palias %*
+  if "%PALogTab%"=="" call palias %*
+  if not "%PALogTab%"=="" call palias %* -lt%PALogTab%
 
 rem set debug back
   if "%LastBatParam%" == "-d" set ADEBUG=false

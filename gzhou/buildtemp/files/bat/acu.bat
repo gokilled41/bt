@@ -23,3 +23,6 @@ rem run necessary tmp scripts
   rem tmp
     if exist "C:\workspace\buildtemp\files\bat\atmp.bat" call atmp
     if exist "C:\workspace\buildtemp\files\bat\atmp.bat" call bdel atmp
+  rem env
+    if exist "C:\workspace\buildtemp\files\bat\aenvtmp.bat" call aenvtmp
+    if exist "C:\workspace\buildtemp\files\bat\aenvtmp.bat" call bdel aenvtmp

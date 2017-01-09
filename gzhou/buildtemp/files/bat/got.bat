@@ -1,1 +1,1 @@
-call all ef\обть %~1.rmvb\xltd acp mv\GoT\1 ##%~1.rmvb
+call all ef\обть %~1.rmvb\xltd acp mv\GoT\2 ##%~1.rmvb
