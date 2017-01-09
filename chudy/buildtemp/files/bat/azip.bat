@@ -22,7 +22,7 @@ set azipFromDir=%~1
 set azipToDir=%~2
 set azipFileName=%~3
 
-echo zipping "%azipFromDir%" to "%azipToDir%\%azipFileName%"
+call apl zipping "'%azipFromDir%'" to "'%azipToDir%\%azipFileName%'"
 
 call set dirCallZip=%cd%
 call go "%azipFromDir%"
