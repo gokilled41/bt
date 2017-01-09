@@ -8,15 +8,17 @@ areplace is one command to replace files.
                    it can be combined like: "a##b". "##" means or.
                    it is optional. it will be all files "*" if not given.
                    it can be ` or ~. it means "*".
-                   it can be wrap with "'". it means exactly equals.
+                   it can be wrap with "'". it means exact strings without regex conversion.
                    it can be wrap with "@". it means regular expressions.
+                   it can be wrap with "{}". it means exactly match not contains.
     - lines      the lines to replace
                    it can be combined like: "a/b\c\d". "/" means includes. "\" means excludes.
                    it can be combined like: "a##b". "##" means or.
                    while combined, replace from is the first one. "a" for "a/b\c\d".
                    if from includes resolved chars in regular expressions, please wrap it with "'", like: "'new PAFilenameFilter(filefrom)'"
-                   it can be wrap with "'". it means exactly equals.
+                   it can be wrap with "'". it means exact strings without regex conversion.
                    it can be wrap with "@". it means regular expressions.
+                   it can be wrap with "{}". it means exactly match not contains.
     - from       replace from string
                  use the first item of from, if not given
     - to         replace to

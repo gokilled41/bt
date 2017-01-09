@@ -1,5 +1,13 @@
 package gzhou;
 
+import gzhou.FileUtil.ExpandLinesResult.ExpandLines;
+import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
+import gzhou.FileUtil.ListConditionResult.ListCondition;
+import gzhou.FileUtil.OperateLinesResult.OperateLines;
+import gzhou.FileUtil.OperateLinesResult.OperateLinesUtil;
+import gzhou.FileUtil.OutputSummaryResult.OutputSummary;
+import gzhou.FileUtil.ZipOperationsResult.ZipOperations;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -38,14 +46,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import com.vitria.domainservice.util.DOMUtil;
-
-import gzhou.FileUtil.ExpandLinesResult.ExpandLines;
-import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
-import gzhou.FileUtil.ListConditionResult.ListCondition;
-import gzhou.FileUtil.OperateLinesResult.OperateLines;
-import gzhou.FileUtil.OperateLinesResult.OperateLinesUtil;
-import gzhou.FileUtil.OutputSummaryResult.OutputSummary;
-import gzhou.FileUtil.ZipOperationsResult.ZipOperations;
 
 public class FileUtil extends Util implements Constants {
 
@@ -763,8 +763,7 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static void gettersetter() throws Exception {
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(new FileInputStream(desktopDir + "translate.txt")));
+        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(desktopDir + "translate.txt")));
         List<String> list = new ArrayList<String>();
         String line;
         String s = "";
@@ -774,8 +773,10 @@ public class FileUtil extends Util implements Constants {
                 if (line.contains("_")) {
                     int i = line.lastIndexOf("_");
                     String next = line.substring(i + 1, i + 2);
-                    if (next.equals("(") || next.equals(")") || (next.equals(";") && !line.trim().startsWith("return")
-                            && !line.trim().startsWith("private") && !line.trim().startsWith("public"))) {
+                    if (next.equals("(")
+                            || next.equals(")")
+                            || (next.equals(";") && !line.trim().startsWith("return")
+                                    && !line.trim().startsWith("private") && !line.trim().startsWith("public"))) {
                         s = line.substring(0, i) + line.substring(i + 1, line.length());
                     }
                 }
@@ -810,11 +811,15 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static void generateNCTemplate() throws Exception {
-        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(
-                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ncgenerator.xsl")));
-        PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(
-                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\NCTemplate.java",
-                false)));
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream(
+                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ncgenerator.xsl")));
+        PrintWriter out = new PrintWriter(
+                new OutputStreamWriter(
+                        new FileOutputStream(
+                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\NCTemplate.java",
+                                false)));
 
         out.println("// Copyright (c) 2013 Vitria Technology, Inc.");
         out.println("// All Rights Reserved.");
@@ -865,11 +870,15 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static void generateViewTemplate() throws Exception {
-        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(
-                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\instance_view.xml")));
-        PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(
-                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ViewTemplate.java",
-                false)));
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream(
+                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\instance_view.xml")));
+        PrintWriter out = new PrintWriter(
+                new OutputStreamWriter(
+                        new FileOutputStream(
+                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ViewTemplate.java",
+                                false)));
 
         out.println("// Copyright (c) 2013 Vitria Technology, Inc.");
         out.println("// All Rights Reserved.");
@@ -932,7 +941,8 @@ public class FileUtil extends Util implements Constants {
         copyFile(
                 "C:\\zhou\\yoda\\unbundled\\af\\java\\nc_framework\\utility\\com\\vitria\\o2\\nc\\publisher\\FeedPublisher.java",
                 "C:\\Workflow-G\\workflow bug fixing\\2012-12-11 Hadoop\\feed_publisher\\not_modified\\FeedPublisher.java");
-        copyFile("C:\\Workflow-G\\workflow bug fixing\\2012-12-11 Hadoop\\feed_publisher\\modified\\FeedPublisher.java",
+        copyFile(
+                "C:\\Workflow-G\\workflow bug fixing\\2012-12-11 Hadoop\\feed_publisher\\modified\\FeedPublisher.java",
                 "C:\\zhou\\yoda\\unbundled\\af\\java\\nc_framework\\utility\\com\\vitria\\o2\\nc\\publisher\\FeedPublisher.java");
     }
 
@@ -1520,6 +1530,8 @@ public class FileUtil extends Util implements Constants {
         Params.log("output to file", args);
         if (type.equals("formatjson")) {
             CustomOperations.customFormatJSON(args);
+        } else if (type.equals("exist")) {
+            CustomOperations.customExist(args);
         }
     }
 
@@ -1550,6 +1562,19 @@ public class FileUtil extends Util implements Constants {
                     sb.append(line.trim());
                 }
                 setLines(p, toList(sb.toString()));
+            }
+        }
+
+        public static void customExist(String[] args) throws Exception {
+            Params params = Params.toParams("custom_exist", args);
+            args = params.args;
+
+            String p = toTARAlias(args[0]);
+
+            if (exists(p)) {
+                setLines(batDir + "aenvtmp.bat", toList("call set AEXIST=true"));
+            } else {
+                setLines(batDir + "aenvtmp.bat", toList("call set AEXIST="));
             }
         }
 
@@ -2697,8 +2722,8 @@ public class FileUtil extends Util implements Constants {
             int dirIndent = 10;
             int timeIndent = 30;
             String n = formatstr(relativePath, nameIndent + 1);
-            String size = file.isDirectory() ? formatstr("", sizeIndent)
-                    : formatstr(df.format(file.length()), sizeIndent, false);
+            String size = file.isDirectory() ? formatstr("", sizeIndent) : formatstr(df.format(file.length()),
+                    sizeIndent, false);
             String dir = file.isDirectory() ? formatstr("<DIR>", dirIndent) : formatstr("", dirIndent);
             String time = formatstr(sdf4.format(new Date(file.lastModified())), timeIndent);
             return format("{0} {1}     {2} {3}", n, size, dir, time);
@@ -2726,6 +2751,9 @@ public class FileUtil extends Util implements Constants {
             if (!filefrom.startsWith("*") && filefrom.endsWith("*")) {
                 params.noPath = true;
             }
+            if (filefrom.matches("\\{.*\\}")) {
+                params.noPath = true;
+            }
             return filefrom;
         }
 
@@ -2739,7 +2767,7 @@ public class FileUtil extends Util implements Constants {
             if (params.overwrite)
                 return true;
             if (exists(topath)) {
-                return getFileTimestamp(frompath) > getFileTimestamp(topath);
+                return getFileTimestamp(frompath) > getFileTimestamp(topath) + 10 * SECOND;
             }
             return true;
         }
@@ -3396,6 +3424,9 @@ public class FileUtil extends Util implements Constants {
                 if (!filefrom.endsWith("*"))
                     filefrom = filefrom + "*";
             }
+            // cut { and } for exactly match cases
+            if (filefrom.matches("\\{.*\\}"))
+                filefrom = cut(filefrom, 1, 1);
             // fix regular expression
             String result = filefrom.replace(".", "\\.").replace("*", ".*");
             return result;
@@ -3407,6 +3438,8 @@ public class FileUtil extends Util implements Constants {
             if (filefrom.endsWith("*")) // abc*
                 return false;
             if (filefrom.matches("l\\d*-?\\d*")) // l100, l100-, l-200, l100-200, not first (first is search key)
+                return false;
+            if (filefrom.matches("\\{.*\\}")) // {abc}: exactly match abc, not contains
                 return false;
             if (filefrom.contains("##")) // a##b, it means a or b
                 return false;

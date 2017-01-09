@@ -1,5 +1,11 @@
 package gzhou;
 
+import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
+import gzhou.FileUtil.Filters;
+import gzhou.FileUtil.ListConditionResult.ListCondition;
+import gzhou.FileUtil.MarkOccurrenceResult;
+import gzhou.FileUtil.Params;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,12 +32,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.vitria.component.util.DOMUtil;
-
-import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
-import gzhou.FileUtil.Filters;
-import gzhou.FileUtil.ListConditionResult.ListCondition;
-import gzhou.FileUtil.MarkOccurrenceResult;
-import gzhou.FileUtil.Params;
 
 public class Util implements Constants {
 
@@ -1000,7 +1000,8 @@ public class Util implements Constants {
 
     public static long getFileTimestamp(String path) {
         File file = new File(path);
-        return file.lastModified();
+        long t = file.lastModified();
+        return t;
     }
 
     public static void setFileTimestamp(String path, long t) {

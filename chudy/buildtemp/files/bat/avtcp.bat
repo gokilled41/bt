@@ -14,8 +14,12 @@ call set VT_CP=%VT_CP%;%BT_LIB%\dom4j-1.6.1.jar
 call set VT_CP=%VT_CP%;%BT_LIB%\xercesImpl-2.8.1.jar
 call set VT_CP=%VT_CP%;%BT_LIB%\mysql-connector-java-5.1.17-bin.jar
 
+if "%SWITCH_YODA%"=="true" goto end
+
 rem VTBA_HOME
 set VTBA_HOME=D:\jedi\yoda\export\home
 call set VT_CP=%VT_CP%;%VTBA_HOME%\jboss\server\vtba\lib\vtclient.jar
 call set VT_CP=%VT_CP%;%VTBA_HOME%\jboss\server\vtba\lib\vtfc.jar
 call set VT_CP=%VT_CP%;%VTBA_HOME%\jboss\server\vtba\lib\commons-logging.jar
+
+: end
