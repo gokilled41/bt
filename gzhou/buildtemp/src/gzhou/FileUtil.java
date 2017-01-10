@@ -1503,14 +1503,19 @@ public class FileUtil extends Util implements Constants {
             for (String line : lines) {
                 if (line.startsWith("\t")) {
                     line = cutFirst(line, 1);
+                    String m;
                     if (line.startsWith("deleted:    ")) {
                         line = cutFirst(line, 12);
                         list.add("call git rm " + line);
+                        m = "    D      ";
                     } else if (line.startsWith("modified:   ")) {
                         // do nothing
+                        m = "    M      ";
                     } else {
                         list.add("call git add " + line);
+                        m = "    A      ";
                     }
+                    log(m + line);
                 }
             }
             setLines(batDir + "agitaddtmp.bat", list);
