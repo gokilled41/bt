@@ -1,6 +1,6 @@
 @echo off
 
-echo add and delete files for git
+echo git st
 
 call gst > D:\alogs\gst.log
 call agit add
