@@ -4202,18 +4202,23 @@ public class FileUtil extends Util implements Constants {
 
     public static class DeleteSameResult {
         public String[] args;
-        public boolean deleteSame;
+        public boolean deleteSame = false;
+        public boolean makeSame = false;
 
         public static DeleteSameResult deleteSame(String[] args) {
             DeleteSameResult r = new DeleteSameResult();
             String last = getLastArg(args);
             if (isParam(last)) {
-                r.deleteSame = true;
+                if (isDeleteSame(last))
+                    r.deleteSame = true;
+                if (isMakeSame(last))
+                    r.makeSame = true;
                 r.args = cutLastArg(args);
                 if (debug_)
                     log(tab(2) + "Delete Same: " + r.deleteSame);
             } else {
                 r.deleteSame = false;
+                r.makeSame = false;
                 r.args = args;
             }
             return r;
@@ -4229,10 +4234,27 @@ public class FileUtil extends Util implements Constants {
                     }
                 }
             }
+            if (params.makeSame) {
+                if (dirs != null && !dirs.isEmpty()) {
+                    for (String dir : dirs) {
+                        if (isFile(dir)) {
+                            compareAndMakeSame(dir);
+                        }
+                    }
+                }
+            }
         }
 
         public static boolean isParam(String last) {
+            return isDeleteSame(last) || isMakeSame(last);
+        }
+
+        private static boolean isDeleteSame(String last) {
             return last.equals("ds");
+        }
+
+        private static boolean isMakeSame(String last) {
+            return last.equals("ms");
         }
     }
 
@@ -4569,6 +4591,7 @@ public class FileUtil extends Util implements Constants {
         public boolean go = false;
         public boolean ago = false;
         public boolean deleteSame = false;
+        public boolean makeSame = false;
         public FileTimestamp fileTimestamp = null;
         public boolean markOccurrence = false;
         public ListCondition listCondition = null;
@@ -4754,6 +4777,8 @@ public class FileUtil extends Util implements Constants {
                     args = dsr.args;
                     if (params.deleteSame == false)
                         params.deleteSame = dsr.deleteSame;
+                    if (params.makeSame == false)
+                        params.makeSame = dsr.makeSame;
                 }
                 // file timestamp
                 FileTimestampResult ftr = FileTimestampResult.fileTimestamp(args);

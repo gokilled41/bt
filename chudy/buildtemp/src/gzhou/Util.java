@@ -1452,6 +1452,15 @@ public class Util implements Constants {
         }
     }
 
+    public static void compareAndMakeSame(String p) throws Exception {
+        String n = getFileName(p);
+        if (n.contains("-2")) {
+            String n2 = n.replace("-2", "");
+            String dir = getParent(p);
+            compareAndMakeSame(dir, n, n2);
+        }
+    }
+
     public static void compareAndDeleteSame(String dir, String n, String n2) throws Exception {
         String p1 = dir + FILE_SEPARATOR + n;
         String p2 = dir + FILE_SEPARATOR + n2;
@@ -1459,6 +1468,15 @@ public class Util implements Constants {
             System.out.println(format("delete same: {0}={1}", n, n2));
             deleteFile(p1);
             deleteFile(p2);
+        }
+    }
+
+    public static void compareAndMakeSame(String dir, String n, String n2) throws Exception {
+        String p1 = dir + FILE_SEPARATOR + n;
+        String p2 = dir + FILE_SEPARATOR + n2;
+        if (!isSameTextFile(p1, p2)) {
+            System.out.println(format("make same: {0}={1}", n, n2));
+            copyFile(p1, p2, false);
         }
     }
 
