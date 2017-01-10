@@ -2374,6 +2374,7 @@ public class FileUtil extends Util implements Constants {
                         deleteFile(p);
                     else
                         deleteFileWithFolders(p);
+                    deleteFolderIfNecessary(params, file);
                     log(tab(2) + toRelativePath(from, p));
                     addWithoutDup(dirs, p);
                 }
@@ -2445,7 +2446,7 @@ public class FileUtil extends Util implements Constants {
                         if (relativePath.endsWith(".class"))
                             relativePath = cutLast(relativePath, 6);
                     }
-                    log(tab(2) + listFileDetail(file, relativePath, nameIndent));
+                    log(tab(2) + listFileDetail(file, relativePath, nameIndent, params));
                     renameFileInList(file, params, relativePath);
                     addWithoutDup(dirs, p);
                 }
@@ -2725,7 +2726,9 @@ public class FileUtil extends Util implements Constants {
             return i;
         }
 
-        private static String listFileDetail(File file, String relativePath, int nameIndent) {
+        private static String listFileDetail(File file, String relativePath, int nameIndent, Params params) {
+            if (params.fullPath)
+                return file.getAbsolutePath();
             int sizeIndent = 13;
             int dirIndent = 10;
             int timeIndent = 30;
@@ -2846,6 +2849,14 @@ public class FileUtil extends Util implements Constants {
                     renameFile(file.getAbsolutePath(), fileName, newFileName);
                     relativePath = relativePath.replace(fileName, newFileName);
                     log(tab(2) + "-> " + relativePath);
+                }
+            }
+        }
+
+        private static void deleteFolderIfNecessary(Params params, File file) {
+            if (params.recursiveLevel == 0) {
+                if (file.isDirectory()) {
+                    deleteFolder(file);
                 }
             }
         }
@@ -3796,6 +3807,30 @@ public class FileUtil extends Util implements Constants {
         }
     }
 
+    public static class FullPathResult {
+        public String[] args;
+        public boolean fullPath;
+
+        public static FullPathResult fullPath(String[] args) {
+            FullPathResult r = new FullPathResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.fullPath = true;
+                r.args = cutLastArg(args);
+                if (debug_)
+                    log(tab(2) + "Full Path: " + r.fullPath);
+            } else {
+                r.fullPath = false;
+                r.args = args;
+            }
+            return r;
+        }
+
+        public static boolean isParam(String last) {
+            return last.equals("fp") || last.equals("fn");
+        }
+    }
+
     public static class UseDotResult {
         public String[] args;
         public boolean useDot;
@@ -4589,6 +4624,7 @@ public class FileUtil extends Util implements Constants {
         public boolean keepDir = false;
         public String newFileName = null;
         public boolean noPath = false;
+        public boolean fullPath = false;
         public boolean useDot = false;
         public String sortType = null;
         public boolean multipleLines = false;
@@ -4720,6 +4756,13 @@ public class FileUtil extends Util implements Constants {
                     args = npr.args;
                     if (params.noPath == false)
                         params.noPath = npr.noPath;
+                }
+                // full path
+                FullPathResult fpr = FullPathResult.fullPath(args);
+                if (args.length > fpr.args.length) {
+                    args = fpr.args;
+                    if (params.fullPath == false)
+                        params.fullPath = fpr.fullPath;
                 }
                 // use dot
                 UseDotResult udr = UseDotResult.useDot(args);
