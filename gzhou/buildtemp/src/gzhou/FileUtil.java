@@ -1506,6 +1506,8 @@ public class FileUtil extends Util implements Constants {
                     if (line.startsWith("deleted:    ")) {
                         line = cutFirst(line, 12);
                         list.add("call git rm " + line);
+                    } else if (line.startsWith("modified:   ")) {
+                        // do nothing
                     } else {
                         list.add("call git add " + line);
                     }
