@@ -580,6 +580,8 @@ public class Util implements Constants {
         if (files != null) {
             for (File file : files) {
                 if (file.isDirectory()) {
+                    if (filterDir(file))
+                        continue;
                     if (recursion)
                         list.addAll(listFiles(file, recursion, filter));
                 }
@@ -605,6 +607,13 @@ public class Util implements Constants {
         list = filterFiles(list, params);
         sortFiles(list, params);
         return list;
+    }
+
+    private static boolean filterDir(File dir) {
+        String n = dir.getName();
+        if (n.equals(".svn"))
+            return true;
+        return false;
     }
 
     private static List<File> filterFiles(List<File> list, Params params) {
@@ -642,6 +651,8 @@ public class Util implements Constants {
         if (files != null) {
             for (File file : files) {
                 if (file.isDirectory()) {
+                    if (filterDir(file))
+                        continue;
                     if (recursion) {
                         if (depth + 1 <= recursiveLevel) {
                             list.addAll(listFiles(file, recursion, filter, recursiveLevel, depth + 1));
