@@ -1510,6 +1510,7 @@ public class FileUtil extends Util implements Constants {
                         m = "    D      ";
                     } else if (line.startsWith("modified:   ")) {
                         // do nothing
+                        line = cutFirst(line, 12);
                         m = "    M      ";
                     } else {
                         list.add("call git add " + line);
