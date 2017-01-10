@@ -7,8 +7,9 @@ aprint is one command to print files under given dir.
                    it can be combined like: "a/b\c\d". "/" means includes. "\" means excludes.
                    it can be combined like: "a##b". "##" means or.
                    it can be ` or ~. it means "*".
-                   it can be wrap with "'". it means exactly equals.
+                   it can be wrap with "'". it means exact strings without regex conversion.
                    it can be wrap with "@". it means regular expressions.
+                   it can be wrap with "{}". it means exactly match not contains.
     - nl         no line number
     - ln         the count of print lines
                  it is 10 by default
