@@ -1,5 +1,5 @@
 alist is one command to list files under given dir.
-  alist <dir> [<pattern>] [t] [ds] [zip] [ud] [rn] [np] [o] [d] [f] [go]
+  alist <dir> [<pattern>] [t] [ds] [zip] [ud] [rn] [np] [fn/fp] [o] [d] [f] [go]
     - dir        one dir or one tar alias
     - pattern    files to list
                    file name like "a.jar" or file pattern like "*Manager*" or "*.zip"
@@ -21,6 +21,7 @@ alist is one command to list files under given dir.
     - ud         use dot
     - rn         set recursive level. like: r0
     - np         no path: the pattern of files not include path string
+    - fn/fp      full path
     - o          output to file
     - d          open dir
                    d3 to open 3 dirs

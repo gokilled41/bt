@@ -1,3 +1,1 @@
-call al kout /part/0003\crc acp alogs ##kout.txt ov
-call ajf alogs\kout.txt
-call al alogs kout.txt f
+call kres oracleoi61 vt_tm_simple_timer dd\kbak.txt

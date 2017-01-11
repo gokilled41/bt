@@ -1,1 +1,1 @@
-call fspark %*
+call afu %1/pub ml

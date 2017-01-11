@@ -1,3 +1,11 @@
 - aops: list all commands
-- al rn fn: fn is full name, no print detail, just print full path
 - find class in listed jars
+- al files: merge files to one file
+- find chinese: mk not correct; auto encoding (al, af, ap...)
+- zip with kat: does not work well
+- al db timer: list tables with name contains timer
+  - db ops: list tables, list lines, remove records, update records
+  - tar: mt (mysql test); ot (oracle test)
+  - mt: m:l:test:r:qilinsoft
+  - al mt
+- compare and diff 2 files

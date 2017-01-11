@@ -1,11 +1,5 @@
 package gzhou;
 
-import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
-import gzhou.FileUtil.Filters;
-import gzhou.FileUtil.ListConditionResult.ListCondition;
-import gzhou.FileUtil.MarkOccurrenceResult;
-import gzhou.FileUtil.Params;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.sql.Blob;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -31,7 +26,15 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.codec.binary.Hex;
+
 import com.vitria.component.util.DOMUtil;
+
+import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
+import gzhou.FileUtil.Filters;
+import gzhou.FileUtil.ListConditionResult.ListCondition;
+import gzhou.FileUtil.MarkOccurrenceResult;
+import gzhou.FileUtil.Params;
 
 public class Util implements Constants {
 
@@ -258,11 +261,15 @@ public class Util implements Constants {
         return s;
     }
 
-    public static String formatColumnObject(Object o) {
+    public static String formatColumnObject(Object o) throws Exception {
         if (o == null)
             return "null";
         if (o instanceof Date) {
             return sdf4.format(o);
+        } else if (o instanceof Blob) {
+            Blob b = (Blob) o;
+            byte[] bytes = b.getBytes((long) 1, (int) b.length());
+            return new String(Hex.encodeHex(bytes));
         } else {
             return o.toString();
         }
@@ -580,6 +587,8 @@ public class Util implements Constants {
         if (files != null) {
             for (File file : files) {
                 if (file.isDirectory()) {
+                    if (filterDir(file))
+                        continue;
                     if (recursion)
                         list.addAll(listFiles(file, recursion, filter));
                 }
@@ -605,6 +614,13 @@ public class Util implements Constants {
         list = filterFiles(list, params);
         sortFiles(list, params);
         return list;
+    }
+
+    private static boolean filterDir(File dir) {
+        String n = dir.getName();
+        if (n.equals(".svn"))
+            return true;
+        return false;
     }
 
     private static List<File> filterFiles(List<File> list, Params params) {
@@ -642,6 +658,8 @@ public class Util implements Constants {
         if (files != null) {
             for (File file : files) {
                 if (file.isDirectory()) {
+                    if (filterDir(file))
+                        continue;
                     if (recursion) {
                         if (depth + 1 <= recursiveLevel) {
                             list.addAll(listFiles(file, recursion, filter, recursiveLevel, depth + 1));
@@ -1372,6 +1390,19 @@ public class Util implements Constants {
         return list;
     }
 
+    public static List<String> cutLast(List<String> list) {
+        list.remove(list.size() - 1);
+        return list;
+    }
+
+    public static String subFirst(List<String> list) {
+        return list.get(0);
+    }
+
+    public static String subLast(List<String> list) {
+        return list.get(list.size() - 1);
+    }
+
     public static boolean isFile(String p) {
         File f = new File(p);
         if (f.exists()) {
@@ -1393,6 +1424,10 @@ public class Util implements Constants {
 
     public static int toInt(String s) {
         return Integer.valueOf(s);
+    }
+
+    public static long toLong(String s) {
+        return Long.valueOf(s);
     }
 
     public static String tab(int n) {

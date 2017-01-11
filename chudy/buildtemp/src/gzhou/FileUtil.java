@@ -1,13 +1,5 @@
 package gzhou;
 
-import gzhou.FileUtil.ExpandLinesResult.ExpandLines;
-import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
-import gzhou.FileUtil.ListConditionResult.ListCondition;
-import gzhou.FileUtil.OperateLinesResult.OperateLines;
-import gzhou.FileUtil.OperateLinesResult.OperateLinesUtil;
-import gzhou.FileUtil.OutputSummaryResult.OutputSummary;
-import gzhou.FileUtil.ZipOperationsResult.ZipOperations;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -22,6 +14,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -46,6 +39,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import com.vitria.domainservice.util.DOMUtil;
+
+import gzhou.FileUtil.ExpandLinesResult.ExpandLines;
+import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
+import gzhou.FileUtil.ListConditionResult.ListCondition;
+import gzhou.FileUtil.OperateLinesResult.OperateLines;
+import gzhou.FileUtil.OperateLinesResult.OperateLinesUtil;
+import gzhou.FileUtil.OutputSummaryResult.OutputSummary;
+import gzhou.FileUtil.ZipOperationsResult.ZipOperations;
 
 public class FileUtil extends Util implements Constants {
 
@@ -763,7 +764,8 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static void gettersetter() throws Exception {
-        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(desktopDir + "translate.txt")));
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(new FileInputStream(desktopDir + "translate.txt")));
         List<String> list = new ArrayList<String>();
         String line;
         String s = "";
@@ -773,10 +775,8 @@ public class FileUtil extends Util implements Constants {
                 if (line.contains("_")) {
                     int i = line.lastIndexOf("_");
                     String next = line.substring(i + 1, i + 2);
-                    if (next.equals("(")
-                            || next.equals(")")
-                            || (next.equals(";") && !line.trim().startsWith("return")
-                                    && !line.trim().startsWith("private") && !line.trim().startsWith("public"))) {
+                    if (next.equals("(") || next.equals(")") || (next.equals(";") && !line.trim().startsWith("return")
+                            && !line.trim().startsWith("private") && !line.trim().startsWith("public"))) {
                         s = line.substring(0, i) + line.substring(i + 1, line.length());
                     }
                 }
@@ -811,15 +811,11 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static void generateNCTemplate() throws Exception {
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(
-                        new FileInputStream(
-                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ncgenerator.xsl")));
-        PrintWriter out = new PrintWriter(
-                new OutputStreamWriter(
-                        new FileOutputStream(
-                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\NCTemplate.java",
-                                false)));
+        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(
+                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ncgenerator.xsl")));
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(
+                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\NCTemplate.java",
+                false)));
 
         out.println("// Copyright (c) 2013 Vitria Technology, Inc.");
         out.println("// All Rights Reserved.");
@@ -870,15 +866,11 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static void generateViewTemplate() throws Exception {
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(
-                        new FileInputStream(
-                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\instance_view.xml")));
-        PrintWriter out = new PrintWriter(
-                new OutputStreamWriter(
-                        new FileOutputStream(
-                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ViewTemplate.java",
-                                false)));
+        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(
+                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\instance_view.xml")));
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(
+                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ViewTemplate.java",
+                false)));
 
         out.println("// Copyright (c) 2013 Vitria Technology, Inc.");
         out.println("// All Rights Reserved.");
@@ -941,8 +933,7 @@ public class FileUtil extends Util implements Constants {
         copyFile(
                 "C:\\zhou\\yoda\\unbundled\\af\\java\\nc_framework\\utility\\com\\vitria\\o2\\nc\\publisher\\FeedPublisher.java",
                 "C:\\Workflow-G\\workflow bug fixing\\2012-12-11 Hadoop\\feed_publisher\\not_modified\\FeedPublisher.java");
-        copyFile(
-                "C:\\Workflow-G\\workflow bug fixing\\2012-12-11 Hadoop\\feed_publisher\\modified\\FeedPublisher.java",
+        copyFile("C:\\Workflow-G\\workflow bug fixing\\2012-12-11 Hadoop\\feed_publisher\\modified\\FeedPublisher.java",
                 "C:\\zhou\\yoda\\unbundled\\af\\java\\nc_framework\\utility\\com\\vitria\\o2\\nc\\publisher\\FeedPublisher.java");
     }
 
@@ -1280,6 +1271,12 @@ public class FileUtil extends Util implements Constants {
                 header.add(cn);
             }
             lists.add(header);
+            List<String> types = new ArrayList<String>();
+            for (int i = 1; i <= n; i++) {
+                String cn = "" + md.getColumnType(i);
+                types.add(cn);
+            }
+            lists.add(types);
             while (rs.next()) {
                 List<String> row = new ArrayList<String>();
                 for (int i = 1; i <= n; i++) {
@@ -1503,12 +1500,20 @@ public class FileUtil extends Util implements Constants {
             for (String line : lines) {
                 if (line.startsWith("\t")) {
                     line = cutFirst(line, 1);
+                    String m;
                     if (line.startsWith("deleted:    ")) {
                         line = cutFirst(line, 12);
                         list.add("call git rm " + line);
+                        m = "    D      ";
+                    } else if (line.startsWith("modified:   ")) {
+                        // do nothing
+                        line = cutFirst(line, 12);
+                        m = "    M      ";
                     } else {
                         list.add("call git add " + line);
+                        m = "    A      ";
                     }
+                    log(m + line);
                 }
             }
             setLines(batDir + "agitaddtmp.bat", list);
@@ -2180,11 +2185,15 @@ public class FileUtil extends Util implements Constants {
                 filefrom = args[1];
             }
             filefrom = fixFileFrom(filefrom, params);
-            if (isFile(fromdir)) {
-                onlyOneFile(params);
-                listFiles(getParent(fromdir), getFileName(fromdir) + "*", params);
+            if (DBOperations.isDB(fromdir)) {
+                DBOperations.listTables(fromdir, filefrom, params);
             } else {
-                listFiles(fromdir, filefrom, params);
+                if (isFile(fromdir)) {
+                    onlyOneFile(params);
+                    listFiles(getParent(fromdir), getFileName(fromdir) + "*", params);
+                } else {
+                    listFiles(fromdir, filefrom, params);
+                }
             }
         }
 
@@ -2366,6 +2375,7 @@ public class FileUtil extends Util implements Constants {
                         deleteFile(p);
                     else
                         deleteFileWithFolders(p);
+                    deleteFolderIfNecessary(params, file);
                     log(tab(2) + toRelativePath(from, p));
                     addWithoutDup(dirs, p);
                 }
@@ -2437,7 +2447,7 @@ public class FileUtil extends Util implements Constants {
                         if (relativePath.endsWith(".class"))
                             relativePath = cutLast(relativePath, 6);
                     }
-                    log(tab(2) + listFileDetail(file, relativePath, nameIndent));
+                    log(tab(2) + listFileDetail(file, relativePath, nameIndent, params));
                     renameFileInList(file, params, relativePath);
                     addWithoutDup(dirs, p);
                 }
@@ -2717,13 +2727,15 @@ public class FileUtil extends Util implements Constants {
             return i;
         }
 
-        private static String listFileDetail(File file, String relativePath, int nameIndent) {
+        private static String listFileDetail(File file, String relativePath, int nameIndent, Params params) {
+            if (params.fullPath)
+                return file.getAbsolutePath();
             int sizeIndent = 13;
             int dirIndent = 10;
             int timeIndent = 30;
             String n = formatstr(relativePath, nameIndent + 1);
-            String size = file.isDirectory() ? formatstr("", sizeIndent) : formatstr(df.format(file.length()),
-                    sizeIndent, false);
+            String size = file.isDirectory() ? formatstr("", sizeIndent)
+                    : formatstr(df.format(file.length()), sizeIndent, false);
             String dir = file.isDirectory() ? formatstr("<DIR>", dirIndent) : formatstr("", dirIndent);
             String time = formatstr(sdf4.format(new Date(file.lastModified())), timeIndent);
             return format("{0} {1}     {2} {3}", n, size, dir, time);
@@ -2775,12 +2787,18 @@ public class FileUtil extends Util implements Constants {
         public static String newFileNameInCopy(String fileName, Params params, boolean isFile) {
             if (params.newFileName != null) {
                 String newFileName = params.newFileName;
+                // change path
+                if (newFileName.endsWith("\\"))
+                    newFileName = addLast(newFileName, "{n}");
+                // auto add ext
                 if (isFile && newFileName.endsWith("}"))
                     newFileName = addLast(newFileName, ".{e}");
                 if (isFile && !newFileName.contains("."))
                     newFileName = addLast(newFileName, ".{e}");
+                // replace name
                 if (newFileName.contains("{n}"))
                     newFileName = newFileName.replace("{n}", getFileSimpleName(fileName));
+                // replace sub name
                 if (newFileName.matches(".*\\{n\\d*-?\\d*\\}.*")) {
                     List<String> list = splitToListWithRegex(newFileName, "\\{n\\d*-?\\d*\\}");
                     for (String pattern : list) {
@@ -2788,6 +2806,7 @@ public class FileUtil extends Util implements Constants {
                         newFileName = newFileName.replace(pattern, sub);
                     }
                 }
+                // replace ext
                 if (newFileName.contains("{e}"))
                     newFileName = newFileName.replace("{e}", getFileExtName(fileName));
                 return newFileName;
@@ -2838,6 +2857,14 @@ public class FileUtil extends Util implements Constants {
                     renameFile(file.getAbsolutePath(), fileName, newFileName);
                     relativePath = relativePath.replace(fileName, newFileName);
                     log(tab(2) + "-> " + relativePath);
+                }
+            }
+        }
+
+        private static void deleteFolderIfNecessary(Params params, File file) {
+            if (params.recursiveLevel == 0) {
+                if (file.isDirectory()) {
+                    deleteFolder(file);
                 }
             }
         }
@@ -3788,6 +3815,30 @@ public class FileUtil extends Util implements Constants {
         }
     }
 
+    public static class FullPathResult {
+        public String[] args;
+        public boolean fullPath;
+
+        public static FullPathResult fullPath(String[] args) {
+            FullPathResult r = new FullPathResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.fullPath = true;
+                r.args = cutLastArg(args);
+                if (debug_)
+                    log(tab(2) + "Full Path: " + r.fullPath);
+            } else {
+                r.fullPath = false;
+                r.args = args;
+            }
+            return r;
+        }
+
+        public static boolean isParam(String last) {
+            return last.equals("fp") || last.equals("fn");
+        }
+    }
+
     public static class UseDotResult {
         public String[] args;
         public boolean useDot;
@@ -4581,6 +4632,7 @@ public class FileUtil extends Util implements Constants {
         public boolean keepDir = false;
         public String newFileName = null;
         public boolean noPath = false;
+        public boolean fullPath = false;
         public boolean useDot = false;
         public String sortType = null;
         public boolean multipleLines = false;
@@ -4712,6 +4764,13 @@ public class FileUtil extends Util implements Constants {
                     args = npr.args;
                     if (params.noPath == false)
                         params.noPath = npr.noPath;
+                }
+                // full path
+                FullPathResult fpr = FullPathResult.fullPath(args);
+                if (args.length > fpr.args.length) {
+                    args = fpr.args;
+                    if (params.fullPath == false)
+                        params.fullPath = fpr.fullPath;
                 }
                 // use dot
                 UseDotResult udr = UseDotResult.useDot(args);
@@ -4970,4 +5029,102 @@ public class FileUtil extends Util implements Constants {
         }
     }
 
+    public static class DBOperations {
+
+        public static void listTables(String fromdir, String filefrom, Params params) throws Exception {
+            Driver driver = parseDriver(fromdir);
+            System.out.println("list from: " + driver.url);
+            Connection conn = toConnection(driver);
+            List<String> tables = getAllTableNames(conn);
+            tables = filterTables(tables, filefrom, params);
+            Collections.sort(tables);
+            for (String t : tables) {
+                System.out.println(tab(2) + t);
+            }
+            conn.close();
+        }
+
+        private static List<String> filterTables(List<String> tables, String filefrom, Params params) {
+            Filters filters = Filters.getFilters(filefrom, params);
+            List<String> list = new ArrayList<String>();
+            for (String t : tables) {
+                if (filters.accept(t, 0)) {
+                    list.add(t);
+                }
+            }
+            return list;
+        }
+
+        public static List<String> getAllTableNames(Connection cnn) throws Exception {
+            List<String> tables = new ArrayList<String>();
+            DatabaseMetaData dbMetaData = cnn.getMetaData();
+            String[] types = { "TABLE" };
+            ResultSet tabs = dbMetaData.getTables(null, null, null, types/*只要表就好了*/);
+            while (tabs.next()) {
+                tables.add((String) tabs.getObject("TABLE_NAME"));
+            }
+            return tables;
+        }
+
+        private static Connection toConnection(Driver d) throws Exception {
+            Class.forName(d.driver);
+            Connection conn = DriverManager.getConnection(d.url, d.user, d.password);
+            return conn;
+        }
+
+        private static Driver parseDriver(String fromdir) {
+            Driver driver = new Driver();
+            List<String> list = splitToList(fromdir, ":");
+            // driver
+            String type = subFirst(list);
+            list = cutFirst(list);
+            if (type.equals("m"))
+                driver.driver = "com.mysql.jdbc.Driver";
+            else
+                driver.driver = "oracle.jdbc.OracleDriver";
+            if (debug_)
+                System.out.println("driver = " + driver.driver);
+            // url
+            String ip = subFirst(list);
+            list = cutFirst(list);
+            if (ip.equals("l"))
+                ip = "localhost";
+            String name = subFirst(list);
+            list = cutFirst(list);
+            driver.url = format("jdbc:mysql://{0}:3306/{1}?autoReconnect=true", ip, name);
+            if (debug_)
+                System.out.println("url = " + driver.url);
+            // user
+            String user = subFirst(list);
+            list = cutFirst(list);
+            if (user.equals("r"))
+                user = "root";
+            driver.user = user;
+            if (debug_)
+                System.out.println("user = " + driver.user);
+            // password
+            String password = subFirst(list);
+            list = cutFirst(list);
+            driver.password = password;
+            if (debug_)
+                System.out.println("password = " + driver.password);
+            return driver;
+        }
+
+        public static boolean isDB(String fromdir) {
+            if (fromdir.startsWith("m:"))
+                return true;
+            if (fromdir.startsWith("o:"))
+                return true;
+            return false;
+        }
+
+        public static class Driver {
+            public String driver;
+            public String url;
+            public String user;
+            public String password;
+
+        }
+    }
 }

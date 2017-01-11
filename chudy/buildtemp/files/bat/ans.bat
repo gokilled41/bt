@@ -52,11 +52,11 @@ rem whether need zip and copy
 
 echo zipping vtm3oserver.ear
   if "%AN_HAS_UPDATE%"=="true" call all dd vtm3oserver zip=%ANS_DIR_TMP%\vtm3oserver.ear sl
-  if "%AN_HAS_UPDATE%"=="" echo vtm3oserver.ear has no updates
+  if "%AN_HAS_UPDATE%"=="" call apl vtm3oserver.ear has no updates
   call anl
 echo copying vtm3oserver.ear
   if "%AN_HAS_UPDATE%"=="true" call all dd vtm3oserver.ear acp "%ANS_DIR%"
-  if "%AN_HAS_UPDATE%"=="" echo no need copy
+  if "%AN_HAS_UPDATE%"=="" call apl no need copy
   call anl
 echo cleaning up vtm3oserver.ear
   call arm %ANS_DIR_TMP%\vtm3oserver sl
