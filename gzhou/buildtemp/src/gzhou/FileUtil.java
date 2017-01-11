@@ -2792,12 +2792,18 @@ public class FileUtil extends Util implements Constants {
         public static String newFileNameInCopy(String fileName, Params params, boolean isFile) {
             if (params.newFileName != null) {
                 String newFileName = params.newFileName;
+                // change path
+                if (newFileName.endsWith("\\"))
+                    newFileName = addLast(newFileName, "{n}");
+                // auto add ext
                 if (isFile && newFileName.endsWith("}"))
                     newFileName = addLast(newFileName, ".{e}");
                 if (isFile && !newFileName.contains("."))
                     newFileName = addLast(newFileName, ".{e}");
+                // replace name
                 if (newFileName.contains("{n}"))
                     newFileName = newFileName.replace("{n}", getFileSimpleName(fileName));
+                // replace sub name
                 if (newFileName.matches(".*\\{n\\d*-?\\d*\\}.*")) {
                     List<String> list = splitToListWithRegex(newFileName, "\\{n\\d*-?\\d*\\}");
                     for (String pattern : list) {
@@ -2805,6 +2811,7 @@ public class FileUtil extends Util implements Constants {
                         newFileName = newFileName.replace(pattern, sub);
                     }
                 }
+                // replace ext
                 if (newFileName.contains("{e}"))
                     newFileName = newFileName.replace("{e}", getFileExtName(fileName));
                 return newFileName;
