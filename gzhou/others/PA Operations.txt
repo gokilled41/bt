@@ -2,3 +2,4 @@
 - find class in listed jars
 - al files: merge files to one file
 - find chinese: mk not correct; auto encoding (al, af, ap...)
+- zip with kat: does not work well

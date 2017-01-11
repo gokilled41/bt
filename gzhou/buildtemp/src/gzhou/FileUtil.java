@@ -1280,6 +1280,12 @@ public class FileUtil extends Util implements Constants {
                 header.add(cn);
             }
             lists.add(header);
+            List<String> types = new ArrayList<String>();
+            for (int i = 1; i <= n; i++) {
+                String cn = "" + md.getColumnType(i);
+                types.add(cn);
+            }
+            lists.add(types);
             while (rs.next()) {
                 List<String> row = new ArrayList<String>();
                 for (int i = 1; i <= n; i++) {
