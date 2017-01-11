@@ -5,3 +5,4 @@
 - zip with kat: does not work well
 - al db timer: list tables with name contains timer
   - db ops: list tables, list lines, remove records, update records
+- compare and diff 2 files
