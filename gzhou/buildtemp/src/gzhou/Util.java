@@ -266,7 +266,7 @@ public class Util implements Constants {
             return "null";
         if (o instanceof Date) {
             return sdf4.format(o);
-        } else if ( o instanceof Blob) {
+        } else if (o instanceof Blob) {
             Blob b = (Blob) o;
             byte[] bytes = b.getBytes((long) 1, (int) b.length());
             return new String(Hex.encodeHex(bytes));
@@ -314,6 +314,8 @@ public class Util implements Constants {
     }
 
     public static String sub(String s, int begin, int end) {
+        begin = Math.max(begin, 0);
+        end = Math.min(end, s.length());
         return s.substring(begin, end);
     }
 
@@ -1388,6 +1390,19 @@ public class Util implements Constants {
     public static List<String> cutFirst(List<String> list) {
         list.remove(0);
         return list;
+    }
+
+    public static List<String> cutLast(List<String> list) {
+        list.remove(list.size() - 1);
+        return list;
+    }
+
+    public static String subFirst(List<String> list) {
+        return list.get(0);
+    }
+
+    public static String subLast(List<String> list) {
+        return list.get(list.size() - 1);
     }
 
     public static boolean isFile(String p) {

@@ -21,7 +21,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.sql.Blob;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -42,6 +44,7 @@ import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.apache.commons.codec.binary.Hex;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -2063,6 +2066,10 @@ public class FileUtil extends Util implements Constants {
             System.out.println(m);
     }
 
+    public static void log(int i, String m) {
+        log(tab(i) + m);
+    }
+
     public static class PAOperations {
 
         public static void paPrint(String[] args) throws Exception {
@@ -2071,6 +2078,7 @@ public class FileUtil extends Util implements Constants {
 
             String fromdir = toTARAlias(args[0]);
             args = cutFirstArg(args);
+
             if (isFile(fromdir)) {
                 onlyOneFile(params);
                 printFiles(getParent(fromdir), getFileName(fromdir) + "*", "one", params);
@@ -2084,6 +2092,12 @@ public class FileUtil extends Util implements Constants {
                 if (args.length > 0)
                     type = args[0];
                 filefrom = fixFileFrom(filefrom, params);
+                // db operations
+                if (DBOperations.isDB(fromdir)) {
+                    DBOperations.printTables(fromdir, filefrom, params);
+                    return;
+                }
+                // file operations
                 printFiles(fromdir, filefrom, type, params);
             }
         }
@@ -2110,8 +2124,7 @@ public class FileUtil extends Util implements Constants {
             String alias = args[2];
             String resolved = toTARAlias(alias);
             if (!alias.equals(resolved))
-                System.out
-                        .println(format("replace from \"{0}\" to \"{1}\" in \"{2}({3})\".", from, to, alias, resolved));
+                log(format("replace from \"{0}\" to \"{1}\" in \"{2}({3})\".", from, to, alias, resolved));
             else
                 log(format("replace from \"{0}\" to \"{1}\" in \"{1}\".", from, to, resolved));
         }
@@ -2194,6 +2207,12 @@ public class FileUtil extends Util implements Constants {
                 filefrom = args[1];
             }
             filefrom = fixFileFrom(filefrom, params);
+            // db operations
+            if (DBOperations.isDB(fromdir)) {
+                DBOperations.listTables(fromdir, filefrom, params);
+                return;
+            }
+            // file operations
             if (isFile(fromdir)) {
                 onlyOneFile(params);
                 listFiles(getParent(fromdir), getFileName(fromdir) + "*", params);
@@ -2241,6 +2260,12 @@ public class FileUtil extends Util implements Constants {
                 from = args[2];
             }
             filefrom = fixFileFrom(filefrom, params);
+            // db operations
+            if (DBOperations.isDB(fromdir)) {
+                DBOperations.findInTables(fromdir, filefrom, from, params);
+                return;
+            }
+            // file operations
             if (isFile(fromdir)) {
                 onlyOneFile(params);
                 findInFiles(getParent(fromdir), getFileName(fromdir) + "*", from, params);
@@ -5034,4 +5059,287 @@ public class FileUtil extends Util implements Constants {
         }
     }
 
+    public static class DBOperations {
+
+        public static final int SIZE_BYTES = 30;
+        public static final int SIZE_STRING = 50;
+
+        public static boolean isDB(String fromdir) {
+            if (fromdir.startsWith("m:"))
+                return true;
+            if (fromdir.startsWith("o:"))
+                return true;
+            return false;
+        }
+
+        public static void listTables(String fromdir, String filefrom, Params params) throws Exception {
+            Driver driver = parseDriver(fromdir);
+            log("list from: " + driver.url);
+            List<String> tables = listTableNames(driver, filefrom, params);
+            for (String tableName : tables) {
+                log(tab(2) + tableName);
+            }
+        }
+
+        public static void printTables(String fromdir, String filefrom, Params params) throws Exception {
+            Driver driver = parseDriver(fromdir);
+            log("print from: " + driver.url);
+            List<String> tables = listTableNames(driver, filefrom, params);
+            for (String tableName : tables) {
+                printTable(driver, tableName, params);
+            }
+        }
+
+        public static void findInTables(String fromdir, String filefrom, String from, Params params) throws Exception {
+            Driver driver = parseDriver(fromdir);
+            log("find from: " + driver.url);
+            List<String> tables = listTableNames(driver, filefrom, params);
+            for (String tableName : tables) {
+                log(2, tableName);
+                findInTable(driver, tableName, from, params);
+            }
+        }
+
+        private static List<String> listTableNames(Driver driver, String filefrom, Params params) throws Exception {
+            Connection conn = toConnection(driver);
+            try {
+                List<String> tables = getAllTableNames(conn);
+                tables = filterTables(tables, filefrom, params);
+                Collections.sort(tables);
+                return tables;
+            } finally {
+                if (conn != null)
+                    conn.close();
+            }
+        }
+
+        private static void printTable(Driver driver, String tableName, Params params) throws Exception {
+            log(2, tableName);
+            findInTable(driver, tableName, "*", params);
+        }
+
+        private static void findInTable(Driver driver, String tableName, String from, Params params) throws Exception {
+            Connection conn = toConnection(driver);
+            try {
+                String sql = toSQL(tableName, from, params);
+                List<List<String>> lists = toResults(conn, sql);
+                lists = filterRecords(lists, from, params);
+                printRecords(lists, params);
+            } finally {
+                if (conn != null)
+                    conn.close();
+            }
+        }
+
+        private static Driver parseDriver(String fromdir) {
+            Driver driver = new Driver();
+            List<String> list = splitToList(fromdir, ":");
+            // driver
+            String type = subFirst(list);
+            list = cutFirst(list);
+            if (type.equals("m"))
+                driver.driver = "com.mysql.jdbc.Driver";
+            else
+                driver.driver = "oracle.jdbc.OracleDriver";
+            if (debug_)
+                log("driver = " + driver.driver);
+            // url
+            String ip = subFirst(list);
+            list = cutFirst(list);
+            if (ip.equals("l"))
+                ip = "localhost";
+            String name = subFirst(list);
+            list = cutFirst(list);
+            driver.url = format("jdbc:mysql://{0}:3306/{1}?autoReconnect=true", ip, name);
+            if (debug_)
+                log("url = " + driver.url);
+            // user
+            String user = subFirst(list);
+            list = cutFirst(list);
+            if (user.equals("r"))
+                user = "root";
+            driver.user = user;
+            if (debug_)
+                log("user = " + driver.user);
+            // password
+            String password = subFirst(list);
+            list = cutFirst(list);
+            driver.password = password;
+            if (debug_)
+                log("password = " + driver.password);
+            return driver;
+        }
+
+        private static String toSQL(String tableName, String from, Params params) {
+            String sql = format("select * from {0}", tableName);
+
+            // filters
+
+            // order by
+
+            return sql;
+        }
+
+        private static List<String> filterTables(List<String> tables, String filefrom, Params params) {
+            Filters filters = Filters.getFilters(filefrom, params);
+            List<String> list = new ArrayList<String>();
+            for (String tableName : tables) {
+                if (filters.accept(tableName, 0)) {
+                    list.add(tableName);
+                }
+            }
+            return list;
+        }
+
+        private static List<List<String>> filterRecords(List<List<String>> lists, String from, Params params) {
+            Filters filters = Filters.getFilters(from, params);
+            List<List<String>> lists2 = new ArrayList<List<String>>();
+            for (List<String> list : lists) {
+                if (acceptRecord(list, filters, params)) {
+                    lists2.add(list);
+                }
+            }
+            return lists2;
+        }
+
+        private static boolean acceptRecord(List<String> list, Filters filters, Params params) {
+            String lineStr = connectLines(list, " ");
+            return filters.accept(lineStr, 0);
+        }
+
+        private static void printRecords(List<List<String>> lists, Params params) {
+            int n = lists.get(0).size();
+            // size
+            List<Integer> sizes = new ArrayList<Integer>();
+            for (int i = 0; i < n; i++) {
+                List<Integer> sl = new ArrayList<Integer>();
+                for (List<String> l : lists) {
+                    sl.add(getWordCount(l.get(i)));
+                }
+                Integer size = Collections.max(sl);
+                sizes.add(size);
+            }
+            // print
+            for (List<String> l : lists) {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < n; i++) {
+                    int size = sizes.get(i);
+                    String v = l.get(i);
+                    sb.append(formatColumn(v, size + 2, true));
+                }
+                String lineStr = sb.toString();
+                log(4, lineStr);
+            }
+        }
+
+        private static List<String> getAllTableNames(Connection cnn) throws Exception {
+            List<String> tables = new ArrayList<String>();
+            DatabaseMetaData dbMetaData = cnn.getMetaData();
+            String[] types = { "TABLE" };
+            ResultSet tabs = dbMetaData.getTables(null, null, null, types/*只要表就好了*/);
+            while (tabs.next()) {
+                tables.add((String) tabs.getObject("TABLE_NAME"));
+            }
+            return tables;
+        }
+
+        private static Connection toConnection(Driver d) throws Exception {
+            Class.forName(d.driver);
+            Connection conn = DriverManager.getConnection(d.url, d.user, d.password);
+            return conn;
+        }
+
+        private static List<List<String>> toResults(Connection conn, String sql) throws Exception {
+            Statement stmt = null;
+            ResultSet rs = null;
+            try {
+                List<List<String>> lists = new ArrayList<List<String>>();
+                stmt = conn.createStatement();
+                rs = stmt.executeQuery(sql);
+                List<String> headers = toHeader(rs);
+                List<String> types = toType(rs);
+                lists.add(headers);
+                while (rs.next()) {
+                    List<String> line = toLine(rs, types);
+                    lists.add(line);
+                }
+                return lists;
+            } finally {
+                if (rs != null)
+                    rs.close();
+                if (stmt != null)
+                    stmt.close();
+            }
+        }
+
+        private static List<String> toHeader(ResultSet rs) throws Exception {
+            ResultSetMetaData md = rs.getMetaData();
+            int n = md.getColumnCount();
+            List<String> list = new ArrayList<String>();
+            for (int i = 1; i <= n; i++) {
+                String cn = md.getColumnName(i);
+                list.add(cn);
+            }
+            return list;
+        }
+
+        private static List<String> toType(ResultSet rs) throws Exception {
+            ResultSetMetaData md = rs.getMetaData();
+            int n = md.getColumnCount();
+            List<String> list = new ArrayList<String>();
+            for (int i = 1; i <= n; i++) {
+                String cn = "" + md.getColumnType(i);
+                list.add(cn);
+            }
+            return list;
+        }
+
+        private static List<String> toLine(ResultSet rs, List<String> types) throws Exception {
+            ResultSetMetaData md = rs.getMetaData();
+            int n = md.getColumnCount();
+            List<String> list = new ArrayList<String>();
+            for (int i = 1; i <= n; i++) {
+                Object o = rs.getObject(i);
+                int t = toInt(types.get(i - 1));
+                String v = toValueString(o, t);
+                list.add(v);
+            }
+            return list;
+        }
+
+        private static String toValueString(Object o, int t) throws Exception {
+            if (o == null)
+                return "null";
+            if (o instanceof Date) {
+                return sdf4.format(o);
+            } else if (o instanceof byte[]) {
+                byte[] bytes = (byte[]) o;
+                String s = new String(Hex.encodeHex(bytes));
+                return format("{0} [{1}]", atMost(s, SIZE_BYTES), bytes.length);
+            } else if (o instanceof Blob) {
+                Blob b = (Blob) o;
+                byte[] bytes = b.getBytes((long) 1, (int) b.length());
+                String s = new String(Hex.encodeHex(bytes));
+                return format("{0} [{1}]", atMost(s, SIZE_BYTES), bytes.length);
+            } else {
+                String s = o.toString();
+                return atMost(s, SIZE_STRING);
+            }
+        }
+
+        private static String atMost(String s, int n) {
+            if (s.length() > n)
+                return subFirst(s, n) + "...";
+            else
+                return s;
+        }
+
+        public static class Driver {
+            public String driver;
+            public String url;
+            public String user;
+            public String password;
+
+        }
+    }
 }

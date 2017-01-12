@@ -5,4 +5,12 @@
 - zip with kat: does not work well
 - al db timer: list tables with name contains timer
   - db ops: list tables, list lines, remove records, update records
+  - tar: mt (mysql test); ot (oracle test)
+  - mt: m:l:test:r:qilinsoft
+  - al mt
+  - al mt bpmn/pro ap: print all records
+  - al mt bpmn/pro ap s{n,b}: print all records, sort by columns including n, b
+  - al mt bpmn/pro af HAGroup: find records
+  - al mt bpmn/pro af HAGroup dup/del/exp=dd\dump.txt/imp=dd\dump.txt: find records and dup/del/exp/imp
+  
 - compare and diff 2 files
