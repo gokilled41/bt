@@ -25,8 +25,10 @@ import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.JDBCType;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLType;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,6 +59,8 @@ public class FileUtil extends Util implements Constants {
     public static boolean debug_ = false;
     public static boolean debug2_ = false;
     public static String logTab_;
+
+    private static TARAliasMatchNodeItem matchedItem_;
 
     static {
         PAOperations.initPA();
@@ -1605,7 +1609,12 @@ public class FileUtil extends Util implements Constants {
 
     public static String toTARAlias(String p) throws Exception {
         p = unwrapTARAlias(p);
+        if (isAbsolutePath(p))
+            return p;
+        boolean containsLeft = p.contains("/");
+        boolean containsRight = p.contains("\\");
         List<String> list = getLines2(TYPEANDRUN_CONFIG);
+        List<TARAliasMatchNodeItem> items = new ArrayList<TARAliasMatchNodeItem>();
         for (String tarLine : list) {
             String tarAlias = cut(tarLine, null, "|");
             String tarPath = cut(tarLine, "|", null);
@@ -1618,21 +1627,64 @@ public class FileUtil extends Util implements Constants {
             if (tarPath.contains("://"))
                 continue;
 
-            if (p.equals(tarAlias)) {
-                tarPath = fixTarPath(tarPath);
-                return tarPath;
-            } else if (p.startsWith(tarAlias + "/")) {
-                tarPath = fixTarPath(tarPath);
-                String sub = cutFirst(p, tarAlias.length() + 1);
+            tarPath = fixTarPath(tarPath);
+            if (containsLeft) {
+                String pFirst = cut(p, null, "/");
+                addItemIfNecessary(pFirst, items, tarAlias, tarPath);
+            } else if (containsRight) {
+                String pFirst = cut(p, null, "\\");
+                addItemIfNecessary(pFirst, items, tarAlias, tarPath);
+            } else {
+                addItemIfNecessary(p, items, tarAlias, tarPath);
+            }
+        }
+        if (!items.isEmpty()) {
+            Collections.sort(items);
+            TARAliasMatchNodeItem matchedItem = items.get(0);
+            matchedItem_ = matchedItem;
+            if (containsLeft) {
+                String sub = cut(p, "/", null);
                 sub = sub.replace("/", FILE_SEPARATOR);
-                return toTARPath(tarPath, sub);
-            } else if (p.startsWith(tarAlias + FILE_SEPARATOR)) {
-                tarPath = fixTarPath(tarPath);
-                String sub = cutFirst(p, tarAlias.length() + 1);
-                return toTARPath(tarPath, sub);
+                return toTARPath(matchedItem.tarPath, sub);
+            } else if (containsRight) {
+                String sub = cut(p, "\\", null);
+                return toTARPath(matchedItem.tarPath, sub);
+            } else {
+                return matchedItem.tarPath;
             }
         }
         return p;
+    }
+
+    private static void addItemIfNecessary(String p, List<TARAliasMatchNodeItem> items, String tarAlias, String tarPath) {
+        if (tarAlias.equals(p)) {
+            TARAliasMatchNodeItem item = new TARAliasMatchNodeItem();
+            item.i = 1;
+            item.tarAlias = tarAlias;
+            item.tarPath = tarPath;
+            items.add(item);
+        }
+        if (tarAlias.startsWith(p)) {
+            TARAliasMatchNodeItem item = new TARAliasMatchNodeItem();
+            item.i = 4;
+            item.tarAlias = tarAlias;
+            item.tarPath = tarPath;
+            items.add(item);
+        }
+        if (tarAlias.endsWith(p)) {
+            TARAliasMatchNodeItem item = new TARAliasMatchNodeItem();
+            item.i = 6;
+            item.tarAlias = tarAlias;
+            item.tarPath = tarPath;
+            items.add(item);
+        }
+        if (tarAlias.contains(p)) {
+            TARAliasMatchNodeItem item = new TARAliasMatchNodeItem();
+            item.i = 10;
+            item.tarAlias = tarAlias;
+            item.tarPath = tarPath;
+            items.add(item);
+        }
     }
 
     private static String fixTarPath(String tarPath) {
@@ -1715,6 +1767,19 @@ public class FileUtil extends Util implements Constants {
         return node;
     }
 
+    public static class TARAliasMatchNodeItem implements Comparable<TARAliasMatchNodeItem> {
+        public int i;
+        public String tarAlias;
+        public String tarPath;
+
+        @Override
+        public int compareTo(TARAliasMatchNodeItem o) {
+            Integer i1 = i;
+            Integer i2 = o.i;
+            return i1.compareTo(i2);
+        }
+    }
+
     public static class TARPathMatchNodeItem implements Comparable<TARPathMatchNodeItem> {
         public int i;
         public File file;
@@ -1726,7 +1791,6 @@ public class FileUtil extends Util implements Constants {
             Integer i2 = o.i;
             return i1.compareTo(i2);
         }
-
     }
 
     private static String unwrapTARAlias(String p) {
@@ -2333,7 +2397,7 @@ public class FileUtil extends Util implements Constants {
 
         protected static void copyOneFile(String from, String to, String filefrom, String fileto) throws Exception {
             copyFile(from + FILE_SEPARATOR + filefrom, to + FILE_SEPARATOR + fileto, false);
-            log("copy from: " + from);
+            log("copy from: " + formatFrom(from));
             log("     to:   " + to);
             log("           " + filefrom + " -> " + fileto);
         }
@@ -2341,9 +2405,9 @@ public class FileUtil extends Util implements Constants {
         protected static void copyFiles(String from, String fromfile, String to, String tofile, Params params)
                 throws Exception {
             if (!params.move)
-                log("copy from: " + from);
+                log("copy from: " + formatFrom(from));
             else
-                log("move from: " + from);
+                log("move from: " + formatFrom(from));
             log("     to:   " + to);
             List<File> files = toCopyFromFiles(getFromFiles(from, fromfile, params));
             if (!files.isEmpty()) {
@@ -2391,7 +2455,7 @@ public class FileUtil extends Util implements Constants {
         }
 
         protected static void deleteFiles(String from, String filefrom, Params params) throws Exception {
-            log("delete from: " + from);
+            log("delete from: " + formatFrom(from));
             FilenameFilter filter = Filters.getFilters(filefrom, params);
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
             if (!files.isEmpty()) {
@@ -2420,7 +2484,7 @@ public class FileUtil extends Util implements Constants {
             boolean one = type.equals("one");
             FilenameFilter filter = Filters.getFilters(filefrom, params);
             if (!one)
-                log("print from: " + from);
+                log("print from: " + formatFrom(from));
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
             if (!files.isEmpty()) {
                 for (File file : files) {
@@ -2455,9 +2519,9 @@ public class FileUtil extends Util implements Constants {
         protected static void listFiles(String from, String filefrom, Params params) throws Exception {
             FilenameFilter filter = Filters.getFilters(filefrom, params);
             if (params.fileTimestamp != null)
-                log(format("list from: {0} ({1})", from, params.fileTimestamp.toString2()));
+                log(format("list from: {0} ({1})", formatFrom(from), params.fileTimestamp.toString2()));
             else
-                log("list from: " + from);
+                log("list from: " + formatFrom(from));
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
             if (!files.isEmpty()) {
                 List<String> dirs = new ArrayList<String>();
@@ -2493,7 +2557,7 @@ public class FileUtil extends Util implements Constants {
 
         protected static void renameFiles(String dir, String filefrom, String from, String to, Params params)
                 throws Exception {
-            log("rename from: " + dir);
+            log("rename from: " + formatFrom(dir));
             FilenameFilter filter = Filters.getFilters(filefrom, params);
             List<File> files = Util.listFiles(new File(dir), params.recursive, filter, params);
             if (!files.isEmpty()) {
@@ -2513,7 +2577,7 @@ public class FileUtil extends Util implements Constants {
         }
 
         protected static void findInFiles(String dir, String filefrom, String from, Params params) throws Exception {
-            log("find from: " + dir);
+            log("find from: " + formatFrom(dir));
             FilenameFilter filter = Filters.getFilters(filefrom, params);
             List<File> files = Util.listFiles(new File(dir), params.recursive, filter, params);
             boolean hasResult = false;
@@ -2546,7 +2610,7 @@ public class FileUtil extends Util implements Constants {
 
         protected static void openFiles(String from, String filefrom, Params params) throws Exception {
             FilenameFilter filter = Filters.getFilters(filefrom, params);
-            log("open files from: " + from);
+            log("open files from: " + formatFrom(from));
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
             List<String> lines = new ArrayList<String>();
             if (!files.isEmpty()) {
@@ -2568,7 +2632,7 @@ public class FileUtil extends Util implements Constants {
 
         protected static void replaceFiles(String dir, String filefrom, String from, String to, Params params)
                 throws Exception {
-            log(format("replace from \"{0}\" to \"{1}\" in dir: {2}", from, to, dir));
+            log(format("replace from \"{0}\" to \"{1}\" in dir: {2}", from, to, formatFrom(dir)));
             Filters filter = Filters.getFilters(filefrom, params);
             List<File> files = Util.listFiles(new File(dir), params.recursive, filter, params);
             boolean replaced = false;
@@ -2897,6 +2961,15 @@ public class FileUtil extends Util implements Constants {
                     deleteFolder(file);
                 }
             }
+        }
+
+        private static String formatFrom(String from) {
+            if (matchedItem_ != null) {
+                if (matchedItem_.i > 1) {
+                    return format("{0} [{1}]", from, matchedItem_.tarAlias);
+                }
+            }
+            return from;
         }
     }
 
@@ -5078,6 +5151,7 @@ public class FileUtil extends Util implements Constants {
             List<String> tables = listTableNames(driver, filefrom, params);
             for (String tableName : tables) {
                 log(tab(2) + tableName);
+                listColumns(driver, tableName, params);
             }
         }
 
@@ -5095,7 +5169,6 @@ public class FileUtil extends Util implements Constants {
             log("find from: " + driver.url);
             List<String> tables = listTableNames(driver, filefrom, params);
             for (String tableName : tables) {
-                log(2, tableName);
                 findInTable(driver, tableName, from, params);
             }
         }
@@ -5114,7 +5187,6 @@ public class FileUtil extends Util implements Constants {
         }
 
         private static void printTable(Driver driver, String tableName, Params params) throws Exception {
-            log(2, tableName);
             findInTable(driver, tableName, "*", params);
         }
 
@@ -5124,10 +5196,69 @@ public class FileUtil extends Util implements Constants {
                 String sql = toSQL(tableName, from, params);
                 List<List<String>> lists = toResults(conn, sql);
                 lists = filterRecords(lists, from, params);
-                printRecords(lists, params);
+                printRecords(tableName, lists, from, params);
             } finally {
                 if (conn != null)
                     conn.close();
+            }
+        }
+
+        private static void listColumns(Driver driver, String tableName, Params params) throws Exception {
+            // 'c' means print columns
+            if (params.caseSensitive) {
+                Connection conn = null;
+                Statement stmt = null;
+                ResultSet rs = null;
+                try {
+                    conn = toConnection(driver);
+                    String sql = "select * from " + tableName;
+                    stmt = conn.createStatement();
+                    rs = stmt.executeQuery(sql);
+                    ResultSetMetaData rsmd = rs.getMetaData();
+                    List<SQLColumn> cols = new ArrayList<SQLColumn>();
+                    for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                        String colname = rsmd.getColumnName(i);
+                        int itype = rsmd.getColumnType(i);
+                        int precision = rsmd.getPrecision(i);
+                        SQLColumn col = new SQLColumn();
+                        SQLType type = JDBCType.valueOf(itype);
+                        col.name = colname;
+                        col.type = type.getName();
+                        col.precision = precision;
+                        cols.add(col);
+                    }
+                    int n = SQLColumn.listSize();
+                    // size
+                    List<Integer> sizes = new ArrayList<Integer>();
+                    for (int i = 0; i < n; i++) {
+                        List<Integer> sl = new ArrayList<Integer>();
+                        for (SQLColumn col : cols) {
+                            List<String> l = col.toList();
+                            sl.add(getWordCount(l.get(i)));
+                        }
+                        Integer size = Collections.max(sl);
+                        sizes.add(size);
+                    }
+                    // print
+                    for (SQLColumn col : cols) {
+                        List<String> l = col.toList();
+                        StringBuilder sb = new StringBuilder();
+                        for (int i = 0; i < n; i++) {
+                            int size = sizes.get(i);
+                            String v = l.get(i);
+                            sb.append(formatColumn(v, size + 2, true));
+                        }
+                        String lineStr = sb.toString();
+                        log(4, lineStr);
+                    }
+                } finally {
+                    if (rs != null)
+                        rs.close();
+                    if (stmt != null)
+                        stmt.close();
+                    if (conn != null)
+                        conn.close();
+                }
             }
         }
 
@@ -5194,9 +5325,14 @@ public class FileUtil extends Util implements Constants {
         private static List<List<String>> filterRecords(List<List<String>> lists, String from, Params params) {
             Filters filters = Filters.getFilters(from, params);
             List<List<String>> lists2 = new ArrayList<List<String>>();
-            for (List<String> list : lists) {
-                if (acceptRecord(list, filters, params)) {
-                    lists2.add(list);
+            lists2.add(lists.get(0));
+            int n = lists.size();
+            if (n > 1) {
+                for (int i = 1; i < lists.size(); i++) {
+                    List<String> list = lists.get(i);
+                    if (acceptRecord(list, filters, params)) {
+                        lists2.add(list);
+                    }
                 }
             }
             return lists2;
@@ -5207,8 +5343,13 @@ public class FileUtil extends Util implements Constants {
             return filters.accept(lineStr, 0);
         }
 
-        private static void printRecords(List<List<String>> lists, Params params) {
+        private static void printRecords(String tableName, List<List<String>> lists, String from, Params params) {
             int n = lists.get(0).size();
+            // print table name
+            int count = lists.size() - 1;
+            if (!from.equals("*") && count == 0)
+                return;
+            log(2, format("{0} [{1}]", tableName, count));
             // size
             List<Integer> sizes = new ArrayList<Integer>();
             for (int i = 0; i < n; i++) {
@@ -5232,20 +5373,20 @@ public class FileUtil extends Util implements Constants {
             }
         }
 
-        private static List<String> getAllTableNames(Connection cnn) throws Exception {
+        private static List<String> getAllTableNames(Connection conn) throws Exception {
             List<String> tables = new ArrayList<String>();
-            DatabaseMetaData dbMetaData = cnn.getMetaData();
+            DatabaseMetaData dbMetaData = conn.getMetaData();
             String[] types = { "TABLE" };
-            ResultSet tabs = dbMetaData.getTables(null, null, null, types/*只要表就好了*/);
+            ResultSet tabs = dbMetaData.getTables(null, null, null, types);
             while (tabs.next()) {
                 tables.add((String) tabs.getObject("TABLE_NAME"));
             }
             return tables;
         }
 
-        private static Connection toConnection(Driver d) throws Exception {
-            Class.forName(d.driver);
-            Connection conn = DriverManager.getConnection(d.url, d.user, d.password);
+        private static Connection toConnection(Driver driver) throws Exception {
+            Class.forName(driver.driver);
+            Connection conn = DriverManager.getConnection(driver.url, driver.user, driver.password);
             return conn;
         }
 
@@ -5339,7 +5480,43 @@ public class FileUtil extends Util implements Constants {
             public String url;
             public String user;
             public String password;
+        }
 
+        public static class SQLColumn {
+            public String name;
+            public String type;
+            public int precision;
+
+            public List<String> toList() {
+                List<String> list = new ArrayList<String>();
+                list.add(name);
+                list.add(getType());
+                return list;
+            }
+
+            private String getType() {
+                String type = this.type;
+                if (match(type, "longvarchar"))
+                    type = "CLOB";
+                if (match(type, "longvarbinary"))
+                    type = "BLOB";
+                if (match(type, "int"))
+                    return type;
+                if (match(type, "time"))
+                    return type;
+                if (precision < Integer.MAX_VALUE) {
+                    return format("{0}({1})", type, precision);
+                }
+                return type;
+            }
+
+            private boolean match(String type, String s) {
+                return containsIgnoreCase(type, s);
+            }
+
+            public static int listSize() {
+                return 2;
+            }
         }
     }
 }

@@ -1565,4 +1565,11 @@ public class Util implements Constants {
         return s.toLowerCase().contains(n.toLowerCase());
     }
 
+    public static boolean isAbsolutePath(String path) {
+        if (path != null) {
+            if (path.matches("[a-zA-Z]:.*"))
+                return true;
+        }
+        return false;
+    }
 }
