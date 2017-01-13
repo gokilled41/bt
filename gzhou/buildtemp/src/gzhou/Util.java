@@ -1,5 +1,6 @@
 package gzhou;
 
+import gzhou.FileUtil.DBOperations;
 import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
 import gzhou.FileUtil.Filters;
 import gzhou.FileUtil.ListConditionResult.ListCondition;
@@ -1406,6 +1407,8 @@ public class Util implements Constants {
     }
 
     public static boolean isFile(String p) {
+        if (DBOperations.isDB(p))
+            return false;
         File f = new File(p);
         if (f.exists()) {
             return f.isFile();

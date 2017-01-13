@@ -30,6 +30,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLType;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -59,6 +60,7 @@ public class FileUtil extends Util implements Constants {
     public static boolean debug_ = false;
     public static boolean debug2_ = false;
     public static String logTab_;
+    public static boolean outputToFile_ = false;
 
     private static TARAliasMatchNodeItem matchedItem_;
 
@@ -4230,6 +4232,14 @@ public class FileUtil extends Util implements Constants {
             public boolean zip = true;
             public String to;
 
+            public boolean isExp() {
+                return zip;
+            }
+
+            public boolean isZip() {
+                return zip;
+            }
+            
             public static ZipOperations parseZipOperations(String pattern) throws Exception {
                 if (isParam(pattern)) {
                     ZipOperations zo = new ZipOperations();
@@ -4241,21 +4251,19 @@ public class FileUtil extends Util implements Constants {
             }
 
             public static boolean isParam(String last) {
-                return last.startsWith("unzip=") || last.startsWith("zip=");
+                return isZip(last) || isUnzip(last);
             }
 
             private static boolean isZip(String pattern) {
-                return pattern.startsWith("zip=");
+                return pattern.startsWith("zip=") || pattern.startsWith("exp=");
+            }
+
+            private static boolean isUnzip(String pattern) {
+                return pattern.startsWith("unzip=") || pattern.startsWith("imp=");
             }
 
             private static String getTo(String pattern) throws Exception {
-                String tmp;
-                if (isZip(pattern)) {
-                    tmp = cutFirst(pattern, "zip=".length());
-                } else {
-                    tmp = cutFirst(pattern, "unzip=".length());
-                }
-                return toTARAlias(tmp);
+                return toTARAlias(cut(pattern, "=", null));
             }
 
             @Override
@@ -5055,6 +5063,14 @@ public class FileUtil extends Util implements Constants {
                 return true;
             return false;
         }
+
+        public boolean isExp() {
+            return zipOperations!=null && zipOperations.isExp();
+        }
+
+        public String getExpTo() {
+            return zipOperations.to;
+        }
     }
 
     public static class ParamsSorter implements Comparator<String> {
@@ -5128,14 +5144,15 @@ public class FileUtil extends Util implements Constants {
         }
 
         public static void outputToFile(String n) throws FileNotFoundException {
+            outputToFile_ = true;
             System.setOut(new PrintStream(n));
         }
     }
 
     public static class DBOperations {
 
-        public static final int SIZE_BYTES = 30;
-        public static final int SIZE_STRING = 50;
+        public static final int SIZE_BYTES = 20;
+        public static final int SIZE_STRING = 30;
 
         public static boolean isDB(String fromdir) {
             if (fromdir.startsWith("m:"))
@@ -5326,9 +5343,10 @@ public class FileUtil extends Util implements Constants {
             Filters filters = Filters.getFilters(from, params);
             List<List<String>> lists2 = new ArrayList<List<String>>();
             lists2.add(lists.get(0));
+            lists2.add(lists.get(1));
             int n = lists.size();
-            if (n > 1) {
-                for (int i = 1; i < lists.size(); i++) {
+            if (n > 2) {
+                for (int i = 2; i < lists.size(); i++) {
                     List<String> list = lists.get(i);
                     if (acceptRecord(list, filters, params)) {
                         lists2.add(list);
@@ -5343,13 +5361,27 @@ public class FileUtil extends Util implements Constants {
             return filters.accept(lineStr, 0);
         }
 
-        private static void printRecords(String tableName, List<List<String>> lists, String from, Params params) {
+        private static void printRecords(String tableName, List<List<String>> lists, String from, Params params) throws Exception {
+            List<String> lines = toPrintRecords(tableName, lists, from, params);
+            if (!lines.isEmpty()) {
+                String title = subFirst(lines);
+                lines = cutFirst(lines);
+                log(2, title);
+                for (String line : lines) {
+                    log(4, line);
+                }
+            }
+        }
+        
+        private static List<String> toPrintRecords(String tableName, List<List<String>> lists, String from, Params params) throws Exception {
+            lists = toPrintLists(lists);
             int n = lists.get(0).size();
+            List<String> lines = new ArrayList<String>();
             // print table name
-            int count = lists.size() - 1;
+            int count = lists.size() - 2;
             if (!from.equals("*") && count == 0)
-                return;
-            log(2, format("{0} [{1}]", tableName, count));
+                return lines;
+            lines.add(format("{0} [{1}]", tableName, count));
             // size
             List<Integer> sizes = new ArrayList<Integer>();
             for (int i = 0; i < n; i++) {
@@ -5361,7 +5393,8 @@ public class FileUtil extends Util implements Constants {
                 sizes.add(size);
             }
             // print
-            for (List<String> l : lists) {
+            for (int k = 0; k < lists.size(); k++) {
+                List<String> l = lists.get(k);
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < n; i++) {
                     int size = sizes.get(i);
@@ -5369,8 +5402,59 @@ public class FileUtil extends Util implements Constants {
                     sb.append(formatColumn(v, size + 2, true));
                 }
                 String lineStr = sb.toString();
-                log(4, lineStr);
+                if (k != 1)
+                    lines.add(lineStr);
             }
+            return lines;
+        }
+
+        private static List<List<String>> toPrintLists(List<List<String>> lists) throws Exception {
+            int count = lists.size() - 2;
+            if (count > 0) {
+                List<String> header = lists.get(0);
+                List<String> type = lists.get(1);
+                List<List<String>> lists2 = new ArrayList<List<String>>();
+                lists2.add(header);
+                lists2.add(type);
+                for (int i = 2; i < lists.size(); i++) {
+                    List<String> lineList = lists.get(i);
+                    lists2.add(toPrintList(header, type, lineList));
+                }
+                return lists2;
+            }
+            return lists;
+        }
+
+        private static List<String> toPrintList(List<String> header, List<String> types, List<String> lineList) throws Exception {
+            int n = header.size();
+            List<String> list = new ArrayList<String>();
+            for (int i = 0; i < n; i++) {
+                int type = toInt(types.get(i));
+                String v = lineList.get(i);
+                list.add(toPrintValueString(v, type));
+            }
+            return list;
+        }
+
+        private static String toPrintValueString(String v, int type) throws Exception {
+            switch (type) {
+            case Types.BLOB:
+            case Types.CLOB:
+            case Types.LONGVARBINARY:
+            case Types.LONGVARCHAR:
+            case Types.VARBINARY:
+            case Types.BINARY:
+                if (v.length() > SIZE_BYTES) {
+                    byte[] bytes = Hex.decodeHex(v.toCharArray());
+                    v = format("{0} [{1}]", atMost(v, SIZE_BYTES), bytes.length);
+                }
+                break;
+            default:
+                if (v.length() > SIZE_STRING && !outputToFile_)
+                    v = format("{0} [{1}]", atMost(v, SIZE_STRING), v.length());
+                break;
+            }
+            return v;
         }
 
         private static List<String> getAllTableNames(Connection conn) throws Exception {
@@ -5400,6 +5484,7 @@ public class FileUtil extends Util implements Constants {
                 List<String> headers = toHeader(rs);
                 List<String> types = toType(rs);
                 lists.add(headers);
+                lists.add(types);
                 while (rs.next()) {
                     List<String> line = toLine(rs, types);
                     lists.add(line);
@@ -5456,15 +5541,15 @@ public class FileUtil extends Util implements Constants {
             } else if (o instanceof byte[]) {
                 byte[] bytes = (byte[]) o;
                 String s = new String(Hex.encodeHex(bytes));
-                return format("{0} [{1}]", atMost(s, SIZE_BYTES), bytes.length);
+                return s;
             } else if (o instanceof Blob) {
                 Blob b = (Blob) o;
                 byte[] bytes = b.getBytes((long) 1, (int) b.length());
                 String s = new String(Hex.encodeHex(bytes));
-                return format("{0} [{1}]", atMost(s, SIZE_BYTES), bytes.length);
+                return s;
             } else {
                 String s = o.toString();
-                return atMost(s, SIZE_STRING);
+                return s;
             }
         }
 
