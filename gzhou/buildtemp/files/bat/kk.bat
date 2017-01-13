@@ -13,11 +13,11 @@ if not "%1" == "" set kkfrom=%1
 set kkto=%1
 if not "%2" == "" set kkto=%2
 
-call afu /l%kkfrom%-%kkto% ar "no path" "full path"
-call afu /l%kkfrom%-%kkto% ar NoPath FullPath
-call afu /l%kkfrom%-%kkto% ar "No Path" "Full Path"
-call afu /l%kkfrom%-%kkto% ar noPath fullPath
-call afu /l%kkfrom%-%kkto% ar npr fpr
+call afu /l%kkfrom%-%kkto% ar "expand lines" "go dir"
+call afu /l%kkfrom%-%kkto% ar ExpandLines GoDir
+call afu /l%kkfrom%-%kkto% ar "Expand Lines" "Go Dir"
+call afu /l%kkfrom%-%kkto% ar expandLines goDir
+call afu /l%kkfrom%-%kkto% ar elr gdr
 
 goto end
 
