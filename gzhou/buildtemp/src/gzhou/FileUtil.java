@@ -4728,6 +4728,24 @@ public class FileUtil extends Util implements Constants {
                         setLines(batDir + "agotmp.bat", list);
                     }
                 }
+                if (g.agosub) {
+                    if (dirs != null && !dirs.isEmpty()) {
+                        List<String> list = new ArrayList<String>();
+                        for (String dir : dirs) {
+                            dir = subDir(dir, g);
+                            if (isFile(dir)) {
+                                list.add("call explorer " + getParent(dir));
+                                break;
+                            } else {
+                                if (dir.contains("\\\\"))
+                                    dir = dir.replace("\\\\", "\\");
+                                list.add("call explorer " + dir);
+                                break;
+                            }
+                        }
+                        setLines(batDir + "agotmp.bat", list);
+                    }
+                }
             }
         }
 
@@ -4750,11 +4768,15 @@ public class FileUtil extends Util implements Constants {
         }
 
         public static boolean isParam(String last) {
-            return isGo(last) || isGoSub(last) || isAGo(last);
+            return isGo(last) || isGoSub(last) || isAGo(last) || isAGoSub(last);
         }
 
         private static boolean isGoSub(String last) {
             return last.startsWith("go") && !isGo(last);
+        }
+
+        private static boolean isAGoSub(String last) {
+            return last.startsWith("ago") && !isAGo(last);
         }
 
         private static boolean isGo(String last) {
@@ -4769,6 +4791,7 @@ public class FileUtil extends Util implements Constants {
             public boolean go = false;
             public boolean ago = false;
             public boolean gosub = false;
+            public boolean agosub = false;
             public String sub;
             public int i = 1;
 
@@ -4796,6 +4819,19 @@ public class FileUtil extends Util implements Constants {
                     }
                     return r;
                 }
+                if (isAGoSub(pattern)) {
+                    GoDir r = new GoDir();
+                    r.agosub = true;
+                    String sub = cut(pattern, "ago", null);
+                    if (sub.matches(".*\\d")) {
+                        r.sub = cutLast(sub, 1);
+                        r.i = toInt(subLast(sub, 1));
+                    } else {
+                        r.sub = sub;
+                        r.i = 1;
+                    }
+                    return r;
+                }
                 return null;
             }
 
@@ -4806,7 +4842,9 @@ public class FileUtil extends Util implements Constants {
                 if (ago)
                     return "ago";
                 if (gosub)
-                    return "go" + sub;
+                    return "go" + sub + (i > 1 ? i : "");
+                if (agosub)
+                    return "ago" + sub + (i > 1 ? i : "");
                 return null;
             }
         }

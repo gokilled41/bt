@@ -16,5 +16,3 @@
   - doc
 - compare and diff 2 files
 - dsb: bug desc with ""
-- al usp Encoder gosrc/gocom; al msds Util.java godom
-- al usp Encoder agosrc/agocom; al msds Util.java agodom
