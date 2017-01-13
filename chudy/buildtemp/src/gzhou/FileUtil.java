@@ -1,5 +1,13 @@
 package gzhou;
 
+import gzhou.FileUtil.ExpandLinesResult.ExpandLines;
+import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
+import gzhou.FileUtil.ListConditionResult.ListCondition;
+import gzhou.FileUtil.OperateLinesResult.OperateLines;
+import gzhou.FileUtil.OperateLinesResult.OperateLinesUtil;
+import gzhou.FileUtil.OutputSummaryResult.OutputSummary;
+import gzhou.FileUtil.ZipOperationsResult.ZipOperations;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -13,12 +21,16 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.JDBCType;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLType;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -35,18 +47,12 @@ import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import com.vitria.domainservice.util.DOMUtil;
-
-import gzhou.FileUtil.ExpandLinesResult.ExpandLines;
-import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
-import gzhou.FileUtil.ListConditionResult.ListCondition;
-import gzhou.FileUtil.OperateLinesResult.OperateLines;
-import gzhou.FileUtil.OperateLinesResult.OperateLinesUtil;
-import gzhou.FileUtil.OutputSummaryResult.OutputSummary;
-import gzhou.FileUtil.ZipOperationsResult.ZipOperations;
 
 public class FileUtil extends Util implements Constants {
 
@@ -55,6 +61,9 @@ public class FileUtil extends Util implements Constants {
     public static boolean debug_ = false;
     public static boolean debug2_ = false;
     public static String logTab_;
+    public static boolean outputToFile_ = false;
+
+    private static TARAliasMatchNodeItem matchedItem_;
 
     static {
         PAOperations.initPA();
@@ -764,8 +773,7 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static void gettersetter() throws Exception {
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(new FileInputStream(desktopDir + "translate.txt")));
+        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(desktopDir + "translate.txt")));
         List<String> list = new ArrayList<String>();
         String line;
         String s = "";
@@ -775,8 +783,10 @@ public class FileUtil extends Util implements Constants {
                 if (line.contains("_")) {
                     int i = line.lastIndexOf("_");
                     String next = line.substring(i + 1, i + 2);
-                    if (next.equals("(") || next.equals(")") || (next.equals(";") && !line.trim().startsWith("return")
-                            && !line.trim().startsWith("private") && !line.trim().startsWith("public"))) {
+                    if (next.equals("(")
+                            || next.equals(")")
+                            || (next.equals(";") && !line.trim().startsWith("return")
+                                    && !line.trim().startsWith("private") && !line.trim().startsWith("public"))) {
                         s = line.substring(0, i) + line.substring(i + 1, line.length());
                     }
                 }
@@ -811,11 +821,15 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static void generateNCTemplate() throws Exception {
-        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(
-                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ncgenerator.xsl")));
-        PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(
-                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\NCTemplate.java",
-                false)));
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream(
+                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ncgenerator.xsl")));
+        PrintWriter out = new PrintWriter(
+                new OutputStreamWriter(
+                        new FileOutputStream(
+                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\NCTemplate.java",
+                                false)));
 
         out.println("// Copyright (c) 2013 Vitria Technology, Inc.");
         out.println("// All Rights Reserved.");
@@ -866,11 +880,15 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static void generateViewTemplate() throws Exception {
-        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(
-                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\instance_view.xml")));
-        PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(
-                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ViewTemplate.java",
-                false)));
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream(
+                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\instance_view.xml")));
+        PrintWriter out = new PrintWriter(
+                new OutputStreamWriter(
+                        new FileOutputStream(
+                                "C:\\zhou\\yoda\\unbundled\\apps\\activity_stream\\server\\libs\\src\\engine\\com\\vitria\\as\\ViewTemplate.java",
+                                false)));
 
         out.println("// Copyright (c) 2013 Vitria Technology, Inc.");
         out.println("// All Rights Reserved.");
@@ -933,7 +951,8 @@ public class FileUtil extends Util implements Constants {
         copyFile(
                 "C:\\zhou\\yoda\\unbundled\\af\\java\\nc_framework\\utility\\com\\vitria\\o2\\nc\\publisher\\FeedPublisher.java",
                 "C:\\Workflow-G\\workflow bug fixing\\2012-12-11 Hadoop\\feed_publisher\\not_modified\\FeedPublisher.java");
-        copyFile("C:\\Workflow-G\\workflow bug fixing\\2012-12-11 Hadoop\\feed_publisher\\modified\\FeedPublisher.java",
+        copyFile(
+                "C:\\Workflow-G\\workflow bug fixing\\2012-12-11 Hadoop\\feed_publisher\\modified\\FeedPublisher.java",
                 "C:\\zhou\\yoda\\unbundled\\af\\java\\nc_framework\\utility\\com\\vitria\\o2\\nc\\publisher\\FeedPublisher.java");
     }
 
@@ -1593,7 +1612,12 @@ public class FileUtil extends Util implements Constants {
 
     public static String toTARAlias(String p) throws Exception {
         p = unwrapTARAlias(p);
+        if (isAbsolutePath(p))
+            return p;
+        boolean containsLeft = p.contains("/");
+        boolean containsRight = p.contains("\\");
         List<String> list = getLines2(TYPEANDRUN_CONFIG);
+        List<TARAliasMatchNodeItem> items = new ArrayList<TARAliasMatchNodeItem>();
         for (String tarLine : list) {
             String tarAlias = cut(tarLine, null, "|");
             String tarPath = cut(tarLine, "|", null);
@@ -1606,21 +1630,64 @@ public class FileUtil extends Util implements Constants {
             if (tarPath.contains("://"))
                 continue;
 
-            if (p.equals(tarAlias)) {
-                tarPath = fixTarPath(tarPath);
-                return tarPath;
-            } else if (p.startsWith(tarAlias + "/")) {
-                tarPath = fixTarPath(tarPath);
-                String sub = cutFirst(p, tarAlias.length() + 1);
+            tarPath = fixTarPath(tarPath);
+            if (containsLeft) {
+                String pFirst = cut(p, null, "/");
+                addItemIfNecessary(pFirst, items, tarAlias, tarPath);
+            } else if (containsRight) {
+                String pFirst = cut(p, null, "\\");
+                addItemIfNecessary(pFirst, items, tarAlias, tarPath);
+            } else {
+                addItemIfNecessary(p, items, tarAlias, tarPath);
+            }
+        }
+        if (!items.isEmpty()) {
+            Collections.sort(items);
+            TARAliasMatchNodeItem matchedItem = items.get(0);
+            matchedItem_ = matchedItem;
+            if (containsLeft) {
+                String sub = cut(p, "/", null);
                 sub = sub.replace("/", FILE_SEPARATOR);
-                return toTARPath(tarPath, sub);
-            } else if (p.startsWith(tarAlias + FILE_SEPARATOR)) {
-                tarPath = fixTarPath(tarPath);
-                String sub = cutFirst(p, tarAlias.length() + 1);
-                return toTARPath(tarPath, sub);
+                return toTARPath(matchedItem.tarPath, sub);
+            } else if (containsRight) {
+                String sub = cut(p, "\\", null);
+                return toTARPath(matchedItem.tarPath, sub);
+            } else {
+                return matchedItem.tarPath;
             }
         }
         return p;
+    }
+
+    private static void addItemIfNecessary(String p, List<TARAliasMatchNodeItem> items, String tarAlias, String tarPath) {
+        if (tarAlias.equals(p)) {
+            TARAliasMatchNodeItem item = new TARAliasMatchNodeItem();
+            item.i = 1;
+            item.tarAlias = tarAlias;
+            item.tarPath = tarPath;
+            items.add(item);
+        }
+        if (tarAlias.startsWith(p)) {
+            TARAliasMatchNodeItem item = new TARAliasMatchNodeItem();
+            item.i = 4;
+            item.tarAlias = tarAlias;
+            item.tarPath = tarPath;
+            items.add(item);
+        }
+        if (tarAlias.endsWith(p)) {
+            TARAliasMatchNodeItem item = new TARAliasMatchNodeItem();
+            item.i = 6;
+            item.tarAlias = tarAlias;
+            item.tarPath = tarPath;
+            items.add(item);
+        }
+        if (tarAlias.contains(p)) {
+            TARAliasMatchNodeItem item = new TARAliasMatchNodeItem();
+            item.i = 10;
+            item.tarAlias = tarAlias;
+            item.tarPath = tarPath;
+            items.add(item);
+        }
     }
 
     private static String fixTarPath(String tarPath) {
@@ -1703,6 +1770,19 @@ public class FileUtil extends Util implements Constants {
         return node;
     }
 
+    public static class TARAliasMatchNodeItem implements Comparable<TARAliasMatchNodeItem> {
+        public int i;
+        public String tarAlias;
+        public String tarPath;
+
+        @Override
+        public int compareTo(TARAliasMatchNodeItem o) {
+            Integer i1 = i;
+            Integer i2 = o.i;
+            return i1.compareTo(i2);
+        }
+    }
+
     public static class TARPathMatchNodeItem implements Comparable<TARPathMatchNodeItem> {
         public int i;
         public File file;
@@ -1714,7 +1794,6 @@ public class FileUtil extends Util implements Constants {
             Integer i2 = o.i;
             return i1.compareTo(i2);
         }
-
     }
 
     private static String unwrapTARAlias(String p) {
@@ -2054,6 +2133,10 @@ public class FileUtil extends Util implements Constants {
             System.out.println(m);
     }
 
+    public static void log(int i, String m) {
+        log(tab(i) + m);
+    }
+
     public static class PAOperations {
 
         public static void paPrint(String[] args) throws Exception {
@@ -2062,6 +2145,7 @@ public class FileUtil extends Util implements Constants {
 
             String fromdir = toTARAlias(args[0]);
             args = cutFirstArg(args);
+
             if (isFile(fromdir)) {
                 onlyOneFile(params);
                 printFiles(getParent(fromdir), getFileName(fromdir) + "*", "one", params);
@@ -2075,6 +2159,12 @@ public class FileUtil extends Util implements Constants {
                 if (args.length > 0)
                     type = args[0];
                 filefrom = fixFileFrom(filefrom, params);
+                // db operations
+                if (DBOperations.isDB(fromdir)) {
+                    DBOperations.printTables(fromdir, filefrom, params);
+                    return;
+                }
+                // file operations
                 printFiles(fromdir, filefrom, type, params);
             }
         }
@@ -2101,8 +2191,7 @@ public class FileUtil extends Util implements Constants {
             String alias = args[2];
             String resolved = toTARAlias(alias);
             if (!alias.equals(resolved))
-                System.out
-                        .println(format("replace from \"{0}\" to \"{1}\" in \"{2}({3})\".", from, to, alias, resolved));
+                log(format("replace from \"{0}\" to \"{1}\" in \"{2}({3})\".", from, to, alias, resolved));
             else
                 log(format("replace from \"{0}\" to \"{1}\" in \"{1}\".", from, to, resolved));
         }
@@ -2185,15 +2274,17 @@ public class FileUtil extends Util implements Constants {
                 filefrom = args[1];
             }
             filefrom = fixFileFrom(filefrom, params);
+            // db operations
             if (DBOperations.isDB(fromdir)) {
                 DBOperations.listTables(fromdir, filefrom, params);
+                return;
+            }
+            // file operations
+            if (isFile(fromdir)) {
+                onlyOneFile(params);
+                listFiles(getParent(fromdir), getFileName(fromdir) + "*", params);
             } else {
-                if (isFile(fromdir)) {
-                    onlyOneFile(params);
-                    listFiles(getParent(fromdir), getFileName(fromdir) + "*", params);
-                } else {
-                    listFiles(fromdir, filefrom, params);
-                }
+                listFiles(fromdir, filefrom, params);
             }
         }
 
@@ -2236,6 +2327,12 @@ public class FileUtil extends Util implements Constants {
                 from = args[2];
             }
             filefrom = fixFileFrom(filefrom, params);
+            // db operations
+            if (DBOperations.isDB(fromdir)) {
+                DBOperations.findInTables(fromdir, filefrom, from, params);
+                return;
+            }
+            // file operations
             if (isFile(fromdir)) {
                 onlyOneFile(params);
                 findInFiles(getParent(fromdir), getFileName(fromdir) + "*", from, params);
@@ -2303,7 +2400,7 @@ public class FileUtil extends Util implements Constants {
 
         protected static void copyOneFile(String from, String to, String filefrom, String fileto) throws Exception {
             copyFile(from + FILE_SEPARATOR + filefrom, to + FILE_SEPARATOR + fileto, false);
-            log("copy from: " + from);
+            log("copy from: " + formatFrom(from));
             log("     to:   " + to);
             log("           " + filefrom + " -> " + fileto);
         }
@@ -2311,9 +2408,9 @@ public class FileUtil extends Util implements Constants {
         protected static void copyFiles(String from, String fromfile, String to, String tofile, Params params)
                 throws Exception {
             if (!params.move)
-                log("copy from: " + from);
+                log("copy from: " + formatFrom(from));
             else
-                log("move from: " + from);
+                log("move from: " + formatFrom(from));
             log("     to:   " + to);
             List<File> files = toCopyFromFiles(getFromFiles(from, fromfile, params));
             if (!files.isEmpty()) {
@@ -2361,7 +2458,7 @@ public class FileUtil extends Util implements Constants {
         }
 
         protected static void deleteFiles(String from, String filefrom, Params params) throws Exception {
-            log("delete from: " + from);
+            log("delete from: " + formatFrom(from));
             FilenameFilter filter = Filters.getFilters(filefrom, params);
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
             if (!files.isEmpty()) {
@@ -2390,7 +2487,7 @@ public class FileUtil extends Util implements Constants {
             boolean one = type.equals("one");
             FilenameFilter filter = Filters.getFilters(filefrom, params);
             if (!one)
-                log("print from: " + from);
+                log("print from: " + formatFrom(from));
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
             if (!files.isEmpty()) {
                 for (File file : files) {
@@ -2425,9 +2522,9 @@ public class FileUtil extends Util implements Constants {
         protected static void listFiles(String from, String filefrom, Params params) throws Exception {
             FilenameFilter filter = Filters.getFilters(filefrom, params);
             if (params.fileTimestamp != null)
-                log(format("list from: {0} ({1})", from, params.fileTimestamp.toString2()));
+                log(format("list from: {0} ({1})", formatFrom(from), params.fileTimestamp.toString2()));
             else
-                log("list from: " + from);
+                log("list from: " + formatFrom(from));
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
             if (!files.isEmpty()) {
                 List<String> dirs = new ArrayList<String>();
@@ -2463,7 +2560,7 @@ public class FileUtil extends Util implements Constants {
 
         protected static void renameFiles(String dir, String filefrom, String from, String to, Params params)
                 throws Exception {
-            log("rename from: " + dir);
+            log("rename from: " + formatFrom(dir));
             FilenameFilter filter = Filters.getFilters(filefrom, params);
             List<File> files = Util.listFiles(new File(dir), params.recursive, filter, params);
             if (!files.isEmpty()) {
@@ -2483,7 +2580,7 @@ public class FileUtil extends Util implements Constants {
         }
 
         protected static void findInFiles(String dir, String filefrom, String from, Params params) throws Exception {
-            log("find from: " + dir);
+            log("find from: " + formatFrom(dir));
             FilenameFilter filter = Filters.getFilters(filefrom, params);
             List<File> files = Util.listFiles(new File(dir), params.recursive, filter, params);
             boolean hasResult = false;
@@ -2516,7 +2613,7 @@ public class FileUtil extends Util implements Constants {
 
         protected static void openFiles(String from, String filefrom, Params params) throws Exception {
             FilenameFilter filter = Filters.getFilters(filefrom, params);
-            log("open files from: " + from);
+            log("open files from: " + formatFrom(from));
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
             List<String> lines = new ArrayList<String>();
             if (!files.isEmpty()) {
@@ -2538,7 +2635,7 @@ public class FileUtil extends Util implements Constants {
 
         protected static void replaceFiles(String dir, String filefrom, String from, String to, Params params)
                 throws Exception {
-            log(format("replace from \"{0}\" to \"{1}\" in dir: {2}", from, to, dir));
+            log(format("replace from \"{0}\" to \"{1}\" in dir: {2}", from, to, formatFrom(dir)));
             Filters filter = Filters.getFilters(filefrom, params);
             List<File> files = Util.listFiles(new File(dir), params.recursive, filter, params);
             boolean replaced = false;
@@ -2734,8 +2831,8 @@ public class FileUtil extends Util implements Constants {
             int dirIndent = 10;
             int timeIndent = 30;
             String n = formatstr(relativePath, nameIndent + 1);
-            String size = file.isDirectory() ? formatstr("", sizeIndent)
-                    : formatstr(df.format(file.length()), sizeIndent, false);
+            String size = file.isDirectory() ? formatstr("", sizeIndent) : formatstr(df.format(file.length()),
+                    sizeIndent, false);
             String dir = file.isDirectory() ? formatstr("<DIR>", dirIndent) : formatstr("", dirIndent);
             String time = formatstr(sdf4.format(new Date(file.lastModified())), timeIndent);
             return format("{0} {1}     {2} {3}", n, size, dir, time);
@@ -2867,6 +2964,15 @@ public class FileUtil extends Util implements Constants {
                     deleteFolder(file);
                 }
             }
+        }
+
+        private static String formatFrom(String from) {
+            if (matchedItem_ != null) {
+                if (matchedItem_.i > 1) {
+                    return format("{0} [{1}]", from, matchedItem_.tarAlias);
+                }
+            }
+            return from;
         }
     }
 
@@ -4127,6 +4233,14 @@ public class FileUtil extends Util implements Constants {
             public boolean zip = true;
             public String to;
 
+            public boolean isExp() {
+                return zip;
+            }
+
+            public boolean isZip() {
+                return zip;
+            }
+            
             public static ZipOperations parseZipOperations(String pattern) throws Exception {
                 if (isParam(pattern)) {
                     ZipOperations zo = new ZipOperations();
@@ -4138,21 +4252,19 @@ public class FileUtil extends Util implements Constants {
             }
 
             public static boolean isParam(String last) {
-                return last.startsWith("unzip=") || last.startsWith("zip=");
+                return isZip(last) || isUnzip(last);
             }
 
             private static boolean isZip(String pattern) {
-                return pattern.startsWith("zip=");
+                return pattern.startsWith("zip=") || pattern.startsWith("exp=");
+            }
+
+            private static boolean isUnzip(String pattern) {
+                return pattern.startsWith("unzip=") || pattern.startsWith("imp=");
             }
 
             private static String getTo(String pattern) throws Exception {
-                String tmp;
-                if (isZip(pattern)) {
-                    tmp = cutFirst(pattern, "zip=".length());
-                } else {
-                    tmp = cutFirst(pattern, "unzip=".length());
-                }
-                return toTARAlias(tmp);
+                return toTARAlias(cut(pattern, "=", null));
             }
 
             @Override
@@ -4952,6 +5064,14 @@ public class FileUtil extends Util implements Constants {
                 return true;
             return false;
         }
+
+        public boolean isExp() {
+            return zipOperations!=null && zipOperations.isExp();
+        }
+
+        public String getExpTo() {
+            return zipOperations.to;
+        }
     }
 
     public static class ParamsSorter implements Comparator<String> {
@@ -5025,51 +5145,139 @@ public class FileUtil extends Util implements Constants {
         }
 
         public static void outputToFile(String n) throws FileNotFoundException {
+            outputToFile_ = true;
             System.setOut(new PrintStream(n));
         }
     }
 
     public static class DBOperations {
 
+        public static final int SIZE_BYTES = 20;
+        public static final int SIZE_STRING = 30;
+
+        public static boolean isDB(String fromdir) {
+            if (fromdir.startsWith("m:"))
+                return true;
+            if (fromdir.startsWith("o:"))
+                return true;
+            return false;
+        }
+
         public static void listTables(String fromdir, String filefrom, Params params) throws Exception {
             Driver driver = parseDriver(fromdir);
-            System.out.println("list from: " + driver.url);
-            Connection conn = toConnection(driver);
-            List<String> tables = getAllTableNames(conn);
-            tables = filterTables(tables, filefrom, params);
-            Collections.sort(tables);
-            for (String t : tables) {
-                System.out.println(tab(2) + t);
+            log("list from: " + driver.url);
+            List<String> tables = listTableNames(driver, filefrom, params);
+            for (String tableName : tables) {
+                log(tab(2) + tableName);
+                listColumns(driver, tableName, params);
             }
-            conn.close();
         }
 
-        private static List<String> filterTables(List<String> tables, String filefrom, Params params) {
-            Filters filters = Filters.getFilters(filefrom, params);
-            List<String> list = new ArrayList<String>();
-            for (String t : tables) {
-                if (filters.accept(t, 0)) {
-                    list.add(t);
+        public static void printTables(String fromdir, String filefrom, Params params) throws Exception {
+            Driver driver = parseDriver(fromdir);
+            log("print from: " + driver.url);
+            List<String> tables = listTableNames(driver, filefrom, params);
+            for (String tableName : tables) {
+                printTable(driver, tableName, params);
+            }
+        }
+
+        public static void findInTables(String fromdir, String filefrom, String from, Params params) throws Exception {
+            Driver driver = parseDriver(fromdir);
+            log("find from: " + driver.url);
+            List<String> tables = listTableNames(driver, filefrom, params);
+            for (String tableName : tables) {
+                findInTable(driver, tableName, from, params);
+            }
+        }
+
+        private static List<String> listTableNames(Driver driver, String filefrom, Params params) throws Exception {
+            Connection conn = toConnection(driver);
+            try {
+                List<String> tables = getAllTableNames(conn);
+                tables = filterTables(tables, filefrom, params);
+                Collections.sort(tables);
+                return tables;
+            } finally {
+                if (conn != null)
+                    conn.close();
+            }
+        }
+
+        private static void printTable(Driver driver, String tableName, Params params) throws Exception {
+            findInTable(driver, tableName, "*", params);
+        }
+
+        private static void findInTable(Driver driver, String tableName, String from, Params params) throws Exception {
+            Connection conn = toConnection(driver);
+            try {
+                String sql = toSQL(tableName, from, params);
+                List<List<String>> lists = toResults(conn, sql);
+                lists = filterRecords(lists, from, params);
+                printRecords(tableName, lists, from, params);
+            } finally {
+                if (conn != null)
+                    conn.close();
+            }
+        }
+
+        private static void listColumns(Driver driver, String tableName, Params params) throws Exception {
+            // 'c' means print columns
+            if (params.caseSensitive) {
+                Connection conn = null;
+                Statement stmt = null;
+                ResultSet rs = null;
+                try {
+                    conn = toConnection(driver);
+                    String sql = "select * from " + tableName;
+                    stmt = conn.createStatement();
+                    rs = stmt.executeQuery(sql);
+                    ResultSetMetaData rsmd = rs.getMetaData();
+                    List<SQLColumn> cols = new ArrayList<SQLColumn>();
+                    for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                        String colname = rsmd.getColumnName(i);
+                        int itype = rsmd.getColumnType(i);
+                        int precision = rsmd.getPrecision(i);
+                        SQLColumn col = new SQLColumn();
+                        SQLType type = JDBCType.valueOf(itype);
+                        col.name = colname;
+                        col.type = type.getName();
+                        col.precision = precision;
+                        cols.add(col);
+                    }
+                    int n = SQLColumn.listSize();
+                    // size
+                    List<Integer> sizes = new ArrayList<Integer>();
+                    for (int i = 0; i < n; i++) {
+                        List<Integer> sl = new ArrayList<Integer>();
+                        for (SQLColumn col : cols) {
+                            List<String> l = col.toList();
+                            sl.add(getWordCount(l.get(i)));
+                        }
+                        Integer size = Collections.max(sl);
+                        sizes.add(size);
+                    }
+                    // print
+                    for (SQLColumn col : cols) {
+                        List<String> l = col.toList();
+                        StringBuilder sb = new StringBuilder();
+                        for (int i = 0; i < n; i++) {
+                            int size = sizes.get(i);
+                            String v = l.get(i);
+                            sb.append(formatColumn(v, size + 2, true));
+                        }
+                        String lineStr = sb.toString();
+                        log(4, lineStr);
+                    }
+                } finally {
+                    if (rs != null)
+                        rs.close();
+                    if (stmt != null)
+                        stmt.close();
+                    if (conn != null)
+                        conn.close();
                 }
             }
-            return list;
-        }
-
-        public static List<String> getAllTableNames(Connection cnn) throws Exception {
-            List<String> tables = new ArrayList<String>();
-            DatabaseMetaData dbMetaData = cnn.getMetaData();
-            String[] types = { "TABLE" };
-            ResultSet tabs = dbMetaData.getTables(null, null, null, types/*只要表就好了*/);
-            while (tabs.next()) {
-                tables.add((String) tabs.getObject("TABLE_NAME"));
-            }
-            return tables;
-        }
-
-        private static Connection toConnection(Driver d) throws Exception {
-            Class.forName(d.driver);
-            Connection conn = DriverManager.getConnection(d.url, d.user, d.password);
-            return conn;
         }
 
         private static Driver parseDriver(String fromdir) {
@@ -5083,7 +5291,7 @@ public class FileUtil extends Util implements Constants {
             else
                 driver.driver = "oracle.jdbc.OracleDriver";
             if (debug_)
-                System.out.println("driver = " + driver.driver);
+                log("driver = " + driver.driver);
             // url
             String ip = subFirst(list);
             list = cutFirst(list);
@@ -5093,7 +5301,7 @@ public class FileUtil extends Util implements Constants {
             list = cutFirst(list);
             driver.url = format("jdbc:mysql://{0}:3306/{1}?autoReconnect=true", ip, name);
             if (debug_)
-                System.out.println("url = " + driver.url);
+                log("url = " + driver.url);
             // user
             String user = subFirst(list);
             list = cutFirst(list);
@@ -5101,22 +5309,256 @@ public class FileUtil extends Util implements Constants {
                 user = "root";
             driver.user = user;
             if (debug_)
-                System.out.println("user = " + driver.user);
+                log("user = " + driver.user);
             // password
             String password = subFirst(list);
             list = cutFirst(list);
             driver.password = password;
             if (debug_)
-                System.out.println("password = " + driver.password);
+                log("password = " + driver.password);
             return driver;
         }
 
-        public static boolean isDB(String fromdir) {
-            if (fromdir.startsWith("m:"))
-                return true;
-            if (fromdir.startsWith("o:"))
-                return true;
-            return false;
+        private static String toSQL(String tableName, String from, Params params) {
+            String sql = format("select * from {0}", tableName);
+
+            // filters
+
+            // order by
+
+            return sql;
+        }
+
+        private static List<String> filterTables(List<String> tables, String filefrom, Params params) {
+            Filters filters = Filters.getFilters(filefrom, params);
+            List<String> list = new ArrayList<String>();
+            for (String tableName : tables) {
+                if (filters.accept(tableName, 0)) {
+                    list.add(tableName);
+                }
+            }
+            return list;
+        }
+
+        private static List<List<String>> filterRecords(List<List<String>> lists, String from, Params params) {
+            Filters filters = Filters.getFilters(from, params);
+            List<List<String>> lists2 = new ArrayList<List<String>>();
+            lists2.add(lists.get(0));
+            lists2.add(lists.get(1));
+            int n = lists.size();
+            if (n > 2) {
+                for (int i = 2; i < lists.size(); i++) {
+                    List<String> list = lists.get(i);
+                    if (acceptRecord(list, filters, params)) {
+                        lists2.add(list);
+                    }
+                }
+            }
+            return lists2;
+        }
+
+        private static boolean acceptRecord(List<String> list, Filters filters, Params params) {
+            String lineStr = connectLines(list, " ");
+            return filters.accept(lineStr, 0);
+        }
+
+        private static void printRecords(String tableName, List<List<String>> lists, String from, Params params) throws Exception {
+            List<String> lines = toPrintRecords(tableName, lists, from, params);
+            if (!lines.isEmpty()) {
+                String title = subFirst(lines);
+                lines = cutFirst(lines);
+                log(2, title);
+                for (String line : lines) {
+                    log(4, line);
+                }
+            }
+        }
+        
+        private static List<String> toPrintRecords(String tableName, List<List<String>> lists, String from, Params params) throws Exception {
+            lists = toPrintLists(lists);
+            int n = lists.get(0).size();
+            List<String> lines = new ArrayList<String>();
+            // print table name
+            int count = lists.size() - 2;
+            if (!from.equals("*") && count == 0)
+                return lines;
+            lines.add(format("{0} [{1}]", tableName, count));
+            // size
+            List<Integer> sizes = new ArrayList<Integer>();
+            for (int i = 0; i < n; i++) {
+                List<Integer> sl = new ArrayList<Integer>();
+                for (List<String> l : lists) {
+                    sl.add(getWordCount(l.get(i)));
+                }
+                Integer size = Collections.max(sl);
+                sizes.add(size);
+            }
+            // print
+            for (int k = 0; k < lists.size(); k++) {
+                List<String> l = lists.get(k);
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < n; i++) {
+                    int size = sizes.get(i);
+                    String v = l.get(i);
+                    sb.append(formatColumn(v, size + 2, true));
+                }
+                String lineStr = sb.toString();
+                if (k != 1)
+                    lines.add(lineStr);
+            }
+            return lines;
+        }
+
+        private static List<List<String>> toPrintLists(List<List<String>> lists) throws Exception {
+            int count = lists.size() - 2;
+            if (count > 0) {
+                List<String> header = lists.get(0);
+                List<String> type = lists.get(1);
+                List<List<String>> lists2 = new ArrayList<List<String>>();
+                lists2.add(header);
+                lists2.add(type);
+                for (int i = 2; i < lists.size(); i++) {
+                    List<String> lineList = lists.get(i);
+                    lists2.add(toPrintList(header, type, lineList));
+                }
+                return lists2;
+            }
+            return lists;
+        }
+
+        private static List<String> toPrintList(List<String> header, List<String> types, List<String> lineList) throws Exception {
+            int n = header.size();
+            List<String> list = new ArrayList<String>();
+            for (int i = 0; i < n; i++) {
+                int type = toInt(types.get(i));
+                String v = lineList.get(i);
+                list.add(toPrintValueString(v, type));
+            }
+            return list;
+        }
+
+        private static String toPrintValueString(String v, int type) throws Exception {
+            switch (type) {
+            case Types.BLOB:
+            case Types.CLOB:
+            case Types.LONGVARBINARY:
+            case Types.LONGVARCHAR:
+            case Types.VARBINARY:
+            case Types.BINARY:
+                if (v.length() > SIZE_BYTES) {
+                    byte[] bytes = Hex.decodeHex(v.toCharArray());
+                    v = format("{0} [{1}]", atMost(v, SIZE_BYTES), bytes.length);
+                }
+                break;
+            default:
+                if (v.length() > SIZE_STRING && !outputToFile_)
+                    v = format("{0} [{1}]", atMost(v, SIZE_STRING), v.length());
+                break;
+            }
+            return v;
+        }
+
+        private static List<String> getAllTableNames(Connection conn) throws Exception {
+            List<String> tables = new ArrayList<String>();
+            DatabaseMetaData dbMetaData = conn.getMetaData();
+            String[] types = { "TABLE" };
+            ResultSet tabs = dbMetaData.getTables(null, null, null, types);
+            while (tabs.next()) {
+                tables.add((String) tabs.getObject("TABLE_NAME"));
+            }
+            return tables;
+        }
+
+        private static Connection toConnection(Driver driver) throws Exception {
+            Class.forName(driver.driver);
+            Connection conn = DriverManager.getConnection(driver.url, driver.user, driver.password);
+            return conn;
+        }
+
+        private static List<List<String>> toResults(Connection conn, String sql) throws Exception {
+            Statement stmt = null;
+            ResultSet rs = null;
+            try {
+                List<List<String>> lists = new ArrayList<List<String>>();
+                stmt = conn.createStatement();
+                rs = stmt.executeQuery(sql);
+                List<String> headers = toHeader(rs);
+                List<String> types = toType(rs);
+                lists.add(headers);
+                lists.add(types);
+                while (rs.next()) {
+                    List<String> line = toLine(rs, types);
+                    lists.add(line);
+                }
+                return lists;
+            } finally {
+                if (rs != null)
+                    rs.close();
+                if (stmt != null)
+                    stmt.close();
+            }
+        }
+
+        private static List<String> toHeader(ResultSet rs) throws Exception {
+            ResultSetMetaData md = rs.getMetaData();
+            int n = md.getColumnCount();
+            List<String> list = new ArrayList<String>();
+            for (int i = 1; i <= n; i++) {
+                String cn = md.getColumnName(i);
+                list.add(cn);
+            }
+            return list;
+        }
+
+        private static List<String> toType(ResultSet rs) throws Exception {
+            ResultSetMetaData md = rs.getMetaData();
+            int n = md.getColumnCount();
+            List<String> list = new ArrayList<String>();
+            for (int i = 1; i <= n; i++) {
+                String cn = "" + md.getColumnType(i);
+                list.add(cn);
+            }
+            return list;
+        }
+
+        private static List<String> toLine(ResultSet rs, List<String> types) throws Exception {
+            ResultSetMetaData md = rs.getMetaData();
+            int n = md.getColumnCount();
+            List<String> list = new ArrayList<String>();
+            for (int i = 1; i <= n; i++) {
+                Object o = rs.getObject(i);
+                int t = toInt(types.get(i - 1));
+                String v = toValueString(o, t);
+                list.add(v);
+            }
+            return list;
+        }
+
+        private static String toValueString(Object o, int t) throws Exception {
+            if (o == null)
+                return "null";
+            if (o instanceof Date) {
+                return sdf4.format(o);
+            } else if (o instanceof byte[]) {
+                byte[] bytes = (byte[]) o;
+                String s = new String(Hex.encodeHex(bytes));
+                return s;
+            } else if (o instanceof Blob) {
+                Blob b = (Blob) o;
+                byte[] bytes = b.getBytes((long) 1, (int) b.length());
+                String s = new String(Hex.encodeHex(bytes));
+                return s;
+            } else {
+                String s = o.toString();
+                return s;
+            }
+        }
+
+        private static String atMost(String s, int n) {
+            if (s.length() > n)
+                return subFirst(s, n) + "...";
+            else
+                return s;
         }
 
         public static class Driver {
@@ -5124,7 +5566,43 @@ public class FileUtil extends Util implements Constants {
             public String url;
             public String user;
             public String password;
+        }
 
+        public static class SQLColumn {
+            public String name;
+            public String type;
+            public int precision;
+
+            public List<String> toList() {
+                List<String> list = new ArrayList<String>();
+                list.add(name);
+                list.add(getType());
+                return list;
+            }
+
+            private String getType() {
+                String type = this.type;
+                if (match(type, "longvarchar"))
+                    type = "CLOB";
+                if (match(type, "longvarbinary"))
+                    type = "BLOB";
+                if (match(type, "int"))
+                    return type;
+                if (match(type, "time"))
+                    return type;
+                if (precision < Integer.MAX_VALUE) {
+                    return format("{0}({1})", type, precision);
+                }
+                return type;
+            }
+
+            private boolean match(String type, String s) {
+                return containsIgnoreCase(type, s);
+            }
+
+            public static int listSize() {
+                return 2;
+            }
         }
     }
 }

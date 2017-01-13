@@ -5,7 +5,16 @@
 - zip with kat: does not work well
 - al db timer: list tables with name contains timer
   - db ops: list tables, list lines, remove records, update records
-  - tar: mt (mysql test); ot (oracle test)
-  - mt: m:l:test:r:qilinsoft
-  - al mt
+  - [d]tar: mt (mysql test); ot (oracle test)
+  - [d]mt: m:l:test:r:qilinsoft
+  - [d]al mt
+  - [d]al mt bpmn/pro ap: print all records
+  - al mt bpmn/pro ap s{n,b}: print all records, sort by columns including n, b
+  - [d]al mt bpmn/pro af HAGroup: find records
+  - al mt bpmn/pro af HAGroup dup/del/exp=dd\dump.txt/imp=dd\dump.txt: find records and dup/del/exp/imp
+  - [d]al mt users c
+  - doc
 - compare and diff 2 files
+- dsb: bug desc with ""
+- al usp Encoder gosrc/gocom; al msds Util.java godom
+- al usp Encoder agosrc/agocom; al msds Util.java agodom

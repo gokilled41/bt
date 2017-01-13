@@ -1,5 +1,12 @@
 package gzhou;
 
+import gzhou.FileUtil.DBOperations;
+import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
+import gzhou.FileUtil.Filters;
+import gzhou.FileUtil.ListConditionResult.ListCondition;
+import gzhou.FileUtil.MarkOccurrenceResult;
+import gzhou.FileUtil.Params;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,12 +36,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.codec.binary.Hex;
 
 import com.vitria.component.util.DOMUtil;
-
-import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
-import gzhou.FileUtil.Filters;
-import gzhou.FileUtil.ListConditionResult.ListCondition;
-import gzhou.FileUtil.MarkOccurrenceResult;
-import gzhou.FileUtil.Params;
 
 public class Util implements Constants {
 
@@ -314,6 +315,8 @@ public class Util implements Constants {
     }
 
     public static String sub(String s, int begin, int end) {
+        begin = Math.max(begin, 0);
+        end = Math.min(end, s.length());
         return s.substring(begin, end);
     }
 
@@ -1404,6 +1407,8 @@ public class Util implements Constants {
     }
 
     public static boolean isFile(String p) {
+        if (DBOperations.isDB(p))
+            return false;
         File f = new File(p);
         if (f.exists()) {
             return f.isFile();
@@ -1563,4 +1568,11 @@ public class Util implements Constants {
         return s.toLowerCase().contains(n.toLowerCase());
     }
 
+    public static boolean isAbsolutePath(String path) {
+        if (path != null) {
+            if (path.matches("[a-zA-Z]:.*"))
+                return true;
+        }
+        return false;
+    }
 }

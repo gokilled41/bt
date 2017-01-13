@@ -1,12 +1,13 @@
 package gzhou;
 
-import java.io.File;
-
 import gzhou.FileUtil.FileTimestampResult;
 import gzhou.FileUtil.Filters;
 import gzhou.FileUtil.ListConditionResult;
 import gzhou.FileUtil.PAOperations;
 import gzhou.FileUtil.Params;
+
+import java.io.File;
+
 import junit.framework.TestCase;
 
 public class PAUnit extends TestCase implements Constants {
@@ -201,6 +202,16 @@ public class PAUnit extends TestCase implements Constants {
         assertEquals(Util.toTimestampFormat("201701010000"), "20170101000000");
         assertEquals(Util.toTimestampFormat("20170101000000"), "20170101000000");
         assertEquals(Util.subLast("201701", 2), "01");
+    }
+
+    public void testUtil_03() throws Exception {
+        assertEquals(Util.isAbsolutePath("D:\\jedi\\yoda\\m3o\\server\\src\\domainservice"), true);
+        assertEquals(Util.isAbsolutePath("D:"), true);
+        assertEquals(Util.isAbsolutePath("dd\\rename.txt"), false);
+        assertEquals(Util.isAbsolutePath("dd\\rename:abc.txt"), false);
+        assertEquals(Util.isAbsolutePath("yoda\\m3o\\server\\src\\domainservice"), false);
+        assertEquals(Util.isAbsolutePath("dd/abc.txt"), false);
+        assertEquals(Util.isAbsolutePath("dd/abc/a/b/c"), false);
     }
 
     public void testFileTimestamp_01() throws Exception {
