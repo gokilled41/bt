@@ -50,3 +50,6 @@ rem run necessary tmp scripts
       if exist "C:\workspace\buildtemp\files\bat\aunziptmp.bat" call aunziptmp
       if exist "C:\workspace\buildtemp\files\bat\aunziptmp.bat" call bdel aunziptmp
       : aunzipend
+  rem diffsame
+    if exist "C:\workspace\buildtemp\files\bat\adiffsametmp.bat" call adiffsametmp
+    if exist "C:\workspace\buildtemp\files\bat\adiffsametmp.bat" call bdel adiffsametmp

@@ -1556,6 +1556,8 @@ public class FileUtil extends Util implements Constants {
             CustomOperations.customFormatJSON(args);
         } else if (type.equals("exist")) {
             CustomOperations.customExist(args);
+        } else if (type.equals("diff")) {
+            CustomOperations.customDiff(args);
         }
     }
 
@@ -1600,6 +1602,25 @@ public class FileUtil extends Util implements Constants {
             } else {
                 setLines(batDir + "aenvtmp.bat", toList("call set AEXIST="));
             }
+        }
+
+        public static void customDiff(String[] args) throws Exception {
+            Params params = Params.toParams("custom_diff", args);
+            args = params.args;
+
+            if (args.length < 2) {
+                log("adf <file1> <file2>");
+                return;
+            }
+            
+            String p1 = toTARAlias(args[0]);
+            String n1 = getFileName(p1);
+            List<String> list = new ArrayList<String>();
+            list.add("@echo off");
+            list.add(format("call adfdo \"{0}\" \"{1}\" \"{2}\" > D:\\alogs\\adfdo.log", args[0], args[1], n1));
+            list.add(format("call al alogs\\svn.diff ap nl -lt4"));
+            setLines(batDir + "adifftmp.bat", list);
+            log("diff \"{0}\" \"{1}\"", args[0], args[1]);
         }
 
     }
@@ -2120,21 +2141,6 @@ public class FileUtil extends Util implements Constants {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static void log() {
-        System.out.println();
-    }
-
-    public static void log(String m) {
-        if (logTab_ != null)
-            System.out.println(logTab_ + m);
-        else
-            System.out.println(m);
-    }
-
-    public static void log(int i, String m) {
-        log(tab(i) + m);
     }
 
     public static class PAOperations {
@@ -4305,6 +4311,7 @@ public class FileUtil extends Util implements Constants {
         public String[] args;
         public boolean deleteSame = false;
         public boolean makeSame = false;
+        public boolean diffSame = false;
 
         public static DeleteSameResult deleteSame(String[] args) {
             DeleteSameResult r = new DeleteSameResult();
@@ -4314,6 +4321,8 @@ public class FileUtil extends Util implements Constants {
                     r.deleteSame = true;
                 if (isMakeSame(last))
                     r.makeSame = true;
+                if (isDiffSame(last))
+                    r.diffSame = true;
                 r.args = cutLastArg(args);
                 if (debug_)
                     log(tab(2) + "Delete Same: " + r.deleteSame);
@@ -4344,10 +4353,23 @@ public class FileUtil extends Util implements Constants {
                     }
                 }
             }
+            if (params.diffSame) {
+                if (dirs != null && !dirs.isEmpty()) {
+                    List<String> list = new ArrayList<String>();
+                    for (String dir : dirs) {
+                        if (isFile(dir)) {
+                            String ds = compareAndDiffSame(dir);
+                            if (ds != null)
+                                list.add(ds);
+                        }
+                    }
+                    setLines(batDir + "rndiff.bat", list);
+                }
+            }
         }
 
         public static boolean isParam(String last) {
-            return isDeleteSame(last) || isMakeSame(last);
+            return isDeleteSame(last) || isMakeSame(last) || isDiffSame(last);
         }
 
         private static boolean isDeleteSame(String last) {
@@ -4356,6 +4378,10 @@ public class FileUtil extends Util implements Constants {
 
         private static boolean isMakeSame(String last) {
             return last.equals("ms");
+        }
+
+        private static boolean isDiffSame(String last) {
+            return last.equals("diff");
         }
     }
 
@@ -4876,6 +4902,7 @@ public class FileUtil extends Util implements Constants {
         public boolean overwrite = false;
         public boolean deleteSame = false;
         public boolean makeSame = false;
+        public boolean diffSame = false;
         public FileTimestamp fileTimestamp = null;
         public boolean markOccurrence = false;
         public ListCondition listCondition = null;
@@ -5062,6 +5089,8 @@ public class FileUtil extends Util implements Constants {
                         params.deleteSame = dsr.deleteSame;
                     if (params.makeSame == false)
                         params.makeSame = dsr.makeSame;
+                    if (params.diffSame == false)
+                        params.diffSame = dsr.diffSame;
                 }
                 // file timestamp
                 FileTimestampResult ftr = FileTimestampResult.fileTimestamp(args);
