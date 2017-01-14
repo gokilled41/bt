@@ -1613,14 +1613,21 @@ public class FileUtil extends Util implements Constants {
                 return;
             }
             
-            String p1 = toTARAlias(args[0]);
+            List<String> list = toAdfLines(args[0], args[1]);
+            setLines(batDir + "adifftmp.bat", list);
+        }
+
+        public static List<String> toAdfLines(String from, String to) throws Exception {
+            String p1 = toTARAlias(from);
             String n1 = getFileName(p1);
             List<String> list = new ArrayList<String>();
             list.add("@echo off");
-            list.add(format("call adfdo \"{0}\" \"{1}\" \"{2}\" > D:\\alogs\\adfdo.log", args[0], args[1], n1));
+            list.add(format("call set ADFING=true"));
+            list.add(format("call adfdo \"{0}\" \"{1}\" \"{2}\" > D:\\alogs\\adfdo.log", from, to, n1));
             list.add(format("call al alogs\\svn.diff ap nl -lt4"));
-            setLines(batDir + "adifftmp.bat", list);
-            log("diff \"{0}\" \"{1}\"", args[0], args[1]);
+            list.add(format("call set ADFING="));
+            log("diff \"{0}\" with \"{1}\"", from, to);
+            return list;
         }
 
     }
@@ -4215,7 +4222,8 @@ public class FileUtil extends Util implements Constants {
                         if (debug_)
                             log("Ignore zip operations since file size is " + files.size());
                     }
-                } else {
+                }
+                if (zo.unzip) {
                     if (files.size() == 1) {
                         String zipFile = files.get(0);
                         String from = getParent(zipFile);
@@ -4228,7 +4236,26 @@ public class FileUtil extends Util implements Constants {
                             log("Ignore zip operations since file size is " + files.size());
                     }
                 }
+                if (zo.adf) {
+                    if (files.size() == 1) {
+                        String from = files.get(0);
+                        String fileName = getFileName(from);
+                        String to = searchFile(zo.to, fileName);
+                        setLines(batDir + "adftmp.bat", CustomOperations.toAdfLines(from, to));
+                    } else {
+                        if (debug_)
+                            log("Ignore adf operations since file size is " + files.size());
+                    }
+                }
             }
+        }
+
+        private static String searchFile(String to, String fileName) {
+            Params params = new Params();
+            params.noPath = true;
+            FilenameFilter filter = Filters.getFilters("{" + fileName + "}", params);
+            List<File> files = Util.listFiles(new File(to), params.recursive, filter, params);
+            return files.get(0).getAbsolutePath();
         }
 
         public static boolean isParam(String last) {
@@ -4236,7 +4263,9 @@ public class FileUtil extends Util implements Constants {
         }
 
         public static class ZipOperations {
-            public boolean zip = true;
+            public boolean zip = false;
+            public boolean unzip = false;
+            public boolean adf = false;
             public String to;
 
             public boolean isExp() {
@@ -4251,6 +4280,8 @@ public class FileUtil extends Util implements Constants {
                 if (isParam(pattern)) {
                     ZipOperations zo = new ZipOperations();
                     zo.zip = isZip(pattern);
+                    zo.unzip = isUnzip(pattern);
+                    zo.adf = isAdf(pattern);
                     zo.to = getTo(pattern);
                     return zo;
                 }
@@ -4258,7 +4289,7 @@ public class FileUtil extends Util implements Constants {
             }
 
             public static boolean isParam(String last) {
-                return isZip(last) || isUnzip(last);
+                return isZip(last) || isUnzip(last) || isAdf(last);
             }
 
             private static boolean isZip(String pattern) {
@@ -4267,6 +4298,10 @@ public class FileUtil extends Util implements Constants {
 
             private static boolean isUnzip(String pattern) {
                 return pattern.startsWith("unzip=") || pattern.startsWith("imp=");
+            }
+
+            private static boolean isAdf(String pattern) {
+                return pattern.startsWith("adf=");
             }
 
             private static String getTo(String pattern) throws Exception {
