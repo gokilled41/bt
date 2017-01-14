@@ -2561,11 +2561,11 @@ public class FileUtil extends Util implements Constants {
                     renameFileInList(file, params, relativePath);
                     addWithoutDup(dirs, p);
                 }
+                log(tab(2) + format("dirs: {0}, files: {1}", files.size() - filesSize, filesSize));
                 OpenDirResult.openDirs(params, dirs);
                 ZipOperationsResult.zipOperations(params, dirs);
                 GoDirResult.go(params, dirs, from);
                 DeleteSameResult.deleteSame(params, dirs);
-                log(tab(2) + format("dirs: {0}, files: {1}", files.size() - filesSize, filesSize));
             } else {
                 log(tab(2) + "no matched files: " + filefrom);
             }
