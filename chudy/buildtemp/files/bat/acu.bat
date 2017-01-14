@@ -26,3 +26,6 @@ rem run necessary tmp scripts
   rem env
     if exist "C:\workspace\buildtemp\files\bat\aenvtmp.bat" call aenvtmp
     if exist "C:\workspace\buildtemp\files\bat\aenvtmp.bat" call bdel aenvtmp
+  rem diff
+    if exist "C:\workspace\buildtemp\files\bat\adifftmp.bat" call adifftmp
+    if exist "C:\workspace\buildtemp\files\bat\adifftmp.bat" call bdel adifftmp

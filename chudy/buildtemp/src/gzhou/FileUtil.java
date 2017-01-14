@@ -2,6 +2,7 @@ package gzhou;
 
 import gzhou.FileUtil.ExpandLinesResult.ExpandLines;
 import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
+import gzhou.FileUtil.GoDirResult.GoDir;
 import gzhou.FileUtil.ListConditionResult.ListCondition;
 import gzhou.FileUtil.OperateLinesResult.OperateLines;
 import gzhou.FileUtil.OperateLinesResult.OperateLinesUtil;
@@ -47,7 +48,6 @@ import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -1556,6 +1556,8 @@ public class FileUtil extends Util implements Constants {
             CustomOperations.customFormatJSON(args);
         } else if (type.equals("exist")) {
             CustomOperations.customExist(args);
+        } else if (type.equals("diff")) {
+            CustomOperations.customDiff(args);
         }
     }
 
@@ -1600,6 +1602,25 @@ public class FileUtil extends Util implements Constants {
             } else {
                 setLines(batDir + "aenvtmp.bat", toList("call set AEXIST="));
             }
+        }
+
+        public static void customDiff(String[] args) throws Exception {
+            Params params = Params.toParams("custom_diff", args);
+            args = params.args;
+
+            if (args.length < 2) {
+                log("adf <file1> <file2>");
+                return;
+            }
+            
+            String p1 = toTARAlias(args[0]);
+            String n1 = getFileName(p1);
+            List<String> list = new ArrayList<String>();
+            list.add("@echo off");
+            list.add(format("call adfdo \"{0}\" \"{1}\" \"{2}\" > D:\\alogs\\adfdo.log", args[0], args[1], n1));
+            list.add(format("call al alogs\\svn.diff ap nl -lt4"));
+            setLines(batDir + "adifftmp.bat", list);
+            log("diff \"{0}\" \"{1}\"", args[0], args[1]);
         }
 
     }
@@ -2122,21 +2143,6 @@ public class FileUtil extends Util implements Constants {
         }
     }
 
-    public static void log() {
-        System.out.println();
-    }
-
-    public static void log(String m) {
-        if (logTab_ != null)
-            System.out.println(logTab_ + m);
-        else
-            System.out.println(m);
-    }
-
-    public static void log(int i, String m) {
-        log(tab(i) + m);
-    }
-
     public static class PAOperations {
 
         public static void paPrint(String[] args) throws Exception {
@@ -2550,7 +2556,7 @@ public class FileUtil extends Util implements Constants {
                 }
                 OpenDirResult.openDirs(params, dirs);
                 ZipOperationsResult.zipOperations(params, dirs);
-                GoResult.go(params, dirs, from);
+                GoDirResult.go(params, dirs, from);
                 DeleteSameResult.deleteSame(params, dirs);
                 log(tab(2) + format("dirs: {0}, files: {1}", files.size() - filesSize, filesSize));
             } else {
@@ -4240,7 +4246,7 @@ public class FileUtil extends Util implements Constants {
             public boolean isZip() {
                 return zip;
             }
-            
+
             public static ZipOperations parseZipOperations(String pattern) throws Exception {
                 if (isParam(pattern)) {
                     ZipOperations zo = new ZipOperations();
@@ -4301,72 +4307,11 @@ public class FileUtil extends Util implements Constants {
         }
     }
 
-    public static class GoResult {
-        public String[] args;
-        public boolean go;
-        public boolean ago;
-
-        public static GoResult go(String[] args) {
-            GoResult r = new GoResult();
-            String last = getLastArg(args);
-            if (isParam(last)) {
-                r.go = isGo(last);
-                r.ago = isAGo(last);
-                r.args = cutLastArg(args);
-                if (debug_)
-                    log(tab(2) + "Go: " + r.go);
-                if (debug_)
-                    log(tab(2) + "AGo: " + r.ago);
-            } else {
-                r.go = false;
-                r.ago = false;
-                r.args = args;
-            }
-            return r;
-        }
-
-        public static void go(Params params, List<String> dirs, String from) throws Exception {
-            if (params.go) {
-                if (dirs != null && !dirs.isEmpty()) {
-                    List<String> list = new ArrayList<String>();
-                    for (String dir : dirs) {
-                        if (isFile(dir)) {
-                            list.add("call go " + getParent(dir));
-                            break;
-                        } else {
-                            if (dir.contains("\\\\"))
-                                dir = dir.replace("\\\\", "\\");
-                            list.add("call go " + dir);
-                            break;
-                        }
-                    }
-                    setLines(batDir + "agotmp.bat", list);
-                }
-            }
-            if (params.ago) {
-                List<String> list = new ArrayList<String>();
-                list.add("call explorer " + from);
-                setLines(batDir + "agotmp.bat", list);
-            }
-        }
-
-        public static boolean isParam(String last) {
-            return isGo(last) || isAGo(last);
-        }
-
-        private static boolean isGo(String last) {
-            return last.equals("go");
-        }
-
-        private static boolean isAGo(String last) {
-            return last.equals("ago");
-        }
-    }
-
     public static class DeleteSameResult {
         public String[] args;
         public boolean deleteSame = false;
         public boolean makeSame = false;
+        public boolean diffSame = false;
 
         public static DeleteSameResult deleteSame(String[] args) {
             DeleteSameResult r = new DeleteSameResult();
@@ -4376,6 +4321,8 @@ public class FileUtil extends Util implements Constants {
                     r.deleteSame = true;
                 if (isMakeSame(last))
                     r.makeSame = true;
+                if (isDiffSame(last))
+                    r.diffSame = true;
                 r.args = cutLastArg(args);
                 if (debug_)
                     log(tab(2) + "Delete Same: " + r.deleteSame);
@@ -4406,10 +4353,23 @@ public class FileUtil extends Util implements Constants {
                     }
                 }
             }
+            if (params.diffSame) {
+                if (dirs != null && !dirs.isEmpty()) {
+                    List<String> list = new ArrayList<String>();
+                    for (String dir : dirs) {
+                        if (isFile(dir)) {
+                            String ds = compareAndDiffSame(dir);
+                            if (ds != null)
+                                list.add(ds);
+                        }
+                    }
+                    setLines(batDir + "rndiff.bat", list);
+                }
+            }
         }
 
         public static boolean isParam(String last) {
-            return isDeleteSame(last) || isMakeSame(last);
+            return isDeleteSame(last) || isMakeSame(last) || isDiffSame(last);
         }
 
         private static boolean isDeleteSame(String last) {
@@ -4418,6 +4378,10 @@ public class FileUtil extends Util implements Constants {
 
         private static boolean isMakeSame(String last) {
             return last.equals("ms");
+        }
+
+        private static boolean isDiffSame(String last) {
+            return last.equals("diff");
         }
     }
 
@@ -4728,6 +4692,190 @@ public class FileUtil extends Util implements Constants {
         }
     }
 
+    public static class GoDirResult {
+        public String[] args;
+        public GoDir goDir;
+
+        public static GoDirResult goDir(String[] args) {
+            GoDirResult r = new GoDirResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.goDir = GoDir.parseGoDir(last);
+                r.args = cutLastArg(args);
+                if (debug_)
+                    log(tab(2) + "Go Dir: " + r.goDir);
+            } else {
+                r.goDir = null;
+                r.args = args;
+            }
+            return r;
+        }
+
+        public static void go(Params params, List<String> dirs, String from) throws Exception {
+            GoDir g = params.goDir;
+            if (g != null) {
+                if (g.go) {
+                    if (dirs != null && !dirs.isEmpty()) {
+                        List<String> list = new ArrayList<String>();
+                        for (String dir : dirs) {
+                            if (isFile(dir)) {
+                                list.add("call go " + getParent(dir));
+                                break;
+                            } else {
+                                if (dir.contains("\\\\"))
+                                    dir = dir.replace("\\\\", "\\");
+                                list.add("call go " + dir);
+                                break;
+                            }
+                        }
+                        setLines(batDir + "agotmp.bat", list);
+                    }
+                }
+                if (g.ago) {
+                    List<String> list = new ArrayList<String>();
+                    list.add("call explorer " + from);
+                    setLines(batDir + "agotmp.bat", list);
+                }
+                if (g.gosub) {
+                    if (dirs != null && !dirs.isEmpty()) {
+                        List<String> list = new ArrayList<String>();
+                        for (String dir : dirs) {
+                            dir = subDir(dir, g);
+                            if (isFile(dir)) {
+                                list.add("call go " + getParent(dir));
+                                break;
+                            } else {
+                                if (dir.contains("\\\\"))
+                                    dir = dir.replace("\\\\", "\\");
+                                list.add("call go " + dir);
+                                break;
+                            }
+                        }
+                        setLines(batDir + "agotmp.bat", list);
+                    }
+                }
+                if (g.agosub) {
+                    if (dirs != null && !dirs.isEmpty()) {
+                        List<String> list = new ArrayList<String>();
+                        for (String dir : dirs) {
+                            dir = subDir(dir, g);
+                            if (isFile(dir)) {
+                                list.add("call explorer " + getParent(dir));
+                                break;
+                            } else {
+                                if (dir.contains("\\\\"))
+                                    dir = dir.replace("\\\\", "\\");
+                                list.add("call explorer " + dir);
+                                break;
+                            }
+                        }
+                        setLines(batDir + "agotmp.bat", list);
+                    }
+                }
+            }
+        }
+
+        private static String subDir(String dir, GoDir g) {
+            int times = g.i;
+            String odir = dir;
+            String p = getParent(dir);
+            int i = 0;
+            while (p.contains("\\")) {
+                String n = getFileName(p);
+                if (n.contains(g.sub)) {
+                    i++;
+                    if (i == times)
+                        return p;
+                }
+                dir = p;
+                p = getParent(dir);
+            }
+            return odir;
+        }
+
+        public static boolean isParam(String last) {
+            return isGo(last) || isGoSub(last) || isAGo(last) || isAGoSub(last);
+        }
+
+        private static boolean isGoSub(String last) {
+            return last.startsWith("go") && !isGo(last);
+        }
+
+        private static boolean isAGoSub(String last) {
+            return last.startsWith("ago") && !isAGo(last);
+        }
+
+        private static boolean isGo(String last) {
+            return last.equals("go");
+        }
+
+        private static boolean isAGo(String last) {
+            return last.equals("ago");
+        }
+
+        public static class GoDir {
+            public boolean go = false;
+            public boolean ago = false;
+            public boolean gosub = false;
+            public boolean agosub = false;
+            public String sub;
+            public int i = 1;
+
+            public static GoDir parseGoDir(String pattern) {
+                if (isGo(pattern)) {
+                    GoDir r = new GoDir();
+                    r.go = true;
+                    return r;
+                }
+                if (isAGo(pattern)) {
+                    GoDir r = new GoDir();
+                    r.ago = true;
+                    return r;
+                }
+                if (isGoSub(pattern)) {
+                    GoDir r = new GoDir();
+                    r.gosub = true;
+                    String sub = cut(pattern, "go", null);
+                    if (sub.matches(".*\\d")) {
+                        r.sub = cutLast(sub, 1);
+                        r.i = toInt(subLast(sub, 1));
+                    } else {
+                        r.sub = sub;
+                        r.i = 1;
+                    }
+                    return r;
+                }
+                if (isAGoSub(pattern)) {
+                    GoDir r = new GoDir();
+                    r.agosub = true;
+                    String sub = cut(pattern, "ago", null);
+                    if (sub.matches(".*\\d")) {
+                        r.sub = cutLast(sub, 1);
+                        r.i = toInt(subLast(sub, 1));
+                    } else {
+                        r.sub = sub;
+                        r.i = 1;
+                    }
+                    return r;
+                }
+                return null;
+            }
+
+            @Override
+            public String toString() {
+                if (go)
+                    return "go";
+                if (ago)
+                    return "ago";
+                if (gosub)
+                    return "go" + sub + (i > 1 ? i : "");
+                if (agosub)
+                    return "ago" + sub + (i > 1 ? i : "");
+                return null;
+            }
+        }
+    }
+
     public static class Params {
 
         public String[] args;
@@ -4752,14 +4900,14 @@ public class FileUtil extends Util implements Constants {
         public OperateLines operateLines = null;
         public ZipOperations zipOperations = null;
         public boolean overwrite = false;
-        public boolean go = false;
-        public boolean ago = false;
         public boolean deleteSame = false;
         public boolean makeSame = false;
+        public boolean diffSame = false;
         public FileTimestamp fileTimestamp = null;
         public boolean markOccurrence = false;
         public ListCondition listCondition = null;
         public OutputSummary outputSummary = null;
+        public GoDir goDir = null;
 
         public int getExpandLines() {
             if (expandLines == null) {
@@ -4933,15 +5081,6 @@ public class FileUtil extends Util implements Constants {
                     if (params.overwrite == false)
                         params.overwrite = ovr.overwrite;
                 }
-                // go
-                GoResult gor = GoResult.go(args);
-                if (args.length > gor.args.length) {
-                    args = gor.args;
-                    if (params.go == false)
-                        params.go = gor.go;
-                    if (params.ago == false)
-                        params.ago = gor.ago;
-                }
                 // delete same
                 DeleteSameResult dsr = DeleteSameResult.deleteSame(args);
                 if (args.length > dsr.args.length) {
@@ -4950,6 +5089,8 @@ public class FileUtil extends Util implements Constants {
                         params.deleteSame = dsr.deleteSame;
                     if (params.makeSame == false)
                         params.makeSame = dsr.makeSame;
+                    if (params.diffSame == false)
+                        params.diffSame = dsr.diffSame;
                 }
                 // file timestamp
                 FileTimestampResult ftr = FileTimestampResult.fileTimestamp(args);
@@ -4978,6 +5119,13 @@ public class FileUtil extends Util implements Constants {
                     args = osr.args;
                     if (params.outputSummary == null)
                         params.outputSummary = osr.outputSummary;
+                }
+                // go dir
+                GoDirResult gdr = GoDirResult.goDir(args);
+                if (args.length > gdr.args.length) {
+                    args = gdr.args;
+                    if (params.goDir == null)
+                        params.goDir = gdr.goDir;
                 }
             } while (args.length < n);
             params.args = args;
@@ -5050,8 +5198,6 @@ public class FileUtil extends Util implements Constants {
                 return true;
             if (OverwriteResult.isParam(s))
                 return true;
-            if (GoResult.isParam(s))
-                return true;
             if (DeleteSameResult.isParam(s))
                 return true;
             if (FileTimestampResult.isParam(s))
@@ -5062,11 +5208,13 @@ public class FileUtil extends Util implements Constants {
                 return true;
             if (OutputSummaryResult.isParam(s))
                 return true;
+            if (GoDirResult.isParam(s))
+                return true;
             return false;
         }
 
         public boolean isExp() {
-            return zipOperations!=null && zipOperations.isExp();
+            return zipOperations != null && zipOperations.isExp();
         }
 
         public String getExpTo() {
@@ -5362,7 +5510,8 @@ public class FileUtil extends Util implements Constants {
             return filters.accept(lineStr, 0);
         }
 
-        private static void printRecords(String tableName, List<List<String>> lists, String from, Params params) throws Exception {
+        private static void printRecords(String tableName, List<List<String>> lists, String from, Params params)
+                throws Exception {
             List<String> lines = toPrintRecords(tableName, lists, from, params);
             if (!lines.isEmpty()) {
                 String title = subFirst(lines);
@@ -5373,8 +5522,9 @@ public class FileUtil extends Util implements Constants {
                 }
             }
         }
-        
-        private static List<String> toPrintRecords(String tableName, List<List<String>> lists, String from, Params params) throws Exception {
+
+        private static List<String> toPrintRecords(String tableName, List<List<String>> lists, String from,
+                Params params) throws Exception {
             lists = toPrintLists(lists);
             int n = lists.get(0).size();
             List<String> lines = new ArrayList<String>();
@@ -5426,7 +5576,8 @@ public class FileUtil extends Util implements Constants {
             return lists;
         }
 
-        private static List<String> toPrintList(List<String> header, List<String> types, List<String> lineList) throws Exception {
+        private static List<String> toPrintList(List<String> header, List<String> types, List<String> lineList)
+                throws Exception {
             int n = header.size();
             List<String> list = new ArrayList<String>();
             for (int i = 0; i < n; i++) {

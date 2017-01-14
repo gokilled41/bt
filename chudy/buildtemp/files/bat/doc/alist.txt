@@ -28,3 +28,6 @@ alist is one command to list files under given dir.
     - f          open file
                    f3 to open 3 files
     - go         go to dir
+                   go: go to the file folder
+                   ago: go to the from folder
+                   gosub2: go to the folder whose name contains sub the second times

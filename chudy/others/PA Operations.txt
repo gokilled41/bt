@@ -14,7 +14,4 @@
   - al mt bpmn/pro af HAGroup dup/del/exp=dd\dump.txt/imp=dd\dump.txt: find records and dup/del/exp/imp
   - [d]al mt users c
   - doc
-- compare and diff 2 files
 - dsb: bug desc with ""
-- al usp Encoder gosrc/gocom; al msds Util.java godom
-- al usp Encoder agosrc/agocom; al msds Util.java agodom
