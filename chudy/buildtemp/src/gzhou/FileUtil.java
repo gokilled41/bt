@@ -3498,7 +3498,7 @@ public class FileUtil extends Util implements Constants {
                 if (debug2_) {
                     log(format("Pattern: line={2}, p={0}, fixPattern={1}", p, fixPattern, line));
                 }
-                b = line.matches(fixPattern);
+                b = matchesIgnoreCase(line, fixPattern);
             }
             if (include) {
                 if (debug2_) {
