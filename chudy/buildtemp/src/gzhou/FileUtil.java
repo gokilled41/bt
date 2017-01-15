@@ -1625,7 +1625,12 @@ public class FileUtil extends Util implements Constants {
             list.add("@echo off");
             list.add(format("call set ADFING=true"));
             list.add(format("call adfdo \"{0}\" \"{1}\" \"{2}\" > D:\\alogs\\adfdo.log", from, to, n1));
-            list.add(format("call al alogs\\svn.diff ap nl -lt4"));
+            if (outputToFile_) {
+                list.add(format("call al alogs\\svn.diff ap nl -lt4 > D:\\alogs\\adfdiff.log"));
+                list.add(format("call e D:\\alogs\\svn.diff"));
+            } else {
+                list.add(format("call al alogs\\svn.diff ap nl -lt4"));
+            }
             list.add(format("call set ADFING="));
             log("diff \"{0}\" with \"{1}\"", from, to);
             return list;

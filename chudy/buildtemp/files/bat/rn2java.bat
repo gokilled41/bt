@@ -9,3 +9,4 @@ call al rn Constants* arm
 call al rn "Util*" arm
 call al rn PAUnit* arm
 call al rn Test* arm
+call al rn DatabaseTool* arm
