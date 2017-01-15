@@ -4272,6 +4272,7 @@ public class FileUtil extends Util implements Constants {
             public boolean zip = false;
             public boolean unzip = false;
             public boolean adf = false;
+            public boolean sql = false;
             public String to;
 
             public boolean isExp() {
@@ -4282,12 +4283,17 @@ public class FileUtil extends Util implements Constants {
                 return zip;
             }
 
+            public boolean isSql() {
+                return sql;
+            }
+
             public static ZipOperations parseZipOperations(String pattern) throws Exception {
                 if (isParam(pattern)) {
                     ZipOperations zo = new ZipOperations();
                     zo.zip = isZip(pattern);
                     zo.unzip = isUnzip(pattern);
                     zo.adf = isAdf(pattern);
+                    zo.sql = isSql(pattern);
                     zo.to = getTo(pattern);
                     return zo;
                 }
@@ -4295,7 +4301,7 @@ public class FileUtil extends Util implements Constants {
             }
 
             public static boolean isParam(String last) {
-                return isZip(last) || isUnzip(last) || isAdf(last);
+                return isZip(last) || isUnzip(last) || isAdf(last) || isSql(last);
             }
 
             private static boolean isZip(String pattern) {
@@ -4308,6 +4314,10 @@ public class FileUtil extends Util implements Constants {
 
             private static boolean isAdf(String pattern) {
                 return pattern.startsWith("adf=");
+            }
+
+            private static boolean isSql(String pattern) {
+                return pattern.startsWith("sql=");
             }
 
             private static String getTo(String pattern) throws Exception {
@@ -5274,6 +5284,10 @@ public class FileUtil extends Util implements Constants {
         public String getExpTo() {
             return zipOperations.to;
         }
+
+        public boolean isSql() {
+            return zipOperations != null && zipOperations.isSql();
+        }
     }
 
     public static class ParamsSorter implements Comparator<String> {
@@ -5367,12 +5381,55 @@ public class FileUtil extends Util implements Constants {
 
         public static void listTables(String fromdir, String filefrom, Params params) throws Exception {
             Driver driver = parseDriver(fromdir);
+            if (params.isSql()) {
+                log("execute from: " + driver.url);
+                executeSqlInTables(driver, params);
+                return;
+            }
             log("list from: " + driver.url);
             List<String> tables = listTableNames(driver, filefrom, params);
             for (String tableName : tables) {
                 log(tab(2) + tableName);
                 listColumns(driver, tableName, params);
             }
+        }
+
+        private static void executeSqlInTables(Driver driver, Params params) throws Exception {
+            ZipOperations zo = params.zipOperations;
+            if (zo != null) {
+                if (zo.sql) {
+                    String sql = zo.to;
+                    if (sql.startsWith("select")) {
+                        Connection conn = null;
+                        try {
+                            conn = toConnection(driver);
+                            List<List<String>> lists = toResults(conn, sql);
+                            lists = filterRecords(lists, "*", params);
+                            printRecords(getTableNameFromSql(sql), lists, "*", params);
+                        } finally {
+                            if (conn != null)
+                                conn.close();
+                        }
+                    } else {
+                        Connection conn = null;
+                        try {
+                            conn = toConnection(driver);
+                            executeSql(conn, sql);
+                            log(2, "execute successfully: " + sql);
+                        } finally {
+                            if (conn != null)
+                                conn.close();
+                        }
+                    }
+                }
+            }
+        }
+
+        private static String getTableNameFromSql(String s) {
+            String n = cut(s, "from", null).trim();
+            if (n.contains(" "))
+                n = cut(n, null, " ").trim();
+            return n;
         }
 
         public static void printTables(String fromdir, String filefrom, Params params) throws Exception {
@@ -5699,6 +5756,17 @@ public class FileUtil extends Util implements Constants {
             } finally {
                 if (rs != null)
                     rs.close();
+                if (stmt != null)
+                    stmt.close();
+            }
+        }
+        
+        private static void executeSql(Connection conn, String sql) throws Exception {
+            Statement stmt = null;
+            try {
+                stmt = conn.createStatement();
+                stmt.execute(sql);
+            } finally {
                 if (stmt != null)
                     stmt.close();
             }

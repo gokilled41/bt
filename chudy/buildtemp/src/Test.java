@@ -88,7 +88,11 @@ public class Test extends gzhou.Util {
 
     public static void main(String[] args) throws Exception {
         
-        
+        String s = "select abc from aaa";
+        String n = cut(s, "from", null).trim();
+        if (n.contains(" "))
+            n = cut(n, null, " ").trim();
+        System.out.println(n);
         
     }
 }
