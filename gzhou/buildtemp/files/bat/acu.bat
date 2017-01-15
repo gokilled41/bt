@@ -1,5 +1,8 @@
 @echo off
 
+rem pa operation
+  set PAOperation=%~1
+
 rem use last param to determine debug or not
   set LastBatParam=
   set ADEBUG=false
@@ -7,10 +10,8 @@ rem use last param to determine debug or not
   if "%LastBatParam%" == "-d" set ADEBUG=true
   set LastBatParam=
 
-rem pa operation
-  set PAOperation=%~1
-
 rem execute command
+  : exec_acu
   call acustom %*
 
 rem set debug back
