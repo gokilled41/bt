@@ -11,7 +11,7 @@
   - [d]al mt bpmn/pro ap: print all records
   - al mt bpmn/pro ap s{n,b}: print all records, sort by columns including n, b
   - [d]al mt bpmn/pro af HAGroup: find records
-  - al mt bpmn/pro af HAGroup dup/del/[d]exp=dd\dump.txt/imp=dd\dump.txt: find records and dup/del/exp/imp
+  - al mt bpmn/pro af HAGroup dup/del/[d]exp=dd\dump.txt/[d]imp=dd\dump.txt: find records and dup/del/exp/imp
   - [d]al mt "sql=xxx"
   - [d]al mt users c
   - doc
