@@ -12,6 +12,7 @@ import gzhou.FileUtil.ZipOperationsResult.ZipOperations;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -27,6 +28,7 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.JDBCType;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLType;
@@ -4278,6 +4280,10 @@ public class FileUtil extends Util implements Constants {
             public boolean isExp() {
                 return zip;
             }
+            
+            public boolean isImp() {
+                return unzip;
+            }
 
             public boolean isZip() {
                 return zip;
@@ -5281,7 +5287,15 @@ public class FileUtil extends Util implements Constants {
             return zipOperations != null && zipOperations.isExp();
         }
 
+        public boolean isImp() {
+            return zipOperations != null && zipOperations.isImp();
+        }
+
         public String getExpTo() {
+            return zipOperations.to;
+        }
+
+        public String getImpFrom() {
             return zipOperations.to;
         }
 
@@ -5390,8 +5404,113 @@ public class FileUtil extends Util implements Constants {
             List<String> tables = listTableNames(driver, filefrom, params);
             for (String tableName : tables) {
                 log(tab(2) + tableName);
+                exportTable(driver, tableName, params);
                 listColumns(driver, tableName, params);
             }
+        }
+
+        private static void exportTable(Driver driver, String tableName, Params params) throws Exception {
+            if (params.isImp()) {
+                // clean table
+                log(2, "clean table: " + tableName);
+                executeSql(driver, "delete from " + tableName);
+                // import table
+                log(2, "import table: " + tableName);
+                importTable(driver, tableName, params);
+            }
+            if (params.isExp() || params.isImp()) {
+                findInTable(driver, tableName, "`", params);
+            }
+        }
+
+        private static void importTable(Driver driver, String tableName, Params params) throws Exception {
+            Connection conn = null;
+            try {
+                conn = toConnection(driver);
+                List<List<String>> lists = getImportData(params);
+                List<String> headers = lists.remove(0);
+                List<String> types = lists.remove(0);
+                String sql = toImportSql(tableName, headers);
+                doImportTable(conn, tableName, sql, lists, headers, types);
+            } finally {
+                if (conn != null)
+                    conn.close();
+            }
+        }
+
+        private static void doImportTable(Connection conn, String tableName, String sql, List<List<String>> lists, List<String> headers, List<String> types) throws Exception  {
+            for (int k = 0; k < lists.size(); k++) {
+                List<String> columnValues = lists.get(k);
+                List<Object> columnObjects = toObjects(columnValues, types);
+
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                for (int i = 0; i < columnObjects.size(); i++) {
+                    int t = toInt(types.get(i));
+                    Object v = columnObjects.get(i);
+                    setObject(stmt, i + 1, v, t);
+                }
+                stmt.executeUpdate();
+                stmt.close();
+                log(4, "insert line: " + (k + 1));
+            }
+        }
+        
+        private static void setObject(PreparedStatement stmt, int i, Object v, int t) throws Exception {
+            if (t == 2004) {
+                byte[] buf = (byte[]) v;
+                InputStream is = new ByteArrayInputStream(buf);
+                stmt.setBinaryStream(i, is);
+            } else {
+                stmt.setObject(i, v, t);
+            }
+        }
+        
+        private static Object toObject(String v, int t) throws Exception {
+            if (t == 2) {
+                return Long.valueOf(v);
+            }
+            if (t == 2004) {
+                return Hex.decodeHex(v.toCharArray());
+            }
+            if (v.equals("null"))
+                return null;
+            return v;
+        }
+
+        private static List<Object> toObjects(List<String> columnValues, List<String> types) throws Exception {
+            List<Object> list = new ArrayList<Object>();
+            for (int i = 0; i < columnValues.size(); i++) {
+                int t = toInt(types.get(i));
+                String v = columnValues.get(i);
+                Object o = toObject(v, t);
+                list.add(o);
+            }
+            return list;
+        }
+        private static String toImportSql(String tableName, List<String> headers) {
+            // parameters
+            StringBuilder sb = new StringBuilder();
+            sb.append("(");
+            for (int i = 0; i < headers.size(); i++) {
+                sb.append("?");
+                if (i < headers.size() - 1)
+                    sb.append(",");
+            }
+            sb.append(")");
+            String parameters = sb.toString();
+            String sql = "insert into " + tableName + " values " + parameters;
+            return sql;
+        }
+
+        private static List<List<String>> getImportData(Params params) throws Exception {
+            String file = params.getImpFrom();
+            List<String> lines = getLines(file);
+            lines.remove(0); // table name
+            List<List<String>> lists = new ArrayList<List<String>>();
+            for (String line : lines) {
+                lists.add(splitToList(line, " "));
+            }
+            return lists;
         }
 
         private static void executeSqlInTables(Driver driver, Params params) throws Exception {
@@ -5474,6 +5593,7 @@ public class FileUtil extends Util implements Constants {
                 List<List<String>> lists = toResults(conn, sql);
                 lists = filterRecords(lists, from, params);
                 printRecords(tableName, lists, from, params);
+                expRecords(tableName, lists, from, params);
             } finally {
                 if (conn != null)
                     conn.close();
@@ -5634,6 +5754,17 @@ public class FileUtil extends Util implements Constants {
             }
         }
 
+        private static void expRecords(String tableName, List<List<String>> lists, String from, Params params)
+                throws Exception {
+            if (params.isExp()) {
+                List<String> lines = toExpRecords(tableName, lists, from, params);
+                if (!lines.isEmpty()) {
+                    setLines(params.getExpTo(), lines);
+                    log(2, "exp to: " + params.getExpTo());
+                }
+            }
+        }
+
         private static List<String> toPrintRecords(String tableName, List<List<String>> lists, String from,
                 Params params) throws Exception {
             lists = toPrintLists(lists);
@@ -5666,6 +5797,40 @@ public class FileUtil extends Util implements Constants {
                 String lineStr = sb.toString();
                 if (k != 1)
                     lines.add(lineStr);
+            }
+            return lines;
+        }
+        
+        private static List<String> toExpRecords(String tableName, List<List<String>> lists, String from,
+                Params params) throws Exception {
+            int n = lists.get(0).size();
+            List<String> lines = new ArrayList<String>();
+            // print table name
+            int count = lists.size() - 2;
+            if (!from.equals("*") && count == 0)
+                return lines;
+            lines.add(format("{0} [{1}]", tableName, count));
+            // size
+            List<Integer> sizes = new ArrayList<Integer>();
+            for (int i = 0; i < n; i++) {
+                List<Integer> sl = new ArrayList<Integer>();
+                for (List<String> l : lists) {
+                    sl.add(getWordCount(l.get(i)));
+                }
+                Integer size = Collections.max(sl);
+                sizes.add(size);
+            }
+            // print
+            for (int k = 0; k < lists.size(); k++) {
+                List<String> l = lists.get(k);
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < n; i++) {
+                    int size = sizes.get(i);
+                    String v = l.get(i);
+                    sb.append(formatColumn(v, size + 2, true));
+                }
+                String lineStr = sb.toString();
+                lines.add(lineStr);
             }
             return lines;
         }
@@ -5758,6 +5923,16 @@ public class FileUtil extends Util implements Constants {
                     rs.close();
                 if (stmt != null)
                     stmt.close();
+            }
+        }
+        
+        private static void executeSql(Driver driver, String sql) throws Exception {
+            Connection conn = toConnection(driver);
+            try {
+                executeSql(conn, sql);
+            } finally {
+                if (conn != null)
+                    conn.close();
             }
         }
         
