@@ -1,2 +1,2 @@
 @echo off
-call al r0 %*
+call al %* r0

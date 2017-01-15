@@ -1464,6 +1464,7 @@ public class FileUtil extends Util implements Constants {
         Params.log("cut type", args);
         args = OutputToFile.outputToFile(args, type);
         Params.log("output to file", args);
+        args = Params.handleFirstParam(args);
         if (type.equals("print")) {
             PAOperations.paPrint(args);
         } else if (type.equals("printline")) {
@@ -5176,6 +5177,19 @@ public class FileUtil extends Util implements Constants {
             Collections.sort(list, new ParamsSorter());
             args = listToArray(list);
             log("after sort", args);
+            return args;
+        }
+
+        public static String[] handleFirstParam(String[] args) {
+            if (args.length > 0) {
+                log("before handle first", args);
+                String first = args[0];
+                if (isParam(first)) {
+                    first = "'" + first + "'";
+                    args[0] = first;
+                }
+                log("after handle first", args);
+            }
             return args;
         }
 
