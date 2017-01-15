@@ -3031,6 +3031,7 @@ public class FileUtil extends Util implements Constants {
 
         public static Filters getFilters(String filefrom, Params params2) {
             FiltersPattern fp = new FiltersPattern();
+            fp.params = params2;
             fp.p = filefrom;
             fp.init();
             Filters f = new Filters(fp, params2);
@@ -3151,6 +3152,7 @@ public class FileUtil extends Util implements Constants {
                     if (c == '/' || c == '\\') {
                         if (list != null) {
                             item = new FiltersPattern();
+                            item.params = params;
                             item.p = sb.toString();
                             item.include = include;
                             item.init();
@@ -3168,6 +3170,7 @@ public class FileUtil extends Util implements Constants {
                                 and = false;
 
                                 item = new FiltersPattern();
+                                item.params = params;
                                 item.p = sb.toString();
                                 item.include = include;
                                 item.init();
@@ -3185,6 +3188,7 @@ public class FileUtil extends Util implements Constants {
                 }
             }
             item = new FiltersPattern();
+            item.params = params;
             item.p = sb.toString();
             item.include = include;
             item.init();
@@ -3383,6 +3387,7 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static class FiltersPattern {
+        private Params params;
         public String p;
         public boolean include = true;
         public boolean quote = false;
@@ -3392,6 +3397,9 @@ public class FileUtil extends Util implements Constants {
 
         private boolean ignore = false;
 
+        public FiltersPattern() {
+        }
+        
         public void init() {
             if (p.startsWith("/")) {
                 include = true;
@@ -3432,6 +3440,7 @@ public class FileUtil extends Util implements Constants {
 
         public FiltersPattern copy() {
             FiltersPattern fp = new FiltersPattern();
+            fp.params = params;
             fp.p = p;
             fp.include = include;
             fp.quote = quote;
@@ -3498,7 +3507,7 @@ public class FileUtil extends Util implements Constants {
                 if (debug2_) {
                     log(format("Pattern: line={2}, p={0}, fixPattern={1}", p, fixPattern, line));
                 }
-                b = matchesIgnoreCase(line, fixPattern);
+                b = matchesIgnoreCase(line, fixPattern, params.caseSensitive);
             }
             if (include) {
                 if (debug2_) {
@@ -3535,7 +3544,7 @@ public class FileUtil extends Util implements Constants {
                 if (debug2_) {
                     log(format("Pattern: line={2}, p={0}, fixPattern={1}", p, fixPattern, line));
                 }
-                b = line.matches(fixPattern);
+                b = matchesIgnoreCase(line, fixPattern, params.caseSensitive);
             }
             if (ignore)
                 b = true;
