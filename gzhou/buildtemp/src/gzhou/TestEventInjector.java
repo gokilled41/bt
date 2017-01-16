@@ -39,7 +39,7 @@ public class TestEventInjector {
 
         // int count = 1;
         // int count = 50000;
-        int count = 50000;
+        int count = 10;
 
         int interval = 1;
 

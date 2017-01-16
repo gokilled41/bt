@@ -1596,6 +1596,13 @@ public class Util implements Constants {
         return s.toLowerCase().contains(n.toLowerCase());
     }
 
+    public static boolean matchesIgnoreCase(String s, String n, boolean caseSensitive) {
+        if (caseSensitive)
+            return s.matches(n);
+        else
+            return s.toLowerCase().matches(n.toLowerCase());
+    }
+
     public static boolean isAbsolutePath(String path) {
         if (path != null) {
             if (path.matches("[a-zA-Z]:.*"))
