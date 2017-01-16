@@ -2470,7 +2470,7 @@ public class FileUtil extends Util implements Constants {
                             }
                         }
                     }
-                    OpenDirResult.openDirs(params, dirs);
+                    OpenDirResult.openDirs(params, dirs, from);
                     OutputSummaryResult.outputSummary(params, dirs);
                 } else {
                     log(tab(2) + "to files not found: " + tofile);
@@ -2499,7 +2499,7 @@ public class FileUtil extends Util implements Constants {
                     log(tab(2) + toRelativePath(from, p));
                     addWithoutDup(dirs, p);
                 }
-                OpenDirResult.openDirs(params, dirs);
+                OpenDirResult.openDirs(params, dirs, from);
                 log(tab(2) + format("dirs: {0}, files: {1}", files.size() - filesSize, filesSize));
             } else {
                 log(tab(2) + "no matched files: " + filefrom);
@@ -2535,7 +2535,7 @@ public class FileUtil extends Util implements Constants {
                         }
                         addWithoutDup(dirs, p);
                     }
-                    OpenDirResult.openDirs(params, dirs);
+                    OpenDirResult.openDirs(params, dirs, from);
                 }
             } else {
                 log(tab(2) + "no matched files: " + filefrom);
@@ -2549,8 +2549,8 @@ public class FileUtil extends Util implements Constants {
             else
                 log("list from: " + formatFrom(from));
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
+            List<String> dirs = new ArrayList<String>();
             if (!files.isEmpty()) {
-                List<String> dirs = new ArrayList<String>();
                 int filesSize = 0;
                 int nameIndent = getNameIndent(from, files);
                 for (File file : files) {
@@ -2572,13 +2572,13 @@ public class FileUtil extends Util implements Constants {
                     addWithoutDup(dirs, p);
                 }
                 log(tab(2) + format("dirs: {0}, files: {1}", files.size() - filesSize, filesSize));
-                OpenDirResult.openDirs(params, dirs);
-                ZipOperationsResult.zipOperations(params, dirs);
-                GoDirResult.go(params, dirs, from);
-                DeleteSameResult.deleteSame(params, dirs);
             } else {
                 log(tab(2) + "no matched files: " + filefrom);
             }
+            OpenDirResult.openDirs(params, dirs, from);
+            ZipOperationsResult.zipOperations(params, dirs);
+            GoDirResult.go(params, dirs, from);
+            DeleteSameResult.deleteSame(params, dirs);
         }
 
         protected static void renameFiles(String dir, String filefrom, String from, String to, Params params)
@@ -2596,7 +2596,7 @@ public class FileUtil extends Util implements Constants {
                     log(tab(2) + n1 + " -> " + n2);
                     addWithoutDup(dirs, p2);
                 }
-                OpenDirResult.openDirs(params, dirs);
+                OpenDirResult.openDirs(params, dirs, from);
             } else {
                 log(tab(2) + "no matched files: " + filefrom);
             }
@@ -2626,7 +2626,7 @@ public class FileUtil extends Util implements Constants {
                             OperateLinesUtil.operateLines(p, foundLines, params);
                         }
                     }
-                    OpenDirResult.openDirs(params, dirs);
+                    OpenDirResult.openDirs(params, dirs, from);
                 }
             }
             if (!hasResult) {
@@ -2648,7 +2648,7 @@ public class FileUtil extends Util implements Constants {
                         lines.add(format("call \"{0}\" \"{1}\"", UltraEdit, p));
                         addWithoutDup(dirs, p);
                     }
-                    OpenDirResult.openDirs(params, dirs);
+                    OpenDirResult.openDirs(params, dirs, from);
                 }
             } else {
                 log(tab(2) + "no matched files: " + filefrom);
@@ -2683,7 +2683,7 @@ public class FileUtil extends Util implements Constants {
                             addWithoutDup(dirs, p);
                         }
                     }
-                    OpenDirResult.openDirs(params, dirs);
+                    OpenDirResult.openDirs(params, dirs, from);
                 }
             }
             if (!replaced) {
@@ -3805,23 +3805,23 @@ public class FileUtil extends Util implements Constants {
             return last.equals("d") || last.matches("d\\d*");
         }
 
-        public static void openDirs(Params params, List<String> dirs) throws Exception {
+        public static void openDirs(Params params, List<String> dirs, String from) throws Exception {
             if (params.openDir) {
+                List<String> list = new ArrayList<String>();
                 if (dirs != null && !dirs.isEmpty()) {
-                    List<String> list = new ArrayList<String>();
                     int i = 0;
                     Set<String> opened = new HashSet<String>();
                     for (String dir : dirs) {
                         if (isFile(dir)) {
                             if (!opened.contains(getParent(dir))) {
-                                list.add("call explorer /e,/select," + dir);
+                                list.add("call explorer /e,/select,\"" + dir + "\"");
                                 opened.add(getParent(dir));
                             }
                         } else {
                             if (dir.contains("\\\\"))
                                 dir = dir.replace("\\\\", "\\");
                             if (!opened.contains(dir)) {
-                                list.add("call explorer " + dir);
+                                list.add("call explorer \"" + dir + "\"");
                                 opened.add(dir);
                             }
                         }
@@ -3829,8 +3829,10 @@ public class FileUtil extends Util implements Constants {
                         if (params.openDirsCount > 0 && i >= params.openDirsCount)
                             break;
                     }
-                    setLines(batDir + "aopendirtmp.bat", list);
+                } else {
+                    list.add("call explorer \"" + from + "\"");
                 }
+                setLines(batDir + "aopendirtmp.bat", list);
             }
             if (params.openFile) {
                 if (dirs != null && !dirs.isEmpty()) {
@@ -4787,12 +4789,12 @@ public class FileUtil extends Util implements Constants {
                         List<String> list = new ArrayList<String>();
                         for (String dir : dirs) {
                             if (isFile(dir)) {
-                                list.add("call go " + getParent(dir));
+                                list.add("call go \"" + getParent(dir) + "\"");
                                 break;
                             } else {
                                 if (dir.contains("\\\\"))
                                     dir = dir.replace("\\\\", "\\");
-                                list.add("call go " + dir);
+                                list.add("call go \"" + dir + "\"");
                                 break;
                             }
                         }
@@ -4801,7 +4803,7 @@ public class FileUtil extends Util implements Constants {
                 }
                 if (g.ago) {
                     List<String> list = new ArrayList<String>();
-                    list.add("call explorer " + from);
+                    list.add("call explorer \"" + from + "\"");
                     setLines(batDir + "agotmp.bat", list);
                 }
                 if (g.gosub) {
@@ -4810,12 +4812,12 @@ public class FileUtil extends Util implements Constants {
                         for (String dir : dirs) {
                             dir = subDir(dir, g);
                             if (isFile(dir)) {
-                                list.add("call go " + getParent(dir));
+                                list.add("call go \"" + getParent(dir) + "\"");
                                 break;
                             } else {
                                 if (dir.contains("\\\\"))
                                     dir = dir.replace("\\\\", "\\");
-                                list.add("call go " + dir);
+                                list.add("call go \"" + dir + "\"");
                                 break;
                             }
                         }
@@ -4828,12 +4830,12 @@ public class FileUtil extends Util implements Constants {
                         for (String dir : dirs) {
                             dir = subDir(dir, g);
                             if (isFile(dir)) {
-                                list.add("call explorer " + getParent(dir));
+                                list.add("call explorer \"" + getParent(dir) + "\"");
                                 break;
                             } else {
                                 if (dir.contains("\\\\"))
                                     dir = dir.replace("\\\\", "\\");
-                                list.add("call explorer " + dir);
+                                list.add("call explorer \"" + dir + "\"");
                                 break;
                             }
                         }
@@ -5350,6 +5352,10 @@ public class FileUtil extends Util implements Constants {
                 return 8;
             if (o1.matches("-lt\\d*"))
                 return 7;
+            if (o1.equals("o"))
+                return 6;
+            if (o1.equals("sl"))
+                return 5;
             return 0;
         }
 
