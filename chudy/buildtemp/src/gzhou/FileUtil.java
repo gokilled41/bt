@@ -1381,7 +1381,7 @@ public class FileUtil extends Util implements Constants {
         {
             batFile = dir + "tamtmp.bat";
             out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(batFile)));
-            out.println("call ta " + alias + "m " + path.replace("D:\\jedi\\yoda", "D:\\jedi\\yoda_main"));
+            out.println("call ta m" + alias + " " + path.replace("D:\\jedi\\yoda", "D:\\jedi\\yoda_main"));
             out.close();
         }
     }
@@ -1403,7 +1403,7 @@ public class FileUtil extends Util implements Constants {
         {
             batFile = dir + "tastmp.bat";
             out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(batFile)));
-            out.println("call ta " + alias + "s " + path.replace("D:\\jedi\\yoda", "D:\\jedi\\yoda_sjb"));
+            out.println("call ta s" + alias + " " + path.replace("D:\\jedi\\yoda", "D:\\jedi\\yoda_sjb"));
             out.close();
         }
     }
@@ -1832,9 +1832,11 @@ public class FileUtil extends Util implements Constants {
         }
     }
 
-    private static String unwrapTARAlias(String p) {
+    private static String unwrapTARAlias(String p) throws Exception {
         if (p.startsWith("'") && p.endsWith("'"))
             p = cut(p, 1, 1);
+        if (p.equals(".") || p.equals("..") || p.startsWith("./") || p.startsWith("../"))
+            return toFilePath(p);
         return p;
     }
 

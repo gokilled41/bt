@@ -1631,4 +1631,9 @@ public class Util implements Constants {
     public static void log(String m, Object... objects) {
         log(format(m, objects));
     }
+    
+    public static String toFilePath(String p) throws Exception {
+        File f = new File(p);
+        return f.getCanonicalPath();
+    }
 }
