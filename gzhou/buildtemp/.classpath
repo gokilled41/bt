@@ -29,5 +29,7 @@
 	<classpathentry kind="lib" path="lib/vtdf-dmsdk.jar"/>
 	<classpathentry kind="lib" path="lib/vtdf-sdkframework.jar"/>
 	<classpathentry kind="lib" path="lib/vtdfmodel.jar"/>
+	<classpathentry kind="lib" path="lib/vtfc.jar"/>
+	<classpathentry kind="lib" path="lib/xercesImpl-2.8.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
