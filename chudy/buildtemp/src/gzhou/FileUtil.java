@@ -4011,7 +4011,7 @@ public class FileUtil extends Util implements Constants {
             SortTypeResult r = new SortTypeResult();
             String last = getLastArg(args);
             if (isParam(last)) {
-                r.sortType = cutFirst(last, 1);
+                r.sortType = parseSortType(last);
                 r.args = cutLastArg(args);
                 if (debug_)
                     log(tab(2) + "Sort Type: " + r.sortType);
@@ -4022,8 +4022,24 @@ public class FileUtil extends Util implements Constants {
             return r;
         }
 
+        private static String parseSortType(String last) {
+            if (isSortByTime(last))
+                return cutFirst(last, 1);
+            if (isSortByColumn(last))
+                return cut(last, 2, 1);
+            return null;
+        }
+
         public static boolean isParam(String last) {
+            return isSortByTime(last) || isSortByColumn(last);
+        }
+
+        private static boolean isSortByTime(String last) {
             return last.matches("s[t]");
+        }
+
+        private static boolean isSortByColumn(String last) {
+            return last.matches("s\\{.*\\}");
         }
     }
 
@@ -5606,7 +5622,7 @@ public class FileUtil extends Util implements Constants {
         private static void findInTable(Driver driver, String tableName, String from, Params params) throws Exception {
             Connection conn = toConnection(driver);
             try {
-                String sql = toSQL(tableName, from, params);
+                String sql = toSQL(conn, tableName, from, params);
                 List<List<String>> lists = toResults(conn, sql);
                 lists = filterRecords(lists, from, params);
                 printRecords(tableName, lists, from, params);
@@ -5715,14 +5731,49 @@ public class FileUtil extends Util implements Constants {
             return driver;
         }
 
-        private static String toSQL(String tableName, String from, Params params) {
+        private static String toSQL(Connection conn, String tableName, String from, Params params) throws Exception {
             String sql = format("select * from {0}", tableName);
 
             // filters
 
             // order by
-
+            String sortType = params.sortType;
+            if (sortType != null) {
+                boolean desc = isDesc(sortType);
+                if (desc)
+                    sortType = cutLast(sortType, 5);
+                sql += " order by " + findColumn(conn, tableName, sortType);
+                if (desc)
+                    sql += " desc";
+            }
+            if (debug_)
+                log("sql: " + sql);
             return sql;
+        }
+
+        private static boolean isDesc(String sortType) {
+            return sortType.endsWith("_desc");
+        }
+
+        private static String findColumn(Connection conn, String tableName, String sortType) throws Exception {
+            List<String> headers = getHeaders(conn, tableName);
+            return findInList(headers, sortType);
+        }
+
+        private static List<String> getHeaders(Connection conn, String tableName) throws Exception {
+            Statement stmt = null;
+            ResultSet rs = null;
+            try {
+                stmt = conn.createStatement();
+                rs = stmt.executeQuery("select * from " + tableName);
+                List<String> headers = toHeader(rs);
+                return headers;
+            } finally {
+                if (rs != null)
+                    rs.close();
+                if (stmt != null)
+                    stmt.close();
+            }
         }
 
         private static List<String> filterTables(List<String> tables, String filefrom, Params params) {
