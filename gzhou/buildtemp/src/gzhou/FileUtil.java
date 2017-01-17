@@ -1615,7 +1615,7 @@ public class FileUtil extends Util implements Constants {
                 log("adf <file1> <file2>");
                 return;
             }
-            
+
             List<String> list = toAdfLines(args[0], args[1]);
             setLines(batDir + "adifftmp.bat", list);
         }
@@ -1832,9 +1832,11 @@ public class FileUtil extends Util implements Constants {
         }
     }
 
-    private static String unwrapTARAlias(String p) {
+    private static String unwrapTARAlias(String p) throws Exception {
         if (p.startsWith("'") && p.endsWith("'"))
             p = cut(p, 1, 1);
+        if (p.equals(".") || p.equals("..") || p.startsWith("./") || p.startsWith("../"))
+            return toFilePath(p);
         return p;
     }
 
@@ -2468,7 +2470,7 @@ public class FileUtil extends Util implements Constants {
                             }
                         }
                     }
-                    OpenDirResult.openDirs(params, dirs);
+                    OpenDirResult.openDirs(params, dirs, from);
                     OutputSummaryResult.outputSummary(params, dirs);
                 } else {
                     log(tab(2) + "to files not found: " + tofile);
@@ -2497,7 +2499,7 @@ public class FileUtil extends Util implements Constants {
                     log(tab(2) + toRelativePath(from, p));
                     addWithoutDup(dirs, p);
                 }
-                OpenDirResult.openDirs(params, dirs);
+                OpenDirResult.openDirs(params, dirs, from);
                 log(tab(2) + format("dirs: {0}, files: {1}", files.size() - filesSize, filesSize));
             } else {
                 log(tab(2) + "no matched files: " + filefrom);
@@ -2533,7 +2535,7 @@ public class FileUtil extends Util implements Constants {
                         }
                         addWithoutDup(dirs, p);
                     }
-                    OpenDirResult.openDirs(params, dirs);
+                    OpenDirResult.openDirs(params, dirs, from);
                 }
             } else {
                 log(tab(2) + "no matched files: " + filefrom);
@@ -2547,8 +2549,8 @@ public class FileUtil extends Util implements Constants {
             else
                 log("list from: " + formatFrom(from));
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
+            List<String> dirs = new ArrayList<String>();
             if (!files.isEmpty()) {
-                List<String> dirs = new ArrayList<String>();
                 int filesSize = 0;
                 int nameIndent = getNameIndent(from, files);
                 for (File file : files) {
@@ -2570,13 +2572,13 @@ public class FileUtil extends Util implements Constants {
                     addWithoutDup(dirs, p);
                 }
                 log(tab(2) + format("dirs: {0}, files: {1}", files.size() - filesSize, filesSize));
-                OpenDirResult.openDirs(params, dirs);
-                ZipOperationsResult.zipOperations(params, dirs);
-                GoDirResult.go(params, dirs, from);
-                DeleteSameResult.deleteSame(params, dirs);
             } else {
                 log(tab(2) + "no matched files: " + filefrom);
             }
+            OpenDirResult.openDirs(params, dirs, from);
+            ZipOperationsResult.zipOperations(params, dirs);
+            GoDirResult.go(params, dirs, from);
+            DeleteSameResult.deleteSame(params, dirs);
         }
 
         protected static void renameFiles(String dir, String filefrom, String from, String to, Params params)
@@ -2594,7 +2596,7 @@ public class FileUtil extends Util implements Constants {
                     log(tab(2) + n1 + " -> " + n2);
                     addWithoutDup(dirs, p2);
                 }
-                OpenDirResult.openDirs(params, dirs);
+                OpenDirResult.openDirs(params, dirs, from);
             } else {
                 log(tab(2) + "no matched files: " + filefrom);
             }
@@ -2624,7 +2626,7 @@ public class FileUtil extends Util implements Constants {
                             OperateLinesUtil.operateLines(p, foundLines, params);
                         }
                     }
-                    OpenDirResult.openDirs(params, dirs);
+                    OpenDirResult.openDirs(params, dirs, from);
                 }
             }
             if (!hasResult) {
@@ -2646,7 +2648,7 @@ public class FileUtil extends Util implements Constants {
                         lines.add(format("call \"{0}\" \"{1}\"", UltraEdit, p));
                         addWithoutDup(dirs, p);
                     }
-                    OpenDirResult.openDirs(params, dirs);
+                    OpenDirResult.openDirs(params, dirs, from);
                 }
             } else {
                 log(tab(2) + "no matched files: " + filefrom);
@@ -2681,7 +2683,7 @@ public class FileUtil extends Util implements Constants {
                             addWithoutDup(dirs, p);
                         }
                     }
-                    OpenDirResult.openDirs(params, dirs);
+                    OpenDirResult.openDirs(params, dirs, from);
                 }
             }
             if (!replaced) {
@@ -3399,7 +3401,7 @@ public class FileUtil extends Util implements Constants {
 
         public FiltersPattern() {
         }
-        
+
         public void init() {
             if (p.startsWith("/")) {
                 include = true;
@@ -3803,23 +3805,23 @@ public class FileUtil extends Util implements Constants {
             return last.equals("d") || last.matches("d\\d*");
         }
 
-        public static void openDirs(Params params, List<String> dirs) throws Exception {
+        public static void openDirs(Params params, List<String> dirs, String from) throws Exception {
             if (params.openDir) {
+                List<String> list = new ArrayList<String>();
                 if (dirs != null && !dirs.isEmpty()) {
-                    List<String> list = new ArrayList<String>();
                     int i = 0;
                     Set<String> opened = new HashSet<String>();
                     for (String dir : dirs) {
                         if (isFile(dir)) {
                             if (!opened.contains(getParent(dir))) {
-                                list.add("call explorer /e,/select," + dir);
+                                list.add("call explorer /e,/select,\"" + dir + "\"");
                                 opened.add(getParent(dir));
                             }
                         } else {
                             if (dir.contains("\\\\"))
                                 dir = dir.replace("\\\\", "\\");
                             if (!opened.contains(dir)) {
-                                list.add("call explorer " + dir);
+                                list.add("call explorer \"" + dir + "\"");
                                 opened.add(dir);
                             }
                         }
@@ -3827,8 +3829,10 @@ public class FileUtil extends Util implements Constants {
                         if (params.openDirsCount > 0 && i >= params.openDirsCount)
                             break;
                     }
-                    setLines(batDir + "aopendirtmp.bat", list);
+                } else {
+                    list.add("call explorer \"" + from + "\"");
                 }
+                setLines(batDir + "aopendirtmp.bat", list);
             }
             if (params.openFile) {
                 if (dirs != null && !dirs.isEmpty()) {
@@ -4007,7 +4011,7 @@ public class FileUtil extends Util implements Constants {
             SortTypeResult r = new SortTypeResult();
             String last = getLastArg(args);
             if (isParam(last)) {
-                r.sortType = cutFirst(last, 1);
+                r.sortType = parseSortType(last);
                 r.args = cutLastArg(args);
                 if (debug_)
                     log(tab(2) + "Sort Type: " + r.sortType);
@@ -4018,8 +4022,24 @@ public class FileUtil extends Util implements Constants {
             return r;
         }
 
+        private static String parseSortType(String last) {
+            if (isSortByTime(last))
+                return cutFirst(last, 1);
+            if (isSortByColumn(last))
+                return cut(last, 2, 1);
+            return null;
+        }
+
         public static boolean isParam(String last) {
+            return isSortByTime(last) || isSortByColumn(last);
+        }
+
+        private static boolean isSortByTime(String last) {
             return last.matches("s[t]");
+        }
+
+        private static boolean isSortByColumn(String last) {
+            return last.matches("s\\{.*\\}");
         }
     }
 
@@ -4289,7 +4309,7 @@ public class FileUtil extends Util implements Constants {
             public boolean isExp() {
                 return zip;
             }
-            
+
             public boolean isImp() {
                 return unzip;
             }
@@ -4785,12 +4805,12 @@ public class FileUtil extends Util implements Constants {
                         List<String> list = new ArrayList<String>();
                         for (String dir : dirs) {
                             if (isFile(dir)) {
-                                list.add("call go " + getParent(dir));
+                                list.add("call go \"" + getParent(dir) + "\"");
                                 break;
                             } else {
                                 if (dir.contains("\\\\"))
                                     dir = dir.replace("\\\\", "\\");
-                                list.add("call go " + dir);
+                                list.add("call go \"" + dir + "\"");
                                 break;
                             }
                         }
@@ -4799,7 +4819,7 @@ public class FileUtil extends Util implements Constants {
                 }
                 if (g.ago) {
                     List<String> list = new ArrayList<String>();
-                    list.add("call explorer " + from);
+                    list.add("call explorer \"" + from + "\"");
                     setLines(batDir + "agotmp.bat", list);
                 }
                 if (g.gosub) {
@@ -4808,12 +4828,12 @@ public class FileUtil extends Util implements Constants {
                         for (String dir : dirs) {
                             dir = subDir(dir, g);
                             if (isFile(dir)) {
-                                list.add("call go " + getParent(dir));
+                                list.add("call go \"" + getParent(dir) + "\"");
                                 break;
                             } else {
                                 if (dir.contains("\\\\"))
                                     dir = dir.replace("\\\\", "\\");
-                                list.add("call go " + dir);
+                                list.add("call go \"" + dir + "\"");
                                 break;
                             }
                         }
@@ -4826,12 +4846,12 @@ public class FileUtil extends Util implements Constants {
                         for (String dir : dirs) {
                             dir = subDir(dir, g);
                             if (isFile(dir)) {
-                                list.add("call explorer " + getParent(dir));
+                                list.add("call explorer \"" + getParent(dir) + "\"");
                                 break;
                             } else {
                                 if (dir.contains("\\\\"))
                                     dir = dir.replace("\\\\", "\\");
-                                list.add("call explorer " + dir);
+                                list.add("call explorer \"" + dir + "\"");
                                 break;
                             }
                         }
@@ -5348,6 +5368,10 @@ public class FileUtil extends Util implements Constants {
                 return 8;
             if (o1.matches("-lt\\d*"))
                 return 7;
+            if (o1.equals("o"))
+                return 6;
+            if (o1.equals("sl"))
+                return 5;
             return 0;
         }
 
@@ -5447,7 +5471,8 @@ public class FileUtil extends Util implements Constants {
             }
         }
 
-        private static void doImportTable(Connection conn, String tableName, String sql, List<List<String>> lists, List<String> headers, List<String> types) throws Exception  {
+        private static void doImportTable(Connection conn, String tableName, String sql, List<List<String>> lists,
+                List<String> headers, List<String> types) throws Exception {
             for (int k = 0; k < lists.size(); k++) {
                 List<String> columnValues = lists.get(k);
                 List<Object> columnObjects = toObjects(columnValues, types);
@@ -5463,7 +5488,7 @@ public class FileUtil extends Util implements Constants {
                 log(4, "insert line: " + (k + 1));
             }
         }
-        
+
         private static void setObject(PreparedStatement stmt, int i, Object v, int t) throws Exception {
             if (t == 2004) {
                 byte[] buf = (byte[]) v;
@@ -5473,7 +5498,7 @@ public class FileUtil extends Util implements Constants {
                 stmt.setObject(i, v, t);
             }
         }
-        
+
         private static Object toObject(String v, int t) throws Exception {
             if (t == 2) {
                 return Long.valueOf(v);
@@ -5496,6 +5521,7 @@ public class FileUtil extends Util implements Constants {
             }
             return list;
         }
+
         private static String toImportSql(String tableName, List<String> headers) {
             // parameters
             StringBuilder sb = new StringBuilder();
@@ -5598,7 +5624,7 @@ public class FileUtil extends Util implements Constants {
         private static void findInTable(Driver driver, String tableName, String from, Params params) throws Exception {
             Connection conn = toConnection(driver);
             try {
-                String sql = toSQL(tableName, from, params);
+                String sql = toSQL(conn, tableName, from, params);
                 List<List<String>> lists = toResults(conn, sql);
                 lists = filterRecords(lists, from, params);
                 printRecords(tableName, lists, from, params);
@@ -5707,14 +5733,49 @@ public class FileUtil extends Util implements Constants {
             return driver;
         }
 
-        private static String toSQL(String tableName, String from, Params params) {
+        private static String toSQL(Connection conn, String tableName, String from, Params params) throws Exception {
             String sql = format("select * from {0}", tableName);
 
             // filters
 
             // order by
-
+            String sortType = params.sortType;
+            if (sortType != null) {
+                boolean desc = isDesc(sortType);
+                if (desc)
+                    sortType = cutLast(sortType, 5);
+                sql += " order by " + findColumn(conn, tableName, sortType);
+                if (desc)
+                    sql += " desc";
+            }
+            if (debug_)
+                log("sql: " + sql);
             return sql;
+        }
+
+        private static boolean isDesc(String sortType) {
+            return sortType.endsWith("_desc");
+        }
+
+        private static String findColumn(Connection conn, String tableName, String sortType) throws Exception {
+            List<String> headers = getHeaders(conn, tableName);
+            return findInList(headers, sortType);
+        }
+
+        private static List<String> getHeaders(Connection conn, String tableName) throws Exception {
+            Statement stmt = null;
+            ResultSet rs = null;
+            try {
+                stmt = conn.createStatement();
+                rs = stmt.executeQuery("select * from " + tableName);
+                List<String> headers = toHeader(rs);
+                return headers;
+            } finally {
+                if (rs != null)
+                    rs.close();
+                if (stmt != null)
+                    stmt.close();
+            }
         }
 
         private static List<String> filterTables(List<String> tables, String filefrom, Params params) {
@@ -5809,9 +5870,9 @@ public class FileUtil extends Util implements Constants {
             }
             return lines;
         }
-        
-        private static List<String> toExpRecords(String tableName, List<List<String>> lists, String from,
-                Params params) throws Exception {
+
+        private static List<String> toExpRecords(String tableName, List<List<String>> lists, String from, Params params)
+                throws Exception {
             int n = lists.get(0).size();
             List<String> lines = new ArrayList<String>();
             // print table name
@@ -5934,7 +5995,7 @@ public class FileUtil extends Util implements Constants {
                     stmt.close();
             }
         }
-        
+
         private static void executeSql(Driver driver, String sql) throws Exception {
             Connection conn = toConnection(driver);
             try {
@@ -5944,7 +6005,7 @@ public class FileUtil extends Util implements Constants {
                     conn.close();
             }
         }
-        
+
         private static void executeSql(Connection conn, String sql) throws Exception {
             Statement stmt = null;
             try {

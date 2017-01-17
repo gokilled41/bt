@@ -8,7 +8,7 @@ echo please give one dir name.
 goto end
 
 : b
-call all ago %*
+call all %* ago
 goto end
 
 : end

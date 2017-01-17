@@ -1610,8 +1610,6 @@ public class Util implements Constants {
         }
         return false;
     }
-    
-
 
     public static void log() {
         System.out.println();
@@ -1630,5 +1628,51 @@ public class Util implements Constants {
 
     public static void log(String m, Object... objects) {
         log(format(m, objects));
+    }
+
+    public static String toFilePath(String p) throws Exception {
+        File f = new File(p);
+        return f.getCanonicalPath();
+    }
+
+    public static String findInList(List<String> list, String n) {
+        List<FoundItem> items = new ArrayList<FoundItem>();
+        for (String s : list) {
+            FoundItem item = new FoundItem();
+            item.n = s;
+            if (s.equals(n)) {
+                item.i = 1;
+            } else if (s.startsWith(n)) {
+                item.i = 2;
+            } else if (s.endsWith(n)) {
+                item.i = 3;
+            } else if (s.contains(n)) {
+                item.i = 4;
+            } else if (s.matches(n)) {
+                item.i = 5;
+            } else if (s.matches(".*" + n + ".*")) {
+                item.i = 6;
+            } else {
+                item.i = 0;
+            }
+            if (item.i > 0)
+                items.add(item);
+        }
+        if (items.isEmpty())
+            return null;
+        Collections.sort(items);
+        return items.get(0).n;
+    }
+
+    public static class FoundItem implements Comparable<FoundItem> {
+        public int i = 0;
+        public String n;
+
+        @Override
+        public int compareTo(FoundItem o) {
+            Integer i1 = i;
+            Integer i2 = o.i;
+            return i1.compareTo(i2);
+        }
     }
 }
