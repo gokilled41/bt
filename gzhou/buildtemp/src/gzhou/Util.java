@@ -1675,4 +1675,14 @@ public class Util implements Constants {
             return i1.compareTo(i2);
         }
     }
+
+    public static void sortFile(String filePath, boolean asc) throws Exception {
+        List<String> list = getLines(filePath);
+        Collections.sort(list);
+        if (!asc) {
+            Collections.reverse(list);
+        }
+        setLines(filePath, list);
+    }
+
 }

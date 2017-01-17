@@ -1,3 +1,6 @@
 @echo off
 call yodadir
-call del unbundled\apps\spark_pipe\ui\services\src\com\vitria\spark\resource\utils\DateFormatter.java
+call del build\lib\driver\ojdbc\ojdbc-11.1.0.6.jar
+call del m3o\ui\projects\uiutil\webapp\uiutil\libs\FlexSpy.swc
+call del m3o\ui\projects\uiutil\webapp\uiutil\libs\ReflexUtil.swc
+call del shared\installer\iabuild.xml

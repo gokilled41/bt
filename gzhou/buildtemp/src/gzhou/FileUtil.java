@@ -2618,7 +2618,7 @@ public class FileUtil extends Util implements Constants {
                             log(tab(2) + format("found \"{0}\" places in \"{1}\":", foundLines.size(), n1));
                             log();
                             for (Line line : foundLines) {
-                                line.print(6, 7);
+                                line.print(6, 7, params.noLineNumber);
                             }
                             log();
                             hasResult = true;
@@ -3396,6 +3396,7 @@ public class FileUtil extends Util implements Constants {
         public boolean group = false;
         public boolean regular = false;
         public boolean lineNumber = false;
+        public boolean emptyLine = false;
 
         private boolean ignore = false;
 
@@ -3424,6 +3425,8 @@ public class FileUtil extends Util implements Constants {
                 p = cutLast(p, 1);
             } else if (p.matches("l\\d*-?\\d*")) {
                 lineNumber = true;
+            } else if (p.equalsIgnoreCase("EL")) {
+                emptyLine = true;
             }
         }
 
@@ -3504,6 +3507,11 @@ public class FileUtil extends Util implements Constants {
                     log(format("Pattern: line={2}, p={0}, quote={1}", p, quote, line));
                 }
                 b = line.contains(p);
+            } else if (emptyLine) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, emptyLine={1}", p, emptyLine, line));
+                }
+                b = line.trim().isEmpty();
             } else {
                 String fixPattern = fixPattern(p);
                 if (debug2_) {
@@ -3541,6 +3549,11 @@ public class FileUtil extends Util implements Constants {
                     log(format("Pattern: line={2}, p={0}, lineNumber={1}", p, lineNumber, line));
                 }
                 b = ExpandLines.matchesLineNumber(p, pos);
+            } else if (emptyLine) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, emptyLine={1}", p, emptyLine, line));
+                }
+                b = line.trim().isEmpty();
             } else {
                 String fixPattern = fixPattern(p);
                 if (debug2_) {
@@ -4284,6 +4297,21 @@ public class FileUtil extends Util implements Constants {
                             log("Ignore adf operations since file size is " + files.size());
                     }
                 }
+                if (zo.sort) {
+                    for (String file : files) {
+                        if (isTextFile(file)) {
+                            String from = file;
+                            boolean asc = true;
+                            if (zo.to != null && zo.to.equalsIgnoreCase("desc"))
+                                asc = false;
+                            sortFile(from, asc);
+                            if (asc)
+                                log(2, "sort: " + from);
+                            else
+                                log(2, "sort [desc]: " + from);
+                        }
+                    }
+                }
             }
         }
 
@@ -4304,6 +4332,7 @@ public class FileUtil extends Util implements Constants {
             public boolean unzip = false;
             public boolean adf = false;
             public boolean sql = false;
+            public boolean sort = false;
             public String to;
 
             public boolean isExp() {
@@ -4322,6 +4351,10 @@ public class FileUtil extends Util implements Constants {
                 return sql;
             }
 
+            public boolean isSort() {
+                return sort;
+            }
+
             public static ZipOperations parseZipOperations(String pattern) throws Exception {
                 if (isParam(pattern)) {
                     ZipOperations zo = new ZipOperations();
@@ -4329,6 +4362,7 @@ public class FileUtil extends Util implements Constants {
                     zo.unzip = isUnzip(pattern);
                     zo.adf = isAdf(pattern);
                     zo.sql = isSql(pattern);
+                    zo.sort = isSort(pattern);
                     zo.to = getTo(pattern);
                     return zo;
                 }
@@ -4336,7 +4370,7 @@ public class FileUtil extends Util implements Constants {
             }
 
             public static boolean isParam(String last) {
-                return isZip(last) || isUnzip(last) || isAdf(last) || isSql(last);
+                return isZip(last) || isUnzip(last) || isAdf(last) || isSql(last) || isSort(last);
             }
 
             private static boolean isZip(String pattern) {
@@ -4355,8 +4389,14 @@ public class FileUtil extends Util implements Constants {
                 return pattern.startsWith("sql=");
             }
 
+            private static boolean isSort(String pattern) {
+                return pattern.equals("sort") || pattern.startsWith("sort=");
+            }
+
             private static String getTo(String pattern) throws Exception {
-                return toTARAlias(cut(pattern, "=", null));
+                if (pattern.contains("="))
+                    return toTARAlias(cut(pattern, "=", null));
+                return null;
             }
 
             @Override

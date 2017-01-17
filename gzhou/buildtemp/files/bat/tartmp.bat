@@ -1,1 +1,1 @@
-call ta kl "D:\gzhou\sa\OI_1\wildfly\standalone\log\server.log"
+call ta p """C:\Program Files\jprofiler9\bin\jprofiler.exe"""
