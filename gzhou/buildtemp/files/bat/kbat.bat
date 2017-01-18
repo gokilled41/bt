@@ -4,6 +4,7 @@ call al rn -2\(kbat##ktar##btenv##Config) ~ ar "'D:\soft\typeandrun'" "D:\Workfl
 call al rn -2\(kbat##ktar##btenv##Config) ~ ar "'D:\\soft\\typeandrun'" "D:\\Workflow-G\\software\\typeandrun"
 call al rn -2\(kbat##ktar##btenv##Config) ~ ar "'G:\huazhi'" "H:\huazhi"
 call al rn -2/.bat af Uedit ar "'C:\Program Files'" "C:\Program Files (x86)"
+call al rn -2/.bat af Uedit ar "'C:\\Program Files'" "C:\\Program Files (x86)"
 call al rn -2/.bat af chrome ar "'C:\Program Files'" "C:\Program Files (x86)"
 call al rn -2/.bat af iexplore ar "'C:\Program Files'" "C:\Program Files (x86)"
 call al rn\Test-2.java ~ af "import org\org.w3c\org.xml" ar "'//import org'" "import org"

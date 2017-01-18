@@ -1685,4 +1685,20 @@ public class Util implements Constants {
         setLines(filePath, list);
     }
 
+    public static String toEditLine(String p) {
+        return format("call \"{0}\" \"{1}\"", UltraEdit, p);
+    }
+
+    public static String toExplorerLine(String p) {
+        return format("call explorer \"{0}\"", p);
+    }
+
+    public static String toExplorerLineSelect(String p) {
+        return format("call explorer /e,/select,\"{0}\"", p);
+    }
+
+    public static String toGoLine(String p) {
+        return format("call go \"{0}\"", p);
+    }
+
 }

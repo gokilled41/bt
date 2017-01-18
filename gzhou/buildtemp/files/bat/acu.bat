@@ -30,3 +30,6 @@ rem run necessary tmp scripts
   rem diff
     if exist "C:\workspace\buildtemp\files\bat\adifftmp.bat" call adifftmp
     if exist "C:\workspace\buildtemp\files\bat\adifftmp.bat" call bdel adifftmp
+  rem edit
+    if exist "C:\workspace\buildtemp\files\bat\aedittmp.bat" call aedittmp
+    if exist "C:\workspace\buildtemp\files\bat\aedittmp.bat" call bdel aedittmp
