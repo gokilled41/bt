@@ -1632,6 +1632,7 @@ public class FileUtil extends Util implements Constants {
             }
 
             String p = toTARAlias(args[0]);
+            mkdirs(getParent(p));
             setLines(batDir + "aedittmp.bat", toList(toEditLine(p)));
         }
 
