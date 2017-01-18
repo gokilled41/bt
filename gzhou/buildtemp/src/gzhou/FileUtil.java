@@ -2874,6 +2874,8 @@ public class FileUtil extends Util implements Constants {
                     sizeIndent, false);
             String dir = file.isDirectory() ? formatstr("<DIR>", dirIndent) : formatstr("", dirIndent);
             String time = formatstr(sdf4.format(new Date(file.lastModified())), timeIndent);
+            if (params.noFileDetail)
+                return n;
             return format("{0} {1}     {2} {3}", n, size, dir, time);
         }
 
@@ -4010,25 +4012,36 @@ public class FileUtil extends Util implements Constants {
 
     public static class UseDotResult {
         public String[] args;
-        public boolean useDot;
+        public boolean useDot = false;
+        public boolean noFileDetail = false;
 
         public static UseDotResult useDot(String[] args) {
             UseDotResult r = new UseDotResult();
             String last = getLastArg(args);
             if (isParam(last)) {
-                r.useDot = true;
+                r.useDot = isUseDot(last);
+                r.noFileDetail = isNoFileDetail(last);
                 r.args = cutLastArg(args);
-                if (debug_)
+                if (debug_) {
                     log(tab(2) + "Use Dot: " + r.useDot);
+                    log(tab(2) + "No File Detail: " + r.noFileDetail);
+                }
             } else {
-                r.useDot = false;
                 r.args = args;
             }
             return r;
         }
 
         public static boolean isParam(String last) {
+            return isUseDot(last) || isNoFileDetail(last);
+        }
+
+        private static boolean isUseDot(String last) {
             return last.equals("ud");
+        }
+
+        private static boolean isNoFileDetail(String last) {
+            return last.equals("nd");
         }
     }
 
@@ -5036,6 +5049,7 @@ public class FileUtil extends Util implements Constants {
         public boolean noPath = false;
         public boolean fullPath = false;
         public boolean useDot = false;
+        public boolean noFileDetail = false;
         public String sortType = null;
         public boolean multipleLines = false;
         public boolean move = false;
@@ -5180,6 +5194,8 @@ public class FileUtil extends Util implements Constants {
                     args = udr.args;
                     if (params.useDot == false)
                         params.useDot = udr.useDot;
+                    if (params.noFileDetail == false)
+                        params.noFileDetail = udr.noFileDetail;
                 }
                 // sort type
                 SortTypeResult str = SortTypeResult.sortType(args);
