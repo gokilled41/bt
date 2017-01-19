@@ -2402,11 +2402,19 @@ public class FileUtil extends Util implements Constants {
             Params params = Params.toParams("ar", args);
             args = params.args;
 
+            if (params.newFileName != null) {
+                // replace the entire line with new file name patterns
+                args = appendArg(args, HANDLE_LINE);
+                args = appendArg(args, HANDLE_LINE);
+            }
+
             String fromdir = toTARAlias(args[0]);
-            String filefrom, from, to;
+            String filefrom = null, from = null, to = null;
             if (args.length < 3) {
-                log("need specify replace from and to");
-                return;
+                if (params.newFileName == null) {
+                    log("need specify replace from and to");
+                    return;
+                }
             } else if (args.length == 3) {
                 filefrom = "*";
                 from = args[1];
