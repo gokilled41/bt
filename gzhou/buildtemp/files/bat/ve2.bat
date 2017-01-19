@@ -11,7 +11,7 @@ goto end
 rem echo %1.bat: 
 rem echo.
 echo edit C:\Users\gzhou\Desktop\buildtemp\files\bat\%1.bat
-call e C:\Users\gzhou\Desktop\buildtemp\files\bat\%1.bat
+call uedit C:\Users\gzhou\Desktop\buildtemp\files\bat\%1.bat
 goto end
 
 : end

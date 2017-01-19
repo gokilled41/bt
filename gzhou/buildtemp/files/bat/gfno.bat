@@ -15,7 +15,7 @@ goto end
 : b
 echo find "%2" in "%1", output to file "gf.log" on desktop.
 call gfn %* > C:\Users\gzhou\Desktop\gf.log
-call e C:\Users\gzhou\Desktop\gf.log
+call uedit C:\Users\gzhou\Desktop\gf.log
 goto end
 
 : end

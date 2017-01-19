@@ -230,30 +230,43 @@ public class PAUnit extends TestCase implements Constants {
         assertEquals(ListConditionResult.isParam("in(lib)"), true);
     }
 
-    public void testNewFileNameInCopy_01() throws Exception {
-        Params p = new Params();
-        p.newFileName = "{n}";
-        assertEquals(PAOperations.newFileNameInCopy("a.txt", p, true), "a.txt");
-        p.newFileName = "{n}.{e}";
-        assertEquals(PAOperations.newFileNameInCopy("a.txt", p, true), "a.txt");
-        p.newFileName = "{n}-2";
-        assertEquals(PAOperations.newFileNameInCopy("a.txt", p, true), "a-2.txt");
-        p.newFileName = "1-{n}";
-        assertEquals(PAOperations.newFileNameInCopy("a.txt", p, true), "1-a.txt");
-        p.newFileName = "{n1-2}";
-        assertEquals(PAOperations.newFileNameInCopy("abc.txt", p, true), "ab.txt");
-        p.newFileName = "{n2}";
-        assertEquals(PAOperations.newFileNameInCopy("abc.txt", p, true), "ab.txt");
-        p.newFileName = "{n-2}";
-        assertEquals(PAOperations.newFileNameInCopy("abc.txt", p, true), "bc.txt");
-        p.newFileName = "{n-2}";
-        assertEquals(PAOperations.newFileNameInCopy("1234567890.txt", p, true), "90.txt");
-        p.newFileName = "a{n7-8}b{n7-8}c{n-2}";
-        assertEquals(PAOperations.newFileNameInCopy("1234567890.txt", p, true), "a78b78c90.txt");
-        p.newFileName = "{n4}";
-        assertEquals(PAOperations.newFileNameInCopy("yoda_sjb", p, false), "yoda");
-        p.newFileName = "{n}_main";
-        assertEquals(PAOperations.newFileNameInCopy("yoda", p, false), "yoda_main");
+    public void testNewFileName_01() throws Exception {
+        assertEquals(PAOperations.newFileName("a.txt", "{n}", true), "a.txt");
+        assertEquals(PAOperations.newFileName("a.txt", "{n}.{e}", true), "a.txt");
+        assertEquals(PAOperations.newFileName("a.txt", "{n}-2", true), "a-2.txt");
+        assertEquals(PAOperations.newFileName("a.txt", "1-{n}", true), "1-a.txt");
+        assertEquals(PAOperations.newFileName("abc.txt", "{n1-2}", true), "ab.txt");
+        assertEquals(PAOperations.newFileName("abc.txt", "1-2", true), "ab.txt");
+        assertEquals(PAOperations.newFileName("abc.txt", "'1-2'", true), "1-2.txt");
+        assertEquals(PAOperations.newFileName("abc.txt", "{n2}", true), "ab.txt");
+        assertEquals(PAOperations.newFileName("abc.txt", "2", true), "ab.txt");
+        assertEquals(PAOperations.newFileName("abc.txt", "'2'", true), "2.txt");
+        assertEquals(PAOperations.newFileName("abc.txt", "{n-2}", true), "bc.txt");
+        assertEquals(PAOperations.newFileName("abc.txt", "-2", true), "bc.txt");
+        assertEquals(PAOperations.newFileName("1234567890.txt", "{n-2}", true), "90.txt");
+        assertEquals(PAOperations.newFileName("1234567890.txt", "a{n7-8}b{n7-8}c{n-2}", true), "a78b78c90.txt");
+        assertEquals(PAOperations.newFileName("yoda_sjb", "{n4}", false), "yoda");
+        assertEquals(PAOperations.newFileName("yoda", "{n}_main", false), "yoda_main");
+        assertEquals(PAOperations.newFileName("1234567890", "l2", false), "90");
+        assertEquals(PAOperations.newFileName("abc01.txt", "l2", true), "01.txt");
+        assertEquals(PAOperations.newFileName("1234567890", "last2", false), "90");
+        assertEquals(PAOperations.newFileName("abc01.txt", "last2", true), "01.txt");
+        assertEquals(PAOperations.newFileName("1234567890", "f2", false), "12");
+        assertEquals(PAOperations.newFileName("abc01.txt", "f2", true), "ab.txt");
+        assertEquals(PAOperations.newFileName("1234567890", "first2", false), "12");
+        assertEquals(PAOperations.newFileName("abc01.txt", "first2", true), "ab.txt");
+        assertEquals(PAOperations.newFileName("1234567890", "app-2", false), "1234567890-2");
+        assertEquals(PAOperations.newFileName("1234567890", "'app-2'", false), "app-2");
+        assertEquals(PAOperations.newFileName("abc01.txt", "pre2-", true), "2-abc01.txt");
+        assertEquals(PAOperations.newFileName("abc01.txt", "'pre2-'", true), "pre2-.txt");
+        assertEquals(PAOperations.newFileName("1234567890", "c2", false), "34567890");
+        assertEquals(PAOperations.newFileName("abc01.txt", "c-2", true), "abc.txt");
+        assertEquals(PAOperations.newFileName("1234567890.txt", "1{2-3}4", true), "1234.txt");
+        assertEquals(PAOperations.newFileName("1234567890.txt", "1{2}4", true), "1124.txt");
+        assertEquals(PAOperations.newFileName("1234567890.txt", "1{-3}4", true), "18904.txt");
+        assertEquals(PAOperations.newFileName("1234567890", "1{2-3}4", false), "1234");
+        assertEquals(PAOperations.newFileName("1234567890", "1{2}4", false), "1124");
+        assertEquals(PAOperations.newFileName("1234567890", "1{-3}4", false), "18904");
     }
 
     private void doTest(String dir, String name, String filefrom, boolean expect) {
@@ -275,7 +288,9 @@ public class PAUnit extends TestCase implements Constants {
     }
 
     private boolean doTest0(String dir, String name, String filefrom) {
-        Filters filters = Filters.getFilters(filefrom, null);
+        Params params = new Params();
+        params.noPath = true;
+        Filters filters = Filters.getFilters(filefrom, params);
         return filters.accept(new File(dir), name);
     }
 
@@ -298,7 +313,9 @@ public class PAUnit extends TestCase implements Constants {
     }
 
     private boolean doTest10(String line, String from, int pos) {
-        Filters filters = Filters.getFilters(from, null);
+        Params params = new Params();
+        params.noPath = true;
+        Filters filters = Filters.getFilters(from, params);
         return filters.accept(line, pos);
     }
 
