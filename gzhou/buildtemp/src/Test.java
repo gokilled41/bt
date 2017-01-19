@@ -88,7 +88,7 @@ public class Test extends gzhou.Util {
 
     public static void main(String[] args) throws Exception {
         
-        int cost = 40184;
+        int cost = 35641;
         double s = (double)cost/1000;
         int n = 100000;
         int eps = (int) (n / s);
