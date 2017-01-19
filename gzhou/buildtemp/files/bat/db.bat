@@ -1,190 +1,45 @@
 @echo off
 call yodadir
-cd build\imports
+cd unbundled\apps\spark_pipe
 call ant
 
 @echo off
 call yodadir
-cd build\properties
+cd unbundled\thirdparty\zeppelin\v0.6.1\dist
 call ant
 
 @echo off
 call yodadir
-cd build\dtd
+cd unbundled\thirdparty\zeppelin\v0.6.1\bin
 call ant
 
 @echo off
 call yodadir
-cd build\deploy
+cd unbundled\thirdparty\zeppelin\v0.6.1\spark
 call ant
 
 @echo off
 call yodadir
-cd build\lib
+cd unbundled\thirdparty\zeppelin\v0.6.1\zeppelin-interpreter
 call ant
 
 @echo off
 call yodadir
-cd build\jbison
+cd unbundled\thirdparty\zeppelin\v0.6.1\zeppelin-vitria
 call ant
 
 @echo off
 call yodadir
-cd bw\installer
+cd unbundled\thirdparty\zeppelin\v0.6.1\zeppelin-zengine
 call ant
 
 @echo off
 call yodadir
-cd bw\src
+cd unbundled\spark
 call ant
 
 @echo off
 call yodadir
-cd bw\locale
-call ant
-
-@echo off
-call yodadir
-cd bw\devtests
-call ant
-
-@echo off
-call yodadir
-cd m3o\server\installer
-call ant
-
-@echo off
-call yodadir
-cd m3o\server\src
-call ant
-
-@echo off
-call yodadir
-cd m3o\server\locale
-call ant
-
-@echo off
-call yodadir
-cd m3o\server\qatests
-call ant
-
-@echo off
-call yodadir
-cd m3o\ui\installer
-call ant
-
-@echo off
-call yodadir
-cd m3o\ui\src
-call ant
-
-@echo off
-call yodadir
-cd m3o\ui\projects
-call ant
-
-@echo off
-call yodadir
-cd m3o\j2ee\installer
-call ant
-
-@echo off
-call yodadir
-cd m3o\j2ee\src
-call ant
-
-@echo off
-call yodadir
-cd m3o\bpa\emf\server\installer
-call ant
-
-@echo off
-call yodadir
-cd m3o\bpa\emf\server\src
-call ant
-
-@echo off
-call yodadir
-cd m3o\projectrole\installer
-call ant
-
-@echo off
-call yodadir
-cd m3o\projectrole\src
-call ant
-
-@echo off
-call yodadir
-cd m3o\utilities\installer
-call ant
-
-@echo off
-call yodadir
-cd m3o\utilities\src
-call ant
-
-@echo off
-call yodadir
-cd m3o\utilities\conf
-call ant
-
-@echo off
-call yodadir
-cd m3o\collaboration\installer
-call ant
-
-@echo off
-call yodadir
-cd m3o\collaboration\src
-call ant
-
-@echo off
-call yodadir
-cd m3o\workflow\installer
-call ant
-
-@echo off
-call yodadir
-cd m3o\workflow\src
-call ant
-
-@echo off
-call yodadir
-cd esms\installer
-call ant
-
-@echo off
-call yodadir
-cd esms\src
-call ant
-
-@echo off
-call yodadir
-cd opbook\installer
-call ant
-
-@echo off
-call yodadir
-cd opbook\src
-call ant
-
-@echo off
-call yodadir
-cd shared
-call ant
-
-@echo off
-call yodadir
-cd suites
-call ant
-
-@echo off
-call yodadir
-cd unbundled\af
-call ant
-
-@echo off
-call yodadir
-cd unbundled\apps
+cd unbundled\eventstore
 call ant
 
