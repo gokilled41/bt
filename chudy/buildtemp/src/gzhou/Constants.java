@@ -61,7 +61,7 @@ public interface Constants {
     public static final String GBK = "gbk";
     public static final String UTF8 = "utf-8";
 
-    public static final String UltraEdit = "C:\\Program Files (x86)\\IDM Computer Solutions\\UltraEdit\\Uedit32.exe";
+    public static final String UltraEdit = "C:\\Program Files\\IDM Computer Solutions\\UltraEdit\\Uedit32.exe";
 
     public static final long MILLISECOND = 1;
     public static final long SECOND = 1000 * MILLISECOND;

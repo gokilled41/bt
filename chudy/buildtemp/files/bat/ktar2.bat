@@ -10,10 +10,6 @@ call grgbk "C:\Users\Chudy\Desktop\rename\Config-2.ini" "mv|E:\movie" "mv|D:\mov
 call grgbk "C:\Users\Chudy\Desktop\rename\Config-2.ini" "D:\Workflow-G\software\mysql\MySQL GUI Tools 5.0\MySQLAdministrator.exe" "D:\soft\mysql\MySQL GUI Tools 5.0\MySQLAdministrator.exe"
 call grgbk "C:\Users\Chudy\Desktop\rename\Config-2.ini" "pf|C:\Program Files (x86)" "pf|C:\Program Files"
 call grgbk "C:\Users\Chudy\Desktop\rename\Config-2.ini" "D:\Workflow-G\software\typeandrun" "D:\soft\typeandrun"
-call grgbk "C:\Users\Chudy\Desktop\rename\Config-2.ini" "D:\\Workflow-G\\software\\typeandrun" "D:\\soft\\typeandrun"
-call grgbk "C:\Users\Chudy\Desktop\rename\Config-2.ini" "10.101.3.73" "localhost"
-call grgbk "C:\Users\Chudy\Desktop\rename\Config-2.ini" "http://localhost:18080/fms" "http://localhost:8080/fms"
-call grgbk "C:\Users\Chudy\Desktop\rename\Config-2.ini" "C:\Program Files\Maxthon\Bin\Maxthon.exe" "C:\Program Files (x86)\Maxthon\Bin\Maxthon.exe"
-call al rn Config-2.ini gbk af "'C:\Program Files (x86)'" ar "C:\Program Files"
-call al rn Config-2.ini gbk af shrmt ar localhost 10.101.3.73
-call al rn Config-2.ini gbk af chrome/vitria/localhost ar localhost 10.101.3.73
+call grgbk "C:\Users\gzhou\Desktop\rename\Config-2.ini" "D:\\Workflow-G\\software\\typeandrun" "D:\\soft\\typeandrun"
+call grgbk "C:\Users\gzhou\Desktop\rename\Config-2.ini" "http://localhost:18080/fms" "http://localhost:8080/fms"
+call grgbk "C:\Users\gzhou\Desktop\rename\Config-2.ini" "C:\Program Files\Maxthon\Bin\Maxthon.exe" "C:\Program Files (x86)\Maxthon\Bin\Maxthon.exe"

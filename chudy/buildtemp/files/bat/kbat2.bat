@@ -4,4 +4,5 @@ call al rn -2\(kbat##ktar##btenv) ~ ar "'D:\Workflow-G\software\typeandrun'" "D:
 call al rn -2\(kbat##ktar##btenv) ~ ar "'D:\\Workflow-G\\software\\typeandrun'" "D:\\soft\\typeandrun"
 call al rn -2\(kbat##ktar##btenv) ~ ar "'H:\huazhi'" "G:\huazhi"
 call al rn -2\(kbat##ktar##btenv) ~ ar "'C:\Program Files (x86)'" "C:\Program Files"
+call al rn -2\(kbat##ktar##btenv) ~ ar "'C:\\Program Files (x86)'" "C:\\Program Files"
 call al rn\Test-2.java ~ af "import org\org.w3c\org.xml" ar "'import org'" "//import org"

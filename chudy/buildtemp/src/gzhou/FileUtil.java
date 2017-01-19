@@ -2922,34 +2922,89 @@ public class FileUtil extends Util implements Constants {
             return true;
         }
 
-        public static String newFileNameInCopy(String fileName, Params params, boolean isFile) {
+        private static String newFileNameInCopy(String fileName, Params params, boolean isFile) {
             if (params.newFileName != null) {
                 String newFileName = params.newFileName;
-                // change path
-                if (newFileName.endsWith("\\"))
-                    newFileName = addLast(newFileName, "{n}");
-                // auto add ext
-                if (isFile && newFileName.endsWith("}"))
-                    newFileName = addLast(newFileName, ".{e}");
-                if (isFile && !newFileName.contains("."))
-                    newFileName = addLast(newFileName, ".{e}");
-                // replace name
-                if (newFileName.contains("{n}"))
-                    newFileName = newFileName.replace("{n}", getFileSimpleName(fileName));
-                // replace sub name
-                if (newFileName.matches(".*\\{n\\d*-?\\d*\\}.*")) {
-                    List<String> list = splitToListWithRegex(newFileName, "\\{n\\d*-?\\d*\\}");
-                    for (String pattern : list) {
-                        String sub = newFileNameSub(getFileSimpleName(fileName), pattern);
-                        newFileName = newFileName.replace(pattern, sub);
-                    }
-                }
-                // replace ext
-                if (newFileName.contains("{e}"))
-                    newFileName = newFileName.replace("{e}", getFileExtName(fileName));
+                newFileName = newFileName(fileName, newFileName, isFile);
                 return newFileName;
             }
             return fileName;
+        }
+
+        public static String newFileName(String fileName, String newFileName, boolean isFile) {
+            if (newFileName.matches("l\\d*")) {
+                String n = cutFirst(newFileName, 1);
+                newFileName = "{n-" + n + "}";
+            }
+            if (newFileName.matches("last\\d*")) {
+                String n = cutFirst(newFileName, 4);
+                newFileName = "{n-" + n + "}";
+            }
+            if (newFileName.matches("f\\d*")) {
+                String n = cutFirst(newFileName, 1);
+                newFileName = "{n" + n + "}";
+            }
+            if (newFileName.matches("first\\d*")) {
+                String n = cutFirst(newFileName, 5);
+                newFileName = "{n" + n + "}";
+            }
+            if (newFileName.matches("app.*")) {
+                String n = cutFirst(newFileName, 3);
+                newFileName = "{n}" + n;
+            }
+            if (newFileName.matches("pre.*")) {
+                String n = cutFirst(newFileName, 3);
+                newFileName = n + "{n}";
+            }
+            if (newFileName.matches("\\d*-?\\d*")) {
+                String n = newFileName;
+                newFileName = "{n" + n + "}";
+            }
+            if (newFileName.matches("c\\d*")) { // cut
+                String n = cutFirst(newFileName, 1);
+                int i = toInt(n);
+                int len = getFileSimpleName(fileName).length();
+                newFileName = "{n-" + (len - i) + "}";
+            }
+            if (newFileName.matches("c-\\d*")) { // cut
+                String n = cutFirst(newFileName, 2);
+                int i = toInt(n);
+                int len = getFileSimpleName(fileName).length();
+                newFileName = "{n" + (len - i) + "}";
+            }
+            if (newFileName.matches("'.*'")) {
+                String n = cut(newFileName, 1, 1);
+                newFileName = n;
+            }
+            if (newFileName.matches(".*\\{\\d*-?\\d*\\}.*")) {
+                List<String> list = splitToListWithRegex(newFileName, "\\{\\d*-?\\d*\\}");
+                for (String n : list) {
+                    newFileName = newFileName.replace(n, "{n" + cutFirst(n, 1));
+                }
+            }
+            // change path
+            if (newFileName.endsWith("\\"))
+                newFileName = addLast(newFileName, "{n}");
+            // auto add ext
+            if (isFile && newFileName.endsWith("}"))
+                newFileName = addLast(newFileName, ".{e}");
+            if (isFile && !newFileName.contains("."))
+                newFileName = addLast(newFileName, ".{e}");
+            // replace name
+            if (newFileName.contains("{n}"))
+                newFileName = newFileName.replace("{n}", getFileSimpleName(fileName));
+            // replace sub name
+            if (newFileName.matches(".*\\{n\\d*-?\\d*\\}.*")) {
+                List<String> list = splitToListWithRegex(newFileName, "\\{n\\d*-?\\d*\\}");
+                for (String pattern : list) {
+                    String sub = newFileNameSub(getFileSimpleName(fileName), pattern);
+                    newFileName = newFileName.replace(pattern, sub);
+                }
+            }
+            // replace ext
+            if (newFileName.contains("{e}"))
+                newFileName = newFileName.replace("{e}", getFileExtName(fileName));
+            return newFileName;
         }
 
         private static String newFileNameSub(String fileName, String pattern) {
