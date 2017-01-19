@@ -20,7 +20,7 @@ goto end
 : b
 echo replace from "%2" to "%3" in "%1", output to file "gr.log" on desktop.
 call gr %* > C:\Users\Chudy\Desktop\gr.log
-call e C:\Users\Chudy\Desktop\gr.log
+call uedit C:\Users\Chudy\Desktop\gr.log
 goto end
 
 : end

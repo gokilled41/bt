@@ -5,7 +5,7 @@ if "%~1" == "" goto b
 
 : a1
 call svn diff > D:\alogs\sd.log
-call e D:\alogs\sd.log
+call uedit D:\alogs\sd.log
 goto end
 
 : b

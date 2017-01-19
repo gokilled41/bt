@@ -69,4 +69,6 @@ public interface Constants {
     public static final long HOUR = 60 * MINUTE;
     public static final long DAY = 24 * HOUR;
 
+    public static final String HANDLE_LINE = "HANDLE LINE";
+
 }

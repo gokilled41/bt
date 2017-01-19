@@ -31,27 +31,27 @@ import javax.sql.*;
 import javax.xml.bind.*;
 import javax.xml.transform.*;
 
-////import org.apache.commons.exec.*;
-////import org.apache.commons.lang.*;
-////import org.apache.commons.logging.*;
-////import org.apache.hadoop.conf.*;
-////import org.apache.hadoop.fs.*;
-////import org.apache.hadoop.fs.FileSystem;
-////import org.apache.parquet.Log;
-////import org.apache.parquet.schema.GroupType;
-////import org.apache.parquet.schema.MessageType;
-////import org.apache.parquet.schema.MessageTypeParser;
-////import org.apache.parquet.schema.Type;
-////import org.apache.spark.SparkConf;
-////import org.apache.spark.SparkContext;
-////import org.apache.spark.sql.hive.HiveContext;
-////import org.apache.spark.sql.hive.thriftserver.HiveThriftServer2;
-////import org.apache.xmlbeans.XmlDateTime;
-////import org.dmg.pmml.*;
-////import org.joda.time.*;
-////import org.joda.time.format.*;
-////import org.jpmml.model.*;
-////import org.slf4j.bridge.SLF4JBridgeHandler;
+//import org.apache.commons.exec.*;
+//import org.apache.commons.lang.*;
+//import org.apache.commons.logging.*;
+//import org.apache.hadoop.conf.*;
+//import org.apache.hadoop.fs.*;
+//import org.apache.hadoop.fs.FileSystem;
+//import org.apache.parquet.Log;
+//import org.apache.parquet.schema.GroupType;
+//import org.apache.parquet.schema.MessageType;
+//import org.apache.parquet.schema.MessageTypeParser;
+//import org.apache.parquet.schema.Type;
+//import org.apache.spark.SparkConf;
+//import org.apache.spark.SparkContext;
+//import org.apache.spark.sql.hive.HiveContext;
+//import org.apache.spark.sql.hive.thriftserver.HiveThriftServer2;
+//import org.apache.xmlbeans.XmlDateTime;
+//import org.dmg.pmml.*;
+//import org.joda.time.*;
+//import org.joda.time.format.*;
+//import org.jpmml.model.*;
+//import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.w3c.dom.*;
 import org.w3c.dom.Node;
 import org.xml.sax.*;
@@ -88,7 +88,11 @@ public class Test extends gzhou.Util {
 
     public static void main(String[] args) throws Exception {
         
-        
+        int cost = 35641;
+        double s = (double)cost/1000;
+        int n = 100000;
+        int eps = (int) (n / s);
+        System.out.println(eps);
         
     }
 

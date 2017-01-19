@@ -5,6 +5,7 @@ import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
 import gzhou.FileUtil.Filters;
 import gzhou.FileUtil.ListConditionResult.ListCondition;
 import gzhou.FileUtil.MarkOccurrenceResult;
+import gzhou.FileUtil.PAOperations;
 import gzhou.FileUtil.Params;
 
 import java.io.BufferedReader;
@@ -923,7 +924,7 @@ public class Util implements Constants {
             int pos = i + 1;
             if (containsInLine(line, fromFilter, from, params.caseSensitive, pos, params, foundLines)) {
                 changed = true;
-                String replaced = replaceInLine(line, from, to, params.caseSensitive);
+                String replaced = replaceInLine(line, from, to, params);
                 list.add(replaced);
                 affected.add(new Line(pos, line, replaced, params));
             } else {
@@ -953,7 +954,7 @@ public class Util implements Constants {
 
     private static boolean lineConstains(String line, Filters fromFilter, String from, int pos, Params params,
             List<Line> foundLines) {
-        if (!line.contains(from))
+        if (!from.equals(HANDLE_LINE) && !line.contains(from))
             return false;
         return fromFilter.accept(line, pos) || matchFoundLines(foundLines, line, pos);
     }
@@ -966,9 +967,12 @@ public class Util implements Constants {
         return false;
     }
 
-    private static String replaceInLine(String line, String from, String to, boolean caseSensitive) {
+    private static String replaceInLine(String line, String from, String to, Params params) {
+        if (isHandleLine(line, from, to, params)) {
+            return handleLine(line, from, to, params);
+        }
         String output = line;
-        if (caseSensitive) {
+        if (params.caseSensitive) {
             output = output.replace(from, to);
         } else { // camel
             output = output.replace(toLowerCase(from), toLowerCase(to));
@@ -978,6 +982,17 @@ public class Util implements Constants {
                 output = output.replace(toCamelCase(from), toCamelCase(to));
         }
         return output;
+    }
+
+    private static boolean isHandleLine(String line, String from, String to, Params params) {
+        return from.equals(HANDLE_LINE) && to.equals(HANDLE_LINE);
+    }
+
+    private static String handleLine(String line, String from, String to, Params params) {
+        if (params.newFileName != null) {
+            return PAOperations.newFileName(line, params.newFileName, false, true);
+        }
+        return line;
     }
 
     private static boolean needUpper(String from, String to) {
@@ -1383,6 +1398,15 @@ public class Util implements Constants {
         for (int i = 0; i < args2.length; i++) {
             args2[i] = args[i];
         }
+        return args2;
+    }
+
+    public static String[] appendArg(String[] args, String n) {
+        String[] args2 = new String[args.length + 1];
+        for (int i = 0; i < args.length; i++) {
+            args2[i] = args[i];
+        }
+        args2[args.length] = n;
         return args2;
     }
 

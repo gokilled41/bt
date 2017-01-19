@@ -2402,11 +2402,19 @@ public class FileUtil extends Util implements Constants {
             Params params = Params.toParams("ar", args);
             args = params.args;
 
+            if (params.newFileName != null) {
+                // replace the entire line with new file name patterns
+                args = appendArg(args, HANDLE_LINE);
+                args = appendArg(args, HANDLE_LINE);
+            }
+
             String fromdir = toTARAlias(args[0]);
-            String filefrom, from, to;
+            String filefrom = null, from = null, to = null;
             if (args.length < 3) {
-                log("need specify replace from and to");
-                return;
+                if (params.newFileName == null) {
+                    log("need specify replace from and to");
+                    return;
+                }
             } else if (args.length == 3) {
                 filefrom = "*";
                 from = args[1];
@@ -2904,6 +2912,9 @@ public class FileUtil extends Util implements Constants {
             if (filefrom.matches("\\{.*\\}")) {
                 params.noPath = true;
             }
+            if (filefrom.endsWith(";")) {
+                params.noPath = true;
+            }
             return filefrom;
         }
 
@@ -2925,13 +2936,20 @@ public class FileUtil extends Util implements Constants {
         private static String newFileNameInCopy(String fileName, Params params, boolean isFile) {
             if (params.newFileName != null) {
                 String newFileName = params.newFileName;
-                newFileName = newFileName(fileName, newFileName, isFile);
+                newFileName = newFileName(fileName, newFileName, isFile, false);
                 return newFileName;
             }
             return fileName;
         }
 
         public static String newFileName(String fileName, String newFileName, boolean isFile) {
+            return newFileName(fileName, newFileName, isFile, false);
+        }
+
+        public static String newFileName(String fileName, String newFileName, boolean isFile, boolean handleLine) {
+            String fileSimpleName = fileName;
+            if (!handleLine)
+                fileSimpleName = getFileSimpleName(fileName);
             if (newFileName.matches("l\\d*")) {
                 String n = cutFirst(newFileName, 1);
                 newFileName = "{n-" + n + "}";
@@ -2963,13 +2981,13 @@ public class FileUtil extends Util implements Constants {
             if (newFileName.matches("c\\d*")) { // cut
                 String n = cutFirst(newFileName, 1);
                 int i = toInt(n);
-                int len = getFileSimpleName(fileName).length();
+                int len = fileSimpleName.length();
                 newFileName = "{n-" + (len - i) + "}";
             }
             if (newFileName.matches("c-\\d*")) { // cut
                 String n = cutFirst(newFileName, 2);
                 int i = toInt(n);
-                int len = getFileSimpleName(fileName).length();
+                int len = fileSimpleName.length();
                 newFileName = "{n" + (len - i) + "}";
             }
             if (newFileName.matches("'.*'")) {
@@ -2992,12 +3010,12 @@ public class FileUtil extends Util implements Constants {
                 newFileName = addLast(newFileName, ".{e}");
             // replace name
             if (newFileName.contains("{n}"))
-                newFileName = newFileName.replace("{n}", getFileSimpleName(fileName));
+                newFileName = newFileName.replace("{n}", fileSimpleName);
             // replace sub name
             if (newFileName.matches(".*\\{n\\d*-?\\d*\\}.*")) {
                 List<String> list = splitToListWithRegex(newFileName, "\\{n\\d*-?\\d*\\}");
                 for (String pattern : list) {
-                    String sub = newFileNameSub(getFileSimpleName(fileName), pattern);
+                    String sub = newFileNameSub(fileSimpleName, pattern);
                     newFileName = newFileName.replace(pattern, sub);
                 }
             }
@@ -3678,6 +3696,8 @@ public class FileUtil extends Util implements Constants {
             // cut { and } for exactly match cases
             if (filefrom.matches("\\{.*\\}"))
                 filefrom = cut(filefrom, 1, 1);
+            if (filefrom.endsWith(";"))
+                filefrom = cutLast(filefrom, 1);
             // fix regular expression
             String result = filefrom.replace(".", "\\.").replace("*", ".*");
             return result;
@@ -3691,6 +3711,8 @@ public class FileUtil extends Util implements Constants {
             if (filefrom.matches("l\\d*-?\\d*")) // l100, l100-, l-200, l100-200, not first (first is search key)
                 return false;
             if (filefrom.matches("\\{.*\\}")) // {abc}: exactly match abc, not contains
+                return false;
+            if (filefrom.endsWith(";")) // abc; : exactly match abc, not contains
                 return false;
             if (filefrom.contains("##")) // a##b, it means a or b
                 return false;
