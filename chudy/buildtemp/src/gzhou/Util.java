@@ -1610,8 +1610,6 @@ public class Util implements Constants {
         }
         return false;
     }
-    
-
 
     public static void log() {
         System.out.println();
@@ -1631,7 +1629,7 @@ public class Util implements Constants {
     public static void log(String m, Object... objects) {
         log(format(m, objects));
     }
-    
+
     public static String toFilePath(String p) throws Exception {
         File f = new File(p);
         return f.getCanonicalPath();
@@ -1665,7 +1663,7 @@ public class Util implements Constants {
         Collections.sort(items);
         return items.get(0).n;
     }
-    
+
     public static class FoundItem implements Comparable<FoundItem> {
         public int i = 0;
         public String n;
@@ -1677,4 +1675,30 @@ public class Util implements Constants {
             return i1.compareTo(i2);
         }
     }
+
+    public static void sortFile(String filePath, boolean asc) throws Exception {
+        List<String> list = getLines(filePath);
+        Collections.sort(list);
+        if (!asc) {
+            Collections.reverse(list);
+        }
+        setLines(filePath, list);
+    }
+
+    public static String toEditLine(String p) {
+        return format("call \"{0}\" \"{1}\"", UltraEdit, p);
+    }
+
+    public static String toExplorerLine(String p) {
+        return format("call explorer \"{0}\"", p);
+    }
+
+    public static String toExplorerLineSelect(String p) {
+        return format("call explorer /e,/select,\"{0}\"", p);
+    }
+
+    public static String toGoLine(String p) {
+        return format("call go \"{0}\"", p);
+    }
+
 }

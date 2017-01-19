@@ -515,7 +515,7 @@ public class FileUtil extends Util implements Constants {
         out.println("@echo off");
         out.println("call yodadir");
         out.println("call svn diff " + folders + " > \"" + desktopDir + "yoda.patch\"");
-        out.println("if \"%mdf%\"==\"\" call explorer \"" + desktopDir + "yoda.patch\"");
+        out.println("if \"%mdf%\"==\"\" " + toExplorerLine(desktopDir + "yoda.patch"));
         out.close();
 
         // sc
@@ -1561,6 +1561,8 @@ public class FileUtil extends Util implements Constants {
             CustomOperations.customExist(args);
         } else if (type.equals("diff")) {
             CustomOperations.customDiff(args);
+        } else if (type.equals("edit")) {
+            CustomOperations.customEdit(args);
         }
     }
 
@@ -1615,9 +1617,23 @@ public class FileUtil extends Util implements Constants {
                 log("adf <file1> <file2>");
                 return;
             }
-            
+
             List<String> list = toAdfLines(args[0], args[1]);
             setLines(batDir + "adifftmp.bat", list);
+        }
+
+        public static void customEdit(String[] args) throws Exception {
+            Params params = Params.toParams("custom_edit", args);
+            args = params.args;
+
+            if (args.length < 1) {
+                log("e <file>");
+                return;
+            }
+
+            String p = toTARAlias(args[0]);
+            mkdirs(getParent(p));
+            setLines(batDir + "aedittmp.bat", toList(toEditLine(p)));
         }
 
         public static List<String> toAdfLines(String from, String to) throws Exception {
@@ -1629,7 +1645,7 @@ public class FileUtil extends Util implements Constants {
             list.add(format("call adfdo \"{0}\" \"{1}\" \"{2}\" > D:\\alogs\\adfdo.log", from, to, n1));
             if (outputToFile_) {
                 list.add(format("call al alogs\\svn.diff ap nl -lt4 > D:\\alogs\\adfdiff.log"));
-                list.add(format("call e D:\\alogs\\svn.diff"));
+                list.add(toEditLine("D:\\alogs\\svn.diff"));
             } else {
                 list.add(format("call al alogs\\svn.diff ap nl -lt4"));
             }
@@ -2618,7 +2634,7 @@ public class FileUtil extends Util implements Constants {
                             log(tab(2) + format("found \"{0}\" places in \"{1}\":", foundLines.size(), n1));
                             log();
                             for (Line line : foundLines) {
-                                line.print(6, 7);
+                                line.print(6, 7, params.noLineNumber);
                             }
                             log();
                             hasResult = true;
@@ -2645,7 +2661,7 @@ public class FileUtil extends Util implements Constants {
                     if (isTextFile(file)) {
                         String p = file.getAbsolutePath();
                         log(tab(2) + toRelativePath(from, p));
-                        lines.add(format("call \"{0}\" \"{1}\"", UltraEdit, p));
+                        lines.add(toEditLine(p));
                         addWithoutDup(dirs, p);
                     }
                     OpenDirResult.openDirs(params, dirs, from);
@@ -2858,6 +2874,8 @@ public class FileUtil extends Util implements Constants {
                     sizeIndent, false);
             String dir = file.isDirectory() ? formatstr("<DIR>", dirIndent) : formatstr("", dirIndent);
             String time = formatstr(sdf4.format(new Date(file.lastModified())), timeIndent);
+            if (params.noFileDetail)
+                return n;
             return format("{0} {1}     {2} {3}", n, size, dir, time);
         }
 
@@ -3396,12 +3414,13 @@ public class FileUtil extends Util implements Constants {
         public boolean group = false;
         public boolean regular = false;
         public boolean lineNumber = false;
+        public boolean emptyLine = false;
 
         private boolean ignore = false;
 
         public FiltersPattern() {
         }
-        
+
         public void init() {
             if (p.startsWith("/")) {
                 include = true;
@@ -3424,6 +3443,8 @@ public class FileUtil extends Util implements Constants {
                 p = cutLast(p, 1);
             } else if (p.matches("l\\d*-?\\d*")) {
                 lineNumber = true;
+            } else if (p.equalsIgnoreCase("EL")) {
+                emptyLine = true;
             }
         }
 
@@ -3504,6 +3525,11 @@ public class FileUtil extends Util implements Constants {
                     log(format("Pattern: line={2}, p={0}, quote={1}", p, quote, line));
                 }
                 b = line.contains(p);
+            } else if (emptyLine) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, emptyLine={1}", p, emptyLine, line));
+                }
+                b = line.trim().isEmpty();
             } else {
                 String fixPattern = fixPattern(p);
                 if (debug2_) {
@@ -3541,6 +3567,11 @@ public class FileUtil extends Util implements Constants {
                     log(format("Pattern: line={2}, p={0}, lineNumber={1}", p, lineNumber, line));
                 }
                 b = ExpandLines.matchesLineNumber(p, pos);
+            } else if (emptyLine) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, emptyLine={1}", p, emptyLine, line));
+                }
+                b = line.trim().isEmpty();
             } else {
                 String fixPattern = fixPattern(p);
                 if (debug2_) {
@@ -3814,14 +3845,14 @@ public class FileUtil extends Util implements Constants {
                     for (String dir : dirs) {
                         if (isFile(dir)) {
                             if (!opened.contains(getParent(dir))) {
-                                list.add("call explorer /e,/select,\"" + dir + "\"");
+                                list.add(toExplorerLineSelect(dir));
                                 opened.add(getParent(dir));
                             }
                         } else {
                             if (dir.contains("\\\\"))
                                 dir = dir.replace("\\\\", "\\");
                             if (!opened.contains(dir)) {
-                                list.add("call explorer \"" + dir + "\"");
+                                list.add(toExplorerLine(dir));
                                 opened.add(dir);
                             }
                         }
@@ -3830,7 +3861,7 @@ public class FileUtil extends Util implements Constants {
                             break;
                     }
                 } else {
-                    list.add("call explorer \"" + from + "\"");
+                    list.add(toExplorerLine(from));
                 }
                 setLines(batDir + "aopendirtmp.bat", list);
             }
@@ -3841,11 +3872,11 @@ public class FileUtil extends Util implements Constants {
                     for (String dir : dirs) {
                         if (isFile(dir)) {
                             if (isTextFile(dir))
-                                list.add("call e " + dir);
+                                list.add(toEditLine(dir));
                             else
-                                list.add("call explorer " + dir);
+                                list.add(toExplorerLine(dir));
                         } else {
-                            list.add("call explorer " + dir);
+                            list.add(toExplorerLine(dir));
                         }
                         i++;
                         if (params.openFilesCount > 0 && i >= params.openFilesCount)
@@ -3981,25 +4012,36 @@ public class FileUtil extends Util implements Constants {
 
     public static class UseDotResult {
         public String[] args;
-        public boolean useDot;
+        public boolean useDot = false;
+        public boolean noFileDetail = false;
 
         public static UseDotResult useDot(String[] args) {
             UseDotResult r = new UseDotResult();
             String last = getLastArg(args);
             if (isParam(last)) {
-                r.useDot = true;
+                r.useDot = isUseDot(last);
+                r.noFileDetail = isNoFileDetail(last);
                 r.args = cutLastArg(args);
-                if (debug_)
+                if (debug_) {
                     log(tab(2) + "Use Dot: " + r.useDot);
+                    log(tab(2) + "No File Detail: " + r.noFileDetail);
+                }
             } else {
-                r.useDot = false;
                 r.args = args;
             }
             return r;
         }
 
         public static boolean isParam(String last) {
+            return isUseDot(last) || isNoFileDetail(last);
+        }
+
+        private static boolean isUseDot(String last) {
             return last.equals("ud");
+        }
+
+        private static boolean isNoFileDetail(String last) {
+            return last.equals("nd");
         }
     }
 
@@ -4284,6 +4326,21 @@ public class FileUtil extends Util implements Constants {
                             log("Ignore adf operations since file size is " + files.size());
                     }
                 }
+                if (zo.sort) {
+                    for (String file : files) {
+                        if (isTextFile(file)) {
+                            String from = file;
+                            boolean asc = true;
+                            if (zo.to != null && zo.to.equalsIgnoreCase("desc"))
+                                asc = false;
+                            sortFile(from, asc);
+                            if (asc)
+                                log(2, "sort: " + from);
+                            else
+                                log(2, "sort [desc]: " + from);
+                        }
+                    }
+                }
             }
         }
 
@@ -4304,12 +4361,13 @@ public class FileUtil extends Util implements Constants {
             public boolean unzip = false;
             public boolean adf = false;
             public boolean sql = false;
+            public boolean sort = false;
             public String to;
 
             public boolean isExp() {
                 return zip;
             }
-            
+
             public boolean isImp() {
                 return unzip;
             }
@@ -4322,6 +4380,10 @@ public class FileUtil extends Util implements Constants {
                 return sql;
             }
 
+            public boolean isSort() {
+                return sort;
+            }
+
             public static ZipOperations parseZipOperations(String pattern) throws Exception {
                 if (isParam(pattern)) {
                     ZipOperations zo = new ZipOperations();
@@ -4329,6 +4391,7 @@ public class FileUtil extends Util implements Constants {
                     zo.unzip = isUnzip(pattern);
                     zo.adf = isAdf(pattern);
                     zo.sql = isSql(pattern);
+                    zo.sort = isSort(pattern);
                     zo.to = getTo(pattern);
                     return zo;
                 }
@@ -4336,7 +4399,7 @@ public class FileUtil extends Util implements Constants {
             }
 
             public static boolean isParam(String last) {
-                return isZip(last) || isUnzip(last) || isAdf(last) || isSql(last);
+                return isZip(last) || isUnzip(last) || isAdf(last) || isSql(last) || isSort(last);
             }
 
             private static boolean isZip(String pattern) {
@@ -4355,8 +4418,14 @@ public class FileUtil extends Util implements Constants {
                 return pattern.startsWith("sql=");
             }
 
+            private static boolean isSort(String pattern) {
+                return pattern.equals("sort") || pattern.startsWith("sort=");
+            }
+
             private static String getTo(String pattern) throws Exception {
-                return toTARAlias(cut(pattern, "=", null));
+                if (pattern.contains("="))
+                    return toTARAlias(cut(pattern, "=", null));
+                return null;
             }
 
             @Override
@@ -4805,12 +4874,12 @@ public class FileUtil extends Util implements Constants {
                         List<String> list = new ArrayList<String>();
                         for (String dir : dirs) {
                             if (isFile(dir)) {
-                                list.add("call go \"" + getParent(dir) + "\"");
+                                list.add(toGoLine(getParent(dir)));
                                 break;
                             } else {
                                 if (dir.contains("\\\\"))
                                     dir = dir.replace("\\\\", "\\");
-                                list.add("call go \"" + dir + "\"");
+                                list.add(toGoLine(dir));
                                 break;
                             }
                         }
@@ -4819,7 +4888,7 @@ public class FileUtil extends Util implements Constants {
                 }
                 if (g.ago) {
                     List<String> list = new ArrayList<String>();
-                    list.add("call explorer \"" + from + "\"");
+                    list.add(toExplorerLine(from));
                     setLines(batDir + "agotmp.bat", list);
                 }
                 if (g.gosub) {
@@ -4828,12 +4897,12 @@ public class FileUtil extends Util implements Constants {
                         for (String dir : dirs) {
                             dir = subDir(dir, g);
                             if (isFile(dir)) {
-                                list.add("call go \"" + getParent(dir) + "\"");
+                                list.add(toGoLine(getParent(dir)));
                                 break;
                             } else {
                                 if (dir.contains("\\\\"))
                                     dir = dir.replace("\\\\", "\\");
-                                list.add("call go \"" + dir + "\"");
+                                list.add(toGoLine(dir));
                                 break;
                             }
                         }
@@ -4846,12 +4915,12 @@ public class FileUtil extends Util implements Constants {
                         for (String dir : dirs) {
                             dir = subDir(dir, g);
                             if (isFile(dir)) {
-                                list.add("call explorer \"" + getParent(dir) + "\"");
+                                list.add(toExplorerLine(getParent(dir)));
                                 break;
                             } else {
                                 if (dir.contains("\\\\"))
                                     dir = dir.replace("\\\\", "\\");
-                                list.add("call explorer \"" + dir + "\"");
+                                list.add(toExplorerLine(dir));
                                 break;
                             }
                         }
@@ -4980,6 +5049,7 @@ public class FileUtil extends Util implements Constants {
         public boolean noPath = false;
         public boolean fullPath = false;
         public boolean useDot = false;
+        public boolean noFileDetail = false;
         public String sortType = null;
         public boolean multipleLines = false;
         public boolean move = false;
@@ -5124,6 +5194,8 @@ public class FileUtil extends Util implements Constants {
                     args = udr.args;
                     if (params.useDot == false)
                         params.useDot = udr.useDot;
+                    if (params.noFileDetail == false)
+                        params.noFileDetail = udr.noFileDetail;
                 }
                 // sort type
                 SortTypeResult str = SortTypeResult.sortType(args);
@@ -5399,7 +5471,7 @@ public class FileUtil extends Util implements Constants {
                         log("output to: " + file);
                     outputToFile(file);
                     if (!slient) {
-                        String line = "call e " + file;
+                        String line = toEditLine(file);
                         setLines(batDir + "aoutputtmp.bat", toList(line));
                     }
                 }
@@ -5471,7 +5543,8 @@ public class FileUtil extends Util implements Constants {
             }
         }
 
-        private static void doImportTable(Connection conn, String tableName, String sql, List<List<String>> lists, List<String> headers, List<String> types) throws Exception  {
+        private static void doImportTable(Connection conn, String tableName, String sql, List<List<String>> lists,
+                List<String> headers, List<String> types) throws Exception {
             for (int k = 0; k < lists.size(); k++) {
                 List<String> columnValues = lists.get(k);
                 List<Object> columnObjects = toObjects(columnValues, types);
@@ -5487,7 +5560,7 @@ public class FileUtil extends Util implements Constants {
                 log(4, "insert line: " + (k + 1));
             }
         }
-        
+
         private static void setObject(PreparedStatement stmt, int i, Object v, int t) throws Exception {
             if (t == 2004) {
                 byte[] buf = (byte[]) v;
@@ -5497,7 +5570,7 @@ public class FileUtil extends Util implements Constants {
                 stmt.setObject(i, v, t);
             }
         }
-        
+
         private static Object toObject(String v, int t) throws Exception {
             if (t == 2) {
                 return Long.valueOf(v);
@@ -5520,6 +5593,7 @@ public class FileUtil extends Util implements Constants {
             }
             return list;
         }
+
         private static String toImportSql(String tableName, List<String> headers) {
             // parameters
             StringBuilder sb = new StringBuilder();
@@ -5868,9 +5942,9 @@ public class FileUtil extends Util implements Constants {
             }
             return lines;
         }
-        
-        private static List<String> toExpRecords(String tableName, List<List<String>> lists, String from,
-                Params params) throws Exception {
+
+        private static List<String> toExpRecords(String tableName, List<List<String>> lists, String from, Params params)
+                throws Exception {
             int n = lists.get(0).size();
             List<String> lines = new ArrayList<String>();
             // print table name
@@ -5993,7 +6067,7 @@ public class FileUtil extends Util implements Constants {
                     stmt.close();
             }
         }
-        
+
         private static void executeSql(Driver driver, String sql) throws Exception {
             Connection conn = toConnection(driver);
             try {
@@ -6003,7 +6077,7 @@ public class FileUtil extends Util implements Constants {
                     conn.close();
             }
         }
-        
+
         private static void executeSql(Connection conn, String sql) throws Exception {
             Statement stmt = null;
             try {
