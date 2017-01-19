@@ -990,7 +990,7 @@ public class Util implements Constants {
 
     private static String handleLine(String line, String from, String to, Params params) {
         if (params.newFileName != null) {
-            return PAOperations.newFileName(line, params.newFileName, false);
+            return PAOperations.newFileName(line, params.newFileName, false, true);
         }
         return line;
     }
