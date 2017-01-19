@@ -974,8 +974,8 @@ public class Util implements Constants {
         String output = line;
         if (params.caseSensitive) {
             output = output.replace(from, to);
-            output = output.replace(toLowerCase(from), toLowerCase(to));
         } else { // camel
+            output = output.replace(toLowerCase(from), toLowerCase(to));
             if (needUpper(from, to))
                 output = output.replace(toUpperCase(from), toUpperCase(to));
             if (needCamel(from, to))
