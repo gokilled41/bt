@@ -415,9 +415,10 @@ public class Util implements Constants {
         if (count != 0) {
             BufferedReader in;
             int i = 0;
+            int li = 0;
             if (lr != null && lr.in != null) {
                 in = lr.in;
-                i = lr.i;
+                li = lr.li + lr.lines.size();
             } else {
                 in = new BufferedReader(new UnicodeReader(new FileInputStream(filePath), encoding));
                 r.in = in;
@@ -434,7 +435,7 @@ public class Util implements Constants {
             }
             r.hasMore = hasMore;
             r.i = i;
-            r.li = lr.i;
+            r.li = li;
             r.lines = list;
             r.in = in;
             if (!r.hasMore)
@@ -867,11 +868,12 @@ public class Util implements Constants {
             System.out.println("copy: " + from + " to " + to);
     }
 
-    public static void deleteFile(String path) {
+    public static boolean deleteFile(String path) {
         if (path != null && exists(path)) {
             File file = new File(path);
-            file.delete();
+            return file.delete();
         }
+        return false;
     }
 
     public static void deleteFolder(File file) {
@@ -888,9 +890,10 @@ public class Util implements Constants {
         }
     }
 
-    public static void deleteFileWithFolders(String path) {
-        deleteFile(path);
+    public static boolean deleteFileWithFolders(String path) {
+        boolean r = deleteFile(path);
         deleteFolderIfEmpty(getParent(path));
+        return r;
     }
 
     public static String renameFile(String filePath, String from, String to) {

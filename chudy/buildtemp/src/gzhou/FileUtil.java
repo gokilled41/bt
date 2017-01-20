@@ -2468,6 +2468,8 @@ public class FileUtil extends Util implements Constants {
                     String dir = todirFile.isFile() ? todirFile.getParent() : todirFile.getAbsolutePath();
                     for (File file : files) {
                         if (file.isFile()) {
+                            if (file.isHidden())
+                                continue;
                             String p = file.getAbsolutePath();
                             String relativePath = toRelativePath(from, p);
                             String topath;
@@ -2511,20 +2513,34 @@ public class FileUtil extends Util implements Constants {
             if (!files.isEmpty()) {
                 List<String> dirs = new ArrayList<String>();
                 int filesSize = 0;
+                int dirsSize = 0;
                 for (File file : files) {
+                    if (file.isHidden())
+                        continue;
                     if (file.isFile())
                         filesSize++;
+                    else 
+                        dirsSize++;
                     String p = file.getAbsolutePath();
+                    boolean deleted = false;
                     if (params.keepDir)
-                        deleteFile(p);
+                        deleted = deleteFile(p);
                     else
-                        deleteFileWithFolders(p);
+                        deleted = deleteFileWithFolders(p);
                     deleteFolderIfNecessary(params, file);
-                    log(tab(2) + toRelativePath(from, p));
+                    if (deleted) {
+                        log(2, toRelativePath(from, p));
+                    } else {
+                        log(2, toRelativePath(from, p) + " [failed]");
+                        if (file.isFile())
+                            filesSize--;
+                        else 
+                            dirsSize--;
+                    }
                     addWithoutDup(dirs, p);
                 }
                 OpenDirResult.openDirs(params, dirs, from);
-                log(tab(2) + format("dirs: {0}, files: {1}", files.size() - filesSize, filesSize));
+                log(tab(2) + format("dirs: {0}, files: {1}", dirsSize, filesSize));
             } else {
                 log(tab(2) + "no matched files: " + filefrom);
             }
@@ -2538,6 +2554,8 @@ public class FileUtil extends Util implements Constants {
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
             if (!files.isEmpty()) {
                 for (File file : files) {
+                    if (file.isHidden())
+                        continue;
                     List<String> dirs = new ArrayList<String>();
                     if (isTextFile(file)) {
                         String p = file.getAbsolutePath();
@@ -2613,6 +2631,8 @@ public class FileUtil extends Util implements Constants {
             if (!files.isEmpty()) {
                 List<String> dirs = new ArrayList<String>();
                 for (File file : files) {
+                    if (file.isHidden())
+                        continue;
                     String p = file.getAbsolutePath();
                     String p2 = renameFile(p, from, to);
                     String n1 = toRelativePath(dir, p);
@@ -2633,6 +2653,8 @@ public class FileUtil extends Util implements Constants {
             boolean hasResult = false;
             if (!files.isEmpty()) {
                 for (File file : files) {
+                    if (file.isHidden())
+                        continue;
                     List<String> dirs = new ArrayList<String>();
                     if (isTextFile(file)) {
                         String p = file.getAbsolutePath();
@@ -2665,6 +2687,8 @@ public class FileUtil extends Util implements Constants {
             List<String> lines = new ArrayList<String>();
             if (!files.isEmpty()) {
                 for (File file : files) {
+                    if (file.isHidden())
+                        continue;
                     List<String> dirs = new ArrayList<String>();
                     if (isTextFile(file)) {
                         String p = file.getAbsolutePath();
@@ -2690,6 +2714,8 @@ public class FileUtil extends Util implements Constants {
                 Filters fromFilter = Filters.getFilters(from, params);
                 from = fromFilter.getFirst();
                 for (File file : files) {
+                    if (file.isHidden())
+                        continue;
                     List<String> dirs = new ArrayList<String>();
                     if (isTextFile(file)) {
                         String p = file.getAbsolutePath();
