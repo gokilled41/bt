@@ -17,3 +17,7 @@
   - doc
 - dsb: bug desc with ""
 - arm: if deleting in-use files, log it
+- all dd\ref af [com.vitria.domainservice o=dd\a.log
+- al ... ar ##c[search pattern], cut from, cut until, cut between begin&end
+- acp alogs\find.log dd\o2\DRRegistry.log: if search file not exist, directly use it as target
+- print search cost time if slow: > 3 or 5s
