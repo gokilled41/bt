@@ -415,9 +415,10 @@ public class Util implements Constants {
         if (count != 0) {
             BufferedReader in;
             int i = 0;
+            int li = 0;
             if (lr != null && lr.in != null) {
                 in = lr.in;
-                i = lr.i;
+                li = lr.li;
             } else {
                 in = new BufferedReader(new UnicodeReader(new FileInputStream(filePath), encoding));
                 r.in = in;
@@ -426,6 +427,7 @@ public class Util implements Constants {
             boolean hasMore = false;
             while ((line = in.readLine()) != null) {
                 i++;
+                li++;
                 list.add(line);
                 if (i == count) {
                     hasMore = true;
@@ -434,7 +436,7 @@ public class Util implements Constants {
             }
             r.hasMore = hasMore;
             r.i = i;
-            r.li = lr.i;
+            r.li = li;
             r.lines = list;
             r.in = in;
             if (!r.hasMore)
