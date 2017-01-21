@@ -20,7 +20,7 @@ acopy is one command to copy files.
                    it can be wrap with "'". it means exact strings without regex conversion.
                    it can be wrap with "@". it means regular expressions.
                    it can be wrap with "{}". it means exactly match not contains.
-    - ##rename   rename to another file name   
+    - ##rename   rename to another file name. refer to gzhou.PAUnit.testNewFileName_01()
     - kd         keep directory structures
     - ov         need overwrite
     - mv         move the files

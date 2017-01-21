@@ -300,10 +300,24 @@ public class Util implements Constants {
     }
 
     public static String cut(String s, String from, String to) {
+        from = fixSearchKey(from);
+        to = fixSearchKey(to);
         if (from != null && !from.isEmpty())
             s = s.substring(s.indexOf(from) + from.length());
         if (to != null && !to.isEmpty())
             s = s.substring(0, s.indexOf(to));
+        return s;
+    }
+
+    public static String fixSearchKey(String s) {
+        if (s != null && !s.isEmpty()) {
+            if (s.contains("/s")) {
+                s = s.replace("/s", " ");
+            }
+            if (s.contains("\\s")) {
+                s = s.replace("\\s", " ");
+            }
+        }
         return s;
     }
 
@@ -446,6 +460,18 @@ public class Util implements Constants {
 
     public static void setLines(String filePath, List<String> lines) throws Exception {
         setLines(filePath, lines, determineEncoding(lines));
+    }
+
+    public static String determineEncoding(String p) throws Exception {
+        return determineEncoding(toList(getFirstLine(p)));
+    }
+
+    private static String getFirstLine(String p) throws Exception {
+        List<String> lines = getLines(p, "GBK", 1);
+        if (lines != null && !lines.isEmpty()) {
+            return lines.get(0);
+        }
+        return null;
     }
 
     public static String determineEncoding(List<String> lines) {
@@ -917,7 +943,7 @@ public class Util implements Constants {
 
     public static ReplaceResult replaceFile(String filePath, Filters fromFilter, String from, String to, Params params)
             throws Exception {
-        List<String> lines = getLines(filePath, params.getEncoding());
+        List<String> lines = getLines(filePath, params.getEncoding(filePath));
         List<String> list = new ArrayList<String>();
         List<Line> affected = new ArrayList<Line>();
         boolean changed = false;
@@ -935,7 +961,7 @@ public class Util implements Constants {
             }
         }
         if (changed) {
-            setLines(filePath, list, params.getEncoding());
+            setLines(filePath, list, params.getEncoding(filePath));
         }
         filePath = renameFile(filePath, from, to);
         ReplaceResult r = new ReplaceResult();
@@ -1091,7 +1117,7 @@ public class Util implements Constants {
         List<Line> list = new ArrayList<Line>();
         LinesResult lr = new LinesResult();
         while (lr.hasMore) {
-            lr = getLinesFromStream(p, params.getEncoding(), ABATCH, lr);
+            lr = getLinesFromStream(p, params.getEncoding(p), ABATCH, lr);
             List<String> lines = lr.lines;
             for (int i = 0; i < lines.size(); i++) {
                 String line = lines.get(i);

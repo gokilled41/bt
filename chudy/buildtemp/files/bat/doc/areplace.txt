@@ -1,5 +1,5 @@
 areplace is one command to replace files.
-  areplace <dir> [<files>] [<lines>] <from> <to> [c] [rn] [np] [o] [d] [f]
+  areplace <dir> [<files>] [<lines>] <from> <to> [##rename] [c] [rn] [np] [o] [d] [f]
     - dir        one dir or one tar alias
     - files      the files to replace from
                    file name like "a.jar" or file pattern like "*Manager*" or "*.zip"
@@ -23,6 +23,7 @@ areplace is one command to replace files.
                  use the first item of from, if not given
     - to         replace to
                  if to includes resolved chars in regular expressions, no need wrap it with "'", like: "new PAFilenameFilter(filefrom)"
+    - ##rename   rename to another file name. used to handle line. refer to gzhou.PAUnit.testNewFileName_01()
     - c          it means case sensitive. 
                  by default, it will replace all.
                  like: for "project->move", replace: project->move, Project->Move, PROJECT->MOVE
