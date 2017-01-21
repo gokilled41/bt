@@ -88,49 +88,11 @@ public class Test extends gzhou.Util {
 
     public static void main(String[] args) throws Exception {
         
-        List<String> lines = getLines(rn);
-        List<String> lines2 = getLines(rn);
-        List<String> list = new ArrayList<String>();
-        Map<String, Integer> map = new HashMap<String, Integer>();
-        Map<String, Integer> costs = new HashMap<String, Integer>();
-        for (String s : lines) {
-            if (s.contains("took")) {
-//                String id = cut(s, "on path ", null);
-//                s = cut(s, ": ", null);
-//                s = cut(s, ": ", null);
-//                s = cut(s, null, ",");
-//                System.out.println(s);
-                try {
-                    String cost = cut(s, "took ", "ms");
-                    s = cut(s, "to run ", null);
-                    addWithoutDup(list, s);
-                    {
-                        Integer i = map.get(s);
-                        if (i == null) {
-                            i = 0;
-                        }
-                        i++;
-                        map.put(s, i);
-                    }
-                    {
-                        Integer i = costs.get(s);
-                        if (i == null) {
-                            i = 0;
-                        }
-                        i += toInt(cost);
-                        costs.put(s, i);
-                    }
-                    
-                    
-                } catch (Exception e) {
-                }
-            }
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(desktopDir + "small.log")));
+        for (int i = 0; i < 300000; i++) {
+            out.println(i + ": 1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou");
         }
-        for (String s : list) {
-            int cost = costs.get(s);
-            int times = map.get(s);
-            System.out.println(format("[times:{0} avgcost:{2}] {1}", formatstr(times + "", 3), s, cost/times));
-        }
+        out.close();
         
     }
 

@@ -62,6 +62,7 @@ public class FileUtil extends Util implements Constants {
     private static Map<String, String> paOpTypes_ = new HashMap<String, String>();
     public static boolean debug_ = false;
     public static boolean debug2_ = false;
+    public static boolean debugp_ = false;
     public static String logTab_;
     public static boolean outputToFile_ = false;
 
@@ -2658,10 +2659,16 @@ public class FileUtil extends Util implements Constants {
                     List<String> dirs = new ArrayList<String>();
                     if (isTextFile(file)) {
                         String p = file.getAbsolutePath();
+                        long s = System.currentTimeMillis();
                         List<Line> foundLines = findInFile(p, from, params);
+                        long e = System.currentTimeMillis();
+                        long cost = (e - s) / 1000;
                         if (!foundLines.isEmpty()) {
                             String n1 = toRelativePath(dir, p);
-                            log(tab(2) + format("found \"{0}\" places in \"{1}\":", foundLines.size(), n1));
+                            if (cost <= 5)
+                                log(tab(2) + format("found \"{0}\" places in \"{1}\":", foundLines.size(), n1));
+                            else
+                                log(tab(2) + format("found \"{0}\" places in \"{1}\" ({2}s):", foundLines.size(), n1, cost));
                             log();
                             for (Line line : foundLines) {
                                 line.print(6, 7, params.noLineNumber);
@@ -2751,6 +2758,8 @@ public class FileUtil extends Util implements Constants {
                 args = viewDebugLoggings(args);
                 // -va
                 args = viewDebugAllLoggings(args);
+                // -vp
+                args = viewDebugPerformanceLoggings(args);
                 // -d
                 args = cutJBossDebug(args);
                 // -lt
@@ -2781,6 +2790,16 @@ public class FileUtil extends Util implements Constants {
             if (last.equals("-va")) {
                 debug_ = true;
                 debug2_ = true;
+                debugp_ = true;
+                args = cutLastArg(args);
+            }
+            return args;
+        }
+
+        private static String[] viewDebugPerformanceLoggings(String[] args) {
+            String last = getLastArg(args);
+            if (last.equals("-vp")) {
+                debugp_ = true;
                 args = cutLastArg(args);
             }
             return args;
@@ -3593,6 +3612,9 @@ public class FileUtil extends Util implements Constants {
                 lineNumber = true;
             } else if (p.equalsIgnoreCase("EL")) {
                 emptyLine = true;
+            } else if (p.endsWith(";")) {
+                quote = true;
+                p = cutLast(p, 1);
             }
         }
 
@@ -5586,17 +5608,19 @@ public class FileUtil extends Util implements Constants {
 
         private int toParamPriority(String o1) {
             if (o1.equals("-v"))
-                return 10;
+                return 100;
             if (o1.equals("-va"))
-                return 9;
+                return 90;
+            if (o1.equals("-vp"))
+                return 85;
             if (o1.equals("-d"))
-                return 8;
+                return 80;
             if (o1.matches("-lt\\d*"))
-                return 7;
+                return 70;
             if (o1.equals("o"))
-                return 6;
+                return 60;
             if (o1.equals("sl"))
-                return 5;
+                return 50;
             return 0;
         }
 

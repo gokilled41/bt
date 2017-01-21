@@ -40,7 +40,7 @@ import com.vitria.component.util.DOMUtil;
 
 public class Util implements Constants {
 
-    private static final int ABATCH = 10000;
+    private static final int ABATCH = 300000;
     private static List<String> txtList_ = new ArrayList<String>();
 
     static {
@@ -430,6 +430,7 @@ public class Util implements Constants {
 
     public static LinesResult getLinesFromStream(String filePath, String encoding, int count, LinesResult lr)
             throws Exception {
+        long s = System.currentTimeMillis();
         LinesResult r = new LinesResult();
         List<String> list = new ArrayList<String>();
         if (count != 0) {
@@ -461,6 +462,8 @@ public class Util implements Constants {
             if (!r.hasMore)
                 in.close();
         }
+        long e = System.currentTimeMillis();
+        logp(2, "getLinesFromStream", s, e);
         return r;
     }
 
@@ -642,6 +645,7 @@ public class Util implements Constants {
     }
 
     public static List<File> listFiles(File folder, boolean recursion, FilenameFilter filter, Params params) {
+        long s = System.currentTimeMillis();
         List<File> list = new ArrayList<File>();
         if (params.recursiveLevel < 0) {
             list = listFiles(folder, recursion, filter);
@@ -650,6 +654,8 @@ public class Util implements Constants {
         }
         list = filterFiles(list, params);
         sortFiles(list, params);
+        long e = System.currentTimeMillis();
+        logp(2, "listFiles", s, e);
         return list;
     }
 
@@ -1116,8 +1122,12 @@ public class Util implements Constants {
     }
 
     public static List<Line> findInFile(String p, String from, Params params) throws Exception {
+        long s = System.currentTimeMillis();
         Filters f = Filters.getFilters(from, params);
-        return findInFile(p, f, params);
+        List<Line> r = findInFile(p, f, params);
+        long e = System.currentTimeMillis();
+        logp(2, "findInFile", s, e);
+        return r;
     }
 
     public static List<Line> findInFile(String p, Filters f, Params params) throws Exception {
@@ -1126,6 +1136,7 @@ public class Util implements Constants {
         LinesResult lr = new LinesResult();
         while (lr.hasMore) {
             lr = getLinesFromStream(p, params.getEncoding(p), ABATCH, lr);
+            long s = System.currentTimeMillis();
             List<String> lines = lr.lines;
             for (int i = 0; i < lines.size(); i++) {
                 String line = lines.get(i);
@@ -1137,6 +1148,8 @@ public class Util implements Constants {
                     list.add(item);
                 }
             }
+            long e = System.currentTimeMillis();
+            logp(2, "findInLines", s, e);
         }
         return list;
     }
@@ -1685,6 +1698,11 @@ public class Util implements Constants {
 
     public static void log(int i, String m) {
         log(tab(i) + m);
+    }
+
+    public static void logp(int i, String n, long s, long e) {
+        if (FileUtil.debugp_)
+            log(i, format("{0} cost {1} ms", n, e - s));
     }
 
     public static void log(String m, Object... objects) {
