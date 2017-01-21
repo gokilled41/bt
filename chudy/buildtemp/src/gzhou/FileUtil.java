@@ -3752,6 +3752,7 @@ public class FileUtil extends Util implements Constants {
         }
 
         private static String fixPattern(String filefrom) {
+            filefrom = fixSearchKey(filefrom);
             filefrom = filefrom.replace("`", "*").replace("~", "*");
             if (isContainsPatternNecessary(filefrom)) {
                 // wrap * begins and ends like "*abc*". it means contains.

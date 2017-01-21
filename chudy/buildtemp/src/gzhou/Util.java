@@ -317,6 +317,12 @@ public class Util implements Constants {
             if (s.contains("\\s")) {
                 s = s.replace("\\s", " ");
             }
+            if (s.contains(":s")) {
+                s = s.replace(":s", " ");
+            }
+            if (s.contains(";s")) {
+                s = s.replace(";s", " ");
+            }
         }
         return s;
     }
