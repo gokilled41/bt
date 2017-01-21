@@ -938,6 +938,8 @@ public class Util implements Constants {
             File parent = file.getParentFile();
             String parentPath = parent.getAbsolutePath();
             String newFilePath = parentPath + File.separator + newName;
+            if (isAbsolutePath(newName))
+                newFilePath = newName;
             File newFile = new File(newFilePath);
             mkdirs(getParent(newFilePath));
             file.renameTo(newFile);
@@ -1002,7 +1004,7 @@ public class Util implements Constants {
         return false;
     }
 
-    private static String replaceInLine(String line, String from, String to, Params params) {
+    private static String replaceInLine(String line, String from, String to, Params params) throws Exception {
         if (isHandleLine(line, from, to, params)) {
             return handleLine(line, from, to, params);
         }
@@ -1023,7 +1025,7 @@ public class Util implements Constants {
         return from.equals(HANDLE_LINE) && to.equals(HANDLE_LINE);
     }
 
-    private static String handleLine(String line, String from, String to, Params params) {
+    private static String handleLine(String line, String from, String to, Params params) throws Exception {
         if (params.newFileName != null) {
             return PAOperations.newFileName(line, params.newFileName, false, true);
         }

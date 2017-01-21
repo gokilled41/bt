@@ -2959,7 +2959,7 @@ public class FileUtil extends Util implements Constants {
             return true;
         }
 
-        private static String newFileNameInCopy(String fileName, Params params, boolean isFile) {
+        private static String newFileNameInCopy(String fileName, Params params, boolean isFile) throws Exception {
             if (params.newFileName != null) {
                 String newFileName = params.newFileName;
                 newFileName = newFileName(fileName, newFileName, isFile, false);
@@ -2968,11 +2968,11 @@ public class FileUtil extends Util implements Constants {
             return fileName;
         }
 
-        public static String newFileName(String fileName, String newFileName, boolean isFile) {
+        public static String newFileName(String fileName, String newFileName, boolean isFile) throws Exception {
             return newFileName(fileName, newFileName, isFile, false);
         }
 
-        public static String newFileName(String fileName, String newFileName, boolean isFile, boolean handleLine) {
+        public static String newFileName(String fileName, String newFileName, boolean isFile, boolean handleLine) throws Exception {
             String fileSimpleName = fileName;
             if (!handleLine)
                 fileSimpleName = getFileSimpleName(fileName);
@@ -3072,7 +3072,15 @@ public class FileUtil extends Util implements Constants {
             // replace ext
             if (newFileName.contains("{e}"))
                 newFileName = newFileName.replace("{e}", getFileExtName(fileName));
+            if (!isExcludeTarInNewFileName(newFileName))
+                newFileName = toTARAlias(newFileName);
             return newFileName;
+        }
+
+        private static boolean isExcludeTarInNewFileName(String n) {
+            if (n.equals("yoda"))
+                return true;
+            return false;
         }
 
         private static String newFileNameSub(String fileName, String pattern) {
@@ -3127,7 +3135,7 @@ public class FileUtil extends Util implements Constants {
             return "";
         }
 
-        private static void renameFileInList(File file, Params params, String relativePath) {
+        private static void renameFileInList(File file, Params params, String relativePath) throws Exception {
             if (params.newFileName != null) {
                 String fileName = file.getName();
                 String newFileName = newFileNameInCopy(fileName, params, file.isFile());

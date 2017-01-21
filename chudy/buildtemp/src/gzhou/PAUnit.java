@@ -267,7 +267,7 @@ public class PAUnit extends TestCase implements Constants {
         assertEquals(PAOperations.newFileName("1234567890", "1{2-3}4", false), "1234");
         assertEquals(PAOperations.newFileName("1234567890", "1{2}4", false), "1124");
         assertEquals(PAOperations.newFileName("1234567890", "1{-3}4", false), "18904");
-        assertEquals(PAOperations.newFileName("abcdefg", "cc-e", false, true), "d"); // cut from to
+        assertEquals(PAOperations.newFileName("abcdddefg", "cc-e", false, true), "ddd"); // cut from to
         assertEquals(PAOperations.newFileName("abcdefg", "cabc", false, true), "defg"); // cut from
         assertEquals(PAOperations.newFileName("abcdefg01.txt", "c-fg", true, true), "abcde.txt"); // cut to
         assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c.../s", false, true), "282.44 -- 1,689.33 loan 23:46:09 return "); // /s is space ' '
@@ -279,6 +279,8 @@ public class PAUnit extends TestCase implements Constants {
         assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c...\\s-\\s--", false, true), "282.44");
         assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "123{n[.../s,/s--]}123{n[.../s,/s--]}123", false, true), "123282.44123282.44123");
         assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "123{n[.../s,/s--]}123{n[--/s,/sloan]}123", false, true), "123282.441231,689.33123");
+        assertEquals(PAOperations.newFileName("a.txt", "dd\\", true, false), desktopDir + "a.txt"); // tar
+        assertEquals(PAOperations.newFileName("a.txt", "dd", true, false), "dd.txt"); // tar
     }
 
     private void doTest(String dir, String name, String filefrom, boolean expect) {
