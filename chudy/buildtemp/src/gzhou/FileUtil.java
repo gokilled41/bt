@@ -2257,6 +2257,7 @@ public class FileUtil extends Util implements Constants {
                 if (isFile(to)) {
                     tofile = getFileName(to);
                     to = getParent(to);
+                    params.copyToOneFile = true;
                 } else {
                     tofile = "*";
                 }
@@ -2267,6 +2268,7 @@ public class FileUtil extends Util implements Constants {
                 if (isFile(to)) {
                     tofile = getFileName(to);
                     to = getParent(to);
+                    params.copyToOneFile = true;
                 } else {
                     tofile = "*";
                 }
@@ -2940,6 +2942,11 @@ public class FileUtil extends Util implements Constants {
 
         private static List<File> getToFiles(String from, String filefrom, Params params) throws Exception {
             List<File> files = new ArrayList<File>();
+            if (params.copyToOneFile) {
+                files.add(new File(from));
+                params.newFileName = filefrom;
+                return files;
+            }
             if (filefrom.equals("*")) {
                 files.add(new File(from));
                 return files;
@@ -5239,6 +5246,7 @@ public class FileUtil extends Util implements Constants {
         public ListCondition listCondition = null;
         public OutputSummary outputSummary = null;
         public GoDir goDir = null;
+        public boolean copyToOneFile = false;
 
         public int getExpandLines() {
             if (expandLines == null) {

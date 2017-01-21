@@ -17,4 +17,3 @@
   - doc
 - dsb: bug desc with ""
 - all dd\ref af [com.vitria.domainservice o=dd\a.log
-- acp alogs\find.log dd\o2\DRRegistry.log: if search file not exist, directly use it as target
