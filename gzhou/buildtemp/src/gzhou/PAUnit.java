@@ -231,42 +231,56 @@ public class PAUnit extends TestCase implements Constants {
     }
 
     public void testNewFileName_01() throws Exception {
-        assertEquals(PAOperations.newFileName("a.txt", "{n}", true), "a.txt");
-        assertEquals(PAOperations.newFileName("a.txt", "{n}.{e}", true), "a.txt");
+        assertEquals(PAOperations.newFileName("a.txt", "{n}", true), "a.txt"); // {n} is given file simple name
+        assertEquals(PAOperations.newFileName("a.txt", "{n}.{e}", true), "a.txt"); // {e} is given file ext
         assertEquals(PAOperations.newFileName("a.txt", "{n}-2", true), "a-2.txt");
         assertEquals(PAOperations.newFileName("a.txt", "1-{n}", true), "1-a.txt");
-        assertEquals(PAOperations.newFileName("abc.txt", "{n1-2}", true), "ab.txt");
-        assertEquals(PAOperations.newFileName("abc.txt", "1-2", true), "ab.txt");
-        assertEquals(PAOperations.newFileName("abc.txt", "'1-2'", true), "1-2.txt");
-        assertEquals(PAOperations.newFileName("abc.txt", "{n2}", true), "ab.txt");
+        assertEquals(PAOperations.newFileName("abc.txt", "{n1-2}", true), "ab.txt"); // sub from given file simple name, from 1 to 2 chars, both including
+        assertEquals(PAOperations.newFileName("abc.txt", "1-2", true), "ab.txt"); // {n} can be omitted
+        assertEquals(PAOperations.newFileName("abc.txt", "'1-2'", true), "1-2.txt"); // wrap with '' as exactly use it
+        assertEquals(PAOperations.newFileName("abc.txt", "{n2}", true), "ab.txt"); // sub from
         assertEquals(PAOperations.newFileName("abc.txt", "2", true), "ab.txt");
         assertEquals(PAOperations.newFileName("abc.txt", "'2'", true), "2.txt");
-        assertEquals(PAOperations.newFileName("abc.txt", "{n-2}", true), "bc.txt");
+        assertEquals(PAOperations.newFileName("abc.txt", "{n-2}", true), "bc.txt"); // sub to
         assertEquals(PAOperations.newFileName("abc.txt", "-2", true), "bc.txt");
         assertEquals(PAOperations.newFileName("1234567890.txt", "{n-2}", true), "90.txt");
-        assertEquals(PAOperations.newFileName("1234567890.txt", "a{n7-8}b{n7-8}c{n-2}", true), "a78b78c90.txt");
+        assertEquals(PAOperations.newFileName("1234567890.txt", "a{n7-8}b{n7-8}c{n-2}", true), "a78b78c90.txt"); // sub multiple
         assertEquals(PAOperations.newFileName("yoda_sjb", "{n4}", false), "yoda");
         assertEquals(PAOperations.newFileName("yoda", "{n}_main", false), "yoda_main");
-        assertEquals(PAOperations.newFileName("1234567890", "l2", false), "90");
+        assertEquals(PAOperations.newFileName("1234567890", "l2", false), "90"); // last 2
         assertEquals(PAOperations.newFileName("abc01.txt", "l2", true), "01.txt");
         assertEquals(PAOperations.newFileName("1234567890", "last2", false), "90");
         assertEquals(PAOperations.newFileName("abc01.txt", "last2", true), "01.txt");
-        assertEquals(PAOperations.newFileName("1234567890", "f2", false), "12");
+        assertEquals(PAOperations.newFileName("1234567890", "f2", false), "12"); // first 2
         assertEquals(PAOperations.newFileName("abc01.txt", "f2", true), "ab.txt");
         assertEquals(PAOperations.newFileName("1234567890", "first2", false), "12");
         assertEquals(PAOperations.newFileName("abc01.txt", "first2", true), "ab.txt");
-        assertEquals(PAOperations.newFileName("1234567890", "app-2", false), "1234567890-2");
+        assertEquals(PAOperations.newFileName("1234567890", "app-2", false), "1234567890-2"); // append str
         assertEquals(PAOperations.newFileName("1234567890", "'app-2'", false), "app-2");
-        assertEquals(PAOperations.newFileName("abc01.txt", "pre2-", true), "2-abc01.txt");
+        assertEquals(PAOperations.newFileName("abc01.txt", "pre2-", true), "2-abc01.txt"); // pre str
         assertEquals(PAOperations.newFileName("abc01.txt", "'pre2-'", true), "pre2-.txt");
-        assertEquals(PAOperations.newFileName("1234567890", "c2", false), "34567890");
-        assertEquals(PAOperations.newFileName("abc01.txt", "c-2", true), "abc.txt");
-        assertEquals(PAOperations.newFileName("1234567890.txt", "1{2-3}4", true), "1234.txt");
+        assertEquals(PAOperations.newFileName("1234567890", "c2", false), "34567890"); // cut first 2
+        assertEquals(PAOperations.newFileName("abc01.txt", "c-2", true), "abc.txt"); // cut last 2
+        assertEquals(PAOperations.newFileName("1234567890.txt", "1{2-3}4", true), "1234.txt"); // {n} can be omitted
         assertEquals(PAOperations.newFileName("1234567890.txt", "1{2}4", true), "1124.txt");
         assertEquals(PAOperations.newFileName("1234567890.txt", "1{-3}4", true), "18904.txt");
         assertEquals(PAOperations.newFileName("1234567890", "1{2-3}4", false), "1234");
         assertEquals(PAOperations.newFileName("1234567890", "1{2}4", false), "1124");
         assertEquals(PAOperations.newFileName("1234567890", "1{-3}4", false), "18904");
+        assertEquals(PAOperations.newFileName("abcdddefg", "cc-e", false, true), "ddd"); // cut from to
+        assertEquals(PAOperations.newFileName("abcdefg", "cabc", false, true), "defg"); // cut from
+        assertEquals(PAOperations.newFileName("abcdefg01.txt", "c-fg", true, true), "abcde.txt"); // cut to
+        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c.../s", false, true), "282.44 -- 1,689.33 loan 23:46:09 return "); // /s is space ' '
+        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c...\\s", false, true), "282.44 -- 1,689.33 loan 23:46:09 return ");
+        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c..", false, true), ". 282.44 -- 1,689.33 loan 23:46:09 return ");
+        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c-.../s", false, true), "zhou ");
+        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c-23:46:09", false, true), "zhou ... 282.44 -- 1,689.33 loan ");
+        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c.../s-/s--", false, true), "282.44");
+        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c...\\s-\\s--", false, true), "282.44");
+        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "123{n[.../s,/s--]}123{n[.../s,/s--]}123", false, true), "123282.44123282.44123");
+        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "123{n[.../s,/s--]}123{n[--/s,/sloan]}123", false, true), "123282.441231,689.33123");
+        assertEquals(PAOperations.newFileName("a.txt", "dd\\", true, false), desktopDir + "a.txt"); // tar
+        assertEquals(PAOperations.newFileName("a.txt", "dd", true, false), "dd.txt"); // tar
     }
 
     private void doTest(String dir, String name, String filefrom, boolean expect) {

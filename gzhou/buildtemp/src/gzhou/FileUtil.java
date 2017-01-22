@@ -62,6 +62,7 @@ public class FileUtil extends Util implements Constants {
     private static Map<String, String> paOpTypes_ = new HashMap<String, String>();
     public static boolean debug_ = false;
     public static boolean debug2_ = false;
+    public static boolean debugp_ = false;
     public static String logTab_;
     public static boolean outputToFile_ = false;
 
@@ -2256,6 +2257,7 @@ public class FileUtil extends Util implements Constants {
                 if (isFile(to)) {
                     tofile = getFileName(to);
                     to = getParent(to);
+                    params.copyToOneFile = true;
                 } else {
                     tofile = "*";
                 }
@@ -2266,6 +2268,7 @@ public class FileUtil extends Util implements Constants {
                 if (isFile(to)) {
                     tofile = getFileName(to);
                     to = getParent(to);
+                    params.copyToOneFile = true;
                 } else {
                     tofile = "*";
                 }
@@ -2468,6 +2471,8 @@ public class FileUtil extends Util implements Constants {
                     String dir = todirFile.isFile() ? todirFile.getParent() : todirFile.getAbsolutePath();
                     for (File file : files) {
                         if (file.isFile()) {
+                            if (file.isHidden())
+                                continue;
                             String p = file.getAbsolutePath();
                             String relativePath = toRelativePath(from, p);
                             String topath;
@@ -2511,20 +2516,34 @@ public class FileUtil extends Util implements Constants {
             if (!files.isEmpty()) {
                 List<String> dirs = new ArrayList<String>();
                 int filesSize = 0;
+                int dirsSize = 0;
                 for (File file : files) {
+                    if (file.isHidden())
+                        continue;
                     if (file.isFile())
                         filesSize++;
+                    else 
+                        dirsSize++;
                     String p = file.getAbsolutePath();
+                    boolean deleted = false;
                     if (params.keepDir)
-                        deleteFile(p);
+                        deleted = deleteFile(p);
                     else
-                        deleteFileWithFolders(p);
+                        deleted = deleteFileWithFolders(p);
                     deleteFolderIfNecessary(params, file);
-                    log(tab(2) + toRelativePath(from, p));
+                    if (deleted) {
+                        log(2, toRelativePath(from, p));
+                    } else {
+                        log(2, toRelativePath(from, p) + " [failed]");
+                        if (file.isFile())
+                            filesSize--;
+                        else 
+                            dirsSize--;
+                    }
                     addWithoutDup(dirs, p);
                 }
                 OpenDirResult.openDirs(params, dirs, from);
-                log(tab(2) + format("dirs: {0}, files: {1}", files.size() - filesSize, filesSize));
+                log(tab(2) + format("dirs: {0}, files: {1}", dirsSize, filesSize));
             } else {
                 log(tab(2) + "no matched files: " + filefrom);
             }
@@ -2538,12 +2557,14 @@ public class FileUtil extends Util implements Constants {
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
             if (!files.isEmpty()) {
                 for (File file : files) {
+                    if (file.isHidden())
+                        continue;
                     List<String> dirs = new ArrayList<String>();
                     if (isTextFile(file)) {
                         String p = file.getAbsolutePath();
                         if (!one)
                             log(tab(2) + toRelativePath(from, p));
-                        List<String> lines = getLines(p, params.getEncoding());
+                        List<String> lines = getLines(p, params.getEncoding(p));
                         for (int i = 0; i < lines.size(); i++) {
                             String line = lines.get(i);
                             if (params.expandLines != null) {
@@ -2613,6 +2634,8 @@ public class FileUtil extends Util implements Constants {
             if (!files.isEmpty()) {
                 List<String> dirs = new ArrayList<String>();
                 for (File file : files) {
+                    if (file.isHidden())
+                        continue;
                     String p = file.getAbsolutePath();
                     String p2 = renameFile(p, from, to);
                     String n1 = toRelativePath(dir, p);
@@ -2633,13 +2656,21 @@ public class FileUtil extends Util implements Constants {
             boolean hasResult = false;
             if (!files.isEmpty()) {
                 for (File file : files) {
+                    if (file.isHidden())
+                        continue;
                     List<String> dirs = new ArrayList<String>();
                     if (isTextFile(file)) {
                         String p = file.getAbsolutePath();
+                        long s = System.currentTimeMillis();
                         List<Line> foundLines = findInFile(p, from, params);
+                        long e = System.currentTimeMillis();
+                        long cost = (e - s) / 1000;
                         if (!foundLines.isEmpty()) {
                             String n1 = toRelativePath(dir, p);
-                            log(tab(2) + format("found \"{0}\" places in \"{1}\":", foundLines.size(), n1));
+                            if (cost <= 5)
+                                log(tab(2) + format("found \"{0}\" places in \"{1}\":", foundLines.size(), n1));
+                            else
+                                log(tab(2) + format("found \"{0}\" places in \"{1}\" ({2}s):", foundLines.size(), n1, cost));
                             log();
                             for (Line line : foundLines) {
                                 line.print(6, 7, params.noLineNumber);
@@ -2665,6 +2696,8 @@ public class FileUtil extends Util implements Constants {
             List<String> lines = new ArrayList<String>();
             if (!files.isEmpty()) {
                 for (File file : files) {
+                    if (file.isHidden())
+                        continue;
                     List<String> dirs = new ArrayList<String>();
                     if (isTextFile(file)) {
                         String p = file.getAbsolutePath();
@@ -2690,6 +2723,8 @@ public class FileUtil extends Util implements Constants {
                 Filters fromFilter = Filters.getFilters(from, params);
                 from = fromFilter.getFirst();
                 for (File file : files) {
+                    if (file.isHidden())
+                        continue;
                     List<String> dirs = new ArrayList<String>();
                     if (isTextFile(file)) {
                         String p = file.getAbsolutePath();
@@ -2725,6 +2760,8 @@ public class FileUtil extends Util implements Constants {
                 args = viewDebugLoggings(args);
                 // -va
                 args = viewDebugAllLoggings(args);
+                // -vp
+                args = viewDebugPerformanceLoggings(args);
                 // -d
                 args = cutJBossDebug(args);
                 // -lt
@@ -2755,6 +2792,16 @@ public class FileUtil extends Util implements Constants {
             if (last.equals("-va")) {
                 debug_ = true;
                 debug2_ = true;
+                debugp_ = true;
+                args = cutLastArg(args);
+            }
+            return args;
+        }
+
+        private static String[] viewDebugPerformanceLoggings(String[] args) {
+            String last = getLastArg(args);
+            if (last.equals("-vp")) {
+                debugp_ = true;
                 args = cutLastArg(args);
             }
             return args;
@@ -2895,6 +2942,11 @@ public class FileUtil extends Util implements Constants {
 
         private static List<File> getToFiles(String from, String filefrom, Params params) throws Exception {
             List<File> files = new ArrayList<File>();
+            if (params.copyToOneFile) {
+                files.add(new File(from));
+                params.newFileName = filefrom;
+                return files;
+            }
             if (filefrom.equals("*")) {
                 files.add(new File(from));
                 return files;
@@ -2933,7 +2985,7 @@ public class FileUtil extends Util implements Constants {
             return true;
         }
 
-        private static String newFileNameInCopy(String fileName, Params params, boolean isFile) {
+        private static String newFileNameInCopy(String fileName, Params params, boolean isFile) throws Exception {
             if (params.newFileName != null) {
                 String newFileName = params.newFileName;
                 newFileName = newFileName(fileName, newFileName, isFile, false);
@@ -2942,11 +2994,11 @@ public class FileUtil extends Util implements Constants {
             return fileName;
         }
 
-        public static String newFileName(String fileName, String newFileName, boolean isFile) {
+        public static String newFileName(String fileName, String newFileName, boolean isFile) throws Exception {
             return newFileName(fileName, newFileName, isFile, false);
         }
 
-        public static String newFileName(String fileName, String newFileName, boolean isFile, boolean handleLine) {
+        public static String newFileName(String fileName, String newFileName, boolean isFile, boolean handleLine) throws Exception {
             String fileSimpleName = fileName;
             if (!handleLine)
                 fileSimpleName = getFileSimpleName(fileName);
@@ -2978,17 +3030,33 @@ public class FileUtil extends Util implements Constants {
                 String n = newFileName;
                 newFileName = "{n" + n + "}";
             }
-            if (newFileName.matches("c\\d*")) { // cut
-                String n = cutFirst(newFileName, 1);
-                int i = toInt(n);
-                int len = fileSimpleName.length();
-                newFileName = "{n-" + (len - i) + "}";
+            if (newFileName.startsWith("c")) {
+                if (newFileName.matches("c\\d*")) { // cut
+                    String n = cutFirst(newFileName, 1);
+                    int i = toInt(n);
+                    int len = fileSimpleName.length();
+                    newFileName = "{n-" + (len - i) + "}";
+                } else if (!newFileName.contains("-")) { // cut from
+                    String n = cutFirst(newFileName, 1);
+                    newFileName = "{n[" + n + ",]}";
+                }
             }
-            if (newFileName.matches("c-\\d*")) { // cut
-                String n = cutFirst(newFileName, 2);
-                int i = toInt(n);
-                int len = fileSimpleName.length();
-                newFileName = "{n" + (len - i) + "}";
+            if (newFileName.startsWith("c-")) {
+                if (newFileName.matches("c-\\d*")) { // cut
+                    String n = cutFirst(newFileName, 2);
+                    int i = toInt(n);
+                    int len = fileSimpleName.length();
+                    newFileName = "{n" + (len - i) + "}";
+                } else { // cut to
+                    String n = cutFirst(newFileName, 2);
+                    newFileName = "{n[," + n + "]}";
+                }
+            }
+            if (newFileName.matches("c.*-.*")) {
+                String n = cutFirst(newFileName, 1);
+                String from = cut(n, null, "-");
+                String to = cut(n, "-", null);
+                newFileName = "{n[" + from + "," + to + "]}";
             }
             if (newFileName.matches("'.*'")) {
                 String n = cut(newFileName, 1, 1);
@@ -3019,10 +3087,26 @@ public class FileUtil extends Util implements Constants {
                     newFileName = newFileName.replace(pattern, sub);
                 }
             }
+            // replace sub name
+            if (newFileName.matches(".*\\{n\\[.*,.*\\]\\}.*")) {
+                List<String> list = splitToListWithRegex(newFileName, "\\{n\\[[^\\]\\}]*,[^\\]\\}]*\\]\\}");
+                for (String pattern : list) {
+                    String sub = newFileNameSub(fileSimpleName, pattern);
+                    newFileName = newFileName.replace(pattern, sub);
+                }
+            }
             // replace ext
             if (newFileName.contains("{e}"))
                 newFileName = newFileName.replace("{e}", getFileExtName(fileName));
+            if (!isExcludeTarInNewFileName(newFileName))
+                newFileName = toTARAlias(newFileName);
             return newFileName;
+        }
+
+        private static boolean isExcludeTarInNewFileName(String n) {
+            if (n.equals("yoda"))
+                return true;
+            return false;
         }
 
         private static String newFileNameSub(String fileName, String pattern) {
@@ -3057,10 +3141,27 @@ public class FileUtil extends Util implements Constants {
                 }
                 return sub(fileName, fpos - 1, tpos);
             }
+            if (pattern.matches("n\\[.*,.*\\]")) {
+                pattern = cutFirst(pattern, 1);
+                pattern = cut(pattern, 1, 1);
+                String from, to;
+                if (pattern.contains(",")) {
+                    from = cut(pattern, null, ",");
+                    to = cut(pattern, ",", null);
+                } else {
+                    from = pattern;
+                    to = "";
+                }
+                if (from != null && from.isEmpty())
+                    from = null;
+                if (to != null && to.isEmpty())
+                    to = null;
+                return cut(fileName, from, to);
+            }
             return "";
         }
 
-        private static void renameFileInList(File file, Params params, String relativePath) {
+        private static void renameFileInList(File file, Params params, String relativePath) throws Exception {
             if (params.newFileName != null) {
                 String fileName = file.getName();
                 String newFileName = newFileNameInCopy(fileName, params, file.isFile());
@@ -3518,6 +3619,9 @@ public class FileUtil extends Util implements Constants {
                 lineNumber = true;
             } else if (p.equalsIgnoreCase("EL")) {
                 emptyLine = true;
+            } else if (p.endsWith(";")) {
+                quote = true;
+                p = cutLast(p, 1);
             }
         }
 
@@ -3685,6 +3789,7 @@ public class FileUtil extends Util implements Constants {
         }
 
         private static String fixPattern(String filefrom) {
+            filefrom = fixSearchKey(filefrom);
             filefrom = filefrom.replace("`", "*").replace("~", "*");
             if (isContainsPatternNecessary(filefrom)) {
                 // wrap * begins and ends like "*abc*". it means contains.
@@ -4307,7 +4412,7 @@ public class FileUtil extends Util implements Constants {
                     }
                     int n = list.size();
                     int i = foundLines.get(0).i;
-                    insertLines(p, list, i + n, params.getEncoding());
+                    insertLines(p, list, i + n, params.getEncoding(p));
                 }
             }
 
@@ -4321,11 +4426,11 @@ public class FileUtil extends Util implements Constants {
                     OperateLines ol = params.operateLines;
                     int to = ol.to;
                     if (to > i) {
-                        insertLines(p, list, to, params.getEncoding());
-                        deleteLines(p, list, i, params.getEncoding());
+                        insertLines(p, list, to, params.getEncoding(p));
+                        deleteLines(p, list, i, params.getEncoding(p));
                     } else {
-                        deleteLines(p, list, i, params.getEncoding());
-                        insertLines(p, list, to, params.getEncoding());
+                        deleteLines(p, list, i, params.getEncoding(p));
+                        insertLines(p, list, to, params.getEncoding(p));
                     }
                 }
             }
@@ -4337,7 +4442,7 @@ public class FileUtil extends Util implements Constants {
                         list.addAll(lineObj.toLines());
                     }
                     int i = foundLines.get(0).i;
-                    deleteLines(p, list, i, params.getEncoding());
+                    deleteLines(p, list, i, params.getEncoding(p));
                 }
             }
         }
@@ -5141,6 +5246,7 @@ public class FileUtil extends Util implements Constants {
         public ListCondition listCondition = null;
         public OutputSummary outputSummary = null;
         public GoDir goDir = null;
+        public boolean copyToOneFile = false;
 
         public int getExpandLines() {
             if (expandLines == null) {
@@ -5164,8 +5270,8 @@ public class FileUtil extends Util implements Constants {
             return false;
         }
 
-        public String getEncoding() {
-            return gbkEncoding ? "GBK" : "UTF-8";
+        public String getEncoding(String p) throws Exception {
+            return gbkEncoding ? "GBK" : determineEncoding(p);
         }
 
         public void log() {
@@ -5510,17 +5616,19 @@ public class FileUtil extends Util implements Constants {
 
         private int toParamPriority(String o1) {
             if (o1.equals("-v"))
-                return 10;
+                return 100;
             if (o1.equals("-va"))
-                return 9;
+                return 90;
+            if (o1.equals("-vp"))
+                return 85;
             if (o1.equals("-d"))
-                return 8;
+                return 80;
             if (o1.matches("-lt\\d*"))
-                return 7;
+                return 70;
             if (o1.equals("o"))
-                return 6;
+                return 60;
             if (o1.equals("sl"))
-                return 5;
+                return 50;
             return 0;
         }
 

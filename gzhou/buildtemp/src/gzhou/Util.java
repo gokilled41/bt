@@ -40,7 +40,7 @@ import com.vitria.component.util.DOMUtil;
 
 public class Util implements Constants {
 
-    private static final int ABATCH = 10000;
+    private static final int ABATCH = 300000;
     private static List<String> txtList_ = new ArrayList<String>();
 
     static {
@@ -300,10 +300,30 @@ public class Util implements Constants {
     }
 
     public static String cut(String s, String from, String to) {
+        from = fixSearchKey(from);
+        to = fixSearchKey(to);
         if (from != null && !from.isEmpty())
             s = s.substring(s.indexOf(from) + from.length());
         if (to != null && !to.isEmpty())
             s = s.substring(0, s.indexOf(to));
+        return s;
+    }
+
+    public static String fixSearchKey(String s) {
+        if (s != null && !s.isEmpty()) {
+            if (s.contains("/s")) {
+                s = s.replace("/s", " ");
+            }
+            if (s.contains("\\s")) {
+                s = s.replace("\\s", " ");
+            }
+            if (s.contains(":s")) {
+                s = s.replace(":s", " ");
+            }
+            if (s.contains(";s")) {
+                s = s.replace(";s", " ");
+            }
+        }
         return s;
     }
 
@@ -410,6 +430,7 @@ public class Util implements Constants {
 
     public static LinesResult getLinesFromStream(String filePath, String encoding, int count, LinesResult lr)
             throws Exception {
+        long s = System.currentTimeMillis();
         LinesResult r = new LinesResult();
         List<String> list = new ArrayList<String>();
         if (count != 0) {
@@ -418,7 +439,7 @@ public class Util implements Constants {
             int li = 0;
             if (lr != null && lr.in != null) {
                 in = lr.in;
-                li = lr.li;
+                li = lr.li + lr.lines.size();
             } else {
                 in = new BufferedReader(new UnicodeReader(new FileInputStream(filePath), encoding));
                 r.in = in;
@@ -427,7 +448,6 @@ public class Util implements Constants {
             boolean hasMore = false;
             while ((line = in.readLine()) != null) {
                 i++;
-                li++;
                 list.add(line);
                 if (i == count) {
                     hasMore = true;
@@ -442,11 +462,25 @@ public class Util implements Constants {
             if (!r.hasMore)
                 in.close();
         }
+        long e = System.currentTimeMillis();
+        logp(2, "getLinesFromStream", s, e);
         return r;
     }
 
     public static void setLines(String filePath, List<String> lines) throws Exception {
         setLines(filePath, lines, determineEncoding(lines));
+    }
+
+    public static String determineEncoding(String p) throws Exception {
+        return determineEncoding(toList(getFirstLine(p)));
+    }
+
+    private static String getFirstLine(String p) throws Exception {
+        List<String> lines = getLines(p, "GBK", 1);
+        if (lines != null && !lines.isEmpty()) {
+            return lines.get(0);
+        }
+        return null;
     }
 
     public static String determineEncoding(List<String> lines) {
@@ -611,6 +645,7 @@ public class Util implements Constants {
     }
 
     public static List<File> listFiles(File folder, boolean recursion, FilenameFilter filter, Params params) {
+        long s = System.currentTimeMillis();
         List<File> list = new ArrayList<File>();
         if (params.recursiveLevel < 0) {
             list = listFiles(folder, recursion, filter);
@@ -619,6 +654,8 @@ public class Util implements Constants {
         }
         list = filterFiles(list, params);
         sortFiles(list, params);
+        long e = System.currentTimeMillis();
+        logp(2, "listFiles", s, e);
         return list;
     }
 
@@ -869,11 +906,12 @@ public class Util implements Constants {
             System.out.println("copy: " + from + " to " + to);
     }
 
-    public static void deleteFile(String path) {
+    public static boolean deleteFile(String path) {
         if (path != null && exists(path)) {
             File file = new File(path);
-            file.delete();
+            return file.delete();
         }
+        return false;
     }
 
     public static void deleteFolder(File file) {
@@ -890,9 +928,10 @@ public class Util implements Constants {
         }
     }
 
-    public static void deleteFileWithFolders(String path) {
-        deleteFile(path);
+    public static boolean deleteFileWithFolders(String path) {
+        boolean r = deleteFile(path);
         deleteFolderIfEmpty(getParent(path));
+        return r;
     }
 
     public static String renameFile(String filePath, String from, String to) {
@@ -905,6 +944,8 @@ public class Util implements Constants {
             File parent = file.getParentFile();
             String parentPath = parent.getAbsolutePath();
             String newFilePath = parentPath + File.separator + newName;
+            if (isAbsolutePath(newName))
+                newFilePath = newName;
             File newFile = new File(newFilePath);
             mkdirs(getParent(newFilePath));
             file.renameTo(newFile);
@@ -916,7 +957,7 @@ public class Util implements Constants {
 
     public static ReplaceResult replaceFile(String filePath, Filters fromFilter, String from, String to, Params params)
             throws Exception {
-        List<String> lines = getLines(filePath, params.getEncoding());
+        List<String> lines = getLines(filePath, params.getEncoding(filePath));
         List<String> list = new ArrayList<String>();
         List<Line> affected = new ArrayList<Line>();
         boolean changed = false;
@@ -934,7 +975,7 @@ public class Util implements Constants {
             }
         }
         if (changed) {
-            setLines(filePath, list, params.getEncoding());
+            setLines(filePath, list, params.getEncoding(filePath));
         }
         filePath = renameFile(filePath, from, to);
         ReplaceResult r = new ReplaceResult();
@@ -969,7 +1010,7 @@ public class Util implements Constants {
         return false;
     }
 
-    private static String replaceInLine(String line, String from, String to, Params params) {
+    private static String replaceInLine(String line, String from, String to, Params params) throws Exception {
         if (isHandleLine(line, from, to, params)) {
             return handleLine(line, from, to, params);
         }
@@ -990,7 +1031,7 @@ public class Util implements Constants {
         return from.equals(HANDLE_LINE) && to.equals(HANDLE_LINE);
     }
 
-    private static String handleLine(String line, String from, String to, Params params) {
+    private static String handleLine(String line, String from, String to, Params params) throws Exception {
         if (params.newFileName != null) {
             return PAOperations.newFileName(line, params.newFileName, false, true);
         }
@@ -1081,8 +1122,12 @@ public class Util implements Constants {
     }
 
     public static List<Line> findInFile(String p, String from, Params params) throws Exception {
+        long s = System.currentTimeMillis();
         Filters f = Filters.getFilters(from, params);
-        return findInFile(p, f, params);
+        List<Line> r = findInFile(p, f, params);
+        long e = System.currentTimeMillis();
+        logp(2, "findInFile", s, e);
+        return r;
     }
 
     public static List<Line> findInFile(String p, Filters f, Params params) throws Exception {
@@ -1090,7 +1135,8 @@ public class Util implements Constants {
         List<Line> list = new ArrayList<Line>();
         LinesResult lr = new LinesResult();
         while (lr.hasMore) {
-            lr = getLinesFromStream(p, params.getEncoding(), ABATCH, lr);
+            lr = getLinesFromStream(p, params.getEncoding(p), ABATCH, lr);
+            long s = System.currentTimeMillis();
             List<String> lines = lr.lines;
             for (int i = 0; i < lines.size(); i++) {
                 String line = lines.get(i);
@@ -1102,6 +1148,8 @@ public class Util implements Constants {
                     list.add(item);
                 }
             }
+            long e = System.currentTimeMillis();
+            logp(2, "findInLines", s, e);
         }
         return list;
     }
@@ -1650,6 +1698,11 @@ public class Util implements Constants {
 
     public static void log(int i, String m) {
         log(tab(i) + m);
+    }
+
+    public static void logp(int i, String n, long s, long e) {
+        if (FileUtil.debugp_)
+            log(i, format("{0} cost {1} ms", n, e - s));
     }
 
     public static void log(String m, Object... objects) {
