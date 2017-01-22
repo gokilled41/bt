@@ -1,1 +1,0 @@
-call g1 id name

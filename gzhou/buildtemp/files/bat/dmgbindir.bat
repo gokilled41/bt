@@ -1,2 +1,0 @@
-call dmgdir
-cd bin

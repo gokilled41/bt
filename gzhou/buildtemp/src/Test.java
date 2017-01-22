@@ -56,6 +56,8 @@ import org.w3c.dom.*;
 import org.w3c.dom.Node;
 import org.xml.sax.*;
 
+import xtj.DocumentProcessor;
+
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -88,11 +90,8 @@ public class Test extends gzhou.Util {
 
     public static void main(String[] args) throws Exception {
         
-        PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(desktopDir + "small.log")));
-        for (int i = 0; i < 300000; i++) {
-            out.println(i + ": 1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou");
-        }
-        out.close();
+        DocumentProcessor p = new DocumentProcessor();
+        
         
     }
 
