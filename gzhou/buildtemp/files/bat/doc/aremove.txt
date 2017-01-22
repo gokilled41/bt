@@ -10,6 +10,7 @@ aremove is one command to remove files under given dir.
                    it can be wrap with "'". it means exact strings without regex conversion.
                    it can be wrap with "@". it means regular expressions.
                    it can be wrap with "{}". it means exactly match not contains.
+                   it can be end with ";". it means exact strings without regex conversion.
     - kd         keep dirs
     - rn         set recursive level. like: r0
     - np         no path: the pattern of files not include path string

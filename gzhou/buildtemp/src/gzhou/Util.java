@@ -1123,11 +1123,23 @@ public class Util implements Constants {
 
     public static List<Line> findInFile(String p, String from, Params params) throws Exception {
         long s = System.currentTimeMillis();
+        params.bigFile = isBigFile(p);
         Filters f = Filters.getFilters(from, params);
         List<Line> r = findInFile(p, f, params);
         long e = System.currentTimeMillis();
         logp(2, "findInFile", s, e);
         return r;
+    }
+
+    public static boolean isBigFile(String p) {
+        File f = new File(p);
+        if (f.exists()) {
+            boolean r = f.length() >= 100 * MB;
+            if (r && FileUtil.debug_)
+                log(2, "big file: " + p);
+            return r;
+        }
+        return false;
     }
 
     public static List<Line> findInFile(String p, Filters f, Params params) throws Exception {

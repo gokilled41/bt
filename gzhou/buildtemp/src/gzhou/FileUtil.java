@@ -2522,7 +2522,7 @@ public class FileUtil extends Util implements Constants {
                         continue;
                     if (file.isFile())
                         filesSize++;
-                    else 
+                    else
                         dirsSize++;
                     String p = file.getAbsolutePath();
                     boolean deleted = false;
@@ -2537,7 +2537,7 @@ public class FileUtil extends Util implements Constants {
                         log(2, toRelativePath(from, p) + " [failed]");
                         if (file.isFile())
                             filesSize--;
-                        else 
+                        else
                             dirsSize--;
                     }
                     addWithoutDup(dirs, p);
@@ -2670,7 +2670,8 @@ public class FileUtil extends Util implements Constants {
                             if (cost <= 5)
                                 log(tab(2) + format("found \"{0}\" places in \"{1}\":", foundLines.size(), n1));
                             else
-                                log(tab(2) + format("found \"{0}\" places in \"{1}\" ({2}s):", foundLines.size(), n1, cost));
+                                log(tab(2)
+                                        + format("found \"{0}\" places in \"{1}\" ({2}s):", foundLines.size(), n1, cost));
                             log();
                             for (Line line : foundLines) {
                                 line.print(6, 7, params.noLineNumber);
@@ -2998,7 +2999,8 @@ public class FileUtil extends Util implements Constants {
             return newFileName(fileName, newFileName, isFile, false);
         }
 
-        public static String newFileName(String fileName, String newFileName, boolean isFile, boolean handleLine) throws Exception {
+        public static String newFileName(String fileName, String newFileName, boolean isFile, boolean handleLine)
+                throws Exception {
             String fileSimpleName = fileName;
             if (!handleLine)
                 fileSimpleName = getFileSimpleName(fileName);
@@ -3581,7 +3583,7 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static class FiltersPattern {
-        private Params params;
+        public Params params;
         public String p;
         public boolean include = true;
         public boolean quote = false;
@@ -3589,6 +3591,8 @@ public class FileUtil extends Util implements Constants {
         public boolean regular = false;
         public boolean lineNumber = false;
         public boolean emptyLine = false;
+        public boolean oneSemicolon = false;
+        public boolean twoSemicolon = false;
 
         private boolean ignore = false;
 
@@ -3619,9 +3623,14 @@ public class FileUtil extends Util implements Constants {
                 lineNumber = true;
             } else if (p.equalsIgnoreCase("EL")) {
                 emptyLine = true;
-            } else if (p.endsWith(";")) {
-                quote = true;
+            } else if (p.endsWith(";") && !p.endsWith(";;")) {
+                oneSemicolon = true;
                 p = cutLast(p, 1);
+            } else if (p.endsWith(";;")) {
+                twoSemicolon = true;
+                p = cutLast(p, 2);
+            } else if (params.bigFile) {
+                quote = true;
             }
         }
 
@@ -3702,6 +3711,16 @@ public class FileUtil extends Util implements Constants {
                     log(format("Pattern: line={2}, p={0}, quote={1}", p, quote, line));
                 }
                 b = line.contains(p);
+            } else if (oneSemicolon) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, oneSemicolon={1}", p, oneSemicolon, line));
+                }
+                b = line.contains(p);
+            } else if (quote) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, quote={1}", p, quote, line));
+                }
+                b = line.contains(p);
             } else if (emptyLine) {
                 if (debug2_) {
                     log(format("Pattern: line={2}, p={0}, emptyLine={1}", p, emptyLine, line));
@@ -3737,6 +3756,11 @@ public class FileUtil extends Util implements Constants {
             } else if (quote) {
                 if (debug2_) {
                     log(format("Pattern: line={2}, p={0}, quote={1}", p, quote, line));
+                }
+                b = line.contains(p);
+            } else if (oneSemicolon) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, oneSemicolon={1}", p, oneSemicolon, line));
                 }
                 b = line.contains(p);
             } else if (lineNumber) {
@@ -3783,6 +3807,10 @@ public class FileUtil extends Util implements Constants {
                 sb.append("(" + p + ")");
             else if (regular)
                 sb.append("@" + p + "@");
+            else if (oneSemicolon)
+                sb.append(p + ";");
+            else if (twoSemicolon)
+                sb.append(p + ";;");
             else
                 sb.append(p);
             return sb.toString();
@@ -5247,6 +5275,7 @@ public class FileUtil extends Util implements Constants {
         public OutputSummary outputSummary = null;
         public GoDir goDir = null;
         public boolean copyToOneFile = false;
+        public boolean bigFile = false;
 
         public int getExpandLines() {
             if (expandLines == null) {
