@@ -2574,7 +2574,7 @@ public class FileUtil extends Util implements Constants {
                             }
                             Line l = new Line(i + 1, line, params);
                             if (!one)
-                                l.print(6, 7, params.noLineNumber);
+                                l.print(4, 7, params.noLineNumber);
                             else
                                 l.print(0, 7, params.noLineNumber);
                         }
@@ -2674,7 +2674,7 @@ public class FileUtil extends Util implements Constants {
                                         + format("found \"{0}\" places in \"{1}\" ({2}s):", foundLines.size(), n1, cost));
                             log();
                             for (Line line : foundLines) {
-                                line.print(6, 7, params.noLineNumber);
+                                line.print(4, 7, params.noLineNumber);
                             }
                             log();
                             hasResult = true;

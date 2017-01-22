@@ -1350,7 +1350,7 @@ public class Util implements Constants {
         public void logLines() {
             if (affected != null) {
                 for (Line line : affected) {
-                    line.print(6, 7);
+                    line.print(4, 7);
                 }
             }
         }
