@@ -472,25 +472,34 @@ public class Util implements Constants {
     }
 
     public static String determineEncoding(String p) throws Exception {
-        return determineEncoding(toList(getFirstLine(p)));
+        long s = System.currentTimeMillis();
+        try {
+            return determineEncoding(getFirstLines(p));
+        } finally {
+            long e = System.currentTimeMillis();
+            logp(2, "determineEncoding with p", s, e);
+        }
     }
 
-    private static String getFirstLine(String p) throws Exception {
-        List<String> lines = getLines(p, "GBK", 1);
-        if (lines != null && !lines.isEmpty()) {
-            return lines.get(0);
-        }
-        return null;
+    private static List<String> getFirstLines(String p) throws Exception {
+        return getLines(p, "GBK", 1000);
     }
 
     public static String determineEncoding(List<String> lines) {
-        if (lines != null && !lines.isEmpty()) {
-            String line = lines.get(0);
-            if (isChinese(line)) {
-                return "GBK";
+        long s = System.currentTimeMillis();
+        try {
+            if (lines != null && !lines.isEmpty()) {
+                for (String line : lines) {
+                    if (isChinese(line)) {
+                        return "GBK";
+                    }
+                }
             }
+            return "UTF-8";
+        } finally {
+            long e = System.currentTimeMillis();
+            logp(2, "determineEncoding with lines", s, e);
         }
-        return "UTF-8";
     }
 
     public static void setLines(String filePath, List<String> lines, String encoding) throws Exception {
