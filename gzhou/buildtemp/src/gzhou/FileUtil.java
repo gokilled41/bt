@@ -2968,6 +2968,9 @@ public class FileUtil extends Util implements Constants {
             if (filefrom.endsWith(";")) {
                 params.noPath = true;
             }
+            if (params.recursiveLevel == 0) {
+                params.noPath = true;
+            }
             return filefrom;
         }
 
