@@ -3649,9 +3649,13 @@ public class FileUtil extends Util implements Constants {
                 quote = true;
             }
             p_original = p;
-            p = fixSearchKey(p);
-            if (!p.equals(p_original)) {
-                oneSemicolon = true;
+            if (!quote) {
+                if (!p.contains("/") && !p.contains("\\")) {
+                    p = fixSearchKey(p);
+                    if (!p.equals(p_original)) {
+                        oneSemicolon = true;
+                    }
+                }
             }
         }
 
