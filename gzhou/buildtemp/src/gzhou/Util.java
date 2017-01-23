@@ -1505,6 +1505,7 @@ public class Util implements Constants {
         addWithoutDup(txtList_, ".scala");
         addWithoutDup(txtList_, ".diff");
         addWithoutDup(txtList_, ".patch");
+        addWithoutDup(txtList_, ".csv");
     }
 
     public static String getFirstArg(String[] args) {

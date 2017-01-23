@@ -90,37 +90,38 @@ public class Test extends gzhou.Util {
 
     public static void main(String[] args) throws Exception {
         
-        DocumentProcessor p = new DocumentProcessor();
         
-        Map<String, Object> c = new HashMap<String, Object>();
-        MapOptions op = new DefaultMapOptions(c);
-        p.initialize(op);
-        
-        final Document doc = DOMUtil.getDocumentFromFile(desktopDir + "complexBookOrder1.xml");
-        
-        PerformanceOperation op2 = new PerformanceOperation() {
-            public String getName() {
-                return "generateJSON";
-            }
-
-            public void operate() throws Exception {
-                JsonNode n = p.generateJSON(doc);
-            }
-
-            public int getBatchSize() {
-                return 1;
-            }
-
-            public void preOperate() {
-            }
-
-            public void postOperate() {
-            }
-        };
-        PerformanceOperator.operate(op2, 3000);
-        
-        
-        System.out.println("OK");
+//        DocumentProcessor p = new DocumentProcessor();
+//        
+//        Map<String, Object> c = new HashMap<String, Object>();
+//        MapOptions op = new DefaultMapOptions(c);
+//        p.initialize(op);
+//        
+//        final Document doc = DOMUtil.getDocumentFromFile(desktopDir + "complexBookOrder1.xml");
+//        
+//        PerformanceOperation op2 = new PerformanceOperation() {
+//            public String getName() {
+//                return "generateJSON";
+//            }
+//
+//            public void operate() throws Exception {
+//                JsonNode n = p.generateJSON(doc);
+//            }
+//
+//            public int getBatchSize() {
+//                return 1;
+//            }
+//
+//            public void preOperate() {
+//            }
+//
+//            public void postOperate() {
+//            }
+//        };
+//        PerformanceOperator.operate(op2, 3000);
+//        
+//        
+//        System.out.println("OK");
         
         // System.out.println(JSONUtil.format(n.toString()));
         
