@@ -2,6 +2,7 @@ package gzhou;
 
 import gzhou.FileUtil.ExpandLinesResult.ExpandLines;
 import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
+import gzhou.FileUtil.GenericParameterResult.GenericParameter;
 import gzhou.FileUtil.GoDirResult.GoDir;
 import gzhou.FileUtil.ListConditionResult.ListCondition;
 import gzhou.FileUtil.OperateLinesResult.OperateLines;
@@ -2716,6 +2717,7 @@ public class FileUtil extends Util implements Constants {
 
         protected static void replaceFiles(String dir, String filefrom, String from, String to, Params params)
                 throws Exception {
+            to = fixReplaceTo(to);
             log(format("replace from \"{0}\" to \"{1}\" in dir: {2}", from, to, formatFrom(dir)));
             Filters filter = Filters.getFilters(filefrom, params);
             List<File> files = Util.listFiles(new File(dir), params.recursive, filter, params);
@@ -3186,7 +3188,8 @@ public class FileUtil extends Util implements Constants {
             }
         }
 
-        private static String formatFrom(String from) {
+        private static String formatFrom(String from) throws Exception {
+            from = toFilePath(from);
             if (matchedItem_ != null) {
                 if (matchedItem_.i > 1) {
                     return format("{0} [{1}]", from, matchedItem_.tarAlias);
@@ -4685,7 +4688,7 @@ public class FileUtil extends Util implements Constants {
             }
 
             private static boolean isSort(String pattern) {
-                return pattern.equals("sort") || pattern.startsWith("sort=");
+                return pattern.startsWith("sort=");
             }
 
             private static String getTo(String pattern) throws Exception {
@@ -5297,6 +5300,65 @@ public class FileUtil extends Util implements Constants {
         }
     }
 
+    public static class GenericParameterResult { // starts with ;
+        public String[] args;
+        public GenericParameter genericParameter;
+
+        public static GenericParameterResult genericParameter(String[] args) {
+            GenericParameterResult r = new GenericParameterResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.genericParameter = parseGenericParameter(last);
+                r.args = cutLastArg(args);
+                if (debug_)
+                    log(tab(2) + "Generic Parameter: " + r.genericParameter);
+            } else {
+                r.genericParameter = null;
+                r.args = args;
+            }
+            return r;
+        }
+
+        private static GenericParameter parseGenericParameter(String last) {
+            if (isGenericParameter(last)) {
+                String p = cutFirst(last, 1);
+                GenericParameter gp = new GenericParameter();
+                gp.init(p);
+                return gp;
+            }
+            return null;
+        }
+
+        public static boolean isParam(String last) {
+            return isGenericParameter(last);
+        }
+
+        private static boolean isGenericParameter(String last) {
+            return last.startsWith(";");
+        }
+
+        public static class GenericParameter {
+            public String p;
+
+            public void init(String p) {
+                this.p = p;
+            }
+
+            public boolean isLast() {
+                return p.equals("l") || p.equals("last");
+            }
+
+            public boolean isFirst() {
+                return p.equals("f") || p.equals("first");
+            }
+
+            @Override
+            public String toString() {
+                return ";" + p;
+            }
+        }
+    }
+
     public static class Params {
 
         public String[] args;
@@ -5332,6 +5394,7 @@ public class FileUtil extends Util implements Constants {
         public GoDir goDir = null;
         public boolean copyToOneFile = false;
         public boolean bigFile = false;
+        public List<GenericParameter> gp = new ArrayList<GenericParameter>();
 
         public int getExpandLines() {
             if (expandLines == null) {
@@ -5553,6 +5616,12 @@ public class FileUtil extends Util implements Constants {
                     if (params.goDir == null)
                         params.goDir = gdr.goDir;
                 }
+                // generic parameter
+                GenericParameterResult gpr = GenericParameterResult.genericParameter(args);
+                if (args.length > gpr.args.length) {
+                    args = gpr.args;
+                    params.gp.add(gpr.genericParameter);
+                }
             } while (args.length < n);
             params.args = args;
             setDefaultParams(params, op);
@@ -5649,6 +5718,8 @@ public class FileUtil extends Util implements Constants {
                 return true;
             if (GoDirResult.isParam(s))
                 return true;
+            if (GenericParameterResult.isParam(s))
+                return true;
             return false;
         }
 
@@ -5670,6 +5741,22 @@ public class FileUtil extends Util implements Constants {
 
         public boolean isSql() {
             return zipOperations != null && zipOperations.isSql();
+        }
+
+        public boolean isLast() {
+            for (GenericParameter p : gp) {
+                if (p.isLast())
+                    return true;
+            }
+            return false;
+        }
+
+        public boolean isFirst() {
+            for (GenericParameter p : gp) {
+                if (p.isFirst())
+                    return true;
+            }
+            return false;
         }
     }
 

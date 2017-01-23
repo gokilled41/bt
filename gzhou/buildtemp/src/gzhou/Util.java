@@ -309,6 +309,12 @@ public class Util implements Constants {
         return s;
     }
 
+    public static String fixReplaceTo(String s) {
+        s = fixSearchKey(s);
+        s = unwrap(s);
+        return s;
+    }
+
     public static String fixSearchKey(String s) {
         if (s != null && !s.isEmpty()) {
             if (s.contains("/s")) {
@@ -344,6 +350,14 @@ public class Util implements Constants {
             if (s.contains(";rs")) {
                 s = s.replace(";rs", "\\");
             }
+        }
+        return s;
+    }
+
+    private static String unwrap(String s) {
+        if (s != null && !s.isEmpty()) {
+            if (s.startsWith("'") && s.endsWith("'"))
+                return cut(s, 1, 1);
         }
         return s;
     }
@@ -1160,8 +1174,26 @@ public class Util implements Constants {
         params.bigFile = isBigFile(p);
         Filters f = Filters.getFilters(from, params);
         List<Line> r = findInFile(p, f, params);
+        r = handleFoundResult(r, params);
         long e = System.currentTimeMillis();
         logp(2, "findInFile", s, e);
+        return r;
+    }
+
+    private static List<Line> handleFoundResult(List<Line> r, Params p) {
+        if (r != null && r.size() > 0) {
+            List<Line> r2 = new ArrayList<Line>();
+            if (p.isFirst()) {
+                r2.add(r.get(0));
+            }
+            if (r.size() > 1) {
+                if (p.isLast()) {
+                    r2.add(subLast(r));
+                }
+            }
+            if (!r2.isEmpty())
+                return r2;
+        }
         return r;
     }
 
@@ -1514,25 +1546,25 @@ public class Util implements Constants {
         return args2;
     }
 
-    public static String getFirst(List<String> list) {
+    public static <T> T getFirst(List<T> list) {
         return list.get(0);
     }
 
-    public static List<String> cutFirst(List<String> list) {
+    public static <T> List<T> cutFirst(List<T> list) {
         list.remove(0);
         return list;
     }
 
-    public static List<String> cutLast(List<String> list) {
+    public static <T> List<T> cutLast(List<T> list) {
         list.remove(list.size() - 1);
         return list;
     }
 
-    public static String subFirst(List<String> list) {
+    public static <T> T subFirst(List<T> list) {
         return list.get(0);
     }
 
-    public static String subLast(List<String> list) {
+    public static <T> T subLast(List<T> list) {
         return list.get(list.size() - 1);
     }
 
