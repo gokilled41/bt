@@ -56,7 +56,7 @@ import org.w3c.dom.*;
 import org.w3c.dom.Node;
 import org.xml.sax.*;
 
-import xtj.DocumentProcessor;
+import xtj.*;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -92,6 +92,37 @@ public class Test extends gzhou.Util {
         
         DocumentProcessor p = new DocumentProcessor();
         
+        Map<String, Object> c = new HashMap<String, Object>();
+        MapOptions op = new DefaultMapOptions(c);
+        p.initialize(op);
+        
+        final Document doc = DOMUtil.getDocumentFromFile(desktopDir + "complexBookOrder1.xml");
+        
+        PerformanceOperation op2 = new PerformanceOperation() {
+            public String getName() {
+                return "generateJSON";
+            }
+
+            public void operate() throws Exception {
+                JsonNode n = p.generateJSON(doc);
+            }
+
+            public int getBatchSize() {
+                return 1;
+            }
+
+            public void preOperate() {
+            }
+
+            public void postOperate() {
+            }
+        };
+        PerformanceOperator.operate(op2, 3000);
+        
+        
+        System.out.println("OK");
+        
+        // System.out.println(JSONUtil.format(n.toString()));
         
     }
 

@@ -304,6 +304,16 @@ public class PAUnit extends TestCase implements Constants {
         assertEquals(PAOperations.newFileName("a.txt", "dd", true, false), "dd.txt"); // tar
     }
 
+    public void testRegex_01() throws Exception {
+        String p = "s\\d*[kKmMgG]?-?\\d*[kKmMgG]?";
+        assertEquals("s5m".matches(p), true);
+        assertEquals("s10m".matches(p), true);
+        assertEquals("s10m-20m".matches(p), true);
+        assertEquals("s-20m".matches(p), true);
+        assertEquals("s1g".matches(p), true);
+        assertEquals("s1G-2G".matches(p), true);
+    }
+    
     private void doTest(String dir, String name, String filefrom, boolean expect) {
         doTest(dir, name, filefrom, expect, 0);
     }

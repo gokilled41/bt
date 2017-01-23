@@ -10,7 +10,7 @@ public class DocumentProcessor implements DOMToJSONProcessor<JsonNode> {
     private MapOptions mapper;
 
     @Override
-    public JsonNode generateJSON(Document document, boolean own) throws ConversionException {
+    public JsonNode generateJSON(Document document) throws ConversionException {
         JsonNode result = (JsonNode) domWalker.walk(document, domResponder);
         return result;
     }

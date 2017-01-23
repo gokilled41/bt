@@ -718,6 +718,10 @@ public class Util implements Constants {
                 Collections.sort(list, new FileTimestampSorter());
                 return;
             }
+            if (params.sortType.equals("s")) { // size
+                Collections.sort(list, new FileSizeSorter());
+                return;
+            }
         }
         Collections.sort(list);
     }
@@ -1381,6 +1385,14 @@ public class Util implements Constants {
         public int compare(File o1, File o2) {
             Long l1 = o1.lastModified();
             Long l2 = o2.lastModified();
+            return -l1.compareTo(l2);
+        }
+    }
+
+    public static class FileSizeSorter implements Comparator<File> {
+        public int compare(File o1, File o2) {
+            Long l1 = o1.length();
+            Long l2 = o2.length();
             return -l1.compareTo(l2);
         }
     }

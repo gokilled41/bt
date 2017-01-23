@@ -3553,7 +3553,8 @@ public class FileUtil extends Util implements Constants {
             } else {
                 if (params != null && !params.noPath)
                     name = dir.getAbsolutePath() + FILE_SEPARATOR + name;
-                boolean result = p.accept(name);
+                File file = new File(dir.getAbsolutePath() + FILE_SEPARATOR + name);
+                boolean result = p.accept(name, file);
                 if (debug2_) {
                     log(format(FILTER, p, dir, name, result));
                 }
@@ -3594,6 +3595,7 @@ public class FileUtil extends Util implements Constants {
         public boolean group = false;
         public boolean regular = false;
         public boolean lineNumber = false;
+        public boolean fileSize = false;
         public boolean emptyLine = false;
         public boolean oneSemicolon = false;
         public boolean twoSemicolon = false;
@@ -3627,6 +3629,8 @@ public class FileUtil extends Util implements Constants {
                 p = cutLast(p, 1);
             } else if (p.matches("l\\d*-?\\d*")) {
                 lineNumber = true;
+            } else if (p.matches("s\\d*[kKmMgG]?-?\\d*[kKmMgG]?")) {
+                fileSize = true;
             } else if (p.equalsIgnoreCase("EL")) {
                 emptyLine = true;
             } else if (p.endsWith(";") && !p.endsWith(";;")) {
@@ -3716,7 +3720,7 @@ public class FileUtil extends Util implements Constants {
             return pos == p2.length() - 1;
         }
 
-        public boolean accept(String line) {
+        public boolean accept(String line, File file) {
             boolean b;
             if (regular) {
                 if (debug2_) {
@@ -3733,6 +3737,11 @@ public class FileUtil extends Util implements Constants {
                     log(format("Pattern: line={2}, p={0}, oneSemicolon={1}", p, oneSemicolon, line));
                 }
                 b = line.contains(p);
+            } else if (fileSize) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, fileSize={1}", p, fileSize, line));
+                }
+                b = FileSize.matchesFileSize(p, file);
             } else if (emptyLine) {
                 if (debug2_) {
                     log(format("Pattern: line={2}, p={0}, emptyLine={1}", p, emptyLine, line));
@@ -4314,17 +4323,23 @@ public class FileUtil extends Util implements Constants {
         private static String parseSortType(String last) {
             if (isSortByTime(last))
                 return cutFirst(last, 1);
+            if (isSortBySize(last))
+                return cutFirst(last, 1);
             if (isSortByColumn(last))
                 return cut(last, 2, 1);
             return null;
         }
 
         public static boolean isParam(String last) {
-            return isSortByTime(last) || isSortByColumn(last);
+            return isSortByTime(last) || isSortByColumn(last) || isSortBySize(last);
         }
 
         private static boolean isSortByTime(String last) {
             return last.matches("s[t]");
+        }
+
+        private static boolean isSortBySize(String last) {
+            return last.matches("s[s]");
         }
 
         private static boolean isSortByColumn(String last) {
@@ -6444,6 +6459,81 @@ public class FileUtil extends Util implements Constants {
             public static int listSize() {
                 return 2;
             }
+        }
+    }
+
+    public static class FileSize {
+        public long from = 0;
+        public long to = 0;
+
+        public static FileSize parseFileSize(String pattern) {
+            if (pattern.matches("s\\d*[kKmMgG]?-?\\d*[kKmMgG]?")) {
+                pattern = cutFirst(pattern, 1);
+                String from, to;
+                if (pattern.contains("-")) {
+                    int i = pattern.indexOf("-");
+                    from = pattern.substring(0, i);
+                    to = pattern.substring(i + 1, pattern.length());
+                } else {
+                    from = pattern;
+                    to = "";
+                }
+                long fpos = 0;
+                long tpos = Long.MAX_VALUE;
+                if (from != null && !from.isEmpty()) {
+                    fpos = toSize(from);
+                }
+                if (to != null && !to.isEmpty()) {
+                    tpos = toSize(to);
+                }
+                FileSize el = new FileSize();
+                el.from = fpos;
+                el.to = tpos;
+                return el;
+            }
+            return null;
+        }
+
+        private static long toSize(String s) {
+            String last = subLast(s, 1);
+            if (last.matches("\\d"))
+                s = s + "m";
+            String unit = subLast(s, 1).toLowerCase();
+            String n = cutLast(s, 1);
+            int i = toInt(n);
+            if (unit.equals("k"))
+                return i * KB;
+            if (unit.equals("m"))
+                return i * MB;
+            if (unit.equals("g"))
+                return i * GB;
+            return -1;
+        }
+
+        public static boolean matchesFileSize(String pattern, File file) {
+            if (file.isFile() && file.exists()) {
+                return matchesFileSize(pattern, file.length());
+            }
+            return false;
+        }
+
+        public static boolean matchesFileSize(String pattern, long pos) {
+            FileSize el = FileSize.parseFileSize(pattern);
+            long fpos = el.from;
+            long tpos = el.to;
+            return pos >= fpos && pos <= tpos;
+        }
+
+        public static boolean matchesFileSize(FileSize fileSize, long pos) {
+            FileSize el = fileSize;
+            long fpos = el.from;
+            long tpos = el.to;
+            return pos >= fpos && pos < tpos;
+        }
+
+        @Override
+        public String toString() {
+            return format("{0}-{1}", from, to);
         }
     }
 }
