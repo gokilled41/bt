@@ -17,3 +17,9 @@
   - doc
 - dsb: bug desc with ""
 - all dd\ref af [com.vitria.domainservice o=dd\a.log
+- doc: ;st, ;e, ;;
+- al eul vtdfclient.jar acp dd\sbdir ;auto: auto find sub locations
+- al eul vtdfclient.jar up=haha1\stream: auto update the jars into given zip, zip name is auto fit
+- al xxx -a: list hidden files
+- generic param: ; or -
+- not list dirs if no files under it

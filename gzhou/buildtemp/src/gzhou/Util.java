@@ -1477,7 +1477,7 @@ public class Util implements Constants {
     public static boolean isTextFile(File file) {
         String name = file.getName();
         for (String suffix : txtList_) {
-            if (name.endsWith(suffix))
+            if (name.toLowerCase().endsWith(suffix))
                 return true;
         }
         return false;
@@ -1485,27 +1485,38 @@ public class Util implements Constants {
 
     private static void initTxt() {
         addWithoutDup(txtList_, ".txt");
-        addWithoutDup(txtList_, ".java");
-        addWithoutDup(txtList_, ".xml");
-        addWithoutDup(txtList_, ".xsd");
-        addWithoutDup(txtList_, ".html");
-        addWithoutDup(txtList_, ".ini");
-        addWithoutDup(txtList_, ".properties");
-        addWithoutDup(txtList_, ".bat");
-        addWithoutDup(txtList_, ".project");
-        addWithoutDup(txtList_, ".js");
-        addWithoutDup(txtList_, ".jsp");
-        addWithoutDup(txtList_, ".module");
-        addWithoutDup(txtList_, ".component");
-        addWithoutDup(txtList_, ".cmd");
+        addWithoutDup(txtList_, ".csv");
+        addWithoutDup(txtList_, ".log");
         addWithoutDup(txtList_, ".sql");
         addWithoutDup(txtList_, ".lst");
-        addWithoutDup(txtList_, ".log");
-        addWithoutDup(txtList_, ".conf");
+        addWithoutDup(txtList_, ".java");
+        addWithoutDup(txtList_, ".as");
         addWithoutDup(txtList_, ".scala");
+        addWithoutDup(txtList_, ".r");
+        addWithoutDup(txtList_, ".xml");
+        addWithoutDup(txtList_, ".xsd");
+        addWithoutDup(txtList_, ".xsl");
+        addWithoutDup(txtList_, ".html");
+        addWithoutDup(txtList_, ".css");
+        addWithoutDup(txtList_, ".wsdl");
+        addWithoutDup(txtList_, ".js");
+        addWithoutDup(txtList_, ".jsp");
+        addWithoutDup(txtList_, ".json");
+        addWithoutDup(txtList_, ".ini");
+        addWithoutDup(txtList_, ".bat");
+        addWithoutDup(txtList_, ".cmd");
+        addWithoutDup(txtList_, ".sh");
+        addWithoutDup(txtList_, ".properties");
+        addWithoutDup(txtList_, ".conf");
         addWithoutDup(txtList_, ".diff");
         addWithoutDup(txtList_, ".patch");
-        addWithoutDup(txtList_, ".csv");
+        addWithoutDup(txtList_, ".classpath");
+        addWithoutDup(txtList_, ".project");
+        addWithoutDup(txtList_, ".module");
+        addWithoutDup(txtList_, ".component");
+        addWithoutDup(txtList_, ".md");
+        addWithoutDup(txtList_, ".mf");
+        addWithoutDup(txtList_, ".vm");
     }
 
     public static String getFirstArg(String[] args) {

@@ -89,8 +89,7 @@ import com.vitria.xquery.*;
 public class Test extends gzhou.Util {
 
     public static void main(String[] args) throws Exception {
-        
-        
+
 //        DocumentProcessor p = new DocumentProcessor();
 //        
 //        Map<String, Object> c = new HashMap<String, Object>();

@@ -14,7 +14,7 @@ afind is one command to find given search key in files.
                    it can be wrap with "'". it means exact strings without regex conversion.
                    it can be wrap with "@". it means regular expressions.
                    it can be wrap with "{}". it means exactly match not contains.
-                   it can be end with ";". it means exact strings without regex conversion.
+                   it can be end with ";". it means contains exact strings.
     - from       search key.
                    it can be combined like: "a/b\c\d". "/" means includes. "\" means excludes.
                    it can be combined like: "a##b". "##" means or.
@@ -23,8 +23,8 @@ afind is one command to find given search key in files.
                    it can be wrap with "'". it means exact strings without regex conversion.
                    it can be wrap with "@". it means regular expressions.
                    it can be wrap with "{}". it means exactly match not contains.
-                   it can be end with ";". it means exact strings without regex conversion.
-                   it can be end with ";;". it means with regex conversion.
+                   it can be end with ";". it means contains exact strings.
+                   it can be end with ";;". it means matches regex strings.
                    by default
                      it is exact strings without regex conversion for big files (>=100MB).
                      it is with regex conversion for small files (<100MB).
