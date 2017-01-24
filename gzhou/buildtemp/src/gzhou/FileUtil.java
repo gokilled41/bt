@@ -3656,7 +3656,9 @@ public class FileUtil extends Util implements Constants {
                 if (!p.contains("/") && !p.contains("\\")) {
                     p = fixSearchKey(p);
                     if (!p.equals(p_original)) {
-                        oneSemicolon = true;
+                        if (!startsWith && !endsWith) {
+                            oneSemicolon = true;
+                        }
                     }
                 }
             }
@@ -3739,6 +3741,16 @@ public class FileUtil extends Util implements Constants {
                     log(format("Pattern: line={2}, p={0}, quote={1}", p, quote, line));
                 }
                 b = line.contains(p);
+            } else if (startsWith) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, startsWith={1}", p, startsWith, line));
+                }
+                b = line.startsWith(p);
+            } else if (endsWith) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, endsWith={1}", p, endsWith, line));
+                }
+                b = line.endsWith(p);
             } else if (oneSemicolon) {
                 if (debug2_) {
                     log(format("Pattern: line={2}, p={0}, oneSemicolon={1}", p, oneSemicolon, line));
@@ -3754,16 +3766,6 @@ public class FileUtil extends Util implements Constants {
                     log(format("Pattern: line={2}, p={0}, emptyLine={1}", p, emptyLine, line));
                 }
                 b = line.trim().isEmpty();
-            } else if (startsWith) {
-                if (debug2_) {
-                    log(format("Pattern: line={2}, p={0}, startsWith={1}", p, startsWith, line));
-                }
-                b = line.startsWith(p);
-            } else if (endsWith) {
-                if (debug2_) {
-                    log(format("Pattern: line={2}, p={0}, endsWith={1}", p, endsWith, line));
-                }
-                b = line.endsWith(p);
             } else {
                 String fixPattern = fixPattern(p);
                 if (debug2_) {
@@ -3796,6 +3798,16 @@ public class FileUtil extends Util implements Constants {
                     log(format("Pattern: line={2}, p={0}, quote={1}", p, quote, line));
                 }
                 b = line.contains(p);
+            } else if (startsWith) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, startsWith={1}", p, startsWith, line));
+                }
+                b = line.startsWith(p);
+            } else if (endsWith) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, endsWith={1}", p, endsWith, line));
+                }
+                b = line.endsWith(p);
             } else if (oneSemicolon) {
                 if (debug2_) {
                     log(format("Pattern: line={2}, p={0}, oneSemicolon={1}", p, oneSemicolon, line));
@@ -3811,16 +3823,6 @@ public class FileUtil extends Util implements Constants {
                     log(format("Pattern: line={2}, p={0}, emptyLine={1}", p, emptyLine, line));
                 }
                 b = line.trim().isEmpty();
-            } else if (startsWith) {
-                if (debug2_) {
-                    log(format("Pattern: line={2}, p={0}, startsWith={1}", p, startsWith, line));
-                }
-                b = line.startsWith(p);
-            } else if (endsWith) {
-                if (debug2_) {
-                    log(format("Pattern: line={2}, p={0}, endsWith={1}", p, endsWith, line));
-                }
-                b = line.endsWith(p);
             } else {
                 String fixPattern = fixPattern(p);
                 if (debug2_) {
@@ -3856,14 +3858,14 @@ public class FileUtil extends Util implements Constants {
                 sb.append("(" + p + ")");
             else if (regular)
                 sb.append("@" + p + "@");
-            else if (oneSemicolon)
-                sb.append(p + ";");
-            else if (twoSemicolon)
-                sb.append(p + ";;");
             else if (startsWith)
                 sb.append(p + ";st");
             else if (endsWith)
                 sb.append(p + ";e");
+            else if (oneSemicolon)
+                sb.append(p + ";");
+            else if (twoSemicolon)
+                sb.append(p + ";;");
             else
                 sb.append(p);
             return sb.toString();

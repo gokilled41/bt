@@ -1,2 +1,2 @@
 @echo off
-call af tar %~1;o;st
+call af tar %*
