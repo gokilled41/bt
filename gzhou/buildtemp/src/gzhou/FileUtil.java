@@ -4688,7 +4688,7 @@ public class FileUtil extends Util implements Constants {
             }
 
             private static boolean isSort(String pattern) {
-                return pattern.startsWith("sort=");
+                return pattern.equals("sort") || pattern.startsWith("sort=");
             }
 
             private static String getTo(String pattern) throws Exception {
@@ -5000,26 +5000,32 @@ public class FileUtil extends Util implements Constants {
         }
 
         public static boolean isParam(String last) {
-            return isInCondition(last);
+            return isInCondition(last) || isNotInCondition(last);
         }
 
         private static boolean isInCondition(String last) {
             return last.matches("in\\(.*\\)");
         }
 
+        private static boolean isNotInCondition(String last) {
+            return last.matches("notin\\(.*\\)");
+        }
+
         public static class ListCondition {
             public String dir;
             public String pattern;
             public List<String> fileNames;
+            public boolean notin = false;
 
             public boolean matches(File file) {
                 return matchesListCondition(this, file.getAbsolutePath());
             }
 
             public static ListCondition parseListCondition(String pattern, Params params) throws Exception {
-                if (isInCondition(pattern)) {
+                if (isParam(pattern)) {
                     ListCondition lc = new ListCondition();
-                    String dir = cut(pattern, 3, 1);
+                    lc.notin = isNotInCondition(pattern);
+                    String dir = cut(pattern, (lc.notin ? 6 : 3), 1);
                     lc.dir = dir;
                     lc.pattern = null;
                     dir = toTARAlias(dir);
@@ -5028,14 +5034,13 @@ public class FileUtil extends Util implements Constants {
                     String filefrom = "*";
                     params = new Params();
                     FilenameFilter filter = Filters.getFilters(filefrom, params);
-                    List<File> files = Util.listFiles(new File(from), false, filter, params);
+                    List<File> files = Util.listFiles(new File(from), true, filter, params);
 
                     List<String> fileNames = new ArrayList<String>();
                     for (File file : files) {
                         fileNames.add(file.getName());
                     }
                     lc.fileNames = fileNames;
-
                     return lc;
                 }
                 return null;
@@ -5044,7 +5049,10 @@ public class FileUtil extends Util implements Constants {
             public static boolean matchesListCondition(ListCondition listCondition, String p) {
                 ListCondition lc = listCondition;
                 String fileName = getFileName(p);
-                return lc.fileNames.contains(fileName);
+                if (lc.notin)
+                    return !lc.fileNames.contains(fileName);
+                else
+                    return lc.fileNames.contains(fileName);
             }
 
             @Override

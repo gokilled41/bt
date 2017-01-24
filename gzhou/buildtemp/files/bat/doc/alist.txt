@@ -1,5 +1,5 @@
 alist is one command to list files under given dir.
-  alist <dir> [<pattern>] [t] [ds] [zip] [sort] [adf] [ud] [nd] [rn] [np] [fn/fp] [o] [d] [f] [go]
+  alist <dir> [<pattern>] [t] [ds] [zip] [sort] [in(xxx)] [adf] [ud] [nd] [rn] [np] [fn/fp] [o] [d] [f] [go]
     - dir        one dir or one tar alias
     - pattern    files to list
                    file name like "a.jar" or file pattern like "*Manager*" or "*.zip"
@@ -22,6 +22,9 @@ alist is one command to list files under given dir.
     - sort       sort operations
                    sort:                    sort the files
                    sort=desc:               sort the files desc
+    - in         list conditions
+                   in:                      list the files in given dir
+                   notin:                   list the files NOT in given dir
     - adf        adf=xxx                    diff with the file with same file name under given dir
     - ud         use dot
     - nd         no file detail
