@@ -23,3 +23,6 @@
 - al xxx -a: list hidden files
 - generic param: ; or -
 - not list dirs if no files under it
+- al k DS10/085952 af ;m
+- al dd .zip unzip
+

@@ -5809,6 +5809,8 @@ public class FileUtil extends Util implements Constants {
                 return 70;
             if (o1.equals("o"))
                 return 60;
+            if (o1.startsWith("o="))
+                return 60;
             if (o1.equals("sl"))
                 return 50;
             return 0;
@@ -5821,9 +5823,14 @@ public class FileUtil extends Util implements Constants {
             boolean outputToFile = false;
             boolean slient = false;
             String last = getLastArg(args);
+            String outputFile = null;
             if (last != null) {
                 if (last.equalsIgnoreCase("o")) {
                     outputToFile = true;
+                    args = cutLastArg(args);
+                } else if (last.startsWith("o=")) {
+                    outputToFile = true;
+                    outputFile = cutFirst(last, 2);
                     args = cutLastArg(args);
                 } else if (last.equalsIgnoreCase("sl")) {
                     outputToFile = true;
@@ -5831,9 +5838,12 @@ public class FileUtil extends Util implements Constants {
                     args = cutLastArg(args);
                 }
                 if (outputToFile) {
-                    String dir = "D:\\alogs\\";
-                    mkdirs(dir);
-                    String file = dir + n + ".log";
+                    String file;
+                    if (outputFile == null) {
+                        file = "D:\\alogs\\" + n + ".log";
+                    } else {
+                        file = toTARAlias(outputFile);
+                    }
                     if (!slient)
                         log("output to: " + file);
                     outputToFile(file);
@@ -5846,9 +5856,10 @@ public class FileUtil extends Util implements Constants {
             return args;
         }
 
-        public static void outputToFile(String n) throws FileNotFoundException {
+        public static void outputToFile(String file) throws FileNotFoundException {
             outputToFile_ = true;
-            System.setOut(new PrintStream(n));
+            mkdirs(getParent(file));
+            System.setOut(new PrintStream(file));
         }
     }
 
