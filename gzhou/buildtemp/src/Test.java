@@ -90,8 +90,6 @@ public class Test extends gzhou.Util {
 
     public static void main(String[] args) throws Exception {
 
-        System.out.println(53757448/1000/3600);
-        
 //        DocumentProcessor p = new DocumentProcessor();
 //        
 //        Map<String, Object> c = new HashMap<String, Object>();
