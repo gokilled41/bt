@@ -5,7 +5,7 @@ shift
 
 : a
 
-if "%1" == "" goto end
+if "%~1" == "" goto end
 set batparams=%batparams% %1
 shift
 

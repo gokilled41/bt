@@ -1,7 +1,7 @@
 @echo off
 
-if "%1" == "" goto a1
-if expandt "%1" == "" goto b
+if "%~1" == "" goto a1
+if expandt "%~1" == "" goto b
 
 : a1
 echo kk from [to]
@@ -9,9 +9,9 @@ goto end
 
 : b
 
-if expandt "%1" == "" set kkfrom=%1
+if expandt "%~1" == "" set kkfrom=%1
 set kkto=%1
-if expandt "%2" == "" set kkto=%2
+if expandt "%~2" == "" set kkto=%2
 
 call afu /l%kkfrom%-%kkto% ar "expand lines" "full lines"
 call afu /l%kkfrom%-%kkto% ar ExpandLines FullLines

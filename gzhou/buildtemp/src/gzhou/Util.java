@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,8 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import org.apache.commons.codec.binary.Hex;
 
@@ -590,6 +593,12 @@ public class Util implements Constants {
     public static boolean exists(String path) {
         File folder = new File(path);
         return folder.exists();
+    }
+
+    public static boolean isEmpty(String path) {
+        File folder = new File(path);
+        File[] files = folder.listFiles();
+        return files == null || files.length == 0;
     }
 
     public static void mkdirs(String path) {
@@ -1878,4 +1887,66 @@ public class Util implements Constants {
         return format("call go \"{0}\"", p);
     }
 
+    public static List<String> listZipFileRoot(String path) throws Exception {
+        List<String> list = new ArrayList<String>();
+        String f = FileUtil.toTARAlias(path);
+        if (exists(f)) {
+            ZipFile zf = new ZipFile(f);
+            try {
+                Enumeration<? extends ZipEntry> e = zf.entries();
+                while (e.hasMoreElements()) {
+                    ZipEntry el = e.nextElement();
+                    String n = el.getName();
+                    if (n.contains("/"))
+                        n = cut(n, null, "/");
+                    addWithoutDup(list, n);
+                }
+            } finally {
+                zf.close();
+            }
+        }
+        return list;
+    }
+
+    public static List<String> listZipFileRootDirs(String path) throws Exception {
+        List<String> list = new ArrayList<String>();
+        String f = FileUtil.toTARAlias(path);
+        if (exists(f)) {
+            ZipFile zf = new ZipFile(f);
+            try {
+                Enumeration<? extends ZipEntry> e = zf.entries();
+                while (e.hasMoreElements()) {
+                    ZipEntry el = e.nextElement();
+                    if (!el.isDirectory())
+                        continue;
+                    String n = el.getName();
+                    if (n.contains("/"))
+                        n = cut(n, null, "/");
+                    addWithoutDup(list, n);
+                }
+            } finally {
+                zf.close();
+            }
+        }
+        return list;
+    }
+
+    public static List<String> listZipFileElements(String path) throws Exception {
+        List<String> list = new ArrayList<String>();
+        String f = FileUtil.toTARAlias(path);
+        if (exists(f)) {
+            ZipFile zf = new ZipFile(f);
+            try {
+                Enumeration<? extends ZipEntry> e = zf.entries();
+                while (e.hasMoreElements()) {
+                    ZipEntry el = e.nextElement();
+                    String n = el.getName();
+                    addWithoutDup(list, n);
+                }
+            } finally {
+                zf.close();
+            }
+        }
+        return list;
+    }
 }

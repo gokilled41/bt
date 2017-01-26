@@ -1,7 +1,7 @@
 @echo off
 
-if "%1" == "" goto a
-if not "%1" == "" goto b
+if "%~1" == "" goto a
+if not "%~1" == "" goto b
 
 : a
 echo please give one bat name.

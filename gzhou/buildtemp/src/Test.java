@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.concurrent.*;
 import java.util.logging.Logger;
 import java.util.regex.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import javax.management.*;
 import javax.naming.*;
@@ -90,39 +92,24 @@ public class Test extends gzhou.Util {
 
     public static void main(String[] args) throws Exception {
 
-//        DocumentProcessor p = new DocumentProcessor();
-//        
-//        Map<String, Object> c = new HashMap<String, Object>();
-//        MapOptions op = new DefaultMapOptions(c);
-//        p.initialize(op);
-//        
-//        final Document doc = DOMUtil.getDocumentFromFile(desktopDir + "complexBookOrder1.xml");
-//        
-//        PerformanceOperation op2 = new PerformanceOperation() {
-//            public String getName() {
-//                return "generateJSON";
-//            }
-//
-//            public void operate() throws Exception {
-//                JsonNode n = p.generateJSON(doc);
-//            }
-//
-//            public int getBatchSize() {
-//                return 1;
-//            }
-//
-//            public void preOperate() {
-//            }
-//
-//            public void postOperate() {
-//            }
-//        };
-//        PerformanceOperator.operate(op2, 3000);
-//        
-//        
-//        System.out.println("OK");
-        
-        // System.out.println(JSONUtil.format(n.toString()));
+        //        String f = rndir + "\\TheadDumps.zip";
+//        String f = FileUtil.toTARAlias("euapps\\AppFramework");
+//        System.out.println(f);
+//        ZipFile zf = new ZipFile(f);
+//        Enumeration<? extends ZipEntry> e = zf.entries();
+//        List<String> list = new ArrayList<String>();
+//        while (e.hasMoreElements()) {
+//            ZipEntry el = e.nextElement();
+//            String n = el.getName();
+//            if (n.contains("/"))
+//                n = cut(n, null, "/");
+//            addWithoutDup(list, n);
+//        }
+//        zf.close();
+
+//        System.out.println(list);
+
+        System.out.println(listZipFileElements("euapps\\AppFramework"));
         
     }
 

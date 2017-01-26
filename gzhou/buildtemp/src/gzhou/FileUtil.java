@@ -1855,7 +1855,7 @@ public class FileUtil extends Util implements Constants {
             p = cut(p, 1, 1);
         if (p.equals(".") || p.equals("..") || p.startsWith("./") || p.startsWith("../"))
             return toFilePath(p);
-        return p;
+        return fixSearchKey(p);
     }
 
     private static String getModuleDir(String file) {
@@ -4577,7 +4577,7 @@ public class FileUtil extends Util implements Constants {
                     if (files.size() == 1) {
                         String zipFile = files.get(0);
                         String from = getParent(zipFile);
-                        String to = zo.to;
+                        String to = resolveUnzipTo(zipFile, zo.to);
                         String name = getFileName(zipFile);
                         String line = format("call aunzip \"{0}\" \"{1}\" \"{2}\"", from, to, name);
                         setLines(batDir + "aunziptmp.bat", toList(line));
@@ -4613,6 +4613,24 @@ public class FileUtil extends Util implements Constants {
                     }
                 }
             }
+        }
+
+        private static String resolveUnzipTo(String zipFile, String to) throws Exception {
+            if (to == null)
+                to = getParent(zipFile);
+            String to_original = to;
+            to = toTARAlias(to);
+            if (exists(to) && !isEmpty(to)) {
+                List<String> dirs = listZipFileRootDirs(zipFile);
+                List<String> files = listZipFileRoot(zipFile);
+                String fileSimpleName = getFileSimpleName(zipFile);
+                if (dirs.size() == files.size() && dirs.size() == 1 && dirs.get(0).equals(fileSimpleName)) {
+                    return to_original;
+                } else {
+                    return to_original + FILE_SEPARATOR + fileSimpleName;
+                }
+            }
+            return to_original;
         }
 
         private static String searchFile(String to, String fileName) {
@@ -4674,11 +4692,13 @@ public class FileUtil extends Util implements Constants {
             }
 
             private static boolean isZip(String pattern) {
-                return pattern.startsWith("zip=") || pattern.startsWith("exp=");
+                return pattern.startsWith("zip=") || pattern.startsWith("c=") || pattern.equals("cf")
+                        || pattern.startsWith("exp=");
             }
 
             private static boolean isUnzip(String pattern) {
-                return pattern.startsWith("unzip=") || pattern.startsWith("imp=");
+                return pattern.startsWith("unzip=") || pattern.startsWith("x=") || pattern.equals("x")
+                        || pattern.startsWith("imp=");
             }
 
             private static boolean isAdf(String pattern) {
