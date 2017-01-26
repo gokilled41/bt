@@ -2477,6 +2477,10 @@ public class FileUtil extends Util implements Constants {
                             String p = file.getAbsolutePath();
                             String relativePath = toRelativePath(from, p);
                             String topath = resolveCopyTo(params, dir, p, relativePath);
+                            if (topath == null) {
+                                log(2, "auto copy failed: " + p);
+                                continue;
+                            }
                             // rename file
                             String newFileName = newFileNameInCopy(getFileName(topath), params, true);
                             topath = getParent(topath) + FILE_SEPARATOR + newFileName;
