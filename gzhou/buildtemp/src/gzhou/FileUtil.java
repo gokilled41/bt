@@ -2526,12 +2526,12 @@ public class FileUtil extends Util implements Constants {
                     else
                         dirsSize++;
                     String p = file.getAbsolutePath();
-                    boolean deleted = false;
                     if (params.keepDir)
-                        deleted = deleteFile(p);
+                        deleteFile(p);
                     else
-                        deleted = deleteFileWithFolders(p);
+                        deleteFileWithFolders(p);
                     deleteFolderIfNecessary(params, file);
+                    boolean deleted = !exists(p);
                     if (deleted) {
                         log(2, toRelativePath(from, p));
                     } else {
