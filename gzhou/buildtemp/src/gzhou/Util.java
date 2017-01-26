@@ -45,9 +45,11 @@ public class Util implements Constants {
 
     private static final int ABATCH = 300000;
     private static List<String> txtList_ = new ArrayList<String>();
+    private static List<String> zipList_ = new ArrayList<String>();
 
     static {
         initTxt();
+        initZip();
     }
 
     public static Date toDate(long l) {
@@ -332,6 +334,12 @@ public class Util implements Constants {
             if (s.contains(";s")) {
                 s = s.replace(";s", " ");
             }
+            if (contains(s, ";\\d*s")) {
+                List<String> list = find(s, ";\\d*s");
+                for (String matched : list) {
+                    s = s.replace(matched, getIndent(toInt(cut(matched, 1, 1))));
+                }
+            }
             if (s.contains(";o")) {
                 s = s.replace(";o", "|");
             }
@@ -352,6 +360,9 @@ public class Util implements Constants {
             }
             if (s.contains(";rs")) {
                 s = s.replace(";rs", "\\");
+            }
+            if (s.contains(";n")) {
+                s = s.replace(";n", LINE_SEPARATOR);
             }
         }
         return s;
@@ -1164,6 +1175,14 @@ public class Util implements Constants {
         return list;
     }
 
+    public static List<String> find(String s, String regex) {
+        return splitToListWithRegex(s, regex);
+    }
+
+    public static boolean contains(String s, String regex) {
+        return find(s, regex).size() > 0;
+    }
+
     /**
      * find matches in given string with regex.
      */
@@ -1526,6 +1545,32 @@ public class Util implements Constants {
         addWithoutDup(txtList_, ".md");
         addWithoutDup(txtList_, ".mf");
         addWithoutDup(txtList_, ".vm");
+    }
+
+    public static boolean isZipFile(String filePath) {
+        return isZipFile(new File(filePath));
+    }
+
+    public static boolean isZipFile(File file) {
+        String name = file.getName();
+        for (String suffix : zipList_) {
+            if (name.toLowerCase().endsWith(suffix))
+                return true;
+        }
+        return false;
+    }
+
+    private static void initZip() {
+        addWithoutDup(zipList_, ".zip");
+        addWithoutDup(zipList_, ".ear");
+        addWithoutDup(zipList_, ".war");
+        addWithoutDup(zipList_, ".jar");
+        addWithoutDup(zipList_, ".sar");
+        addWithoutDup(zipList_, ".rar");
+        addWithoutDup(zipList_, ".tar");
+        addWithoutDup(zipList_, ".bz");
+        addWithoutDup(zipList_, ".gz");
+        addWithoutDup(zipList_, ".7z");
     }
 
     public static String getFirstArg(String[] args) {

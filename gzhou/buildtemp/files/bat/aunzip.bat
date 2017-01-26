@@ -23,7 +23,7 @@ set aunzipFromDir=%~1
 set aunzipToDir=%~2
 set aunzipFileName=%~3
 
-call apl unzipping "%aunzipFromDir%\%aunzipFileName%" to "%aunzipToDir%"
+call apl unzipping "%aunzipFromDir%\%aunzipFileName%" ;n;6s to "%aunzipToDir%"
 
 if not exist "%aunzipToDir%" call md "%aunzipToDir%"
 call set aunzipCallDir=%cd%

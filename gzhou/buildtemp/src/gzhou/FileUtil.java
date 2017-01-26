@@ -2213,7 +2213,7 @@ public class FileUtil extends Util implements Constants {
         public static void paPrintLine(String[] args) throws Exception {
             String m = connectLines(args, " ");
             m = m.replace("'", "\"");
-            log(m);
+            log(fixSearchKey(m));
         }
 
         public static void paPrintFind(String[] args) throws Exception {
@@ -4574,16 +4574,19 @@ public class FileUtil extends Util implements Constants {
                     }
                 }
                 if (zo.unzip) {
-                    if (files.size() == 1) {
-                        String zipFile = files.get(0);
-                        String from = getParent(zipFile);
-                        String to = resolveUnzipTo(zipFile, zo.to);
-                        String name = getFileName(zipFile);
-                        String line = format("call aunzip \"{0}\" \"{1}\" \"{2}\"", from, to, name);
-                        setLines(batDir + "aunziptmp.bat", toList(line));
-                    } else {
-                        if (debug_)
-                            log("Ignore zip operations since file size is " + files.size());
+                    List<String> list = new ArrayList<String>();
+                    for (String file : files) {
+                        if (isZipFile(file)) {
+                            String zipFile = file;
+                            String from = getParent(zipFile);
+                            String to = resolveUnzipTo(zipFile, zo.to);
+                            String name = getFileName(zipFile);
+                            String line = format("call aunzip \"{0}\" \"{1}\" \"{2}\"", from, to, name);
+                            list.add(line);
+                        }
+                    }
+                    if (!list.isEmpty()) {
+                        setLines(batDir + "aunziptmp.bat", list);
                     }
                 }
                 if (zo.adf) {
@@ -5022,7 +5025,7 @@ public class FileUtil extends Util implements Constants {
         }
 
         public static boolean isParam(String last) {
-            return isInCondition(last) || isNotInCondition(last);
+            return isInCondition(last) || isNotInCondition(last) || isOnlyFiles(last) || isOnlyDirs(last);
         }
 
         private static boolean isInCondition(String last) {
@@ -5033,19 +5036,31 @@ public class FileUtil extends Util implements Constants {
             return last.matches("notin\\(.*\\)");
         }
 
+        private static boolean isOnlyFiles(String last) {
+            return last.equals("onlyfiles") || last.equals(";f");
+        }
+
+        private static boolean isOnlyDirs(String last) {
+            return last.equals("onlydirs") || last.equals(";d");
+        }
+
         public static class ListCondition {
             public String dir;
             public String pattern;
             public List<String> fileNames;
+            public boolean in = false;
             public boolean notin = false;
+            public boolean onlyfiles = false;
+            public boolean onlydirs = false;
 
             public boolean matches(File file) {
                 return matchesListCondition(this, file.getAbsolutePath());
             }
 
             public static ListCondition parseListCondition(String pattern, Params params) throws Exception {
-                if (isParam(pattern)) {
+                if (isInCondition(pattern) || isNotInCondition(pattern)) {
                     ListCondition lc = new ListCondition();
+                    lc.in = isInCondition(pattern);
                     lc.notin = isNotInCondition(pattern);
                     String dir = cut(pattern, (lc.notin ? 6 : 3), 1);
                     lc.dir = dir;
@@ -5065,16 +5080,27 @@ public class FileUtil extends Util implements Constants {
                     lc.fileNames = fileNames;
                     return lc;
                 }
+                if (isOnlyFiles(pattern) || isOnlyDirs(pattern)) {
+                    ListCondition lc = new ListCondition();
+                    lc.onlyfiles = isOnlyFiles(pattern);
+                    lc.onlydirs = isOnlyDirs(pattern);
+                    return lc;
+                }
                 return null;
             }
 
             public static boolean matchesListCondition(ListCondition listCondition, String p) {
                 ListCondition lc = listCondition;
                 String fileName = getFileName(p);
+                if (lc.in)
+                    return lc.fileNames.contains(fileName);
                 if (lc.notin)
                     return !lc.fileNames.contains(fileName);
-                else
-                    return lc.fileNames.contains(fileName);
+                if (lc.onlyfiles)
+                    return isFile(p);
+                if (lc.onlydirs)
+                    return !isFile(p);
+                return false;
             }
 
             @Override
