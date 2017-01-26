@@ -2,6 +2,7 @@ package gzhou;
 
 import gzhou.FileUtil.ExpandLinesResult.ExpandLines;
 import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
+import gzhou.FileUtil.GenericParameterResult.GenericParameter;
 import gzhou.FileUtil.GoDirResult.GoDir;
 import gzhou.FileUtil.ListConditionResult.ListCondition;
 import gzhou.FileUtil.OperateLinesResult.OperateLines;
@@ -1854,7 +1855,7 @@ public class FileUtil extends Util implements Constants {
             p = cut(p, 1, 1);
         if (p.equals(".") || p.equals("..") || p.startsWith("./") || p.startsWith("../"))
             return toFilePath(p);
-        return p;
+        return fixSearchKey(p);
     }
 
     private static String getModuleDir(String file) {
@@ -2212,7 +2213,7 @@ public class FileUtil extends Util implements Constants {
         public static void paPrintLine(String[] args) throws Exception {
             String m = connectLines(args, " ");
             m = m.replace("'", "\"");
-            log(m);
+            log(fixSearchKey(m));
         }
 
         public static void paPrintFind(String[] args) throws Exception {
@@ -2475,13 +2476,7 @@ public class FileUtil extends Util implements Constants {
                                 continue;
                             String p = file.getAbsolutePath();
                             String relativePath = toRelativePath(from, p);
-                            String topath;
-                            // keep dir
-                            if (params.keepDir) {
-                                topath = dir + FILE_SEPARATOR + relativePath.replace("/", FILE_SEPARATOR);
-                            } else {
-                                topath = dir + FILE_SEPARATOR + getFileName(p);
-                            }
+                            String topath = resolveCopyTo(params, dir, p, relativePath);
                             // rename file
                             String newFileName = newFileNameInCopy(getFileName(topath), params, true);
                             topath = getParent(topath) + FILE_SEPARATOR + newFileName;
@@ -2509,6 +2504,17 @@ public class FileUtil extends Util implements Constants {
             }
         }
 
+        private static String resolveCopyTo(Params params, String dir, String p, String relativePath) throws Exception {
+            // keep dir
+            if (params.keepDir) {
+                return dir + FILE_SEPARATOR + relativePath.replace("/", FILE_SEPARATOR);
+            }
+            if (params.isAutoCopy()) {
+                return findInDir(dir, getFileName(p));
+            }
+            return dir + FILE_SEPARATOR + getFileName(p);
+        }
+
         protected static void deleteFiles(String from, String filefrom, Params params) throws Exception {
             log("delete from: " + formatFrom(from));
             FilenameFilter filter = Filters.getFilters(filefrom, params);
@@ -2522,22 +2528,22 @@ public class FileUtil extends Util implements Constants {
                         continue;
                     if (file.isFile())
                         filesSize++;
-                    else 
+                    else
                         dirsSize++;
                     String p = file.getAbsolutePath();
-                    boolean deleted = false;
                     if (params.keepDir)
-                        deleted = deleteFile(p);
+                        deleteFile(p);
                     else
-                        deleted = deleteFileWithFolders(p);
+                        deleteFileWithFolders(p);
                     deleteFolderIfNecessary(params, file);
+                    boolean deleted = !exists(p);
                     if (deleted) {
                         log(2, toRelativePath(from, p));
                     } else {
                         log(2, toRelativePath(from, p) + " [failed]");
                         if (file.isFile())
                             filesSize--;
-                        else 
+                        else
                             dirsSize--;
                     }
                     addWithoutDup(dirs, p);
@@ -2574,7 +2580,7 @@ public class FileUtil extends Util implements Constants {
                             }
                             Line l = new Line(i + 1, line, params);
                             if (!one)
-                                l.print(6, 7, params.noLineNumber);
+                                l.print(4, 7, params.noLineNumber);
                             else
                                 l.print(0, 7, params.noLineNumber);
                         }
@@ -2670,10 +2676,11 @@ public class FileUtil extends Util implements Constants {
                             if (cost <= 5)
                                 log(tab(2) + format("found \"{0}\" places in \"{1}\":", foundLines.size(), n1));
                             else
-                                log(tab(2) + format("found \"{0}\" places in \"{1}\" ({2}s):", foundLines.size(), n1, cost));
+                                log(tab(2)
+                                        + format("found \"{0}\" places in \"{1}\" ({2}s):", foundLines.size(), n1, cost));
                             log();
                             for (Line line : foundLines) {
-                                line.print(6, 7, params.noLineNumber);
+                                line.print(4, 7, params.noLineNumber);
                             }
                             log();
                             hasResult = true;
@@ -2715,6 +2722,7 @@ public class FileUtil extends Util implements Constants {
 
         protected static void replaceFiles(String dir, String filefrom, String from, String to, Params params)
                 throws Exception {
+            to = fixReplaceTo(to);
             log(format("replace from \"{0}\" to \"{1}\" in dir: {2}", from, to, formatFrom(dir)));
             Filters filter = Filters.getFilters(filefrom, params);
             List<File> files = Util.listFiles(new File(dir), params.recursive, filter, params);
@@ -2967,6 +2975,9 @@ public class FileUtil extends Util implements Constants {
             if (filefrom.endsWith(";")) {
                 params.noPath = true;
             }
+            if (params.recursiveLevel == 0) {
+                params.noPath = true;
+            }
             return filefrom;
         }
 
@@ -2998,7 +3009,8 @@ public class FileUtil extends Util implements Constants {
             return newFileName(fileName, newFileName, isFile, false);
         }
 
-        public static String newFileName(String fileName, String newFileName, boolean isFile, boolean handleLine) throws Exception {
+        public static String newFileName(String fileName, String newFileName, boolean isFile, boolean handleLine)
+                throws Exception {
             String fileSimpleName = fileName;
             if (!handleLine)
                 fileSimpleName = getFileSimpleName(fileName);
@@ -3181,7 +3193,8 @@ public class FileUtil extends Util implements Constants {
             }
         }
 
-        private static String formatFrom(String from) {
+        private static String formatFrom(String from) throws Exception {
+            from = toFilePath(from);
             if (matchedItem_ != null) {
                 if (matchedItem_.i > 1) {
                     return format("{0} [{1}]", from, matchedItem_.tarAlias);
@@ -3548,7 +3561,8 @@ public class FileUtil extends Util implements Constants {
             } else {
                 if (params != null && !params.noPath)
                     name = dir.getAbsolutePath() + FILE_SEPARATOR + name;
-                boolean result = p.accept(name);
+                File file = new File(dir.getAbsolutePath() + FILE_SEPARATOR + name);
+                boolean result = p.accept(name, file);
                 if (debug2_) {
                     log(format(FILTER, p, dir, name, result));
                 }
@@ -3581,14 +3595,22 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static class FiltersPattern {
-        private Params params;
+        public Params params;
         public String p;
+        public String p_original;
         public boolean include = true;
         public boolean quote = false;
         public boolean group = false;
         public boolean regular = false;
         public boolean lineNumber = false;
+        public boolean fileSize = false;
         public boolean emptyLine = false;
+        public boolean oneSemicolon = false;
+        public boolean twoSemicolon = false;
+        public boolean startsWith = false;
+        public boolean endsWith = false;
+        public boolean equals = false;
+        public boolean equalsIgnoreCase = false;
 
         private boolean ignore = false;
 
@@ -3617,11 +3639,41 @@ public class FileUtil extends Util implements Constants {
                 p = cutLast(p, 1);
             } else if (p.matches("l\\d*-?\\d*")) {
                 lineNumber = true;
+            } else if (p.matches("s\\d*[kKmMgG]?-?\\d*[kKmMgG]?")) {
+                fileSize = true;
             } else if (p.equalsIgnoreCase("EL")) {
                 emptyLine = true;
-            } else if (p.endsWith(";")) {
-                quote = true;
+            } else if (p.endsWith(";") && !p.endsWith(";;")) {
+                oneSemicolon = true;
                 p = cutLast(p, 1);
+            } else if (p.endsWith(";;")) {
+                twoSemicolon = true;
+                p = cutLast(p, 2);
+            } else if (p.endsWith(";st")) {
+                startsWith = true;
+                p = cutLast(p, 3);
+            } else if (p.endsWith(";e")) {
+                endsWith = true;
+                p = cutLast(p, 2);
+            } else if (p.endsWith(";eq")) {
+                equals = true;
+                p = cutLast(p, 3);
+            } else if (p.endsWith(";eqic")) {
+                equalsIgnoreCase = true;
+                p = cutLast(p, 5);
+            } else if (params.bigFile) {
+                quote = true;
+            }
+            p_original = p;
+            if (!quote) {
+                if (!p.contains("/") && !p.contains("\\")) {
+                    p = fixSearchKey(p);
+                    if (!p.equals(p_original)) {
+                        if (!startsWith && !endsWith) {
+                            oneSemicolon = true;
+                        }
+                    }
+                }
             }
         }
 
@@ -3690,7 +3742,7 @@ public class FileUtil extends Util implements Constants {
             return pos == p2.length() - 1;
         }
 
-        public boolean accept(String line) {
+        public boolean accept(String line, File file) {
             boolean b;
             if (regular) {
                 if (debug2_) {
@@ -3702,6 +3754,36 @@ public class FileUtil extends Util implements Constants {
                     log(format("Pattern: line={2}, p={0}, quote={1}", p, quote, line));
                 }
                 b = line.contains(p);
+            } else if (startsWith) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, startsWith={1}", p, startsWith, line));
+                }
+                b = line.startsWith(p);
+            } else if (endsWith) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, endsWith={1}", p, endsWith, line));
+                }
+                b = line.endsWith(p);
+            } else if (equals) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, equals={1}", p, equals, line));
+                }
+                b = line.equals(p);
+            } else if (equalsIgnoreCase) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, equalsIgnoreCase={1}", p, equalsIgnoreCase, line));
+                }
+                b = line.equalsIgnoreCase(p);
+            } else if (oneSemicolon) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, oneSemicolon={1}", p, oneSemicolon, line));
+                }
+                b = line.contains(p);
+            } else if (fileSize) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, fileSize={1}", p, fileSize, line));
+                }
+                b = FileSize.matchesFileSize(p, file);
             } else if (emptyLine) {
                 if (debug2_) {
                     log(format("Pattern: line={2}, p={0}, emptyLine={1}", p, emptyLine, line));
@@ -3739,6 +3821,31 @@ public class FileUtil extends Util implements Constants {
                     log(format("Pattern: line={2}, p={0}, quote={1}", p, quote, line));
                 }
                 b = line.contains(p);
+            } else if (startsWith) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, startsWith={1}", p, startsWith, line));
+                }
+                b = line.startsWith(p);
+            } else if (endsWith) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, endsWith={1}", p, endsWith, line));
+                }
+                b = line.endsWith(p);
+            } else if (equals) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, equals={1}", p, equals, line));
+                }
+                b = line.equals(p);
+            } else if (equalsIgnoreCase) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, equalsIgnoreCase={1}", p, equalsIgnoreCase, line));
+                }
+                b = line.equalsIgnoreCase(p);
+            } else if (oneSemicolon) {
+                if (debug2_) {
+                    log(format("Pattern: line={2}, p={0}, oneSemicolon={1}", p, oneSemicolon, line));
+                }
+                b = line.contains(p);
             } else if (lineNumber) {
                 if (debug2_) {
                     log(format("Pattern: line={2}, p={0}, lineNumber={1}", p, lineNumber, line));
@@ -3772,6 +3879,7 @@ public class FileUtil extends Util implements Constants {
         }
 
         public String toString() {
+            String p = p_original;
             StringBuilder sb = new StringBuilder();
             if (include)
                 sb.append("/");
@@ -3783,6 +3891,18 @@ public class FileUtil extends Util implements Constants {
                 sb.append("(" + p + ")");
             else if (regular)
                 sb.append("@" + p + "@");
+            else if (startsWith)
+                sb.append(p + ";st");
+            else if (endsWith)
+                sb.append(p + ";e");
+            else if (equals)
+                sb.append(p + ";eq");
+            else if (equalsIgnoreCase)
+                sb.append(p + ";eqic");
+            else if (oneSemicolon)
+                sb.append(p + ";");
+            else if (twoSemicolon)
+                sb.append(p + ";;");
             else
                 sb.append(p);
             return sb.toString();
@@ -4249,17 +4369,23 @@ public class FileUtil extends Util implements Constants {
         private static String parseSortType(String last) {
             if (isSortByTime(last))
                 return cutFirst(last, 1);
+            if (isSortBySize(last))
+                return cutFirst(last, 1);
             if (isSortByColumn(last))
                 return cut(last, 2, 1);
             return null;
         }
 
         public static boolean isParam(String last) {
-            return isSortByTime(last) || isSortByColumn(last);
+            return isSortByTime(last) || isSortByColumn(last) || isSortBySize(last);
         }
 
         private static boolean isSortByTime(String last) {
             return last.matches("s[t]");
+        }
+
+        private static boolean isSortBySize(String last) {
+            return last.matches("s[s]");
         }
 
         private static boolean isSortByColumn(String last) {
@@ -4472,29 +4598,35 @@ public class FileUtil extends Util implements Constants {
             if (params.zipOperations != null) {
                 ZipOperations zo = params.zipOperations;
                 if (zo.zip) {
-                    if (files.size() == 1) {
-                        String zipFile = files.get(0);
-                        String from = zipFile;
-                        String to = getParent(zo.to);
-                        String name = getFileName(zo.to);
-                        String line = format("call azip \"{0}\" \"{1}\" \"{2}\"", from, to, name);
-                        setLines(batDir + "aziptmp.bat", toList(line));
-                    } else {
-                        if (debug_)
-                            log("Ignore zip operations since file size is " + files.size());
+                    List<String> list = new ArrayList<String>();
+                    for (String file : files) {
+                        if (isDir(file)) {
+                            String zipFile = file;
+                            String from = zipFile;
+                            String to = resolveZipTo(zipFile, zo.to);
+                            String name = getFileName(to);
+                            String line = format("call azip \"{0}\" \"{1}\" \"{2}\"", from, getParent(to), name);
+                            list.add(line);
+                        }
+                    }
+                    if (!list.isEmpty()) {
+                        setLines(batDir + "aziptmp.bat", list);
                     }
                 }
                 if (zo.unzip) {
-                    if (files.size() == 1) {
-                        String zipFile = files.get(0);
-                        String from = getParent(zipFile);
-                        String to = zo.to;
-                        String name = getFileName(zipFile);
-                        String line = format("call aunzip \"{0}\" \"{1}\" \"{2}\"", from, to, name);
-                        setLines(batDir + "aunziptmp.bat", toList(line));
-                    } else {
-                        if (debug_)
-                            log("Ignore zip operations since file size is " + files.size());
+                    List<String> list = new ArrayList<String>();
+                    for (String file : files) {
+                        if (isZipFile(file)) {
+                            String zipFile = file;
+                            String from = getParent(zipFile);
+                            String to = resolveUnzipTo(zipFile, zo.to);
+                            String name = getFileName(zipFile);
+                            String line = format("call aunzip \"{0}\" \"{1}\" \"{2}\"", from, to, name);
+                            list.add(line);
+                        }
+                    }
+                    if (!list.isEmpty()) {
+                        setLines(batDir + "aunziptmp.bat", list);
                     }
                 }
                 if (zo.adf) {
@@ -4524,6 +4656,33 @@ public class FileUtil extends Util implements Constants {
                     }
                 }
             }
+        }
+
+        private static String resolveZipTo(String dir, String to) throws Exception {
+            if (isNull(to))
+                to = "zip";
+            if (isZipExt(to))
+                to = getParent(dir) + FILE_SEPARATOR + getFileName(dir) + "." + to;
+            to = toTARAlias(to);
+            return to;
+        }
+
+        private static String resolveUnzipTo(String zipFile, String to) throws Exception {
+            if (to == null)
+                to = getParent(zipFile);
+            String to_original = toTARAlias(to);
+            to = toTARAlias(to);
+            if (exists(to) && !isEmpty(to)) {
+                List<String> dirs = listZipFileRootDirs(zipFile);
+                List<String> files = listZipFileRoot(zipFile);
+                String fileSimpleName = getFileSimpleName(zipFile);
+                if (dirs.size() == files.size() && dirs.size() == 1 && dirs.get(0).equals(fileSimpleName)) {
+                    return to_original;
+                } else {
+                    return to_original + FILE_SEPARATOR + fileSimpleName;
+                }
+            }
+            return to_original;
         }
 
         private static String searchFile(String to, String fileName) {
@@ -4574,7 +4733,7 @@ public class FileUtil extends Util implements Constants {
                     zo.adf = isAdf(pattern);
                     zo.sql = isSql(pattern);
                     zo.sort = isSort(pattern);
-                    zo.to = getTo(pattern);
+                    zo.to = getTo(zo, pattern);
                     return zo;
                 }
                 return null;
@@ -4585,11 +4744,13 @@ public class FileUtil extends Util implements Constants {
             }
 
             private static boolean isZip(String pattern) {
-                return pattern.startsWith("zip=") || pattern.startsWith("exp=");
+                return pattern.startsWith("zip=") || pattern.startsWith("c=") || pattern.equals("cf")
+                        || pattern.startsWith("exp=");
             }
 
             private static boolean isUnzip(String pattern) {
-                return pattern.startsWith("unzip=") || pattern.startsWith("imp=");
+                return pattern.startsWith("unzip=") || pattern.startsWith("x=") || pattern.equals("x")
+                        || pattern.startsWith("imp=");
             }
 
             private static boolean isAdf(String pattern) {
@@ -4604,9 +4765,13 @@ public class FileUtil extends Util implements Constants {
                 return pattern.equals("sort") || pattern.startsWith("sort=");
             }
 
-            private static String getTo(String pattern) throws Exception {
-                if (pattern.contains("="))
-                    return toTARAlias(cut(pattern, "=", null));
+            private static String getTo(ZipOperations zo, String pattern) throws Exception {
+                if (pattern.contains("=")) {
+                    if (zo.zip || zo.unzip)
+                        return cut(pattern, "=", null);
+                    else
+                        return toTARAlias(cut(pattern, "=", null));
+                }
                 return null;
             }
 
@@ -4913,26 +5078,44 @@ public class FileUtil extends Util implements Constants {
         }
 
         public static boolean isParam(String last) {
-            return isInCondition(last);
+            return isInCondition(last) || isNotInCondition(last) || isOnlyFiles(last) || isOnlyDirs(last);
         }
 
         private static boolean isInCondition(String last) {
             return last.matches("in\\(.*\\)");
         }
 
+        private static boolean isNotInCondition(String last) {
+            return last.matches("notin\\(.*\\)");
+        }
+
+        private static boolean isOnlyFiles(String last) {
+            return last.equals("onlyfiles") || last.equals(";f");
+        }
+
+        private static boolean isOnlyDirs(String last) {
+            return last.equals("onlydirs") || last.equals(";d");
+        }
+
         public static class ListCondition {
             public String dir;
             public String pattern;
             public List<String> fileNames;
+            public boolean in = false;
+            public boolean notin = false;
+            public boolean onlyfiles = false;
+            public boolean onlydirs = false;
 
             public boolean matches(File file) {
                 return matchesListCondition(this, file.getAbsolutePath());
             }
 
             public static ListCondition parseListCondition(String pattern, Params params) throws Exception {
-                if (isInCondition(pattern)) {
+                if (isInCondition(pattern) || isNotInCondition(pattern)) {
                     ListCondition lc = new ListCondition();
-                    String dir = cut(pattern, 3, 1);
+                    lc.in = isInCondition(pattern);
+                    lc.notin = isNotInCondition(pattern);
+                    String dir = cut(pattern, (lc.notin ? 6 : 3), 1);
                     lc.dir = dir;
                     lc.pattern = null;
                     dir = toTARAlias(dir);
@@ -4941,14 +5124,19 @@ public class FileUtil extends Util implements Constants {
                     String filefrom = "*";
                     params = new Params();
                     FilenameFilter filter = Filters.getFilters(filefrom, params);
-                    List<File> files = Util.listFiles(new File(from), false, filter, params);
+                    List<File> files = Util.listFiles(new File(from), true, filter, params);
 
                     List<String> fileNames = new ArrayList<String>();
                     for (File file : files) {
                         fileNames.add(file.getName());
                     }
                     lc.fileNames = fileNames;
-
+                    return lc;
+                }
+                if (isOnlyFiles(pattern) || isOnlyDirs(pattern)) {
+                    ListCondition lc = new ListCondition();
+                    lc.onlyfiles = isOnlyFiles(pattern);
+                    lc.onlydirs = isOnlyDirs(pattern);
                     return lc;
                 }
                 return null;
@@ -4957,7 +5145,15 @@ public class FileUtil extends Util implements Constants {
             public static boolean matchesListCondition(ListCondition listCondition, String p) {
                 ListCondition lc = listCondition;
                 String fileName = getFileName(p);
-                return lc.fileNames.contains(fileName);
+                if (lc.in)
+                    return lc.fileNames.contains(fileName);
+                if (lc.notin)
+                    return !lc.fileNames.contains(fileName);
+                if (lc.onlyfiles)
+                    return isFile(p);
+                if (lc.onlydirs)
+                    return !isFile(p);
+                return false;
             }
 
             @Override
@@ -5213,6 +5409,86 @@ public class FileUtil extends Util implements Constants {
         }
     }
 
+    public static class GenericParameterResult { // starts with ;
+        public String[] args;
+        public GenericParameter genericParameter;
+
+        public static GenericParameterResult genericParameter(String[] args) {
+            GenericParameterResult r = new GenericParameterResult();
+            String last = getLastArg(args);
+            if (isParam(last)) {
+                r.genericParameter = parseGenericParameter(last);
+                r.args = cutLastArg(args);
+                if (debug_)
+                    log(tab(2) + "Generic Parameter: " + r.genericParameter);
+            } else {
+                r.genericParameter = null;
+                r.args = args;
+            }
+            return r;
+        }
+
+        private static GenericParameter parseGenericParameter(String last) {
+            if (isGenericParameter(last)) {
+                String p = cutFirst(last, 1);
+                GenericParameter gp = new GenericParameter();
+                gp.init(p);
+                return gp;
+            }
+            return null;
+        }
+
+        public static boolean isParam(String last) {
+            return isGenericParameter(last);
+        }
+
+        private static boolean isGenericParameter(String last) {
+            if (last.startsWith(";")) {
+                String p = cutFirst(last, 1);
+                GenericParameter gp = new GenericParameter();
+                gp.init(p);
+                return gp.isGP();
+            }
+            return false;
+        }
+
+        public static class GenericParameter {
+            public String p;
+
+            public void init(String p) {
+                this.p = p;
+            }
+
+            public boolean isGP() {
+                if (isLast())
+                    return true;
+                if (isFirst())
+                    return true;
+                if (isAutoCopy())
+                    return true;
+                return false;
+            }
+
+            public boolean isLast() {
+                return p.equals("l") || p.equals("last");
+            }
+
+            public boolean isFirst() {
+                return p.equals("f") || p.equals("first");
+            }
+            
+            public boolean isAutoCopy() {
+                return p.equals("a") || p.equals("auto");
+            }
+
+            @Override
+            public String toString() {
+                return ";" + p;
+            }
+
+        }
+    }
+
     public static class Params {
 
         public String[] args;
@@ -5247,6 +5523,8 @@ public class FileUtil extends Util implements Constants {
         public OutputSummary outputSummary = null;
         public GoDir goDir = null;
         public boolean copyToOneFile = false;
+        public boolean bigFile = false;
+        public List<GenericParameter> gp = new ArrayList<GenericParameter>();
 
         public int getExpandLines() {
             if (expandLines == null) {
@@ -5468,6 +5746,12 @@ public class FileUtil extends Util implements Constants {
                     if (params.goDir == null)
                         params.goDir = gdr.goDir;
                 }
+                // generic parameter
+                GenericParameterResult gpr = GenericParameterResult.genericParameter(args);
+                if (args.length > gpr.args.length) {
+                    args = gpr.args;
+                    params.gp.add(gpr.genericParameter);
+                }
             } while (args.length < n);
             params.args = args;
             setDefaultParams(params, op);
@@ -5564,6 +5848,8 @@ public class FileUtil extends Util implements Constants {
                 return true;
             if (GoDirResult.isParam(s))
                 return true;
+            if (GenericParameterResult.isParam(s))
+                return true;
             return false;
         }
 
@@ -5585,6 +5871,30 @@ public class FileUtil extends Util implements Constants {
 
         public boolean isSql() {
             return zipOperations != null && zipOperations.isSql();
+        }
+
+        public boolean isLast() {
+            for (GenericParameter p : gp) {
+                if (p.isLast())
+                    return true;
+            }
+            return false;
+        }
+
+        public boolean isFirst() {
+            for (GenericParameter p : gp) {
+                if (p.isFirst())
+                    return true;
+            }
+            return false;
+        }
+
+        public boolean isAutoCopy() {
+            for (GenericParameter p : gp) {
+                if (p.isAutoCopy())
+                    return true;
+            }
+            return false;
         }
     }
 
@@ -5627,6 +5937,8 @@ public class FileUtil extends Util implements Constants {
                 return 70;
             if (o1.equals("o"))
                 return 60;
+            if (o1.startsWith("o="))
+                return 60;
             if (o1.equals("sl"))
                 return 50;
             return 0;
@@ -5639,9 +5951,14 @@ public class FileUtil extends Util implements Constants {
             boolean outputToFile = false;
             boolean slient = false;
             String last = getLastArg(args);
+            String outputFile = null;
             if (last != null) {
                 if (last.equalsIgnoreCase("o")) {
                     outputToFile = true;
+                    args = cutLastArg(args);
+                } else if (last.startsWith("o=")) {
+                    outputToFile = true;
+                    outputFile = cutFirst(last, 2);
                     args = cutLastArg(args);
                 } else if (last.equalsIgnoreCase("sl")) {
                     outputToFile = true;
@@ -5649,9 +5966,12 @@ public class FileUtil extends Util implements Constants {
                     args = cutLastArg(args);
                 }
                 if (outputToFile) {
-                    String dir = "D:\\alogs\\";
-                    mkdirs(dir);
-                    String file = dir + n + ".log";
+                    String file;
+                    if (outputFile == null) {
+                        file = "D:\\alogs\\" + n + ".log";
+                    } else {
+                        file = toTARAlias(outputFile);
+                    }
                     if (!slient)
                         log("output to: " + file);
                     outputToFile(file);
@@ -5664,9 +5984,10 @@ public class FileUtil extends Util implements Constants {
             return args;
         }
 
-        public static void outputToFile(String n) throws FileNotFoundException {
+        public static void outputToFile(String file) throws FileNotFoundException {
             outputToFile_ = true;
-            System.setOut(new PrintStream(n));
+            mkdirs(getParent(file));
+            System.setOut(new PrintStream(file));
         }
     }
 
@@ -6378,6 +6699,81 @@ public class FileUtil extends Util implements Constants {
             public static int listSize() {
                 return 2;
             }
+        }
+    }
+
+    public static class FileSize {
+        public long from = 0;
+        public long to = 0;
+
+        public static FileSize parseFileSize(String pattern) {
+            if (pattern.matches("s\\d*[kKmMgG]?-?\\d*[kKmMgG]?")) {
+                pattern = cutFirst(pattern, 1);
+                String from, to;
+                if (pattern.contains("-")) {
+                    int i = pattern.indexOf("-");
+                    from = pattern.substring(0, i);
+                    to = pattern.substring(i + 1, pattern.length());
+                } else {
+                    from = pattern;
+                    to = "";
+                }
+                long fpos = 0;
+                long tpos = Long.MAX_VALUE;
+                if (from != null && !from.isEmpty()) {
+                    fpos = toSize(from);
+                }
+                if (to != null && !to.isEmpty()) {
+                    tpos = toSize(to);
+                }
+                FileSize el = new FileSize();
+                el.from = fpos;
+                el.to = tpos;
+                return el;
+            }
+            return null;
+        }
+
+        private static long toSize(String s) {
+            String last = subLast(s, 1);
+            if (last.matches("\\d"))
+                s = s + "m";
+            String unit = subLast(s, 1).toLowerCase();
+            String n = cutLast(s, 1);
+            int i = toInt(n);
+            if (unit.equals("k"))
+                return i * KB;
+            if (unit.equals("m"))
+                return i * MB;
+            if (unit.equals("g"))
+                return i * GB;
+            return -1;
+        }
+
+        public static boolean matchesFileSize(String pattern, File file) {
+            if (file.isFile() && file.exists()) {
+                return matchesFileSize(pattern, file.length());
+            }
+            return false;
+        }
+
+        public static boolean matchesFileSize(String pattern, long pos) {
+            FileSize el = FileSize.parseFileSize(pattern);
+            long fpos = el.from;
+            long tpos = el.to;
+            return pos >= fpos && pos <= tpos;
+        }
+
+        public static boolean matchesFileSize(FileSize fileSize, long pos) {
+            FileSize el = fileSize;
+            long fpos = el.from;
+            long tpos = el.to;
+            return pos >= fpos && pos < tpos;
+        }
+
+        @Override
+        public String toString() {
+            return format("{0}-{1}", from, to);
         }
     }
 }

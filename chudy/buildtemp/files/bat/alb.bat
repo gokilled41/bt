@@ -1,2 +1,2 @@
 @echo off
-call al bat %*
+call all bat %*

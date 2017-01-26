@@ -2,9 +2,9 @@
 
 rem [copy tar]: used to copy alias in type and run.
 
-if "%1" == "" goto a1
-if "%2" == "" goto a2
-if not "%1" == "" goto b
+if "%~1" == "" goto a1
+if "%~2" == "" goto a2
+if not "%~1" == "" goto b
 
 : a1
 echo please give one alias name from.

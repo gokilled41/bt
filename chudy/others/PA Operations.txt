@@ -16,4 +16,13 @@
   - [d]al mt users c
   - doc
 - dsb: bug desc with ""
-- all dd\ref af [com.vitria.domainservice o=dd\a.log
+- doc: ;st, ;e, ;;
+- al eul vtdfclient.jar acp dd\sbdir ;auto: auto find sub locations
+- al eul vtdfclient.jar up=haha1\stream: auto update the jars into given zip, zip name is auto fit
+- al xxx -a: list hidden files
+- generic param: ; or -
+- not list dirs if no files under it
+- af k DomainManager c ml o=k1\DomainManager.log: auto add DomainManager.log [af k DomainManager c ml o=k1] when o is one folder, auto add file name: searchKey.log
+- af C:\Users\gzhou\Desktop\20170125 "Coyote HTTP" l9-64 / lf1-4: log all lines from line 9 to line64 / from found 1 to found 4
+- al dd/*/DS10/085952
+- al rn java\-2 acp bts ;auto

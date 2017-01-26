@@ -63,6 +63,12 @@ public interface Constants {
 
     public static final String UltraEdit = "C:\\Program Files\\IDM Computer Solutions\\UltraEdit\\Uedit32.exe";
 
+    public static final long B = 1;
+    public static final long KB = 1024 * B;
+    public static final long MB = 1024 * KB;
+    public static final long GB = 1024 * MB;
+    public static final long TB = 1024 * GB;
+
     public static final long MILLISECOND = 1;
     public static final long SECOND = 1000 * MILLISECOND;
     public static final long MINUTE = 60 * SECOND;

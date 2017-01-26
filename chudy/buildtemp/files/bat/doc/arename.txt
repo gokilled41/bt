@@ -10,6 +10,7 @@ arename is one command to rename files.
                    it can be wrap with "'". it means exact strings without regex conversion.
                    it can be wrap with "@". it means regular expressions.
                    it can be wrap with "{}". it means exactly match not contains.
+                   it can be end with ";". it means contains exact strings.
     - from       replace from
     - to         replace to
     - rn         set recursive level. like: r0

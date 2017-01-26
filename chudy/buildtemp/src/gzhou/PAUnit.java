@@ -2,6 +2,7 @@ package gzhou;
 
 import gzhou.FileUtil.FileTimestampResult;
 import gzhou.FileUtil.Filters;
+import gzhou.FileUtil.FiltersPattern;
 import gzhou.FileUtil.ListConditionResult;
 import gzhou.FileUtil.PAOperations;
 import gzhou.FileUtil.Params;
@@ -154,6 +155,14 @@ public class PAUnit extends TestCase implements Constants {
         doTest2("abc", "a*+/b\\d", "a*+");
     }
 
+    public void testFilters_31() throws Exception {
+        doTestFP("abc", "/abc");
+        doTestFP("a/b", "/a/b");
+        doTestFP("a/(b/c)", "/a/(b/c)");
+        doTestFP("abc;", "/abc;");
+        doTestFP("abc;;", "/abc;;");
+    }
+
     public void testTARPath_01() throws Exception {
         if (Util.exists("C:\\Users\\Chudy")) {
             String p = "dd\\ol";
@@ -171,6 +180,9 @@ public class PAUnit extends TestCase implements Constants {
             p = "dd\\old1\\buildtemp1\\build1.xml";
             p = FileUtil.toTARAlias(p);
             assertEquals(p, desktopDir + "old1\\buildtemp1\\build1.xml");
+            p="dd/*/DS10/server";
+            p = FileUtil.toTARAlias(p);
+            assertEquals(p, desktopDir + "REF4_servers_logs\\DS10\\server.log");
         }
     }
 
@@ -270,19 +282,41 @@ public class PAUnit extends TestCase implements Constants {
         assertEquals(PAOperations.newFileName("abcdddefg", "cc-e", false, true), "ddd"); // cut from to
         assertEquals(PAOperations.newFileName("abcdefg", "cabc", false, true), "defg"); // cut from
         assertEquals(PAOperations.newFileName("abcdefg01.txt", "c-fg", true, true), "abcde.txt"); // cut to
-        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c.../s", false, true), "282.44 -- 1,689.33 loan 23:46:09 return "); // /s is space ' '
-        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c...\\s", false, true), "282.44 -- 1,689.33 loan 23:46:09 return ");
-        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c..", false, true), ". 282.44 -- 1,689.33 loan 23:46:09 return ");
-        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c-.../s", false, true), "zhou ");
-        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c-23:46:09", false, true), "zhou ... 282.44 -- 1,689.33 loan ");
-        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c.../s-/s--", false, true), "282.44");
-        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c...\\s-\\s--", false, true), "282.44");
-        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "123{n[.../s,/s--]}123{n[.../s,/s--]}123", false, true), "123282.44123282.44123");
-        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "123{n[.../s,/s--]}123{n[--/s,/sloan]}123", false, true), "123282.441231,689.33123");
+        assertEquals(
+                PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c.../s", false, true),
+                "282.44 -- 1,689.33 loan 23:46:09 return "); // /s is space ' '
+        assertEquals(
+                PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c...\\s", false, true),
+                "282.44 -- 1,689.33 loan 23:46:09 return ");
+        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c..", false, true),
+                ". 282.44 -- 1,689.33 loan 23:46:09 return ");
+        assertEquals(
+                PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c-.../s", false, true),
+                "zhou ");
+        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c-23:46:09", false,
+                true), "zhou ... 282.44 -- 1,689.33 loan ");
+        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c.../s-/s--",
+                false, true), "282.44");
+        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c...\\s-\\s--",
+                false, true), "282.44");
+        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ",
+                "123{n[.../s,/s--]}123{n[.../s,/s--]}123", false, true), "123282.44123282.44123");
+        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ",
+                "123{n[.../s,/s--]}123{n[--/s,/sloan]}123", false, true), "123282.441231,689.33123");
         assertEquals(PAOperations.newFileName("a.txt", "dd\\", true, false), desktopDir + "a.txt"); // tar
         assertEquals(PAOperations.newFileName("a.txt", "dd", true, false), "dd.txt"); // tar
     }
 
+    public void testRegex_01() throws Exception {
+        String p = "s\\d*[kKmMgG]?-?\\d*[kKmMgG]?";
+        assertEquals("s5m".matches(p), true);
+        assertEquals("s10m".matches(p), true);
+        assertEquals("s10m-20m".matches(p), true);
+        assertEquals("s-20m".matches(p), true);
+        assertEquals("s1g".matches(p), true);
+        assertEquals("s1G-2G".matches(p), true);
+    }
+    
     private void doTest(String dir, String name, String filefrom, boolean expect) {
         doTest(dir, name, filefrom, expect, 0);
     }
@@ -334,8 +368,17 @@ public class PAUnit extends TestCase implements Constants {
     }
 
     private void doTest2(String line, String from, String expect) {
-        Filters filters = Filters.getFilters(from, null);
+        Params params = new Params();
+        Filters filters = Filters.getFilters(from, params);
         assertEquals(filters.getFirst(), expect);
+    }
+
+    private void doTestFP(String s, String s2) {
+        FiltersPattern p = new FiltersPattern();
+        p.p = s;
+        p.params = new Params();
+        p.init();
+        assertEquals(p.toString(), s2);
     }
 
     private void setDebug() {

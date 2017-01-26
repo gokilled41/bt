@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.concurrent.*;
 import java.util.logging.Logger;
 import java.util.regex.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import javax.management.*;
 import javax.naming.*;
@@ -56,6 +58,8 @@ import org.w3c.dom.*;
 import org.w3c.dom.Node;
 import org.xml.sax.*;
 
+//import xtj.*;
+
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -87,12 +91,25 @@ import com.vitria.xquery.*;
 public class Test extends gzhou.Util {
 
     public static void main(String[] args) throws Exception {
-        
-        PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(desktopDir + "small.log")));
-        for (int i = 0; i < 300000; i++) {
-            out.println(i + ": 1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou1234567890zhou");
-        }
-        out.close();
+
+        //        String f = rndir + "\\TheadDumps.zip";
+//        String f = FileUtil.toTARAlias("euapps\\AppFramework");
+//        System.out.println(f);
+//        ZipFile zf = new ZipFile(f);
+//        Enumeration<? extends ZipEntry> e = zf.entries();
+//        List<String> list = new ArrayList<String>();
+//        while (e.hasMoreElements()) {
+//            ZipEntry el = e.nextElement();
+//            String n = el.getName();
+//            if (n.contains("/"))
+//                n = cut(n, null, "/");
+//            addWithoutDup(list, n);
+//        }
+//        zf.close();
+
+//        System.out.println(list);
+
+        System.out.println(listZipFileElements("euapps\\AppFramework"));
         
     }
 

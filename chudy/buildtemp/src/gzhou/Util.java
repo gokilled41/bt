@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,8 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import org.apache.commons.codec.binary.Hex;
 
@@ -42,9 +45,11 @@ public class Util implements Constants {
 
     private static final int ABATCH = 300000;
     private static List<String> txtList_ = new ArrayList<String>();
+    private static List<String> zipList_ = new ArrayList<String>();
 
     static {
         initTxt();
+        initZip();
     }
 
     public static Date toDate(long l) {
@@ -309,20 +314,58 @@ public class Util implements Constants {
         return s;
     }
 
+    public static String fixReplaceTo(String s) {
+        s = fixSearchKey(s);
+        s = unwrap(s);
+        return s;
+    }
+
     public static String fixSearchKey(String s) {
         if (s != null && !s.isEmpty()) {
-            if (s.contains("/s")) {
-                s = s.replace("/s", " ");
-            }
-            if (s.contains("\\s")) {
-                s = s.replace("\\s", " ");
-            }
             if (s.contains(":s")) {
                 s = s.replace(":s", " ");
             }
             if (s.contains(";s")) {
                 s = s.replace(";s", " ");
             }
+            if (contains(s, ";\\d*s")) {
+                List<String> list = find(s, ";\\d*s");
+                for (String matched : list) {
+                    s = s.replace(matched, getIndent(toInt(cut(matched, 1, 1))));
+                }
+            }
+            if (s.contains(";o")) {
+                s = s.replace(";o", "|");
+            }
+            if (s.contains(";lt")) {
+                s = s.replace(";lt", "<");
+            }
+            if (s.contains(";rt")) {
+                s = s.replace(";rt", ">");
+            }
+            if (s.contains(";q")) {
+                s = s.replace(";q", "?");
+            }
+            if (s.contains(";m")) {
+                s = s.replace(";m", "\"");
+            }
+            if (s.contains(";ls")) {
+                s = s.replace(";ls", "/");
+            }
+            if (s.contains(";rs")) {
+                s = s.replace(";rs", "\\");
+            }
+            if (s.contains(";n")) {
+                s = s.replace(";n", LINE_SEPARATOR);
+            }
+        }
+        return s;
+    }
+
+    private static String unwrap(String s) {
+        if (s != null && !s.isEmpty()) {
+            if (s.startsWith("'") && s.endsWith("'"))
+                return cut(s, 1, 1);
         }
         return s;
     }
@@ -472,25 +515,34 @@ public class Util implements Constants {
     }
 
     public static String determineEncoding(String p) throws Exception {
-        return determineEncoding(toList(getFirstLine(p)));
+        long s = System.currentTimeMillis();
+        try {
+            return determineEncoding(getFirstLines(p));
+        } finally {
+            long e = System.currentTimeMillis();
+            logp(2, "determineEncoding with p", s, e);
+        }
     }
 
-    private static String getFirstLine(String p) throws Exception {
-        List<String> lines = getLines(p, "GBK", 1);
-        if (lines != null && !lines.isEmpty()) {
-            return lines.get(0);
-        }
-        return null;
+    private static List<String> getFirstLines(String p) throws Exception {
+        return getLines(p, "GBK", 1000);
     }
 
     public static String determineEncoding(List<String> lines) {
-        if (lines != null && !lines.isEmpty()) {
-            String line = lines.get(0);
-            if (isChinese(line)) {
-                return "GBK";
+        long s = System.currentTimeMillis();
+        try {
+            if (lines != null && !lines.isEmpty()) {
+                for (String line : lines) {
+                    if (isChinese(line)) {
+                        return "GBK";
+                    }
+                }
             }
+            return "UTF-8";
+        } finally {
+            long e = System.currentTimeMillis();
+            logp(2, "determineEncoding with lines", s, e);
         }
-        return "UTF-8";
     }
 
     public static void setLines(String filePath, List<String> lines, String encoding) throws Exception {
@@ -546,6 +598,12 @@ public class Util implements Constants {
     public static boolean exists(String path) {
         File folder = new File(path);
         return folder.exists();
+    }
+
+    public static boolean isEmpty(String path) {
+        File folder = new File(path);
+        File[] files = folder.listFiles();
+        return files == null || files.length == 0;
     }
 
     public static void mkdirs(String path) {
@@ -686,6 +744,10 @@ public class Util implements Constants {
         if (params.sortType != null) {
             if (params.sortType.equals("t")) { // time
                 Collections.sort(list, new FileTimestampSorter());
+                return;
+            }
+            if (params.sortType.equals("s")) { // size
+                Collections.sort(list, new FileSizeSorter());
                 return;
             }
         }
@@ -1107,6 +1169,25 @@ public class Util implements Constants {
         return list;
     }
 
+    public static List<String> find(String s, String regex) {
+        return splitToListWithRegex(s, regex);
+    }
+    
+    public static String findInDir(String dir, String fileName) throws Exception {
+        Params params = new Params();
+        params.noPath = true;
+        FilenameFilter filter = Filters.getFilters(fileName + ";eq", params);
+        File folder = new File(dir);
+        List<File> files = listFiles(folder , true, filter , params);
+        if (!files.isEmpty())
+            return files.get(0).getCanonicalPath();
+        return null;
+    }
+
+    public static boolean contains(String s, String regex) {
+        return find(s, regex).size() > 0;
+    }
+
     /**
      * find matches in given string with regex.
      */
@@ -1123,11 +1204,41 @@ public class Util implements Constants {
 
     public static List<Line> findInFile(String p, String from, Params params) throws Exception {
         long s = System.currentTimeMillis();
+        params.bigFile = isBigFile(p);
         Filters f = Filters.getFilters(from, params);
         List<Line> r = findInFile(p, f, params);
+        r = handleFoundResult(r, params);
         long e = System.currentTimeMillis();
         logp(2, "findInFile", s, e);
         return r;
+    }
+
+    private static List<Line> handleFoundResult(List<Line> r, Params p) {
+        if (r != null && r.size() > 0) {
+            List<Line> r2 = new ArrayList<Line>();
+            if (p.isFirst()) {
+                r2.add(r.get(0));
+            }
+            if (r.size() > 1) {
+                if (p.isLast()) {
+                    r2.add(subLast(r));
+                }
+            }
+            if (!r2.isEmpty())
+                return r2;
+        }
+        return r;
+    }
+
+    public static boolean isBigFile(String p) {
+        File f = new File(p);
+        if (f.exists()) {
+            boolean r = f.length() >= 100 * MB;
+            if (r && FileUtil.debug_)
+                log(2, "big file: " + p);
+            return r;
+        }
+        return false;
     }
 
     public static List<Line> findInFile(String p, Filters f, Params params) throws Exception {
@@ -1329,7 +1440,7 @@ public class Util implements Constants {
         public void logLines() {
             if (affected != null) {
                 for (Line line : affected) {
-                    line.print(6, 7);
+                    line.print(4, 7);
                 }
             }
         }
@@ -1339,6 +1450,14 @@ public class Util implements Constants {
         public int compare(File o1, File o2) {
             Long l1 = o1.lastModified();
             Long l2 = o2.lastModified();
+            return -l1.compareTo(l2);
+        }
+    }
+
+    public static class FileSizeSorter implements Comparator<File> {
+        public int compare(File o1, File o2) {
+            Long l1 = o1.length();
+            Long l2 = o2.length();
             return -l1.compareTo(l2);
         }
     }
@@ -1391,7 +1510,7 @@ public class Util implements Constants {
     public static boolean isTextFile(File file) {
         String name = file.getName();
         for (String suffix : txtList_) {
-            if (name.endsWith(suffix))
+            if (name.toLowerCase().endsWith(suffix))
                 return true;
         }
         return false;
@@ -1399,26 +1518,68 @@ public class Util implements Constants {
 
     private static void initTxt() {
         addWithoutDup(txtList_, ".txt");
-        addWithoutDup(txtList_, ".java");
-        addWithoutDup(txtList_, ".xml");
-        addWithoutDup(txtList_, ".xsd");
-        addWithoutDup(txtList_, ".html");
-        addWithoutDup(txtList_, ".ini");
-        addWithoutDup(txtList_, ".properties");
-        addWithoutDup(txtList_, ".bat");
-        addWithoutDup(txtList_, ".project");
-        addWithoutDup(txtList_, ".js");
-        addWithoutDup(txtList_, ".jsp");
-        addWithoutDup(txtList_, ".module");
-        addWithoutDup(txtList_, ".component");
-        addWithoutDup(txtList_, ".cmd");
+        addWithoutDup(txtList_, ".csv");
+        addWithoutDup(txtList_, ".log");
         addWithoutDup(txtList_, ".sql");
         addWithoutDup(txtList_, ".lst");
-        addWithoutDup(txtList_, ".log");
-        addWithoutDup(txtList_, ".conf");
+        addWithoutDup(txtList_, ".java");
+        addWithoutDup(txtList_, ".as");
         addWithoutDup(txtList_, ".scala");
+        addWithoutDup(txtList_, ".r");
+        addWithoutDup(txtList_, ".xml");
+        addWithoutDup(txtList_, ".xsd");
+        addWithoutDup(txtList_, ".xsl");
+        addWithoutDup(txtList_, ".html");
+        addWithoutDup(txtList_, ".css");
+        addWithoutDup(txtList_, ".wsdl");
+        addWithoutDup(txtList_, ".js");
+        addWithoutDup(txtList_, ".jsp");
+        addWithoutDup(txtList_, ".json");
+        addWithoutDup(txtList_, ".ini");
+        addWithoutDup(txtList_, ".bat");
+        addWithoutDup(txtList_, ".cmd");
+        addWithoutDup(txtList_, ".sh");
+        addWithoutDup(txtList_, ".properties");
+        addWithoutDup(txtList_, ".conf");
         addWithoutDup(txtList_, ".diff");
         addWithoutDup(txtList_, ".patch");
+        addWithoutDup(txtList_, ".classpath");
+        addWithoutDup(txtList_, ".project");
+        addWithoutDup(txtList_, ".module");
+        addWithoutDup(txtList_, ".component");
+        addWithoutDup(txtList_, ".md");
+        addWithoutDup(txtList_, ".mf");
+        addWithoutDup(txtList_, ".vm");
+    }
+
+    public static boolean isZipFile(String filePath) {
+        return isZipFile(new File(filePath));
+    }
+
+    public static boolean isZipFile(File file) {
+        String name = file.getName();
+        for (String suffix : zipList_) {
+            if (name.toLowerCase().endsWith(suffix))
+                return true;
+        }
+        return false;
+    }
+
+    public static boolean isZipExt(String ext) {
+        return zipList_.contains("." + ext.toLowerCase());
+    }
+
+    private static void initZip() {
+        addWithoutDup(zipList_, ".zip");
+        addWithoutDup(zipList_, ".ear");
+        addWithoutDup(zipList_, ".war");
+        addWithoutDup(zipList_, ".jar");
+        addWithoutDup(zipList_, ".sar");
+        addWithoutDup(zipList_, ".rar");
+        addWithoutDup(zipList_, ".tar");
+        addWithoutDup(zipList_, ".bz");
+        addWithoutDup(zipList_, ".gz");
+        addWithoutDup(zipList_, ".7z");
     }
 
     public static String getFirstArg(String[] args) {
@@ -1460,25 +1621,25 @@ public class Util implements Constants {
         return args2;
     }
 
-    public static String getFirst(List<String> list) {
+    public static <T> T getFirst(List<T> list) {
         return list.get(0);
     }
 
-    public static List<String> cutFirst(List<String> list) {
+    public static <T> List<T> cutFirst(List<T> list) {
         list.remove(0);
         return list;
     }
 
-    public static List<String> cutLast(List<String> list) {
+    public static <T> List<T> cutLast(List<T> list) {
         list.remove(list.size() - 1);
         return list;
     }
 
-    public static String subFirst(List<String> list) {
+    public static <T> T subFirst(List<T> list) {
         return list.get(0);
     }
 
-    public static String subLast(List<String> list) {
+    public static <T> T subLast(List<T> list) {
         return list.get(list.size() - 1);
     }
 
@@ -1492,6 +1653,10 @@ public class Util implements Constants {
             String n = getFileName(p);
             return n.contains(".");
         }
+    }
+
+    public static boolean isDir(String p) {
+        return !isFile(p);
     }
 
     public static boolean isInt(String s) {
@@ -1780,4 +1945,70 @@ public class Util implements Constants {
         return format("call go \"{0}\"", p);
     }
 
+    public static List<String> listZipFileRoot(String path) throws Exception {
+        List<String> list = new ArrayList<String>();
+        String f = FileUtil.toTARAlias(path);
+        if (exists(f)) {
+            ZipFile zf = new ZipFile(f);
+            try {
+                Enumeration<? extends ZipEntry> e = zf.entries();
+                while (e.hasMoreElements()) {
+                    ZipEntry el = e.nextElement();
+                    String n = el.getName();
+                    if (n.contains("/"))
+                        n = cut(n, null, "/");
+                    addWithoutDup(list, n);
+                }
+            } finally {
+                zf.close();
+            }
+        }
+        return list;
+    }
+
+    public static List<String> listZipFileRootDirs(String path) throws Exception {
+        List<String> list = new ArrayList<String>();
+        String f = FileUtil.toTARAlias(path);
+        if (exists(f)) {
+            ZipFile zf = new ZipFile(f);
+            try {
+                Enumeration<? extends ZipEntry> e = zf.entries();
+                while (e.hasMoreElements()) {
+                    ZipEntry el = e.nextElement();
+                    if (!el.isDirectory())
+                        continue;
+                    String n = el.getName();
+                    if (n.contains("/"))
+                        n = cut(n, null, "/");
+                    addWithoutDup(list, n);
+                }
+            } finally {
+                zf.close();
+            }
+        }
+        return list;
+    }
+
+    public static List<String> listZipFileElements(String path) throws Exception {
+        List<String> list = new ArrayList<String>();
+        String f = FileUtil.toTARAlias(path);
+        if (exists(f)) {
+            ZipFile zf = new ZipFile(f);
+            try {
+                Enumeration<? extends ZipEntry> e = zf.entries();
+                while (e.hasMoreElements()) {
+                    ZipEntry el = e.nextElement();
+                    String n = el.getName();
+                    addWithoutDup(list, n);
+                }
+            } finally {
+                zf.close();
+            }
+        }
+        return list;
+    }
+
+    public static boolean isNull(String s) {
+        return s == null || s.isEmpty();
+    }
 }
