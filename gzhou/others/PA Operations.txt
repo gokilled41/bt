@@ -22,7 +22,6 @@
 - al xxx -a: list hidden files
 - generic param: ; or -
 - not list dirs if no files under it
-- al k DS10/085952 af ;m
 - af k DomainManager c ml o=k1\DomainManager.log: auto add DomainManager.log [af k DomainManager c ml o=k1] when o is one folder, auto add file name: searchKey.log
 - af C:\Users\gzhou\Desktop\20170125 "Coyote HTTP" l9-64 / lf1-4: log all lines from line 9 to line64 / from found 1 to found 4
-- afu ;mcf;m;
+- al dd/*/DS10/085952

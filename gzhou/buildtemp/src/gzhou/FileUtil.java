@@ -5406,7 +5406,13 @@ public class FileUtil extends Util implements Constants {
         }
 
         private static boolean isGenericParameter(String last) {
-            return last.startsWith(";");
+            if (last.startsWith(";")) {
+                String p = cutFirst(last, 1);
+                GenericParameter gp = new GenericParameter();
+                gp.init(p);
+                return gp.isGP();
+            }
+            return false;
         }
 
         public static class GenericParameter {
@@ -5414,6 +5420,14 @@ public class FileUtil extends Util implements Constants {
 
             public void init(String p) {
                 this.p = p;
+            }
+
+            public boolean isGP() {
+                if (isLast())
+                    return true;
+                if (isFirst())
+                    return true;
+                return false;
             }
 
             public boolean isLast() {

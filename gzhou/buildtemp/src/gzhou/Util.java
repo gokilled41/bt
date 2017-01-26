@@ -322,12 +322,6 @@ public class Util implements Constants {
 
     public static String fixSearchKey(String s) {
         if (s != null && !s.isEmpty()) {
-            if (s.contains("/s")) {
-                s = s.replace("/s", " ");
-            }
-            if (s.contains("\\s")) {
-                s = s.replace("\\s", " ");
-            }
             if (s.contains(":s")) {
                 s = s.replace(":s", " ");
             }

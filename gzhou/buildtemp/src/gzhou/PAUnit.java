@@ -180,6 +180,9 @@ public class PAUnit extends TestCase implements Constants {
             p = "dd\\old1\\buildtemp1\\build1.xml";
             p = FileUtil.toTARAlias(p);
             assertEquals(p, desktopDir + "old1\\buildtemp1\\build1.xml");
+            p="dd/*/DS10/server";
+            p = FileUtil.toTARAlias(p);
+            assertEquals(p, desktopDir + "REF4_servers_logs\\DS10\\server.log");
         }
     }
 
