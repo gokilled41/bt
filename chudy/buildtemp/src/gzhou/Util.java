@@ -684,18 +684,29 @@ public class Util implements Constants {
         File[] files = folder.listFiles((FilenameFilter) null);
         if (files != null) {
             for (File file : files) {
-                if (file.isDirectory()) {
+                boolean hasChildren = false;
+                boolean isDir = file.isDirectory();
+                if (isDir) {
                     if (filterDir(file))
                         continue;
-                    if (recursion)
-                        list.addAll(listFiles(file, recursion, filter));
+                    if (recursion) {
+                        List<File> children = listFiles(file, recursion, filter);
+                        if (!children.isEmpty()) {
+                            list.addAll(children);
+                            hasChildren = true;
+                        }
+                    }
                 }
                 if (filter != null) {
                     if (filter.accept(folder, file.getName())) {
-                        list.add(file);
+                        if (!isDir || hasChildren) {
+                            list.add(file);
+                        }
                     }
                 } else {
-                    list.add(file);
+                    if (!isDir || hasChildren) {
+                        list.add(file);
+                    }
                 }
             }
         }
@@ -762,21 +773,31 @@ public class Util implements Constants {
         File[] files = folder.listFiles((FilenameFilter) null);
         if (files != null) {
             for (File file : files) {
-                if (file.isDirectory()) {
+                boolean hasChildren = false;
+                boolean isDir = file.isDirectory();
+                if (isDir) {
                     if (filterDir(file))
                         continue;
                     if (recursion) {
                         if (depth + 1 <= recursiveLevel) {
-                            list.addAll(listFiles(file, recursion, filter, recursiveLevel, depth + 1));
+                            List<File> children = listFiles(file, recursion, filter, recursiveLevel, depth + 1);
+                            if (!children.isEmpty()) {
+                                list.addAll(children);
+                                hasChildren = true;
+                            }
                         }
                     }
                 }
                 if (filter != null) {
                     if (filter.accept(folder, file.getName())) {
-                        list.add(file);
+                        if (!isDir || hasChildren) {
+                            list.add(file);
+                        }
                     }
                 } else {
-                    list.add(file);
+                    if (!isDir || hasChildren) {
+                        list.add(file);
+                    }
                 }
             }
         }
@@ -2010,5 +2031,24 @@ public class Util implements Constants {
 
     public static boolean isNull(String s) {
         return s == null || s.isEmpty();
+    }
+
+    public static boolean isHiddenFile(File file) throws Exception {
+        return isHiddenFile(file, null);
+    }
+    
+    public static boolean isHiddenFile(File file, List<String> hidden) throws Exception {
+        if (file.isHidden()) {
+            if (hidden != null)
+                hidden.add(file.getCanonicalPath());
+            return true;
+        }
+        if (hidden != null) {
+            for (String h : hidden) {
+                if (file.getCanonicalPath().startsWith(h))
+                    return true;
+            }
+        }
+        return false;
     }
 }

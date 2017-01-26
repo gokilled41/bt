@@ -7,10 +7,15 @@ alist is one command to list files under given dir.
                    it can be combined like: "a/b\c\d". "/" means includes. "\" means excludes.
                    it can be combined like: "a##b". "##" means or.
                    it can be ` or ~. it means "*".
-                   it can be wrap with "'". it means exact strings without regex conversion.
+                   it can be wrap with "'". it means contains exact strings.
                    it can be wrap with "@". it means regular expressions.
-                   it can be wrap with "{}". it means exactly match not contains.
-                   it can be end with ";". it means contains exact strings.
+                   it can be end with following
+                     ;       contains
+                     ;;      matches
+                     ;st     startsWith
+                     ;e      endsWith
+                     ;eq     equals
+                     ;eqic   equalsIgnoreCase
     - t          set filters of file timestamps
                    t20160101-20160120: time period
                    t1y1m1w1d: near days

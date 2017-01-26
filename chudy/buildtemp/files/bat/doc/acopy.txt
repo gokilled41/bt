@@ -7,10 +7,15 @@ acopy is one command to copy files.
                    it can be combined like: "a/b\c\d". "/" means includes. "\" means excludes.
                    it can be combined like: "a##b". "##" means or.
                    it can be ` or ~. it means "*".
-                   it can be wrap with "'". it means exact strings without regex conversion.
+                   it can be wrap with "'". it means contains exact strings.
                    it can be wrap with "@". it means regular expressions.
-                   it can be wrap with "{}". it means exactly match not contains.
-                   it can be end with ";". it means contains exact strings.
+                   it can be end with following
+                     ;       contains
+                     ;;      matches
+                     ;st     startsWith
+                     ;e      endsWith
+                     ;eq     equals
+                     ;eqic   equalsIgnoreCase
     - todir      one dir or one tar alias copy to
     - tofile     the parent dir will be used to copy to.
                    file name like "a.jar" or file pattern like "*Manager*" or "*.zip"
@@ -18,9 +23,15 @@ acopy is one command to copy files.
                    it can be combined like: "a/b\c\d". "/" means includes. "\" means excludes.
                    it can be combined like: "a##b". "##" means or.
                    it can be ` or ~. it means "*".
-                   it can be wrap with "'". it means exact strings without regex conversion.
+                   it can be wrap with "'". it means contains exact strings.
                    it can be wrap with "@". it means regular expressions.
-                   it can be wrap with "{}". it means exactly match not contains.
+                   it can be end with following
+                     ;       contains
+                     ;;      matches
+                     ;st     startsWith
+                     ;e      endsWith
+                     ;eq     equals
+                     ;eqic   equalsIgnoreCase
     - ##rename   rename to another file name. refer to gzhou.PAUnit.testNewFileName_01()
     - kd         keep directory structures
     - ov         need overwrite

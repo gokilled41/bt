@@ -2605,11 +2605,12 @@ public class FileUtil extends Util implements Constants {
                 log("list from: " + formatFrom(from));
             List<File> files = Util.listFiles(new File(from), params.recursive, filter, params);
             List<String> dirs = new ArrayList<String>();
+            List<String> hidden = new ArrayList<String>();
             if (!files.isEmpty()) {
                 int filesSize = 0;
                 int nameIndent = getNameIndent(from, files);
                 for (File file : files) {
-                    if (file.isHidden())
+                    if (!params.isListAll() && isHiddenFile(file, hidden))
                         continue;
                     if (file.isFile())
                         filesSize++;
@@ -2977,6 +2978,15 @@ public class FileUtil extends Util implements Constants {
                 params.noPath = true;
             }
             if (filefrom.endsWith(";")) {
+                params.noPath = true;
+            }
+            if (filefrom.contains(";st")) {
+                params.noPath = true;
+            }
+            if (filefrom.contains(";e")) {
+                params.noPath = true;
+            }
+            if (filefrom.contains(";eq")) {
                 params.noPath = true;
             }
             if (params.recursiveLevel == 0) {
@@ -5434,9 +5444,10 @@ public class FileUtil extends Util implements Constants {
 
         private static GenericParameter parseGenericParameter(String last) {
             if (isGenericParameter(last)) {
+                String s = subFirst(last, 1);
                 String p = cutFirst(last, 1);
                 GenericParameter gp = new GenericParameter();
-                gp.init(p);
+                gp.init(s, p);
                 return gp;
             }
             return null;
@@ -5447,19 +5458,22 @@ public class FileUtil extends Util implements Constants {
         }
 
         private static boolean isGenericParameter(String last) {
-            if (last.startsWith(";")) {
+            if (last.startsWith(";") || last.startsWith("-")) {
+                String s = subFirst(last, 1);
                 String p = cutFirst(last, 1);
                 GenericParameter gp = new GenericParameter();
-                gp.init(p);
+                gp.init(s, p);
                 return gp.isGP();
             }
             return false;
         }
 
         public static class GenericParameter {
+            public String s;
             public String p;
 
-            public void init(String p) {
+            public void init(String s, String p) {
+                this.s = s;
                 this.p = p;
             }
 
@@ -5470,24 +5484,30 @@ public class FileUtil extends Util implements Constants {
                     return true;
                 if (isAutoCopy())
                     return true;
+                if (isListAll())
+                    return true;
                 return false;
             }
 
             public boolean isLast() {
-                return p.equals("l") || p.equals("last");
+                return s.equals(";") && (p.equals("l") || p.equals("last"));
             }
 
             public boolean isFirst() {
-                return p.equals("f") || p.equals("first");
+                return s.equals(";") && (p.equals("f") || p.equals("first"));
             }
             
             public boolean isAutoCopy() {
-                return p.equals("a") || p.equals("auto");
+                return s.equals(";") && (p.equals("a") || p.equals("auto"));
+            }
+
+            public boolean isListAll() {
+                return s.equals("-") && (p.equals("a") || p.equals("all"));
             }
 
             @Override
             public String toString() {
-                return ";" + p;
+                return s + p;
             }
 
         }
@@ -5896,6 +5916,14 @@ public class FileUtil extends Util implements Constants {
         public boolean isAutoCopy() {
             for (GenericParameter p : gp) {
                 if (p.isAutoCopy())
+                    return true;
+            }
+            return false;
+        }
+
+        public boolean isListAll() {
+            for (GenericParameter p : gp) {
+                if (p.isListAll())
                     return true;
             }
             return false;

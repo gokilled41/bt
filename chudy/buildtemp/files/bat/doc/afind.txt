@@ -11,20 +11,29 @@ afind is one command to find given search key in files.
                    it can be combined like: "a/l100-200". it means line index is between 100 to 200 ([100,200)).
                    it can be combined like: "a/l100\l200". "/" means >=. "\" means <.
                    it can be ` or ~. it means "*".
-                   it can be wrap with "'". it means exact strings without regex conversion.
+                   it can be wrap with "'". it means contains exact strings.
                    it can be wrap with "@". it means regular expressions.
-                   it can be wrap with "{}". it means exactly match not contains.
-                   it can be end with ";". it means contains exact strings.
+                   it can be end with following
+                     ;       contains
+                     ;;      matches
+                     ;st     startsWith
+                     ;e      endsWith
+                     ;eq     equals
+                     ;eqic   equalsIgnoreCase
     - from       search key.
                    it can be combined like: "a/b\c\d". "/" means includes. "\" means excludes.
                    it can be combined like: "a##b". "##" means or.
                    it can be combined like: "a/(b\c)". "()" is groups.
                    if from includes resolved chars in regular expressions, please wrap it with "'", like: "'new PAFilenameFilter(filefrom)'"
-                   it can be wrap with "'". it means exact strings without regex conversion.
+                   it can be wrap with "'". it means contains exact strings.
                    it can be wrap with "@". it means regular expressions.
-                   it can be wrap with "{}". it means exactly match not contains.
-                   it can be end with ";". it means contains exact strings.
-                   it can be end with ";;". it means matches regex strings.
+                   it can be end with following
+                     ;       contains
+                     ;;      matches
+                     ;st     startsWith
+                     ;e      endsWith
+                     ;eq     equals
+                     ;eqic   equalsIgnoreCase
                    by default
                      it is exact strings without regex conversion for big files (>=100MB).
                      it is with regex conversion for small files (<100MB).
