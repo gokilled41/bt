@@ -20,6 +20,7 @@ alist is one command to list files under given dir.
                    x=dd\123:                unzip the list zip file to given dir
                    x:                       unzip to current dir
                    c=d\vtm3oserver.ear:     zip the list dir to given zip file
+                   c=ear:                   zip to current dir with given zip ext
                    cf:                      zip to current dir
     - sort       sort operations
                    sort:                    sort the files
@@ -27,6 +28,8 @@ alist is one command to list files under given dir.
     - in         list conditions
                    in:                      list the files in given dir
                    notin:                   list the files NOT in given dir
+                   ;f:                      only files
+                   ;d:                      only dirs
     - adf        adf=xxx                    diff with the file with same file name under given dir
     - ud         use dot
     - nd         no file detail

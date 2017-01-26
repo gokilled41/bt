@@ -1560,6 +1560,10 @@ public class Util implements Constants {
         return false;
     }
 
+    public static boolean isZipExt(String ext) {
+        return zipList_.contains("." + ext.toLowerCase());
+    }
+
     private static void initZip() {
         addWithoutDup(zipList_, ".zip");
         addWithoutDup(zipList_, ".ear");
@@ -1644,6 +1648,10 @@ public class Util implements Constants {
             String n = getFileName(p);
             return n.contains(".");
         }
+    }
+
+    public static boolean isDir(String p) {
+        return !isFile(p);
     }
 
     public static boolean isInt(String s) {
@@ -1993,5 +2001,9 @@ public class Util implements Constants {
             }
         }
         return list;
+    }
+
+    public static boolean isNull(String s) {
+        return s == null || s.isEmpty();
     }
 }

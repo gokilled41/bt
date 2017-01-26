@@ -4561,16 +4561,19 @@ public class FileUtil extends Util implements Constants {
             if (params.zipOperations != null) {
                 ZipOperations zo = params.zipOperations;
                 if (zo.zip) {
-                    if (files.size() == 1) {
-                        String zipFile = files.get(0);
-                        String from = zipFile;
-                        String to = getParent(zo.to);
-                        String name = getFileName(zo.to);
-                        String line = format("call azip \"{0}\" \"{1}\" \"{2}\"", from, to, name);
-                        setLines(batDir + "aziptmp.bat", toList(line));
-                    } else {
-                        if (debug_)
-                            log("Ignore zip operations since file size is " + files.size());
+                    List<String> list = new ArrayList<String>();
+                    for (String file : files) {
+                        if (isDir(file)) {
+                            String zipFile = file;
+                            String from = zipFile;
+                            String to = resolveZipTo(zipFile, zo.to);
+                            String name = getFileName(to);
+                            String line = format("call azip \"{0}\" \"{1}\" \"{2}\"", from, getParent(to), name);
+                            list.add(line);
+                        }
+                    }
+                    if (!list.isEmpty()) {
+                        setLines(batDir + "aziptmp.bat", list);
                     }
                 }
                 if (zo.unzip) {
@@ -4618,10 +4621,19 @@ public class FileUtil extends Util implements Constants {
             }
         }
 
+        private static String resolveZipTo(String dir, String to) throws Exception {
+            if (isNull(to))
+                to = "zip";
+            if (isZipExt(to))
+                to = getParent(dir) + FILE_SEPARATOR + getFileName(dir) + "." + to;
+            to = toTARAlias(to);
+            return to;
+        }
+
         private static String resolveUnzipTo(String zipFile, String to) throws Exception {
             if (to == null)
                 to = getParent(zipFile);
-            String to_original = to;
+            String to_original = toTARAlias(to);
             to = toTARAlias(to);
             if (exists(to) && !isEmpty(to)) {
                 List<String> dirs = listZipFileRootDirs(zipFile);
@@ -4684,7 +4696,7 @@ public class FileUtil extends Util implements Constants {
                     zo.adf = isAdf(pattern);
                     zo.sql = isSql(pattern);
                     zo.sort = isSort(pattern);
-                    zo.to = getTo(pattern);
+                    zo.to = getTo(zo, pattern);
                     return zo;
                 }
                 return null;
@@ -4716,9 +4728,13 @@ public class FileUtil extends Util implements Constants {
                 return pattern.equals("sort") || pattern.startsWith("sort=");
             }
 
-            private static String getTo(String pattern) throws Exception {
-                if (pattern.contains("="))
-                    return toTARAlias(cut(pattern, "=", null));
+            private static String getTo(ZipOperations zo, String pattern) throws Exception {
+                if (pattern.contains("=")) {
+                    if (zo.zip || zo.unzip)
+                        return cut(pattern, "=", null);
+                    else
+                        return toTARAlias(cut(pattern, "=", null));
+                }
                 return null;
             }
 
