@@ -720,7 +720,7 @@ public class Util implements Constants {
         if (params.recursiveLevel < 0) {
             list = listFiles(folder, recursion, filter);
         } else {
-            list = listFiles(folder, recursion, filter, params.recursiveLevel, 0);
+            list = listFiles(folder, recursion, filter, params, 0);
         }
         list = filterFiles(list, params);
         sortFiles(list, params);
@@ -766,7 +766,7 @@ public class Util implements Constants {
         Collections.sort(list);
     }
 
-    private static List<File> listFiles(File folder, boolean recursion, FilenameFilter filter, int recursiveLevel,
+    private static List<File> listFiles(File folder, boolean recursion, FilenameFilter filter, Params params,
             int depth) {
         if (!folder.exists())
             System.out.println(tab(2) + "folder does not exist: " + folder.getAbsolutePath());
@@ -780,8 +780,8 @@ public class Util implements Constants {
                     if (filterDir(file))
                         continue;
                     if (recursion) {
-                        if (depth + 1 <= recursiveLevel) {
-                            List<File> children = listFiles(file, recursion, filter, recursiveLevel, depth + 1);
+                        if (depth + 1 <= params.recursiveLevel) {
+                            List<File> children = listFiles(file, recursion, filter, params, depth + 1);
                             if (!children.isEmpty()) {
                                 list.addAll(children);
                                 hasChildren = true;
@@ -791,12 +791,12 @@ public class Util implements Constants {
                 }
                 if (filter != null) {
                     if (filter.accept(folder, file.getName())) {
-                        if (!isDir || hasChildren) {
+                        if (!isDir || hasChildren || params.recursiveLevel == 0) {
                             list.add(file);
                         }
                     }
                 } else {
-                    if (!isDir || hasChildren) {
+                    if (!isDir || hasChildren || params.recursiveLevel == 0) {
                         list.add(file);
                     }
                 }

@@ -2963,6 +2963,8 @@ public class FileUtil extends Util implements Constants {
         private static String toRelativePath(String from, String p) {
             if (p.contains("\\\\"))
                 p = p.replace("\\\\", "\\");
+            if (from.contains("\\\\"))
+                from = from.replace("\\\\", "\\");
             from = addLast(from, FILE_SEPARATOR);
             return p.substring(from.length()).replace(FILE_SEPARATOR, "/");
         }
