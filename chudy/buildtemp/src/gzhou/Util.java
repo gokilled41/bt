@@ -3,6 +3,7 @@ package gzhou;
 import gzhou.FileUtil.DBOperations;
 import gzhou.FileUtil.FileTimestampResult.FileTimestamp;
 import gzhou.FileUtil.Filters;
+import gzhou.FileUtil.FiltersPattern;
 import gzhou.FileUtil.ListConditionResult.ListCondition;
 import gzhou.FileUtil.MarkOccurrenceResult;
 import gzhou.FileUtil.PAOperations;
@@ -949,6 +950,10 @@ public class Util implements Constants {
         return list.toArray(new String[list.size()]);
     }
 
+    public static File[] filesListToArray(List<File> list) {
+        return list.toArray(new File[list.size()]);
+    }
+
     public static <K, V> void addWithoutDup(Map<K, V> map1, Map<K, V> map2) {
         for (Entry<K, V> entry : map2.entrySet()) {
             addWithoutDup(map1, entry);
@@ -1863,6 +1868,14 @@ public class Util implements Constants {
             return s.toLowerCase().matches(n.toLowerCase());
     }
 
+    public static boolean matchesFilters(String s, String n, boolean caseSensitive) {
+        Params params = new Params();
+        params.caseSensitive = caseSensitive;
+        params.noPath = true;
+        Filters filters = Filters.getFilters(n, params);
+        return filters.accept(s, 0);
+    }
+
     public static boolean isAbsolutePath(String path) {
         if (path != null) {
             if (path.matches("[a-zA-Z]:.*"))
@@ -1884,6 +1897,11 @@ public class Util implements Constants {
 
     public static void log(int i, String m) {
         log(tab(i) + m);
+    }
+
+    public static void logd(int i, String m) {
+        if (FileUtil.debug_)
+            log(tab(i) + m);
     }
 
     public static void logp(int i, String n, long s, long e) {
@@ -2050,5 +2068,15 @@ public class Util implements Constants {
             }
         }
         return false;
+    }
+    
+    public static String toRegex(String s) {
+        return FiltersPattern.fixPattern(s);
+    }
+    
+    public static List<String> splitWithGroup(String s) { // / or \
+        Params p = new Params();
+        Filters filters = Filters.getFilters(s, p);
+        return filters.getSubs();
     }
 }

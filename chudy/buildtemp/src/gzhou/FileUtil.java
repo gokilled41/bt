@@ -19,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -1665,52 +1666,60 @@ public class FileUtil extends Util implements Constants {
     }
 
     public static String toTARAlias(String p) throws Exception {
-        p = unwrapTARAlias(p);
-        if (isAbsolutePath(p))
-            return p;
-        boolean containsLeft = p.contains("/");
-        boolean containsRight = p.contains("\\");
-        List<String> list = getLines2(TYPEANDRUN_CONFIG);
-        List<TARAliasMatchNodeItem> items = new ArrayList<TARAliasMatchNodeItem>();
-        for (String tarLine : list) {
-            String tarAlias = cut(tarLine, null, "|");
-            String tarPath = cut(tarLine, "|", null);
-            if (tarPath.contains("|")) {
-                tarPath = cutBack(tarPath, null, "|");
-                if (!isTextFile(tarPath)) {
+        long s = System.currentTimeMillis();
+        try {
+            p = unwrapTARAlias(p);
+            if (isAbsolutePath(p))
+                return p;
+            boolean containsLeft = p.contains("/");
+            boolean containsRight = p.contains("\\");
+            List<String> list = getLines2(TYPEANDRUN_CONFIG);
+            List<TARAliasMatchNodeItem> items = new ArrayList<TARAliasMatchNodeItem>();
+            for (String tarLine : list) {
+                String tarAlias = cut(tarLine, null, "|");
+                String tarPath = cut(tarLine, "|", null);
+                if (tarPath.contains("|")) {
+                    tarPath = cutBack(tarPath, null, "|");
+                    if (!isTextFile(tarPath)) {
+                        continue;
+                    }
+                }
+                if (tarPath.contains("://"))
                     continue;
+    
+                tarPath = fixTarPath(tarPath);
+                if (containsLeft) {
+                    String pFirst = cut(p, null, "/");
+                    addItemIfNecessary(pFirst, items, tarAlias, tarPath);
+                } else if (containsRight) {
+                    String pFirst = cut(p, null, "\\");
+                    addItemIfNecessary(pFirst, items, tarAlias, tarPath);
+                } else {
+                    addItemIfNecessary(p, items, tarAlias, tarPath);
                 }
             }
-            if (tarPath.contains("://"))
-                continue;
-
-            tarPath = fixTarPath(tarPath);
-            if (containsLeft) {
-                String pFirst = cut(p, null, "/");
-                addItemIfNecessary(pFirst, items, tarAlias, tarPath);
-            } else if (containsRight) {
-                String pFirst = cut(p, null, "\\");
-                addItemIfNecessary(pFirst, items, tarAlias, tarPath);
-            } else {
-                addItemIfNecessary(p, items, tarAlias, tarPath);
+            if (!items.isEmpty()) {
+                Collections.sort(items);
+                TARAliasMatchNodeItem matchedItem = items.get(0);
+                matchedItem_ = matchedItem;
+                if (debug_)
+                    log(2, "matched in tar: " + matchedItem.toString());
+                if (containsLeft) {
+                    String sub = cut(p, "/", null);
+                    sub = sub.replace("/", FILE_SEPARATOR);
+                    return toTARPath(matchedItem.tarPath, sub);
+                } else if (containsRight) {
+                    String sub = cut(p, "\\", null);
+                    return toTARPath(matchedItem.tarPath, sub);
+                } else {
+                    return matchedItem.tarPath;
+                }
             }
+            return p;
+        } finally {
+            long e = System.currentTimeMillis();
+            logp(2, "toTARAlias: " + p, s, e);
         }
-        if (!items.isEmpty()) {
-            Collections.sort(items);
-            TARAliasMatchNodeItem matchedItem = items.get(0);
-            matchedItem_ = matchedItem;
-            if (containsLeft) {
-                String sub = cut(p, "/", null);
-                sub = sub.replace("/", FILE_SEPARATOR);
-                return toTARPath(matchedItem.tarPath, sub);
-            } else if (containsRight) {
-                String sub = cut(p, "\\", null);
-                return toTARPath(matchedItem.tarPath, sub);
-            } else {
-                return matchedItem.tarPath;
-            }
-        }
-        return p;
     }
 
     private static void addItemIfNecessary(String p, List<TARAliasMatchNodeItem> items, String tarAlias, String tarPath) {
@@ -1751,77 +1760,122 @@ public class FileUtil extends Util implements Constants {
         return tarPath;
     }
 
-    public static String toTARPath(String tarPath, String sub) {
-        String sp = FILE_SEPARATOR;
-        List<String> list = splitToList(sub, sp + sp);
-        List<String> list2 = new ArrayList<String>();
-        String path = tarPath;
-        for (int i = 0; i < list.size(); i++) {
-            String node = list.get(i);
-            if (i < list.size() - 1) {
-                // dir
-                node = toTARPathMatchNode(path, node, true);
-            } else {
-                // dir or file
-                node = toTARPathMatchNode(path, node, false);
-            }
-            list2.add(node);
-            path = addLast(path, sp) + node;
+    public static String toTARPath(String path, String sub) throws Exception {
+        sub = addFirst(sub, FILE_SEPARATOR);
+        List<TARPathMatchNodeItem> parentList = new ArrayList<TARPathMatchNodeItem>();
+        TARPathMatchNodeItem root = new TARPathMatchNodeItem();
+        root.file = new File(path);
+        root.i = 100;
+        root.n = getFileName(path);
+        parentList.add(root);
+        List<TARPathMatchNodeItem> list = toTARPathMatchNodeList(parentList, sub);
+        Collections.sort(list);
+        Collections.reverse(list);
+        for (TARPathMatchNodeItem item : list) {
+            FileUtil.logd(2, item.toString());
         }
-        return path;
+        if (list.size() == 0) {
+            return path + sub;
+        }
+        TARPathMatchNodeItem found = list.get(0);
+        return found.file.getCanonicalPath();
     }
 
-    private static String toTARPathMatchNode(String path, String node, boolean onlyDir) {
+    private static List<TARPathMatchNodeItem> toTARPathMatchNodeList(List<TARPathMatchNodeItem> parentList, String sub) throws Exception {
+        sub = addFirst(sub, FILE_SEPARATOR);
+        logd(2, "sub: " + sub);
+        String subNoSP = cutFirst(sub, 1);
+        String node = subNoSP;
+        String csub = null;
+        boolean hasSub = false;
+        List<String> parts = splitWithGroup(subNoSP);
+        node = parts.get(0);
+        if (parts.size() > 1) {
+            csub = cut(subNoSP, node, null);
+            hasSub = true;
+        }
         List<TARPathMatchNodeItem> list = new ArrayList<TARPathMatchNodeItem>();
-        File pathFile = new File(path);
-        if (pathFile.exists()) {
-            File[] files = pathFile.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    if (onlyDir) {
-                        if (file.isDirectory()) {
+        for (TARPathMatchNodeItem parentItem : parentList) {
+            String path = parentItem.file.getCanonicalPath();
+            boolean onlyDir = hasSub;
+            File pathFile = new File(path);
+            if (pathFile.exists()) {
+                File[] files = pathFile.listFiles();
+                if (node.equals("**"))
+                    files = filesListToArray(listFiles(pathFile, true));
+                if (files != null) {
+                    for (File file : files) {
+                        if (onlyDir) {
+                            if (file.isDirectory()) {
+                                String n = file.getName();
+                                boolean c = containsIgnoreCase(n, node);
+                                boolean m = false;
+                                if (!c) 
+                                    m = matchesFilters(n, node, false);
+                                if (c || m) {
+                                    TARPathMatchNodeItem item = new TARPathMatchNodeItem();
+                                    if (c) {
+                                        if (n.equals(node)) {
+                                            item.i = 100;
+                                        } else if (n.startsWith(node)) {
+                                            item.i = 84;
+                                        } else if (n.endsWith(node)) {
+                                            item.i = 82;
+                                        } else if (n.contains(node)) {
+                                            item.i = 80;
+                                        } else {
+                                            item.i = 70;
+                                        }
+                                    } else {
+                                        item.i = 10;
+                                        // item.i = matchesFiltersRecord(n, node, false);
+                                    }
+                                    item.file = file;
+                                    item.n = n;
+                                    item.i += parentItem.i;
+                                    list.add(item);
+                                }
+                            }
+                        } else {
                             String n = file.getName();
-                            if (containsIgnoreCase(n, node)) {
+                            boolean c = containsIgnoreCase(n, node);
+                            boolean m = false;
+                            if (!c) 
+                                m = matchesFilters(n, node, false);
+                            if (c || m) {
                                 TARPathMatchNodeItem item = new TARPathMatchNodeItem();
-                                if (n.equals(node)) {
-                                    item.i = 1;
-                                } else if (n.contains(node)) {
-                                    item.i = 2;
+                                if (c) {
+                                    if (n.equals(node)) {
+                                        item.i = 100;
+                                    } else if (n.contains(node)) {
+                                        if (file.isDirectory())
+                                            item.i = 80;
+                                        else
+                                            item.i = 75;
+                                    } else {
+                                        if (file.isDirectory())
+                                            item.i = 70;
+                                        else
+                                            item.i = 65;
+                                    }
                                 } else {
-                                    item.i = 3;
+                                    item.i = 10;
+                                    // item.i = matchesFiltersRecord(n, node, false);
                                 }
                                 item.file = file;
                                 item.n = n;
+                                item.i += parentItem.i;
                                 list.add(item);
                             }
-                        }
-                    } else {
-                        String n = file.getName();
-                        if (containsIgnoreCase(n, node)) {
-                            TARPathMatchNodeItem item = new TARPathMatchNodeItem();
-                            if (n.equals(node)) {
-                                item.i = 1;
-                            } else if (file.isDirectory()) {
-                                if (n.contains(node))
-                                    item.i = 2;
-                                else
-                                    item.i = 3;
-                            } else {
-                                item.i = 4;
-                            }
-                            item.file = file;
-                            item.n = n;
-                            list.add(item);
                         }
                     }
                 }
             }
         }
-        if (!list.isEmpty()) {
-            Collections.sort(list);
-            return list.get(0).n;
-        }
-        return node;
+        if (hasSub)
+            return toTARPathMatchNodeList(list, csub);
+        else
+            return list;
     }
 
     public static class TARAliasMatchNodeItem implements Comparable<TARAliasMatchNodeItem> {
@@ -1835,6 +1889,11 @@ public class FileUtil extends Util implements Constants {
             Integer i2 = o.i;
             return i1.compareTo(i2);
         }
+
+        @Override
+        public String toString() {
+            return format("{0} [{1}] ({2})", tarAlias, i, tarPath);
+        }
     }
 
     public static class TARPathMatchNodeItem implements Comparable<TARPathMatchNodeItem> {
@@ -1847,6 +1906,15 @@ public class FileUtil extends Util implements Constants {
             Integer i1 = i;
             Integer i2 = o.i;
             return i1.compareTo(i2);
+        }
+
+        @Override
+        public String toString() {
+            try {
+                return format("{0} [{1}]", file.getCanonicalPath(), i);
+            } catch (IOException e) {
+            }
+            return "ERROR";
         }
     }
 
@@ -3515,6 +3583,16 @@ public class FileUtil extends Util implements Constants {
                 }
             }
         }
+
+        public List<String> getSubs() {
+            List<String> list = new ArrayList<String>();
+            for (FiltersPattern sub : subList) {
+                String s = sub.toString();
+                s = cutFirst(s, 1);
+                list.add(s);
+            }
+            return list;
+        }
     }
 
     public static class Filter {
@@ -3922,7 +4000,7 @@ public class FileUtil extends Util implements Constants {
             return sb.toString();
         }
 
-        private static String fixPattern(String filefrom) {
+        public static String fixPattern(String filefrom) {
             filefrom = fixSearchKey(filefrom);
             filefrom = filefrom.replace("`", "*").replace("~", "*");
             if (isContainsPatternNecessary(filefrom)) {

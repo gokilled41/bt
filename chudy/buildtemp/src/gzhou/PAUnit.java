@@ -180,10 +180,30 @@ public class PAUnit extends TestCase implements Constants {
             p = "dd\\old1\\buildtemp1\\build1.xml";
             p = FileUtil.toTARAlias(p);
             assertEquals(p, desktopDir + "old1\\buildtemp1\\build1.xml");
-            p="dd/*/DS10/server";
+            p="y/m3o/*/(src\\dev)/domainser";
             p = FileUtil.toTARAlias(p);
-            assertEquals(p, desktopDir + "REF4_servers_logs\\DS10\\server.log");
+            assertEquals(p, "D:\\jedi\\yoda\\m3o\\server\\src\\domainservice");
+            p="y/m3o/*/s/domainser";
+            p = FileUtil.toTARAlias(p);
+            assertEquals(p, "D:\\jedi\\yoda\\m3o\\server\\src\\domainservice");
+            p="y/m3o/*/src/domainser";
+            p = FileUtil.toTARAlias(p);
+            assertEquals(p, "D:\\jedi\\yoda\\m3o\\server\\src\\domainservice");
+            p="y/m3o/*/src/domainser/**/util";
+            p = FileUtil.toTARAlias(p);
+            assertEquals(p, "D:\\jedi\\yoda\\m3o\\server\\src\\domainservice\\com\\vitria\\domainservice\\util");
+            p="y/m3o/*/src/domainser/**/com";
+            p = FileUtil.toTARAlias(p);
+            assertEquals(p, "D:\\jedi\\yoda\\m3o\\server\\src\\domainservice\\com");
         }
+    }
+    
+    public void testToRegex_01() throws Exception {
+        assertEquals(Util.toRegex("*"), ".*");
+        assertEquals(Util.toRegex("a"), ".*a.*");
+        assertEquals(Util.toRegex("abc;s"), ".*abc .*");
+        assertEquals(Util.toRegex("abc;s;"), "abc ");
+        assertEquals(Util.toRegex("a.b"), ".*a\\.b.*");
     }
 
     public void testUtil_01() throws Exception {
@@ -283,26 +303,26 @@ public class PAUnit extends TestCase implements Constants {
         assertEquals(PAOperations.newFileName("abcdefg", "cabc", false, true), "defg"); // cut from
         assertEquals(PAOperations.newFileName("abcdefg01.txt", "c-fg", true, true), "abcde.txt"); // cut to
         assertEquals(
-                PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c.../s", false, true),
+                PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c...;s", false, true),
                 "282.44 -- 1,689.33 loan 23:46:09 return "); // /s is space ' '
         assertEquals(
-                PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c...\\s", false, true),
+                PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c...;s", false, true),
                 "282.44 -- 1,689.33 loan 23:46:09 return ");
         assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c..", false, true),
                 ". 282.44 -- 1,689.33 loan 23:46:09 return ");
         assertEquals(
-                PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c-.../s", false, true),
+                PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c-...;s", false, true),
                 "zhou ");
         assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c-23:46:09", false,
                 true), "zhou ... 282.44 -- 1,689.33 loan ");
-        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c.../s-/s--",
+        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c...;s-;s--",
                 false, true), "282.44");
-        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c...\\s-\\s--",
+        assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ", "c...;s-;s--",
                 false, true), "282.44");
         assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ",
-                "123{n[.../s,/s--]}123{n[.../s,/s--]}123", false, true), "123282.44123282.44123");
+                "123{n[...;s,;s--]}123{n[...;s,;s--]}123", false, true), "123282.44123282.44123");
         assertEquals(PAOperations.newFileName("zhou ... 282.44 -- 1,689.33 loan 23:46:09 return ",
-                "123{n[.../s,/s--]}123{n[--/s,/sloan]}123", false, true), "123282.441231,689.33123");
+                "123{n[...;s,;s--]}123{n[--;s,;sloan]}123", false, true), "123282.441231,689.33123");
         assertEquals(PAOperations.newFileName("a.txt", "dd\\", true, false), desktopDir + "a.txt"); // tar
         assertEquals(PAOperations.newFileName("a.txt", "dd", true, false), "dd.txt"); // tar
     }
