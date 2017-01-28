@@ -4727,6 +4727,22 @@ public class FileUtil extends Util implements Constants {
                         setLines(batDir + "aunziptmp.bat", list);
                     }
                 }
+                if (zo.up) {
+                    List<String> list = new ArrayList<String>();
+                    String zipFile = zo.to;
+                    String from = getParent(zipFile);
+                    String to = "D:\\alogs\\zipTmpDir";
+                    String name = getFileName(zipFile);
+                    list.add(format("call aunzip \"{0}\" \"{1}\" \"{2}\"", from, to, name));
+                    for (String file : files) {
+                        list.add(format("call acp \"{0}\" \"{1}\" ;auto", file, to));
+                    }
+                    list.add(format("call azip \"{0}\" \"{1}\" \"{2}\"", to, getParent(zipFile), name));
+                    list.add(format("call arm \"{0}\" sl", to));
+                    if (!list.isEmpty()) {
+                        setLines(batDir + "aunziptmp.bat", list);
+                    }
+                }
                 if (zo.adf) {
                     if (files.size() == 1) {
                         String from = files.get(0);
@@ -4798,6 +4814,7 @@ public class FileUtil extends Util implements Constants {
         public static class ZipOperations {
             public boolean zip = false;
             public boolean unzip = false;
+            public boolean up = false;
             public boolean adf = false;
             public boolean sql = false;
             public boolean sort = false;
@@ -4828,6 +4845,7 @@ public class FileUtil extends Util implements Constants {
                     ZipOperations zo = new ZipOperations();
                     zo.zip = isZip(pattern);
                     zo.unzip = isUnzip(pattern);
+                    zo.up = isUp(pattern);
                     zo.adf = isAdf(pattern);
                     zo.sql = isSql(pattern);
                     zo.sort = isSort(pattern);
@@ -4838,7 +4856,7 @@ public class FileUtil extends Util implements Constants {
             }
 
             public static boolean isParam(String last) {
-                return isZip(last) || isUnzip(last) || isAdf(last) || isSql(last) || isSort(last);
+                return isZip(last) || isUnzip(last) || isUp(last) || isAdf(last) || isSql(last) || isSort(last);
             }
 
             private static boolean isZip(String pattern) {
@@ -4849,6 +4867,10 @@ public class FileUtil extends Util implements Constants {
             private static boolean isUnzip(String pattern) {
                 return pattern.startsWith("unzip=") || pattern.startsWith("x=") || pattern.equals("x")
                         || pattern.startsWith("imp=");
+            }
+
+            private static boolean isUp(String pattern) {
+                return pattern.startsWith("up=");
             }
 
             private static boolean isAdf(String pattern) {

@@ -27,6 +27,7 @@ alist is one command to list files under given dir.
                    c=d\vtm3oserver.ear:     zip the list dir to given zip file
                    c=ear:                   zip to current dir with given zip ext
                    cf:                      zip to current dir
+                   up=d\vtm3oserver.ear:    update the list jars into given zip file, copy it auto
     - sort       sort operations
                    sort:                    sort the files
                    sort=desc:               sort the files desc
