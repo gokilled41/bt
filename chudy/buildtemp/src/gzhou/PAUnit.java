@@ -11,6 +11,7 @@ import java.io.File;
 
 import junit.framework.TestCase;
 
+@SuppressWarnings("all")
 public class PAUnit extends TestCase implements Constants {
 
     public void testFilters_01() throws Exception {
@@ -192,12 +193,15 @@ public class PAUnit extends TestCase implements Constants {
             p="y/m3o/*/src/domainser/**/util";
             p = FileUtil.toTARAlias(p);
             assertEquals(p, "D:\\jedi\\yoda\\m3o\\server\\src\\domainservice\\com\\vitria\\domainservice\\util");
-            p="y/m3o/*/src/domainser/**/com";
+            p="y/m3o/*/src/do/**/com";
+            p = FileUtil.toTARAlias(p);
+            assertEquals(p, "D:\\jedi\\yoda\\m3o\\server\\src\\domainservice\\com");
+            p="y/m3o/*/src/do/**/co";
             p = FileUtil.toTARAlias(p);
             assertEquals(p, "D:\\jedi\\yoda\\m3o\\server\\src\\domainservice\\com");
         }
     }
-    
+
     public void testToRegex_01() throws Exception {
         assertEquals(Util.toRegex("*"), ".*");
         assertEquals(Util.toRegex("a"), ".*a.*");
@@ -407,6 +411,14 @@ public class PAUnit extends TestCase implements Constants {
 
     private void setNoDebug() {
         FileUtil.debug2_ = false;
+    }
+
+    private void d() {
+        FileUtil.debug_ = true;
+    }
+    
+    private void nd() {
+        FileUtil.debug_ = false;
     }
 
 }

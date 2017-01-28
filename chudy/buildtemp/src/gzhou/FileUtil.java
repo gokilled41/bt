@@ -1801,8 +1801,12 @@ public class FileUtil extends Util implements Constants {
             File pathFile = new File(path);
             if (pathFile.exists()) {
                 File[] files = pathFile.listFiles();
-                if (node.equals("**"))
-                    files = filesListToArray(listFiles(pathFile, true));
+                if (node.equals("**")) {
+                    List<File> listFiles = new ArrayList<File>();
+                    listFiles.addAll(listFiles(pathFile, true));
+                    listFiles.add(pathFile);
+                    files = filesListToArray(listFiles);
+                }
                 if (files != null) {
                     for (File file : files) {
                         if (onlyDir) {
