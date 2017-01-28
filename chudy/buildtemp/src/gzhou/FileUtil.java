@@ -67,6 +67,9 @@ public class FileUtil extends Util implements Constants {
     public static boolean debugp_ = false;
     public static String logTab_;
     public static boolean outputToFile_ = false;
+    public static boolean silent_ = false;
+    public static boolean outputWithSearchKey_ = false;
+    public static String outputDir_;
 
     private static TARAliasMatchNodeItem matchedItem_;
 
@@ -2442,6 +2445,7 @@ public class FileUtil extends Util implements Constants {
                 from = args[2];
             }
             filefrom = fixFileFrom(filefrom, params);
+            OutputToFile.outputWithSearchKey(from);
             // db operations
             if (DBOperations.isDB(fromdir)) {
                 DBOperations.findInTables(fromdir, filefrom, from, params);
@@ -6087,7 +6091,7 @@ public class FileUtil extends Util implements Constants {
     public static class OutputToFile {
         public static String[] outputToFile(String[] args, String n) throws Exception {
             boolean outputToFile = false;
-            boolean slient = false;
+            boolean silent = false;
             String last = getLastArg(args);
             String outputFile = null;
             if (last != null) {
@@ -6100,7 +6104,7 @@ public class FileUtil extends Util implements Constants {
                     args = cutLastArg(args);
                 } else if (last.equalsIgnoreCase("sl")) {
                     outputToFile = true;
-                    slient = true;
+                    silent = true;
                     args = cutLastArg(args);
                 }
                 if (outputToFile) {
@@ -6109,16 +6113,23 @@ public class FileUtil extends Util implements Constants {
                         file = "D:\\alogs\\" + n + ".log";
                     } else {
                         file = toTARAlias(outputFile);
+                        if (isDir(file)) {
+                            outputWithSearchKey_ = true;
+                            outputDir_ = file;
+                        }
                     }
-                    if (!slient)
-                        log("output to: " + file);
-                    outputToFile(file);
-                    if (!slient) {
-                        String line = toEditLine(file);
-                        setLines(batDir + "aoutputtmp.bat", toList(line));
+                    if (!outputWithSearchKey_) {
+                        if (!silent)
+                            log("output to: " + file);
+                        outputToFile(file);
+                        if (!silent) {
+                            String line = toEditLine(file);
+                            setLines(batDir + "aoutputtmp.bat", toList(line));
+                        }
                     }
                 }
             }
+            silent_ = silent;
             return args;
         }
 
@@ -6126,6 +6137,21 @@ public class FileUtil extends Util implements Constants {
             outputToFile_ = true;
             mkdirs(getParent(file));
             System.setOut(new PrintStream(file));
+        }
+        
+        public static void outputWithSearchKey(String from) throws Exception {
+            if (outputWithSearchKey_) {
+                from = from.replace("/", "_");
+                from = from.replace("\\", "_");
+                String file = outputDir_ + FILE_SEPARATOR + from + ".log";
+                if (!silent_)
+                    log("output to: " + file);
+                outputToFile(file);
+                if (!silent_) {
+                    String line = toEditLine(file);
+                    setLines(batDir + "aoutputtmp.bat", toList(line));
+                }
+            }
         }
     }
 
