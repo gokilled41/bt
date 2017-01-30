@@ -5670,6 +5670,13 @@ public class FileUtil extends Util implements Constants {
                 return expandLines.from;
             }
         }
+        
+        public boolean isExpandLinesFromTo() {
+            if (expandLines != null) {
+                return expandLines.from > 0 && expandLines.to > expandLines.from && expandLines.to < Integer.MAX_VALUE;
+            }
+            return false;
+        }
 
         public boolean listCurrentDir() {
             return recursiveLevel == 0;
