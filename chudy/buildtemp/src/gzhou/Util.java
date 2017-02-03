@@ -526,7 +526,7 @@ public class Util implements Constants {
     }
 
     private static List<String> getFirstLines(String p) throws Exception {
-        return getLines(p, "GBK", 1000);
+        return getLines(p, "GBK", 1);
     }
 
     public static String determineEncoding(List<String> lines) {

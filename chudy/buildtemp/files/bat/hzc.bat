@@ -1,4 +1,2 @@
-call hzjc
-call hzxc
-call hzyc
-call hzfc
+call hzcdir
+call mvn package

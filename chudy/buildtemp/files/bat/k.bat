@@ -1,2 +1,3 @@
 @echo off
-call kr
+call b
+call tms

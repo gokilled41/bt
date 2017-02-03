@@ -33,7 +33,7 @@ public class HZFSQLFormatTask extends Task {
                 }
                 ls2.add(l);
             }
-            gzhou.Util.setLines(to_.getAbsolutePath(), ls2);
+            gzhou.Util.setLines(to_.getAbsolutePath(), ls2, "UTF-8");
             log("hzf format sql: " + to_.getAbsolutePath());
         } catch (Exception e) {
             throw new BuildException(e);

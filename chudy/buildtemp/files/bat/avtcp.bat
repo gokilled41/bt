@@ -1,5 +1,8 @@
 @echo off
 
+rem JAVA_HOME
+set JAVA_HOME=C:\Program Files\Java\jdk1.8.0_60
+
 rem buildtemp bin
 set VT_CP=C:\workspace\buildtemp\bin
 

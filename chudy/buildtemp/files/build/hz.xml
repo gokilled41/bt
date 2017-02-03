@@ -22,6 +22,8 @@
     <property name="hzj.target.dir" value="${hzj.dir}\jnh\target" />
     <property name="hzf.dir" value="${hzp.dir}\svn\fms" />
     <property name="hzf.target.dir" value="${hz.dir}\export\fms" />
+    <property name="hzc.dir" value="${hzp.dir}\git\crm" />
+    <property name="hzc.target.dir" value="${hz.dir}\export\crm" />
     
     <property name="hz.udisk.dir" value="G:\huazhi" />
     <property name="hz.buildtemp.dir" value="C:\workspace\buildtemp" />
@@ -42,6 +44,7 @@
     <property name="hz_mysql_password" value="${hz_mysql_vt_ds_password}" />
 
     <property name="hzf_mysql_url" value="jdbc:mysql://${hz_mysql_vt_ds_connection_ip}:${hz_mysql_vt_ds_connection_port}/fms?autoReconnect=true" />
+    <property name="hzc_mysql_url" value="jdbc:mysql://${hz_mysql_vt_ds_connection_ip}:${hz_mysql_vt_ds_connection_port}/crm?autoReconnect=true" />
 
     <property name="hz_mysql_sqljdbc.dir" value="${files.lib.dir}" />
     <property name="hz_mysql_sqljdbc.version" value="5.1.17" />
@@ -328,6 +331,74 @@
     <target name="hzf-clean-upload-files">
         <delete dir="${hz.dir}\files\fms\files" />
         <mkdir dir="${hz.dir}\files\fms\files" />
+    </target>
+
+    <target name="hzc-db">
+        <echo message="url: ${hzc_mysql_url}" />
+        <antcall target="hzc-drop-db" />
+        <antcall target="hzc-create-db" />
+        <!--<antcall target="hzc-update-db" />-->
+        <antcall target="hzc-delete-formatted-sqls" />
+        <antcall target="hzc-clean-upload-files" />
+    </target>
+
+    <target name="hzc-drop-db" depends="hzc-format-drop-sql">
+        <sql driver="${hz_mysql_driver}" url="${hzc_mysql_url}" userid="${hz_mysql_user}" password="${hz_mysql_password}" onerror="continue" encoding="UTF-8">
+            <fileset dir="${hzc.dir}\sql">
+                <include name="crm.drop.formatted.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${hz_mysql_sqljdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="hzc-create-db" depends="hzc-format-create-sql">
+        <sql driver="${hz_mysql_driver}" url="${hzc_mysql_url}" userid="${hz_mysql_user}" password="${hz_mysql_password}" onerror="continue" encoding="UTF-8">
+            <fileset dir="${hzc.dir}\sql">
+                <include name="crm.create.formatted.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${hz_mysql_sqljdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+
+    <target name="hzc-update-db" depends="hzc-format-update-sql">
+        <sql driver="${hz_mysql_driver}" url="${hzc_mysql_url}" userid="${hz_mysql_user}" password="${hz_mysql_password}" onerror="continue" encoding="UTF-8">
+            <fileset dir="${hzc.dir}\sql">
+                <include name="crm.update.email.formatted.sql" />
+                <include name="crm.update.gzhou.formatted.sql" />
+            </fileset>
+            <classpath>
+                <pathelement location="${hz_mysql_sqljdbc.jar}" />
+            </classpath>
+        </sql>
+    </target>
+    
+    <target name="hzc-format-drop-sql">
+        <hzcsqlformat from="${hzc.dir}\sql\crm.drop.sql" to="${hzc.dir}\sql\crm.drop.formatted.sql"/>
+    </target>
+    
+    <target name="hzc-format-create-sql">
+        <hzcsqlformat from="${hzc.dir}\sql\crm.create.sql" to="${hzc.dir}\sql\crm.create.formatted.sql"/>
+    </target>
+    
+    <target name="hzc-format-update-sql">
+        <hzcsqlformat from="${hzc.dir}\sql\crm.update.email.sql" to="${hzc.dir}\sql\crm.update.email.formatted.sql"/>
+        <hzcsqlformat from="${hzc.dir}\sql\crm.update.gzhou.sql" to="${hzc.dir}\sql\crm.update.gzhou.formatted.sql"/>
+    </target>
+    
+    <target name="hzc-delete-formatted-sqls">
+        <delete file="${hzc.dir}\sql\crm.drop.formatted.sql" />
+        <delete file="${hzc.dir}\sql\crm.create.formatted.sql" />
+        <delete file="${hzc.dir}\sql\crm.update.email.formatted.sql" />
+        <delete file="${hzc.dir}\sql\crm.update.gzhou.formatted.sql" />
+    </target>
+    
+    <target name="hzc-clean-upload-files">
+        <delete dir="${hz.dir}\files\crm\files" />
+        <mkdir dir="${hz.dir}\files\crm\files" />
     </target>
 
 </project>

@@ -16,4 +16,7 @@
   - [d]al mt users c
   - doc
 - dsb: bug desc with ""
-- af C:\Users\gzhou\Desktop\20170125 "Coyote HTTP" l9-64 / lf1-4: log all lines from line 9 to line64 / from found 1 to found 4
+- af C:\Users\gzhou\Desktop\20170125 /"Coyote HTTP" l9-64 / lf1-4: log all lines from line 9 to line64 / from found 1 to found 4
+- al zip x:  if the zip only contains one folder, use that folder even if the folder is different with zip name
+- al kg fms/sql ar fms crm: rename file no outputs
+- al ke crm.war acp tmd: if tmd is cleaned, throw java.lang.NumberFormatException

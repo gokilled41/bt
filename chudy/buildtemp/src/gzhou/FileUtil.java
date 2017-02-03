@@ -4294,13 +4294,15 @@ public class FileUtil extends Util implements Constants {
 
     public static class GBKEncodingResult {
         public String[] args;
-        public boolean gbkEncoding;
+        public boolean gbkEncoding = false;
+        public boolean utf8Encoding = false;
 
         public static GBKEncodingResult gbkEncoding(String[] args) {
             GBKEncodingResult r = new GBKEncodingResult();
             String last = getLastArg(args);
             if (isParam(last)) {
-                r.gbkEncoding = true;
+                r.gbkEncoding = isGBK(last);
+                r.utf8Encoding = isUTF8(last);
                 r.args = cutLastArg(args);
                 if (debug_)
                     log(tab(2) + "GBK Encoding: " + r.gbkEncoding);
@@ -4312,7 +4314,15 @@ public class FileUtil extends Util implements Constants {
         }
 
         public static boolean isParam(String last) {
-            return last.equals("gbk");
+            return isGBK(last) || isUTF8(last);
+        }
+
+        private static boolean isGBK(String last) {
+            return last.equalsIgnoreCase("gbk");
+        }
+
+        private static boolean isUTF8(String last) {
+            return last.equalsIgnoreCase("utf8") || last.equalsIgnoreCase("u8");
         }
     }
 
@@ -5636,6 +5646,7 @@ public class FileUtil extends Util implements Constants {
         public boolean openFile = false;
         public int openFilesCount = 10;
         public boolean gbkEncoding = false;
+        public boolean utf8Encoding = false;
         public boolean keepDir = false;
         public String newFileName = null;
         public boolean noPath = false;
@@ -5690,7 +5701,11 @@ public class FileUtil extends Util implements Constants {
         }
 
         public String getEncoding(String p) throws Exception {
-            return gbkEncoding ? "GBK" : determineEncoding(p);
+            if (gbkEncoding)
+                return "GBK";
+            if (utf8Encoding)
+                return "UTF-8";
+            return determineEncoding(p);
         }
 
         public void log() {
@@ -5703,6 +5718,7 @@ public class FileUtil extends Util implements Constants {
                 FileUtil.log(tab(4) + "openDir = " + openDir);
                 FileUtil.log(tab(4) + "openFile = " + openFile);
                 FileUtil.log(tab(4) + "gbkEncoding = " + gbkEncoding);
+                FileUtil.log(tab(4) + "utf8Encoding = " + utf8Encoding);
             }
         }
 
@@ -5761,6 +5777,8 @@ public class FileUtil extends Util implements Constants {
                     args = ger.args;
                     if (params.gbkEncoding == false)
                         params.gbkEncoding = ger.gbkEncoding;
+                    if (params.utf8Encoding == false)
+                        params.utf8Encoding = ger.utf8Encoding;
                 }
                 // keep dir
                 KeepDirResult kdr = KeepDirResult.keepDir(args);

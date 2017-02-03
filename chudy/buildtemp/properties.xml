@@ -165,6 +165,7 @@
     <taskdef name="xjcrjd" classname="gzhou.XJCRemoveJavaDocTask" classpath="${bin.dir}" />
     <taskdef name="imsus" classname="gzhou.IoTSimulatorURLSwitchTask" classpath="${bin.dir}" />
     <taskdef name="hzfsqlformat" classname="gzhou.HZFSQLFormatTask" classpath="${bin.dir}" />
+    <taskdef name="hzcsqlformat" classname="gzhou.HZFSQLFormatTask" classpath="${bin.dir}" />
 
     <property name="jboss.j2ee.jar" value="${jboss.lib.dir}/jboss-j2ee.jar" />
     <property name="jbossall.client.jar" value="${jboss.client.dir}/jbossall-client.jar" />
