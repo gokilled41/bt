@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hqjl.crm.dao.AuthMapper" >
+
+  <resultMap id="BaseResultMap" type="com.hqjl.crm.model.Auth" >
+    <id column="id" property="id" />
+    <result column="applyId" property="applyId" />
+    <result column="userName" property="userName" />
+    <result column="authRole" property="authRole" />
+    <result column="timestamp" property="timestamp" javaType="java.util.Date" />
+  </resultMap>
+
+  <cache 
+    eviction="FIFO"
+    flushInterval="60000"
+    size="1024"
+    readOnly="true"
+    />
+
+  <select id="listAuths" resultMap="BaseResultMap">
+    SELECT * FROM Auth
+  </select>
+  <select id="listAuthsByApplyId" resultMap="BaseResultMap">
+    SELECT * FROM Auth WHERE applyId = #{applyId}
+  </select>
+  <select id="listAuthsByApplyIdAndAuthRole" resultMap="BaseResultMap">
+    SELECT * FROM Auth WHERE applyId = #{applyId} and authRole = #{authRole}
+  </select>
+  <select id="listAuthsByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM Auth a WHERE 1=1
+    <if test="name != null">
+        <if test="name != ''">
+            and a.applyId like concat('%',trim(#{name,jdbcType=VARCHAR}),'%')
+        </if>
+    </if>
+    order by a.id asc
+    <if test="start != null and size != null">
+        limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </if>
+  </select>
+  <select id="countAuthsByMap" parameterType="java.util.Map" resultType="java.lang.Long">
+    SELECT count(*) FROM FROM Auth a WHERE 1=1
+    <if test="name != null">
+        <if test="name != ''">
+            and a.applyId like concat('%',trim(#{name,jdbcType=VARCHAR}),'%')
+        </if>
+    </if>
+  </select>
+  <select id="getAuth" resultMap="BaseResultMap">
+    SELECT * FROM Auth WHERE id = #{id}
+  </select>
+  <select id="getAuthByInfo" resultMap="BaseResultMap">
+    SELECT * FROM Auth WHERE applyId = #{applyId} and userName = #{userName}  and authRole = #{authRole}
+  </select>
+  <select id="getAuthByBusinessType" resultMap="BaseResultMap">
+    SELECT a.*, b.nickName as userNickName, b.id as userId
+      FROM Auth a left join User b on a.userName = b.userName 
+      WHERE a.applyId = #{applyId} and b.businessType = #{businessType} and a.authRole = #{authRole};
+  </select>
+  <select id="getAuthByUserName" resultMap="BaseResultMap">
+    SELECT * FROM Auth WHERE applyId = #{applyId} and userName = #{userName}
+  </select>
+  
+  <update id="updateAuth" parameterType="com.hqjl.crm.model.Auth">
+    UPDATE Auth SET applyId = #{applyId}, userName = #{userName}, authRole = #{authRole}, timestamp = #{timestamp} WHERE id = #{id}
+  </update>
+  
+  <insert id="insertAuth" parameterType="com.hqjl.crm.model.Auth">
+    INSERT INTO Auth (id, applyId, userName, authRole, timestamp) VALUES (null, #{applyId}, #{userName}, #{authRole}, #{timestamp})
+  </insert>
+
+  <delete id="deleteAuth">
+    DELETE FROM Auth WHERE id = #{id}
+  </delete>
+  <delete id="deleteAuthByApplyId">
+    DELETE FROM Auth WHERE applyId = #{applyId}
+  </delete>
+  <delete id="deleteAuthByInfo">
+    DELETE FROM Auth WHERE applyId = #{applyId} and userName = #{userName}  and authRole = #{authRole}
+  </delete>
+  
+  <delete id="deleteAllAuths">
+    DELETE FROM Auth
+  </delete>
+  
+</mapper>

@@ -1,0 +1,12 @@
+ 
+                                    <option value='销售管理'>销售管理</option>
+                                    <option value='生产管理'>生产管理</option>
+                                    <option value='技术管理'>技术管理</option>
+                                    <option value='实验室管理'>实验室管理</option>
+                                    <option value='采购管理'>采购管理</option>
+                                    <option value='人事管理'>人事管理</option>
+                                    <option value='计划物控管理'>计划物控管理</option>
+                                    <option value='财务管理'>财务管理</option>
+                                    <option value='工艺管理'>工艺管理</option>
+                                    <option value='设备管理'>设备管理</option>
+                                    <option value='品质管理'>品质管理</option>

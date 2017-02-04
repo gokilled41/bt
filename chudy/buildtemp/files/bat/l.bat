@@ -1,1 +1,2 @@
-call flist %*
+@echo off
+call ls %*

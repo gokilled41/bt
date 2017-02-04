@@ -1,0 +1,252 @@
+------------------------------------------------------------------------------------------------------------
+git
+------------------------------------------------------------------------------------------------------------
+http://gokilled41@scm.nicezhuanye.com/bitbucket/scm/crm/nzycrm.git
+
+
+
+al kg jsp##java##xml##properties
+al kg \bower\ech\sim\flex
+
+
+------------------------------------------------------------------------------------------------------------
+requirements
+------------------------------------------------------------------------------------------------------------
+- resource management
+  - school resource
+- user management
+- auth management
+- process management
+  - school report ? what is 报备
+    - sales
+    - agents
+    
+  
+
+
+
+
+------------------------------------------------------------------------------------------------------------
+design
+------------------------------------------------------------------------------------------------------------
+- views
+- database
+- architecture
+
+
+
+- cases
+  - 拟稿人
+  - 附件
+  - 类型
+  - 名称
+  - 审批状态
+  - 审批人
+  - 审批意见
+  
+
+- users
+  - submitter: 拟稿人
+  - reviewer: 审批人
+    - 业务类型
+    - 姓名
+    - 用户名
+    - 密码
+    - 级别
+  - admin: 管理员
+  
+- 拟稿人 views
+  - login
+  - case list
+  - case detail
+  
+- 审批人 views
+  - 待审批
+    - list
+    - detail
+      - step1
+      - step2
+  - 已审批
+    - list
+    - detail
+      - step1
+      - step2
+
+- 管理员 views
+  - 拟稿人管理
+  - 审批人管理
+  - 业务类型管理
+  - case进度管理
+  - 权限管理
+  
+
+
+------------------------------------------------------------------------------------------------------------
+todo
+------------------------------------------------------------------------------------------------------------
+- approval
+  - upload files
+    - [d]cancel the add approval dialog, remove all files
+    - [d]can remove one file
+    - review page list files
+    
+  - select reviewers
+  - edit
+  
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------
+sqls
+------------------------------------------------------------------------------------------------------------
+charset gbk;
+use crm;
+select * from User;
+select * from Config;
+select * from Approval;
+select * from File;
+select * from Reviewer;
+select * from Auth;
+
+
+------------------------------------------------------------------------------------------------------------
+aliyun
+------------------------------------------------------------------------------------------------------------
+- crm: 101.200.198.168
+- root/zwcrm@123
+- email: crm00123@126.com/crm112233
+  - client pwd: crmclient112233
+
+------------------------------------------------------------------------------------------------------------
+git
+------------------------------------------------------------------------------------------------------------
+- gokilled41/arnold3
+
+
+
+------------------------------------------------------------------------------------------------------------
+bashrc
+------------------------------------------------------------------------------------------------------------
+# Guifang Zhou
+alias c="clear"
+alias h="cd /crmdata"
+alias tm="cd /crmdata/apache-tomcat-7.0.67"
+alias tmd="cd /crmdata/apache-tomcat-7.0.67/webapps"
+alias tmb="cd /crmdata/apache-tomcat-7.0.67/bin"
+alias tms="./catalina.sh run &"
+alias pstm="ps aux | grep /crmdata/apache-tomcat-7.0.67"
+alias erb="vi /root/.bashrc"
+alias mt="mount /dev/xvdb1 /crmdata"
+alias umt="umount /crmdata"
+alias svns="svnserve -d -r /crmdata/svn"
+alias pssvn="ps aux | grep svn"
+alias mysqls="/usr/local/mysql/bin/mysqld_safe --user=mysql &"
+alias psmysql="ps aux | grep mysqld"
+alias cfiles="rm -fr /crmdata/files/*"
+alias crmd="cp /crmdata/crm.war /crmdata/apache-tomcat-7.0.67/webapps"
+alias crmc="rm -fr /crmdata/apache-tomcat-7.0.67/webapps/*"
+
+------------------------------------------------------------------------------------------------------------
+mysql install
+------------------------------------------------------------------------------------------------------------
+shell> groupadd mysql
+shell> useradd -r -g mysql -s /bin/false mysql
+shell> mkdir /usr/local/mysql
+shell> cp -r /crmdata/mysql-5.7.10-linux-glibc2.5-i686/* /usr/local/mysql/
+shell> mkdir /usr/local/mysql/mysql-files
+shell> mkdir /usr/local/mysql/data
+shell> chmod 770 /usr/local/mysql/mysql-files
+shell> chown -R mysql /usr/local/mysql
+shell> chgrp -R mysql /usr/local/mysql
+shell> /usr/local/mysql/bin/mysqld --initialize --user=mysql
+shell> /usr/local/mysql/bin/mysql_ssl_rsa_setup
+shell> chown -R root /usr/local/mysql
+shell> chown -R mysql /usr/local/mysql/data /usr/local/mysql/mysql-files
+shell> mkdir /var/run/mysqld
+shell> touch /var/run/mysqld/mysqld.pid
+shell> chown -R mysql:mysql /var/run/mysqld/.
+shell> /usr/local/mysql/bin/mysqld_safe --user=mysql &
+shell> ln -s /var/lib/mysql/mysql.sock /tmp/mysql.sock
+shell> /usr/local/mysql/bin/mysql -u root -p
+shell> input password from the log: 2016-01-23T10:19:03.461695Z 1 [Note] A temporary password is generated for root@localhost: sIYyOJ+gY9dV
+mysql> SET PASSWORD FOR 'root'@'localhost' = PASSWORD('qilinsoft');
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'qilinsoft' WITH GRANT OPTION;
+
+
+
+
+------------------------------------------------------------------------------------------------------------
+todo
+------------------------------------------------------------------------------------------------------------
+- [d]reviewer may also upload files
+  - [d]add one category to distinguish submitter files and reviewer files
+  - [d]add upload user info
+- approval
+  - [d]can only select 1 reviewer level 2
+- review submit
+  - [d]add 2 columns in reviewer: comments, conclusion
+  - [d]confirmUploadedFiles
+- review 2
+  - 1. show approval detail
+  - 2. show reviewer 1 detail
+  - 3. review it
+- [d]if not pass, comments should not be null
+- [d]设定权限， double click to check all
+- [d]after search, the paging index needs to be reset to 1
+- [d]refine apply id sequence, add pattern in config
+- update config: add description, editable
+- [d]read and download
+  - [d]upload pdf and view it in one new page
+  - [d]modify all places to view doc
+  - [d]add download button
+  - [d]check read auth in docview.shtml
+  - [d]check read, download auth in approvalview.shtml, fileview.shtml, no auth, no button
+  - [d]upload pdf and view it
+  - [d]async convert
+  - [d]upload file support chinese name: change tomcat uri encoding to UTF-8
+  - [d]xslx not support
+  - [d]file name is too long
+  - [d]set default view from center
+  - [d]upload doc, docx, xls, xlsx, ppt, pptx, [notdone]text, and view it
+  - [d]not all files can view, only pdf, doc, docx, xls, xlsx, text. need one flag: canView
+  - refine view box, remove tool bar, and logo
+  - [d]add shuffle info in file path so that user cannot know the path
+  - [d]go page, if no login, need login, after login, go page, not go index
+  - [d]https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/jodconverter/jodconverter-core-3.0-beta-4-dist.zip
+- send email
+  - [d]email content, refine html email content
+  - [d]email api
+  - [d]view email
+  - [d]email config in table Config
+  - [d]edit config page for super admin
+  - [d]direct page to go to review modal
+  - [d]change email btn link for different reviewers
+  - [d]send email in background threads
+  - [d]all places needs to send email
+  - [no need]check auth: whether has review 1 page; whether has this approval in list [if no auth, not allow login]
+  - only open once from email
+  - [d]add uid in email link, and auto log out if user not right, and auto fill user name, user name is read only
+  - [d]email link put redirectUrl in session, when to remove it?
+- check requirements
+- improve UI
+- logo
+- test
+- performance
+- memleak
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------
+points
+------------------------------------------------------------------------------------------------------------
+- debug sql in mybatis: CachingExecutor [line: 80] - query(MappedStatement, Object, RowBounds, ResultHandler)	
+
+
+
+
+
+

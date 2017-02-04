@@ -1,0 +1,10 @@
+1. upload [D:\soft\aliyun\soft], and extract: tar -xvf <fileName>
+2. tomcat: copy [D:\soft\aliyun\tomcat\setenv.sh] to tomcat bin; copy [D:\soft\aliyun\tomcat\server.xml] to tomcat conf
+4. remove all files under tomcat webapps; build and upload fms.war to tomcat webapps
+5. configure mysql by following instructions in zw-fms.txt - [mysql install]
+6. create tables with sql in mysql admin console: fms.drop.sql, fms.create.sql, fms.update.aliyun.sql
+7. edit bashrc [/root/.bashrc] by following zw-fms.txt - [bashrc]
+8. install swftools and openoffice4
+   - follow: [D:\soft\aliyun\swftools&openoffice\doc]
+   - copy fonts: [D:\soft\aliyun\swftools&openoffice\fonts] to [/opt/openoffice4/share/fonts/truetype]
+9. start mysql: mysqls; start svn: svns, start tomcat: tmb, tms

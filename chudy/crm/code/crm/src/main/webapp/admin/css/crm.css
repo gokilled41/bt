@@ -1,0 +1,184 @@
+.hd{
+    display: none;
+}
+.bd {
+    font-weight: bold;
+}
+.cr{
+    color:red;
+}
+.cg{
+    color:green;
+}
+
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}
+
+.atts {
+    width: 800px;
+}
+.att {
+    width: 370px;
+    height: 55px;
+    background-color: #F0F8F0;
+    margin: 0px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.att img {
+    width: 38px;
+    height: 38px;
+    float: left;
+    margin: 5px;
+}
+.att {
+    padding: 5px;
+}
+.att .s1 {
+    font-weight: bold;
+    color: grey;
+}
+.att .s2 {
+    color: darkgrey;
+}
+.att .s3 {
+    color: green;
+}
+.att .del {
+    float: right;
+    width: 50px;
+    height: 25px;
+    text-align: center;
+    color: green;
+}
+.att .dl {
+    float: right;
+    width: 50px;
+    height: 25px;
+    text-align: center;
+    color: green;
+}
+.att .dl a {
+    color: green;
+}
+.att .dl a:link {
+    text-decoration: none;
+}
+.att .dl a:visited {
+    text-decoration: none;
+}
+.att .dl a:hover {
+    text-decoration: none;
+}
+.att .dl a:active {
+    text-decoration: none;
+}
+.fatt {
+    height: 150px;
+}
+
+.up {
+    position: relative;
+    width: 800px;
+    height: 45px;
+}
+.upc-txt {
+    height: 38px;
+    border: 1px solid #cdcdcd;
+    width: 180px;
+    cursor: pointer;
+}
+.upc-btn {
+    background-color: #FFF;
+    color: green;
+    border: 1px solid #CDCDCD;
+    height: 38px;
+    width: 70px;
+    cursor: pointer;
+}
+.upc-file {
+    position: absolute;
+    top: 0;
+    left: 0px;
+    height: 38px;
+    filter: alpha(opacity:0);
+    opacity: 0;
+    width: 260px;
+    cursor: pointer;
+}
+.upc-note {
+    color: red;
+}
+
+.rttitle {
+  font-size: 16px;
+  font-weight: bold;
+  background-color:lightgrey;
+  cursor: pointer;
+  height: 42px;
+}
+.rtactive {
+  color: blue;
+}
+.rtline {
+  height: 42px;
+}
+.rtleft {
+  font-size: 16px;
+  width: 30%;
+}
+
+.rtt1 {
+  width: 25%;
+  font-weight: bold;
+}
+.rtt2 {
+  width: 25%;
+}
+.rtt3 {
+  width: 50%;
+}
+
+.searchbox {
+  width: 250px;
+}
+.searchbox2 {
+  width: 300px;
+}
+
+.rabox {
+	margin-left: 50px;
+}
+
+.addrtclabel {
+	width: 120px;
+}
+
+table.addrtctable td {
+	padding: 0px;
+}
+
+.docView {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+.docView .msg {
+  width: 100%;
+  font-size: 2em;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  color: red;
+  font-weight: bold;
+  padding-top: 20px;
+}
+
+.cleft {
+    width: 30%;
+}

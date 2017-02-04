@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hqjl.crm.dao.UserMapper" >
+
+  <resultMap id="BaseResultMap" type="com.hqjl.crm.model.User" >
+    <id column="id" property="id" />
+    <result column="userName" property="userName" />
+    <result column="password" property="password" />
+    <result column="nickName" property="nickName" />
+    <result column="employeeNo" property="employeeNo" />
+    <result column="phone" property="phone" />
+    <result column="department" property="department" />
+    <result column="email" property="email" />
+    <result column="businessType" property="businessType" />
+    <result column="position" property="position" />
+    <result column="approvalRole" property="approvalRole" />
+    <result column="adminRole" property="adminRole" />
+    <result column="status" property="status" />
+    <result column="createTime" property="createTime" javaType="java.util.Date" />
+    <result column="timestamp" property="timestamp" javaType="java.util.Date" />
+  </resultMap>
+
+  <cache 
+    eviction="FIFO"
+    flushInterval="60000"
+    size="1024"
+    readOnly="true"
+    />
+
+  <select id="listUsers" resultMap="BaseResultMap">
+    SELECT * FROM User
+  </select>
+  <select id="listUsersByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM User a WHERE 1=1
+    <if test="name != null">
+        <if test="name != ''">
+            and a.nickName like concat('%',trim(#{name,jdbcType=VARCHAR}),'%')
+        </if>
+    </if>
+    order by a.timestamp desc
+    <if test="start != null and size != null">
+        limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </if>
+  </select>
+  <select id="countUsersByMap" parameterType="java.util.Map" resultType="java.lang.Long">
+    SELECT count(*) FROM User a WHERE 1=1
+    <if test="name != null">
+        <if test="name != ''">
+            and a.nickName like concat('%',trim(#{name,jdbcType=VARCHAR}),'%')
+        </if>
+    </if>
+  </select>
+  <select id="listUsersByApprovalRole" resultMap="BaseResultMap">
+    SELECT * FROM User WHERE approvalRole = #{approvalRole} order by timestamp desc
+  </select>
+  <select id="listUsersByAdminRole" resultMap="BaseResultMap">
+    SELECT * FROM User WHERE adminRole = #{adminRole} order by timestamp desc
+  </select>
+  <select id="getUser" resultMap="BaseResultMap">
+    SELECT * FROM User WHERE id = #{id}
+  </select>
+  <select id="getUserByUserName" resultMap="BaseResultMap">
+    SELECT * FROM User WHERE userName = #{userName}
+  </select>
+  <select id="getUserByNickName" resultMap="BaseResultMap">
+    SELECT * FROM User WHERE nickName = #{nickName}
+  </select>
+  
+  <update id="updateUser" parameterType="com.hqjl.crm.model.User">
+    UPDATE User SET userName = #{userName}, password = #{password}, nickName = #{nickName}, employeeNo = #{employeeNo}, phone = #{phone}, department = #{department}, email = #{email}, businessType = #{businessType}, position = #{position}, approvalRole = #{approvalRole}, adminRole = #{adminRole}, status = #{status}, timestamp = #{timestamp} WHERE id = #{id}
+  </update>
+  <update id="updateUserPasswordByUserName">
+    UPDATE User SET password = #{password} WHERE userName = #{userName}
+  </update>
+  <update id="updateUserTimestamp">
+    UPDATE User SET timestamp = #{timestamp} WHERE id = #{id}
+  </update>
+  <update id="updateUserStatus">
+    UPDATE User SET status = #{status} WHERE id = #{id}
+  </update>
+  
+  <insert id="insertUser" parameterType="com.hqjl.crm.model.User">
+    INSERT INTO User (id, userName, password, nickName, employeeNo, phone, department, email, businessType, position, approvalRole, adminRole, status, createTime, timestamp) VALUES (null, #{userName}, #{password}, #{nickName}, #{employeeNo}, #{phone}, #{department}, #{email}, #{businessType}, #{position}, #{approvalRole}, #{adminRole}, #{status}, #{createTime}, #{timestamp})
+  </insert>
+
+  <delete id="deleteUserById">
+    DELETE FROM User WHERE id = #{id}
+  </delete>
+  <delete id="deleteUserByUserName">
+    DELETE FROM User WHERE userName = #{userName}
+  </delete>
+  <delete id="deleteUserByNickName">
+    DELETE FROM User WHERE nickName = #{nickName}
+  </delete>
+  
+  <delete id="deleteAllUsers">
+    DELETE FROM User
+  </delete>
+  
+</mapper>

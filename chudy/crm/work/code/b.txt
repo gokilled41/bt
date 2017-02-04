@@ -1,0 +1,15 @@
+-    $("#update-item").val(r.item);
+-    theHtml += "item";
+-      theHtml += "item";
+-    $("#update-item").val(r.item);
+-  $("#review-item").text($("#add-item").val());
+-  $("#add-item").val("item");
+    $("#review-item").text(r.item);
+-      theHtml += "<td>"+r.item+"</td>";
+-   item             varchar(255),
+-    private String item;
+-    theHtml += "<th width='8%'>item</th>";
+-    <result column="item" property="item" />
+-connect:item = #{item}
+-connect:item
+-connect:#{item}
