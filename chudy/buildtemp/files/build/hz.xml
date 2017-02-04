@@ -2,7 +2,7 @@
     <import file="../../properties.xml" />
 
     <!-- huazhi properties ========================================================================== -->
-    <property name="tm.dir" value="D:\soft\tomcat\apache-tomcat-7.0.64" />
+    <property name="tm.dir" value="D:\soft\tomcat\apache-tomcat-8.0.41" />
     <property name="tm.deploy.dir" value="${tm.dir}\webapps" />
     
     <property name="hz.dir" value="D:\huazhi" />

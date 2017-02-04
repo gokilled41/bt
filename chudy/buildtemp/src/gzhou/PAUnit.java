@@ -226,18 +226,18 @@ public class PAUnit extends TestCase implements Constants {
     }
 
     public void testUtil_02() throws Exception {
-        assertEquals(Util.toTimestampFormat("1"), "20170101000000");
-        assertEquals(Util.toTimestampFormat("01"), "20170101000000");
-        assertEquals(Util.toTimestampFormat("101"), "20170101000000");
-        assertEquals(Util.toTimestampFormat("0101"), "20170101000000");
-        assertEquals(Util.toTimestampFormat("010100"), "20170101000000");
-        assertEquals(Util.toTimestampFormat("01010000"), "20170101000000");
-        assertEquals(Util.toTimestampFormat("20170101"), "20170101000000");
-        assertEquals(Util.toTimestampFormat("0101000000"), "20170101000000");
-        assertEquals(Util.toTimestampFormat("2017010100"), "20170101000000");
-        assertEquals(Util.toTimestampFormat("201701010000"), "20170101000000");
-        assertEquals(Util.toTimestampFormat("20170101000000"), "20170101000000");
-        assertEquals(Util.subLast("201701", 2), "01");
+        assertEquals(Util.toTimestampFormat("1"), "20170201000000");
+        assertEquals(Util.toTimestampFormat("01"), "20170201000000");
+        assertEquals(Util.toTimestampFormat("201"), "20170201000000");
+        assertEquals(Util.toTimestampFormat("0201"), "20170201000000");
+        assertEquals(Util.toTimestampFormat("020100"), "20170201000000");
+        assertEquals(Util.toTimestampFormat("02010000"), "20170201000000");
+        assertEquals(Util.toTimestampFormat("20170201"), "20170201000000");
+        assertEquals(Util.toTimestampFormat("0201000000"), "20170201000000");
+        assertEquals(Util.toTimestampFormat("2017020100"), "20170201000000");
+        assertEquals(Util.toTimestampFormat("201702010000"), "20170201000000");
+        assertEquals(Util.toTimestampFormat("20170201000000"), "20170201000000");
+        assertEquals(Util.subLast("201702", 2), "02");
     }
 
     public void testUtil_03() throws Exception {

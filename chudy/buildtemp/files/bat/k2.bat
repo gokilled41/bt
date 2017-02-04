@@ -1,1 +1,3 @@
-call kres oracleoi61 vt_tm_simple_timer dd\kbak.txt
+@echo off
+call b2
+call tms

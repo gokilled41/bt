@@ -1,3 +1,4 @@
 @echo off
-call c
-call bhzf
+call hzfc
+call hzf
+call hzfd

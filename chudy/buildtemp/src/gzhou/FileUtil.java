@@ -5049,7 +5049,7 @@ public class FileUtil extends Util implements Constants {
         }
 
         private static boolean isNearDays(String last) {
-            return last.matches("t(\\d*[dwmy])*");
+            return last.matches("t(\\d+[dwmy])*");
         }
 
         public static class FileTimestamp {
